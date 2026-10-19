@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>YbyGram — Comunicação Livre, Educação e Saberes Comunitários</title>
+  <meta name="description" content="YbyGram: plataforma social, educacional e de comércio comunitário voltada para soberania digital e contexto brasileiro.">
+  
+  <!-- Fontes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Ícones Lucide -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              DEFAULT: '#245C45',
+              dark: '#183F2F',
+              light: '#EBF4F0',
+              accent: '#317C5D',
+            },
+            cream: {
+              DEFAULT: '#F8F6F0',
+              card: '#FFFFFF',
+              dark: '#EDE8DE',
+              border: '#D8D2C4',
+            },
+            charcoal: {
+              DEFAULT: '#1D2D24',
+              soft: '#4A5B52',
+            },
+            earth: {
+              DEFAULT: '#C87D55',
+              light: '#F8EFEA',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #EDE8DE;
+      color: #1D2D24;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Scrollbar elegante */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F8F6F0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C2BBB0;
+      border-radius: 999px;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @keyframes pulseFade {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.03); }
+    }
+    .animate-pulse-slow {
+      animation: pulseFade 3s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center sm:p-4 select-none">
+
+  <!-- Container Mobile Centralizado (com responsividade para telas cheias em smartphones) -->
+  <main class="w-full sm:max-w-[430px] h-[100dvh] sm:h-[880px] sm:max-h-[92vh] bg-cream sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden sm:border sm:border-cream-border relative">
+    
+    <!-- Topo / Barra de Notificações Simulada -->
+    <header class="bg-forest text-white px-5 pt-3 pb-3 shrink-0 flex items-center justify-between shadow-sm z-30">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-forest-dark border border-forest-light/20 flex items-center justify-center text-emerald-300 font-bold text-lg shadow-inner">
+          🌱
+        </div>
+        <div>
+          <h1 class="text-base font-extrabold tracking-wide flex items-center gap-1.5 leading-tight">
+            YbyGram
+            <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full font-semibold border border-emerald-400/30">v1.0 Soberana</span>
+          </h1>
+          <p class="text-[10px] text-emerald-100/70">Comunicação Livre & Território Vivo</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="toggleNotifications()" class="relative p-1.5 rounded-lg hover:bg-forest-dark transition-colors" title="Notificações">
+          <i data-lucide="bell" class="w-4 h-4 text-emerald-100"></i>
+          <span class="absolute 1 top-1 right-1 w-2 h-2 bg-earth rounded-full"></span>
+        </button>
+        <button onclick="switchTab('profile')" class="w-7 h-7 rounded-full bg-forest-light text-forest font-bold text-xs flex items-center justify-center border border-forest-light/40" title="Meu Perfil">
+          YS
+        </button>
+      </div>
+    </header>
+
+    <!-- Área de Conteúdo Rolável -->
+    <div id="screen-container" class="flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar bg-cream relative">
+
+      <!-- ==================== TELA 1: FEED / SABERES ==================== -->
+      <section id="tab-feed" class="p-4 space-y-4">
+        
+        <!-- Boas-vindas e Banner Comunitário -->
+        <div class="bg-gradient-to-br from-forest-light to-white p-4 rounded-2xl border border-[#D5E4DC] shadow-xs">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-[10px] uppercase tracking-wider font-extrabold text-forest">Rede Comunitária</span>
+              <h2 class="text-base font-bold text-charcoal">Bem-vindo à sua aldeia digital</h2>
+              <p class="text-xs text-charcoal-soft mt-0.5 leading-relaxed">Conecte-se com produtores, mestres de ofício e guardiões do saber local.</p>
+            </div>
+            <span class="text-2xl">🇧🇷</span>
+          </div>
+          <div class="mt-3 flex items-center gap-2">
+            <button onclick="openModal('modal-post')" class="flex-1 bg-forest text-white text-xs font-semibold py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 hover:bg-forest-dark transition">
+              <i data-lucide="feather" class="w-3.5 h-3.5"></i> Compartilhar Saber
+            </button>
+            <button onclick="switchTab('shop')" class="bg-white text-forest border border-forest/30 text-xs font-semibold py-2 px-3 rounded-xl flex items-center gap-1 hover:bg-forest-light transition">
+              <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i> Feira
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtros do Feed -->
+        <div class="flex gap-1.5 overflow-x-auto hide-scrollbar pb-1 text-xs">
+          <button onclick="filterFeed('todos', this)" class="feed-filter-btn px-3 py-1.5 rounded-full font-semibold bg-forest text-white shadow-xs">
+            🌿 Todos
+          </button>
+          <button onclick="filterFeed('Agroecologia', this)" class="feed-filter-btn px-3 py-1.5 rounded-full font-semibold bg-white text-charcoal-soft border border-cream-border hover:bg-cream-dark transition">
+            🌱 Agroecologia
+          </button>
+          <button onclick="filterFeed('Fitoterapia', this)" class="feed-filter-btn px-3 py-1.5 rounded-full font-semibold bg-white text-charcoal-soft border border-cream-border hover:bg-cream-dark transition">
+            🍵 Fitoterapia
+          </button>
+          <button onclick="filterFeed('Bioconstrução', this)" class="feed-filter-btn px-3 py-1.5 rounded-full font-semibold bg-white text-charcoal-soft border border-cream-border hover:bg-cream-dark transition">
+            🏡 Bioconstrução
+          </button>
+          <button onclick="filterFeed('Tecnologia', this)" class="feed-filter-btn px-3 py-1.5 rounded-full font-semibold bg-white text-charcoal-soft border border-cream-border hover:bg-cream-dark transition">
+            📡 Redes Livres
+          </button>
+        </div>
+
+        <!-- Lista de Publicações -->
+        <div id="feed-posts-list" class="space-y-3.5">
+          <!-- Post 1 -->
+          <article class="bg-white border border-cream-border rounded-2xl p-4 shadow-xs" data-category="Agroecologia">
+            <div class="flex items-center justify-between mb-2.5">
+              <div class="flex items-center gap-2.5">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face" alt="Mariana" class="w-9 h-9 rounded-full object-cover border border-forest/30">
+                <div>
+                  <h3 class="text-xs font-bold text-charcoal flex items-center gap-1">
+                    Mariana Rios
+                    <i data-lucide="badge-check" class="w-3.5 h-3.5 text-forest"></i>
+                  </h3>
+                  <span class="text-[10px] text-charcoal-soft">Sítio Raiz Viva • Há 2h</span>
+                </div>
+              </div>
+              <span class="text-[10px] bg-forest-light text-forest px-2 py-0.5 rounded-md font-semibold">Agroecologia</span>
+            </div>
+            <p class="text-xs text-charcoal leading-relaxed mb-3">
+              Colheita da primeira safra de cúrcuma regenerativa cultivada em sistema agroflorestal (SAFs). Solo fofo, sem veneno e com consórcio de bananeiras! Troco parte por sementes crioulas de milho roxo. 🌾
+            </p>
+            <div class="rounded-xl overflow-hidden mb-3 border border-cream-border">
+              <img src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&h=320&fit=crop" alt="Cúrcuma" class="w-full h-44 object-cover">
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-cream-dark text-xs text-charcoal-soft">
+              <button onclick="toggleLike(this)" class="flex items-center gap-1.5 hover:text-forest transition">
+                <i data-lucide="heart" class="w-4 h-4"></i>
+                <span class="likes-count text-[11px] font-semibold">38 apoios</span>
+              </button>
+              <button onclick="showToast('Comentários abertos na aldeia')" class="flex items-center gap-1.5 hover:text-forest transition">
+                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                <span class="text-[11px]">12 partilhas</span>
+              </button>
+              <button onclick="showToast('Link do saber copiado!')" class="flex items-center gap-1.5 hover:text-forest transition">
+                <i data-lucide="share-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </article>
+
+          <!-- Post 2 -->
+          <article class="bg-white border border-cream-border rounded-2xl p-4 shadow-xs" data-category="Bioconstrução">
+            <div class="flex items-center justify-between mb-2.5">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-earth text-white font-bold text-xs flex items-center justify-center">
+                  MT
+                </div>
+                <div>
+                  <h3 class="text-xs font-bold text-charcoal">Mestre Tiago</h3>
+                  <span class="text-[10px] text-charcoal-soft">Coletivo Terra Firme • Há 5h</span>
+                </div>
+              </div>
+              <span class="text-[10px] bg-earth-light text-earth px-2 py-0.5 rounded-md font-semibold">Bioconstrução</span>
+            </div>
+            <p class="text-xs text-charcoal leading-relaxed mb-3">
+              Guia prático de teste da garrafa para identificar o percentual de argila e areia no solo da sua região antes de subir paredes de pau-a-pique ou adobe. Conhecer a terra poupa cimento e traz conforto térmico natural.
+            </p>
+            <div class="flex items-center justify-between pt-2 border-t border-cream-dark text-xs text-charcoal-soft">
+              <button onclick="toggleLike(this)" class="flex items-center gap-1.5 hover:text-forest transition">
+                <i data-lucide="heart" class="w-4 h-4"></i>
+                <span class="likes-count text-[11px] font-semibold">54 apoios</span>
+              </button>
+              <button onclick="showToast('Comentários abertos')" class="flex items-center gap-1.5 hover:text-forest transition">
+                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                <span class="text-[11px]">8 partilhas</span>
+              </button>
+              <button onclick="showToast('Saber guardado nos seus favoritos')" class="flex items-center gap-1.5 hover:text-forest transition">
+                <i data-lucide="bookmark" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </article>
+
+          <!-- Post 3 -->
+          <article class="bg-white border border-cream-border rounded-2xl p-4 shadow-xs" data-category="Tecnologia">
+            <div class="flex items-center justify-between mb-2.5">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-forest text-white font-bold text-xs flex items-center justify-center">
+                  RL
+                </div>
+                <div>
+                  <h3 class="text-xs font-bold text-charcoal">Redes Livres Brasil</h3>
+                  <span class="text-[10px] text-charcoal-soft">Comunidade Antigravity • Ontem</span>
+                </div>
+              </div>
+              <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md font-semibold">Tecnologia</span>
+            </div>
+            <p class="text-xs text-charcoal leading-relaxed">
+              O YbyGram opera em arquitetura resiliente e offline-first: mensagens e dados comunitários são sincronizados localmente ponto-a-ponto mesmo sem conexão com a internet comercial! Soberania digital na prática.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ==================== TELA 2: LOJA / FEIRA COMUNITÁRIA ==================== -->
+      <section id="tab-shop" class="p-4 space-y-4 hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold text-charcoal">Feira Solidária Yby</h2>
+            <p class="text-xs text-charcoal-soft">Economia circular, trocas e produtos da terra</p>
+          </div>
+          <button onclick="showToast('Cadastrar produto na feira')" class="bg-forest text-white text-xs font-semibold px-3 py-1.5 rounded-xl flex items-center gap-1 hover:bg-forest-dark transition">
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Anunciar
+          </button>
+        </div>
+
+        <!-- Categorias da Feira -->
+        <div class="grid grid-cols-4 gap-2 text-center">
+          <div class="bg-white p-2.5 rounded-xl border border-cream-border flex flex-col items-center cursor-pointer hover:border-forest transition" onclick="showToast('Filtrando sementes')">
+            <span class="text-xl">🌰</span>
+            <span class="text-[10px] font-bold text-charcoal mt-1">Sementes</span>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-cream-border flex flex-col items-center cursor-pointer hover:border-forest transition" onclick="showToast('Filtrando mudas')">
+            <span class="text-xl">🪴</span>
+            <span class="text-[10px] font-bold text-charcoal mt-1">Mudas</span>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-cream-border flex flex-col items-center cursor-pointer hover:border-forest transition" onclick="showToast('Filtrando bio-produtos')">
+            <span class="text-xl">🍯</span>
+            <span class="text-[10px] font-bold text-charcoal mt-1">Mel & Chás</span>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-cream-border flex flex-col items-center cursor-pointer hover:border-forest transition" onclick="showToast('Filtrando artesanato')">
+            <span class="text-xl">🧶</span>
+            <span class="text-[10px] font-bold text-charcoal mt-1">Artesanato</span>
+          </div>
+        </div>
+
+        <!-- Grade de Produtos -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Produto 1 -->
+          <div class="bg-white rounded-2xl border border-cream-border overflow-hidden shadow-xs flex flex-col">
+            <img src="https://images.unsplash.com/photo-1587049352847-4a222e784d38?w=350&h=240&fit=crop" alt="Mel Puro" class="w-full h-28 object-cover">
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <span class="text-[9px] font-bold uppercase text-forest">Abelhas Nativas</span>
+                <h3 class="text-xs font-bold text-charcoal mt-0.5">Mel de Jataí Puro (200ml)</h3>
+                <p class="text-[10px] text-charcoal-soft">Sem filtragem química • Aldeia Verde</p>
+              </div>
+              <div class="mt-2.5 pt-2 border-t border-cream-dark flex items-center justify-between">
+                <span class="text-xs font-extrabold text-forest">R$ 35 <span class="text-[9px] font-normal text-charcoal-soft">ou trocas</span></span>
+                <button onclick="openProductModal('Mel de Jataí Puro', 'R$ 35,00', 'Produzido por meliponicultores locais do Vale do Paraíba. Sem pasteurização.', 'https://images.unsplash.com/photo-1587049352847-4a222e784d38?w=500&h=350&fit=crop')" class="p-1.5 bg-forest-light text-forest rounded-lg hover:bg-forest hover:text-white transition">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produto 2 -->
+          <div class="bg-white rounded-2xl border border-cream-border overflow-hidden shadow-xs flex flex-col">
+            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=350&h=240&fit=crop" alt="Mudas" class="w-full h-28 object-cover">
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <span class="text-[9px] font-bold uppercase text-forest">Viveiro Ancestral</span>
+                <h3 class="text-xs font-bold text-charcoal mt-0.5">Kit 4 Mudas de Ervas Medicinais</h3>
+                <p class="text-[10px] text-charcoal-soft">Guaçatonga, Guaco, Boldo e Melissa</p>
+              </div>
+              <div class="mt-2.5 pt-2 border-t border-cream-dark flex items-center justify-between">
+                <span class="text-xs font-extrabold text-forest">R$ 28 <span class="text-[9px] font-normal text-charcoal-soft">ou trocas</span></span>
+                <button onclick="openProductModal('Kit 4 Mudas de Ervas Medicinais', 'R$ 28,00', 'Mudas aclimatadas orgânicas em saquinhos biodegradáveis com terra adubada.', 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=500&h=350&fit=crop')" class="p-1.5 bg-forest-light text-forest rounded-lg hover:bg-forest hover:text-white transition">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produto 3 -->
+          <div class="bg-white rounded-2xl border border-cream-border overflow-hidden shadow-xs flex flex-col">
+            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=350&h=240&fit=crop" alt="Cesto" class="w-full h-28 object-cover">
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <span class="text-[9px] font-bold uppercase text-earth">Artesanato Fibra</span>
+                <h3 class="text-xs font-bold text-charcoal mt-0.5">Cesto Trançado em Taboa</h3>
+                <p class="text-[10px] text-charcoal-soft">Feito à mão • D. Conceição</p>
+              </div>
+              <div class="mt-2.5 pt-2 border-t border-cream-dark flex items-center justify-between">
+                <span class="text-xs font-extrabold text-forest">R$ 55</span>
+                <button onclick="openProductModal('Cesto Trançado em Taboa', 'R$ 55,00', 'Cestaria tradicional com fibra colhida e desidratada de forma sustentável.', 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&h=350&fit=crop')" class="p-1.5 bg-forest-light text-forest rounded-lg hover:bg-forest hover:text-white transition">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produto 4 -->
+          <div class="bg-white rounded-2xl border border-cream-border overflow-hidden shadow-xs flex flex-col">
+            <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=350&h=240&fit=crop" alt="Farinha" class="w-full h-28 object-cover">
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <span class="text-[9px] font-bold uppercase text-forest">Alimento Puro</span>
+                <h3 class="text-xs font-bold text-charcoal mt-0.5">Farinha de Mandioca Torrada</h3>
+                <p class="text-[10px] text-charcoal-soft">Forno de cobre a lenha • 1kg</p>
+              </div>
+              <div class="mt-2.5 pt-2 border-t border-cream-dark flex items-center justify-between">
+                <span class="text-xs font-extrabold text-forest">R$ 18</span>
+                <button onclick="openProductModal('Farinha de Mandioca Torrada', 'R$ 18,00', 'Mandioca colhida fresca, prensada e torrada lentamente no forno tradicional.', 'https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=500&h=350&fit=crop')" class="p-1.5 bg-forest-light text-forest rounded-lg hover:bg-forest hover:text-white transition">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TELA 3: AULAS / CRIADOR SOBERANO ==================== -->
+      <section id="tab-classes" class="p-4 space-y-4 hidden">
+        <div>
+          <h2 class="text-base font-bold text-charcoal">Criador Soberano</h2>
+          <p class="text-xs text-charcoal-soft">Formações livres, práticas da terra e autonomia</p>
+        </div>
+
+        <!-- AVISO DE SAÚDE E RESPONSABILIDADE OBRIGATÓRIO (Exigência do Documento Mestre) -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl shadow-xs">
+          <div class="flex items-start gap-2.5">
+            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+            <div>
+              <h4 class="text-xs font-bold text-amber-900 uppercase tracking-wide">Aviso Importante de Responsabilidade</h4>
+              <p class="text-[11px] text-amber-800 mt-1 leading-relaxed">
+                Os conhecimentos sobre fitoterapia, plantas medicinais e práticas tradicionais aqui partilhados possuem valor cultural e educativo. <strong>Eles não substituem o diagnóstico, acompanhamento nem a prescrição de profissionais de saúde habilitados.</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trilhas em Andamento -->
+        <div class="space-y-3">
+          <!-- Trilha 1 -->
+          <div class="bg-white rounded-2xl border border-cream-border p-4 shadow-xs">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold text-forest bg-forest-light px-2 py-0.5 rounded-md">Módulo 1 • Em andamento</span>
+              <span class="text-[11px] font-extrabold text-charcoal">65% concluído</span>
+            </div>
+            <h3 class="text-xs font-bold text-charcoal">Introdução à Farmácia Viva & Cultivo Doméstico</h3>
+            <p class="text-[11px] text-charcoal-soft mt-1 leading-relaxed">Identificação botânica, colheita na hora certa e secagem correta de folhas e raízes.</p>
+            
+            <div class="w-full bg-cream-dark h-2 rounded-full overflow-hidden mt-3 mb-3">
+              <div class="bg-forest h-full rounded-full" style="width: 65%"></div>
+            </div>
+
+            <button onclick="openClassPlayer('Farmácia Viva: Aula 4 - Maceração e Infusão a Frio')" class="w-full py-2 bg-forest text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-forest-dark transition">
+              <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> Continuar Aula 4
+            </button>
+          </div>
+
+          <!-- Trilha 2 -->
+          <div class="bg-white rounded-2xl border border-cream-border p-4 shadow-xs">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold text-earth bg-earth-light px-2 py-0.5 rounded-md">Módulo Livre</span>
+              <span class="text-[11px] font-extrabold text-charcoal">4 Aulas em Vídeo</span>
+            </div>
+            <h3 class="text-xs font-bold text-charcoal">Captação de Água de Chuva de Baixo Custo</h3>
+            <p class="text-[11px] text-charcoal-soft mt-1 leading-relaxed">Como construir filtros de areia e carvão com materiais reciclados para irrigação.</p>
+            <button onclick="openClassPlayer('Captação de Água: Aula 1 - Dimensionamento de Calhas e Cisterna')" class="w-full py-2 mt-3 bg-white border border-forest/30 text-forest rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-forest-light transition">
+              <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Ver Ementa da Trilha
+            </button>
+          </div>
+
+          <!-- Trilha 3 -->
+          <div class="bg-white rounded-2xl border border-cream-border p-4 shadow-xs">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md">Soberania Digital</span>
+              <span class="text-[11px] font-extrabold text-charcoal">Guia Prático</span>
+            </div>
+            <h3 class="text-xs font-bold text-charcoal">Redes Mesh e Servidores Locais na Aldeia</h3>
+            <p class="text-[11px] text-charcoal-soft mt-1 leading-relaxed">Instalando repetidores Wi-Fi solares para conexão livre e rádio comunitária.</p>
+            <button onclick="showToast('Baixando apostila em formato aberto...')" class="w-full py-2 mt-3 bg-white border border-forest/30 text-forest rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-forest-light transition">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i> Baixar Cartilha PDF
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TELA 4: HÁBITOS & MUTIRÕES ==================== -->
+      <section id="tab-habits" class="p-4 space-y-4 hidden">
+        <div>
+          <h2 class="text-base font-bold text-charcoal">Hábitos & Mutirões</h2>
+          <p class="text-xs text-charcoal-soft">Práticas regenerativas diárias e encontros coletivos</p>
+        </div>
+
+        <!-- Rastreador Diário -->
+        <div class="bg-white rounded-2xl border border-cream-border p-4 shadow-xs">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xs font-bold text-charcoal flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-4 h-4 text-forest"></i>
+              Práticas Diárias
+            </h3>
+            <span class="text-[10px] font-bold text-forest bg-forest-light px-2 py-0.5 rounded-md">3 de 4 concluídas</span>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <label class="flex items-center gap-3 p-2.5 rounded-xl bg-cream cursor-pointer hover:bg-cream-dark/60 transition">
+              <input type="checkbox" checked onchange="updateHabitCount()" class="w-4 h-4 rounded text-forest accent-forest">
+              <span class="text-charcoal font-medium">Regar as mudas e conferir umidade do canteiro</span>
+            </label>
+            <label class="flex items-center gap-3 p-2.5 rounded-xl bg-cream cursor-pointer hover:bg-cream-dark/60 transition">
+              <input type="checkbox" checked onchange="updateHabitCount()" class="w-4 h-4 rounded text-forest accent-forest">
+              <span class="text-charcoal font-medium">Alimentar a composteira com matéria seca e orgânicos</span>
+            </label>
+            <label class="flex items-center gap-3 p-2.5 rounded-xl bg-cream cursor-pointer hover:bg-cream-dark/60 transition">
+              <input type="checkbox" checked onchange="updateHabitCount()" class="w-4 h-4 rounded text-forest accent-forest">
+              <span class="text-charcoal font-medium">15 min de leitura de saberes ancestrais</span>
+            </label>
+            <label class="flex items-center gap-3 p-2.5 rounded-xl bg-cream cursor-pointer hover:bg-cream-dark/60 transition">
+              <input type="checkbox" onchange="updateHabitCount()" class="w-4 h-4 rounded text-forest accent-forest">
+              <span class="text-charcoal font-medium">Contato com um produtor parceiro da rede</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Próximos Mutirões -->
+        <div>
+          <h3 class="text-xs font-bold text-charcoal mb-2.5 flex items-center gap-1.5">
+            <i data-lucide="users" class="w-4 h-4 text-earth"></i>
+            Mutirões Presenciais Confirmados
+          </h3>
+
+          <div class="space-y-3">
+            <div class="bg-white rounded-2xl border border-cream-border p-3.5 shadow-xs">
+              <div class="flex items-start justify-between">
+                <div>
+                  <span class="text-[10px] font-extrabold text-earth uppercase">Próximo Sábado • 08:30</span>
+                  <h4 class="text-xs font-bold text-charcoal mt-0.5">Mutirão de Adobe e Revestimento Natural</h4>
+                  <p class="text-[11px] text-charcoal-soft mt-0.5">Sítio Pedra Branca • Traga chapéu e botas</p>
+                </div>
+                <span class="text-xl">🧤</span>
+              </div>
+              <div class="mt-3 flex items-center justify-between pt-2.5 border-t border-cream-dark">
+                <span class="text-[10px] text-charcoal-soft">14 vizinhos confirmados</span>
+                <button onclick="confirmMutirao(this)" class="px-3 py-1 bg-forest text-white text-xs font-semibold rounded-lg hover:bg-forest-dark transition">
+                  Confirmar Presença
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-cream-border p-3.5 shadow-xs">
+              <div class="flex items-start justify-between">
+                <div>
+                  <span class="text-[10px] font-extrabold text-forest uppercase">Em 2 Semanas • Domingo 09:00</span>
+                  <h4 class="text-xs font-bold text-charcoal mt-0.5">Feira de Troca de Sementes e Mudas</h4>
+                  <p class="text-[11px] text-charcoal-soft mt-0.5">Praça da Matriz • Entrada franca e comunitária</p>
+                </div>
+                <span class="text-xl">🌿</span>
+              </div>
+              <div class="mt-3 flex items-center justify-between pt-2.5 border-t border-cream-dark">
+                <span class="text-[10px] text-charcoal-soft">28 inscritos</span>
+                <button onclick="confirmMutirao(this)" class="px-3 py-1 bg-forest text-white text-xs font-semibold rounded-lg hover:bg-forest-dark transition">
+                  Confirmar Presença
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TELA 5: PERFIL & SOBERANIA ==================== -->
+      <section id="tab-profile" class="p-4 space-y-4 hidden">
+        <div class="bg-white rounded-2xl border border-cream-border p-4 shadow-xs text-center relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-16 bg-gradient-to-r from-forest to-forest-dark"></div>
+          
+          <div class="relative mt-6 flex flex-col items-center">
+            <div class="w-18 h-18 rounded-full bg-forest-light border-4 border-white text-forest font-bold text-xl flex items-center justify-center shadow-md">
+              🌱
+            </div>
+            <h2 class="text-sm font-bold text-charcoal mt-2">Silviane • Guardiã da Rede</h2>
+            <p class="text-[11px] text-charcoal-soft">Produtora Familiar & Pesquisadora de Saberes</p>
+            <div class="mt-1 flex items-center gap-1.5 text-[10px] bg-forest-light text-forest px-2.5 py-0.5 rounded-full font-bold">
+              <i data-lucide="shield-check" class="w-3 h-3"></i> Identidade Soberana: did:yby:br-8921a
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-cream-dark text-center">
+            <div>
+              <span class="text-xs font-extrabold text-charcoal">42</span>
+              <p class="text-[10px] text-charcoal-soft">Saberes</p>
+            </div>
+            <div>
+              <span class="text-xs font-extrabold text-forest">140 🌿</span>
+              <p class="text-[10px] text-charcoal-soft">Ybys Saldo</p>
+            </div>
+            <div>
+              <span class="text-xs font-extrabold text-charcoal">9 Mutirões</span>
+              <p class="text-[10px] text-charcoal-soft">Presenças</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preferências do Nó / Configurações -->
+        <div class="bg-white rounded-2xl border border-cream-border p-3.5 shadow-xs space-y-2 text-xs">
+          <h3 class="text-xs font-bold text-charcoal mb-2">Parâmetros de Soberania & Rede</h3>
+          
+          <div class="flex items-center justify-between p-2 rounded-xl hover:bg-cream cursor-pointer" onclick="showToast('Sincronização P2P ativada')">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="wifi-off" class="w-4 h-4 text-forest"></i>
+              <span>Modo Offline-First (P2P Local)</span>
+            </div>
+            <span class="text-[10px] text-emerald-700 bg-emerald-100 font-bold px-2 py-0.5 rounded-full">Ativo</span>
+          </div>
+
+          <div class="flex items-center justify-between p-2 rounded-xl hover:bg-cream cursor-pointer" onclick="showToast('Backup local exportado com sucesso!')">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="hard-drive" class="w-4 h-4 text-forest"></i>
+              <span>Exportar Saberes e Dados Pessoais</span>
+            </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-charcoal-soft"></i>
+          </div>
+
+          <div class="flex items-center justify-between p-2 rounded-xl hover:bg-cream cursor-pointer" onclick="showToast('Chaves criptográficas verificadas')">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="key" class="w-4 h-4 text-forest"></i>
+              <span>Chaves Criptográficas Locais</span>
+            </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-charcoal-soft"></i>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Barra de Navegação Inferior (Bottom Navigation Material 3) -->
+    <nav class="bg-white border-t border-cream-border px-3 py-2 shrink-0 flex items-center justify-around z-30 shadow-lg">
+      <button onclick="switchTab('feed')" id="nav-btn-feed" class="nav-btn flex flex-col items-center gap-1 text-forest transition-colors">
+        <i data-lucide="compass" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold">Saberes</span>
+      </button>
+
+      <button onclick="switchTab('shop')" id="nav-btn-shop" class="nav-btn flex flex-col items-center gap-1 text-charcoal-soft hover:text-forest transition-colors">
+        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+        <span class="text-[10px] font-semibold">Feira</span>
+      </button>
+
+      <button onclick="switchTab('classes')" id="nav-btn-classes" class="nav-btn flex flex-col items-center gap-1 text-charcoal-soft hover:text-forest transition-colors">
+        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+        <span class="text-[10px] font-semibold">Aulas</span>
+      </button>
+
+      <button onclick="switchTab('habits')" id="nav-btn-habits" class="nav-btn flex flex-col items-center gap-1 text-charcoal-soft hover:text-forest transition-colors">
+        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+        <span class="text-[10px] font-semibold">Hábitos</span>
+      </button>
+
+      <button onclick="switchTab('profile')" id="nav-btn-profile" class="nav-btn flex flex-col items-center gap-1 text-charcoal-soft hover:text-forest transition-colors">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span class="text-[10px] font-semibold">Perfil</span>
+      </button>
+    </nav>
+
+    <!-- Modal de Publicação de Saber -->
+    <div id="modal-post" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-3xl w-full max-w-sm p-5 border border-cream-border shadow-2xl space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-cream-dark">
+          <h3 class="text-sm font-bold text-charcoal flex items-center gap-1.5">
+            <i data-lucide="feather" class="w-4 h-4 text-forest"></i>
+            Partilhar Saber Comunitário
+          </h3>
+          <button onclick="closeModal('modal-post')" class="text-charcoal-soft hover:text-charcoal">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <textarea id="post-input" rows="4" placeholder="O que você experimentou na terra, na oficina ou na comunidade hoje?" class="w-full text-xs p-3 rounded-xl bg-cream border border-cream-border focus:outline-none focus:border-forest resize-none"></textarea>
+
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-1.5 text-charcoal-soft">
+            <button onclick="showToast('Anexar foto do celular/computador')" class="p-1.5 rounded-lg hover:bg-cream border border-cream-border">
+              <i data-lucide="image" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="showToast('Adicionar localização segura')" class="p-1.5 rounded-lg hover:bg-cream border border-cream-border">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+          <button onclick="publishPost()" class="px-4 py-2 bg-forest text-white font-bold rounded-xl text-xs hover:bg-forest-dark transition">
+            Publicar Saber
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Detalhe do Produto -->
+    <div id="modal-product" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-3xl w-full max-w-sm overflow-hidden border border-cream-border shadow-2xl flex flex-col">
+        <div class="relative">
+          <img id="prod-modal-img" src="" alt="Produto" class="w-full h-44 object-cover">
+          <button onclick="closeModal('modal-product')" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div class="p-4 space-y-3">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 id="prod-modal-title" class="text-sm font-bold text-charcoal"></h3>
+              <p id="prod-modal-price" class="text-xs font-extrabold text-forest mt-0.5"></p>
+            </div>
+            <span class="text-[10px] bg-forest-light text-forest font-bold px-2 py-0.5 rounded-md">Troca ou Compra</span>
+          </div>
+          <p id="prod-modal-desc" class="text-xs text-charcoal-soft leading-relaxed"></p>
+          <div class="pt-2 flex gap-2">
+            <button onclick="showToast('Iniciando conversa direta e segura')" class="flex-1 py-2.5 bg-forest text-white rounded-xl text-xs font-bold hover:bg-forest-dark transition flex items-center justify-center gap-1.5">
+              <i data-lucide="message-square" class="w-3.5 h-3.5"></i> Conversar com Produtor
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Player de Aula -->
+    <div id="modal-class" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-3xl w-full max-w-sm p-4 border border-cream-border shadow-2xl space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-cream-dark">
+          <h3 id="class-modal-title" class="text-xs font-bold text-charcoal truncate pr-2"></h3>
+          <button onclick="closeModal('modal-class')" class="text-charcoal-soft hover:text-charcoal shrink-0">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div class="w-full h-44 bg-forest-dark rounded-2xl flex flex-col items-center justify-center text-white relative overflow-hidden">
+          <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center cursor-pointer hover:scale-105 transition" onclick="showToast('Reproduzindo vídeo da aula...')">
+            <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+          </div>
+          <span class="text-[10px] text-emerald-200 mt-2">Vídeo educativo de alta compressão (leves dados)</span>
+        </div>
+        <div class="text-xs text-charcoal-soft leading-relaxed">
+          Nesta aula prática, você aprende as proporções ideais para cada tipo de preparação botânica, respeitando os ciclos de infusão e conservação natural.
+        </div>
+        <button onclick="showToast('Aula marcada como assistida! +10 Ybys'); closeModal('modal-class');" class="w-full py-2 bg-forest text-white font-bold rounded-xl text-xs hover:bg-forest-dark transition">
+          Concluir e Salvar Progresso
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast de Notificação Rápida -->
+    <div id="toast" class="fixed bottom-16 sm:bottom-12 left-1/2 -translate-x-1/2 bg-charcoal text-white text-xs font-semibold px-4 py-2.5 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2">
+      <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
+      <span id="toast-text">Ação concluída</span>
+    </div>
+
+  </main>
+
+  <script>
+    // Inicializa Lucide Icons
+    lucide.createIcons();
+
+    // Alternar Abas Principais
+    function switchTab(tabId) {
+      const tabs = ['feed', 'shop', 'classes', 'habits', 'profile'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        const btn = document.getElementById(`nav-btn-${t}`);
+        if (el) el.classList.toggle('hidden', t !== tabId);
+        if (btn) {
+          if (t === tabId) {
+            btn.classList.add('text-forest');
+            btn.classList.remove('text-charcoal-soft');
+            btn.querySelector('span').classList.add('font-bold');
+            btn.querySelector('span').classList.remove('font-semibold');
+          } else {
+            btn.classList.remove('text-forest');
+            btn.classList.add('text-charcoal-soft');
+            btn.querySelector('span').classList.remove('font-bold');
+            btn.querySelector('span').classList.add('font-semibold');
+          }
+        }
+      });
+      // Rola topo do container
+      document.getElementById('screen-container').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Filtros de Feed
+    function filterFeed(category, btn) {
+      document.querySelectorAll('.feed-filter-btn').forEach(b => {
+        b.classList.remove('bg-forest', 'text-white');
+        b.classList.add('bg-white', 'text-charcoal-soft');
+      });
+      btn.classList.add('bg-forest', 'text-white');
+      btn.classList.remove('bg-white', 'text-charcoal-soft');
+
+      const posts = document.querySelectorAll('#feed-posts-list article');
+      posts.forEach(p => {
+        if (category === 'todos' || p.getAttribute('data-category') === category) {
+          p.classList.remove('hidden');
+        } else {
+          p.classList.add('hidden');
+        }
+      });
+    }
+
+    // Alternar Like / Apoio
+    function toggleLike(btn) {
+      const icon = btn.querySelector('svg');
+      const countEl = btn.querySelector('.likes-count');
+      let count = parseInt(countEl.textContent) || 0;
+      
+      if (btn.classList.contains('text-red-600')) {
+        btn.classList.remove('text-red-600');
+        countEl.textContent = (count - 1) + ' apoios';
+      } else {
+        btn.classList.add('text-red-600');
+        countEl.textContent = (count + 1) + ' apoios';
+        showToast('Apoio enviado ao guardião do saber ❤️');
+      }
+    }
+
+    // Mutirões
+    function confirmMutirao(btn) {
+      if (btn.innerText === 'Presença Confirmada!') {
+        btn.innerText = 'Confirmar Presença';
+        btn.classList.remove('bg-emerald-700');
+        btn.classList.add('bg-forest');
+        showToast('Presença cancelada no mutirão');
+      } else {
+        btn.innerText = 'Presença Confirmada!';
+        btn.classList.remove('bg-forest');
+        btn.classList.add('bg-emerald-700');
+        showToast('Presença confirmada no mutirão! 🌱');
+      }
+    }
+
+    // Modal helpers
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // Publicar Post Simulado
+    function publishPost() {
+      const input = document.getElementById('post-input');
+      const text = input.value.trim();
+      if (!text) {
+        showToast('Escreva algo para partilhar com a comunidade!');
+        return;
+      }
+
+      const list = document.getElementById('feed-posts-list');
+      const newArticle = document.createElement('article');
+      newArticle.className = 'bg-white border border-cream-border rounded-2xl p-4 shadow-xs animate-pulse-slow';
+      newArticle.setAttribute('data-category', 'Agroecologia');
+      newArticle.innerHTML = `
+        <div class="flex items-center justify-between mb-2.5">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-full bg-forest text-white font-bold text-xs flex items-center justify-center">
+              YS
+            </div>
+            <div>
+              <h3 class="text-xs font-bold text-charcoal">Silviane (Você)</h3>
+              <span class="text-[10px] text-charcoal-soft">Agora mesmo • Rede Local</span>
+            </div>
+          </div>
+          <span class="text-[10px] bg-forest-light text-forest px-2 py-0.5 rounded-md font-semibold">Novo Saber</span>
+        </div>
+        <p class="text-xs text-charcoal leading-relaxed mb-3">${text}</p>
+        <div class="flex items-center justify-between pt-2 border-t border-cream-dark text-xs text-charcoal-soft">
+          <span class="text-[11px] font-semibold">1 apoio</span>
+          <span class="text-[11px]">Sincronizado P2P</span>
+        </div>
+      `;
+
+      list.prepend(newArticle);
+      input.value = '';
+      closeModal('modal-post');
+      showToast('Saber compartilhado na aldeia!');
+      setTimeout(() => newArticle.classList.remove('animate-pulse-slow'), 2000);
+    }
+
+    // Modal de Produto
+    function openProductModal(title, price, desc, img) {
+      document.getElementById('prod-modal-title').textContent = title;
+      document.getElementById('prod-modal-price').textContent = price;
+      document.getElementById('prod-modal-desc').textContent = desc;
+      document.getElementById('prod-modal-img').src = img;
+      openModal('modal-product');
+    }
+
+    // Modal de Aula
+    function openClassPlayer(title) {
+      document.getElementById('class-modal-title').textContent = title;
+      openModal('modal-class');
+    }
+
+    // Toasts
+    let toastTimeout;
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      toastText.textContent = text;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+
+    function toggleNotifications() {
+      showToast('Nenhuma pendência crítica. Sua rede está em dia.');
+    }
+
+    function updateHabitCount() {
+      showToast('Hábito regenerativo atualizado!');
+    }
+  </script>
+</body>
+</html>
