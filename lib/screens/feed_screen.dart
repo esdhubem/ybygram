@@ -504,24 +504,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ],
         ),
         actions: [
-          // Texto indicativo solicitado pelo usuário
-          GestureDetector(
-            onTap: _showNewVideoLinkDialog,
-            child: const Center(
-              child: Padding(
-                padding: EdgeInsets.only(right: 6),
-                child: Text(
-                  'Faça sua Postagem',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF245C45),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          // Botão Superior: Publicar Conteúdo por Link Externo
+          // Botão Superior: Faça sua Postagem
           TextButton.icon(
             style: TextButton.styleFrom(
               backgroundColor: const Color(0xFF245C45).withOpacity(0.12),
@@ -530,7 +513,7 @@ class _FeedScreenState extends State<FeedScreen> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             icon: const Icon(Icons.link, size: 18),
-            label: const Text('+ Link', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+            label: const Text('Faça sua Postagem', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
             onPressed: _showNewVideoLinkDialog,
           ),
           const SizedBox(width: 8),
