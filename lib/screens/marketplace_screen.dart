@@ -101,20 +101,30 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
           // Banner de Regras Éticas do Marketplace
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: const Color(0xFF245C45).withOpacity(0.08),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFF245C45).withOpacity(0.2)),
             ),
             child: const Row(
               children: [
-                Icon(Icons.shield_outlined, color: Color(0xFF245C45), size: 18),
-                SizedBox(width: 8),
+                Icon(Icons.shield_outlined, color: Color(0xFF245C45), size: 24),
+                SizedBox(width: 10),
                 Expanded(
-                  child: Text(
-                    'Economia Solidária: 95% do valor vai direto para o artesão/produtor nacional via Split Pagar.me.',
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF245C45)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'YBY gram MarketPlace',
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF245C45)),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        'Aqui valorizamos produtos da nossa Terra! Naturais e Artesanais.',
+                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Colors.black87),
+                      ),
+                    ],
                   ),
                 ),
               ],
