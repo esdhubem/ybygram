@@ -513,13 +513,16 @@ class _FeedScreenState extends State<FeedScreen> {
           // Botão Superior: Faça sua Postagem
           TextButton.icon(
             style: TextButton.styleFrom(
-              backgroundColor: const Color(0xFF245C45).withOpacity(0.12),
-              foregroundColor: const Color(0xFF245C45),
+              backgroundColor: const Color(0xFFF6CF4C),
+              foregroundColor: const Color(0xFF1B4734),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: const BorderSide(color: Color(0xFFE5BE38)),
+              ),
             ),
-            icon: const Icon(Icons.link, size: 18),
-            label: const Text('Faça sua Postagem', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+            icon: const Icon(Icons.link, size: 18, color: Color(0xFF1B4734)),
+            label: const Text('Faça sua Postagem', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, color: Color(0xFF1B4734))),
             onPressed: _showNewVideoLinkDialog,
           ),
           const SizedBox(width: 8),
