@@ -18,6 +18,7 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool _showComments = false;
+  bool _isDismissed = false;
   final TextEditingController _commentController = TextEditingController();
 
   @override
@@ -39,6 +40,38 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final p = widget.post;
+
+    if (_isDismissed) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.visibility_off, size: 16, color: Colors.grey),
+            const SizedBox(width: 8),
+            const Expanded(
+              child: Text(
+                'Publicação ocultada pelo seu controle de autonomia.',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
+              ),
+            ),
+            TextButton(
+              onPressed: () => setState(() => _isDismissed = false),
+              style: TextButton.styleFrom(
+                visualDensity: VisualDensity.compact,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+              ),
+              child: const Text('Desfazer', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      );
+    }
 
     return Card(
       elevation: 0,
@@ -138,9 +171,10 @@ class _PostCardState extends State<PostCard> {
               ),
             ],
             const SizedBox(height: 12),
-            // Ações do Post
+            // Ações do Post: Fim da Vaidade (Sem contadores públicos)
             Row(
               children: [
+                // 1. Sementes de Gratidão (🌱) - Sem contador público de vaidade
                 InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
@@ -148,60 +182,104 @@ class _PostCardState extends State<PostCard> {
                       MockSupabaseService().toggleLikePost(p.id);
                     });
                     if (widget.onLikeChanged != null) widget.onLikeChanged!();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(p.isLiked
+                            ? '🌱 Semente de Gratidão plantada! O autor receberá privadamente.'
+                            : 'Semente recolhida.'),
+                        duration: const Duration(seconds: 1),
+                      ),
+                    );
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: p.isLiked ? const Color(0xFF245C45).withOpacity(0.12) : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: p.isLiked ? const Color(0xFF245C45).withOpacity(0.3) : theme.dividerColor.withOpacity(0.2),
+                      ),
+                    ),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          p.isLiked ? Icons.favorite : Icons.favorite_border,
-                          size: 20,
-                          color: p.isLiked ? const Color(0xFFC85A32) : theme.iconTheme.color,
-                        ),
-                        const SizedBox(width: 6),
                         Text(
-                          '${p.likesCount}',
+                          '🌱',
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: 16,
+                            color: p.isLiked ? const Color(0xFF245C45) : null,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          p.isLiked ? 'Gratidão' : 'Semear',
+                          style: TextStyle(
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: p.isLiked ? const Color(0xFFC85A32) : null,
+                            color: p.isLiked ? const Color(0xFF245C45) : theme.textTheme.bodyMedium?.color,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
+                const SizedBox(width: 8),
+                // 2. Roda de Partilha (Substituto de Comentários)
                 InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: () => setState(() => _showComments = !_showComments),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: _showComments ? const Color(0xFFC85A32).withOpacity(0.12) : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: _showComments ? const Color(0xFFC85A32).withOpacity(0.3) : theme.dividerColor.withOpacity(0.2),
+                      ),
+                    ),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.chat_bubble_outline, size: 19),
-                        const SizedBox(width: 6),
-                        Text(
-                          '${p.commentsCount}',
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                        const Icon(Icons.forum_outlined, size: 15, color: Color(0xFFC85A32)),
+                        const SizedBox(width: 5),
+                        const Text(
+                          'Roda de Partilha',
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
                   ),
                 ),
                 const Spacer(),
+                // 3. Autonomia do Usuário: Ocultar publicação indesejada
+                IconButton(
+                  icon: const Icon(Icons.visibility_off_outlined, size: 18, color: Colors.black45),
+                  tooltip: 'Ocultar conteúdo do meu feed (Autonomia)',
+                  onPressed: () {
+                    setState(() => _isDismissed = true);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Conteúdo ocultado do seu feed com sucesso.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                ),
+                // 4. Salvamento Invisível no Acervo (sem contagem pública)
                 IconButton(
                   icon: Icon(
                     p.isSaved ? Icons.bookmark : Icons.bookmark_border,
                     size: 20,
                     color: p.isSaved ? const Color(0xFF245C45) : null,
                   ),
-                  tooltip: 'Guardar semente',
+                  tooltip: 'Guardar no meu acervo pessoal',
                   onPressed: () {
                     setState(() => p.isSaved = !p.isSaved);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(p.isSaved ? 'Semente guardada na sua coleção!' : 'Removido da coleção.'),
+                        content: Text(p.isSaved
+                            ? 'Saber guardado no seu acervo privado com sucesso!'
+                            : 'Removido do acervo.'),
                         duration: const Duration(seconds: 1),
                       ),
                     );
@@ -209,9 +287,22 @@ class _PostCardState extends State<PostCard> {
                 ),
               ],
             ),
-            // Área de comentários expansível
+            // Roda de Partilha de Saberes (Comentários construtivos)
             if (_showComments) ...[
               const Divider(height: 20),
+              Row(
+                children: [
+                  const Icon(Icons.diversity_3, size: 16, color: Color(0xFF245C45)),
+                  const SizedBox(width: 6),
+                  Text(
+                    'Roda de Partilha de Saberes',
+                    style: theme.textTheme.titleSmall?.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  const Text('Trocas construtivas', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                ],
+              ),
+              const SizedBox(height: 8),
               if (p.comments.isNotEmpty)
                 ...p.comments.map((c) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
@@ -239,14 +330,14 @@ class _PostCardState extends State<PostCard> {
                     ],
                   ),
                 )),
-              // Campo para escrever comentário
+              // Campo para escrever partilha comunitária
               Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _commentController,
                       decoration: InputDecoration(
-                        hintText: 'Escreva uma resposta comunitária...',
+                        hintText: 'Contribua com seu saber na roda...',
                         hintStyle: const TextStyle(fontSize: 12),
                         isDense: true,
                         filled: true,

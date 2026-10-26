@@ -119,19 +119,16 @@
         </div>
       </div>
 
-      <!-- BARRA DE SELEÇÃO DE FEED (Sub-abas limpas na barra superior) -->
+      <!-- BARRA DE SELEÇÃO DE FEED (Filtros Dinâmicos sem Duplicidade) -->
       <nav id="feed-subtabs-nav" class="flex gap-1 overflow-x-auto hide-scrollbar pt-1">
-        <button onclick="switchFeedSubTab('saberes')" class="subtab-btn active px-3 py-1 rounded-full text-xs font-bold transition flex items-center gap-1 bg-white text-forest shadow-xs">
+        <button onclick="switchFeedSubTab('saberes')" class="subtab-btn active px-3.5 py-1 rounded-full text-xs font-bold transition flex items-center gap-1 bg-white text-forest shadow-xs">
           <span>📚 Saberes</span>
         </button>
-        <button onclick="switchFeedSubTab('videos')" class="subtab-btn px-3 py-1 rounded-full text-xs font-semibold transition flex items-center gap-1 bg-forest-dark/60 text-emerald-100 hover:bg-forest-dark">
+        <button onclick="switchFeedSubTab('videos')" class="subtab-btn px-3.5 py-1 rounded-full text-xs font-semibold transition flex items-center gap-1 bg-forest-dark/60 text-emerald-100 hover:bg-forest-dark">
           <span>🎬 Vídeos</span>
         </button>
-        <button onclick="switchFeedSubTab('produtos')" class="subtab-btn px-3 py-1 rounded-full text-xs font-semibold transition flex items-center gap-1 bg-forest-dark/60 text-emerald-100 hover:bg-forest-dark">
-          <span>🛍️ Produtos</span>
-        </button>
-        <button onclick="switchFeedSubTab('leitura')" class="subtab-btn px-3 py-1 rounded-full text-xs font-semibold transition flex items-center gap-1 bg-forest-dark/60 text-emerald-100 hover:bg-forest-dark">
-          <span>📖 Leitura</span>
+        <button onclick="switchFeedSubTab('leitura')" class="subtab-btn px-3.5 py-1 rounded-full text-xs font-semibold transition flex items-center gap-1 bg-forest-dark/60 text-emerald-100 hover:bg-forest-dark">
+          <span>🌿 Leitura / Receitas</span>
         </button>
       </nav>
     </header>
@@ -144,22 +141,23 @@
       <!-- ======================================================== -->
       <section id="tab-feed" class="tab-content">
 
-        <!-- SUB-ABA 1.1: SABERES GERAIS -->
+        <!-- SUB-ABA 1.1: SABERES GERAIS (FEED CRONOLÓGICO) -->
         <div id="subtab-saberes" class="space-y-3 pb-6">
-          <!-- Stories no Topo ("Rodas de Saberes Vivas") -->
+          
+          <!-- Aba "Pessoas que Sigo" (Avatares Deslizantes - Sem Selo de Ao Vivo) -->
           <div class="bg-white border-b border-cream-border py-2.5 px-3">
             <div class="flex items-center justify-between mb-1.5 px-1">
               <span class="text-[10px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Rodas de Saberes Vivas
+                <i data-lucide="users" class="w-3 h-3 text-forest"></i>
+                Pessoas que Sigo
               </span>
-              <span class="text-[10px] text-charcoal-soft">Transmissões comunitárias</span>
+              <span class="text-[10px] text-charcoal-soft">Novos saberes de quem você acompanha</span>
             </div>
             <div class="flex gap-3 overflow-x-auto hide-scrollbar py-1">
-              <!-- Seu Story -->
-              <div onclick="showToast('Abrindo sua roda de saberes...')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer">
+              <!-- Seu Story / Saber -->
+              <div onclick="showToast('Partilhar saber com quem te segue...')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer">
                 <div class="relative">
-                  <div class="w-14 h-14 rounded-full p-[2px] bg-gradient-to-tr from-forest to-terracota">
+                  <div class="w-14 h-14 rounded-full p-[2px] bg-forest">
                     <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
                   </div>
                   <span class="absolute bottom-0 right-0 w-4 h-4 bg-forest border-2 border-white rounded-full flex items-center justify-center text-white text-[10px] font-bold">+</span>
@@ -167,41 +165,47 @@
                 <span class="text-[10px] font-semibold text-charcoal">Você</span>
               </div>
 
-              <!-- Story 1: Viva -->
-              <div onclick="openStory('Aldeia Yvy Porã', 'Plantio sagrado e preparo do solo com saberes ancestrais', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer">
-                <div class="relative">
-                  <div class="w-14 h-14 rounded-full p-[2px] bg-gradient-to-tr from-terracota to-amber-400 animate-pulse">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
-                  </div>
-                  <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-terracota text-white text-[8px] font-extrabold px-1 rounded-sm uppercase tracking-wider">VIVA</span>
+              <!-- Seguido 1 (Borda em verde-mata #245C45 por novo saber útil publicado) -->
+              <div onclick="openStory('Aldeia Yvy Porã', 'Plantio sagrado e preparo do solo com saberes ancestrais', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Novo saber publicado">
+                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
                 </div>
-                <span class="text-[10px] font-semibold text-charcoal">Aldeia Yvy</span>
+                <span class="text-[10px] font-bold text-forest">Aldeia Yvy</span>
               </div>
 
-              <!-- Story 2 -->
-              <div onclick="openStory('Mestre Tiago', 'Identificação botânica da Erva-Baleeira nativa', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer">
-                <div class="w-14 h-14 rounded-full p-[2px] bg-gradient-to-tr from-forest to-emerald-400">
+              <!-- Seguido 2 (Destaque visual em verde-mata) -->
+              <div onclick="openStory('Mestre Tiago', 'Identificação botânica da Erva-Baleeira nativa', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Novo saber publicado">
+                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs">
                   <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
                 </div>
-                <span class="text-[10px] font-semibold text-charcoal">Mestre Tiago</span>
+                <span class="text-[10px] font-bold text-forest">M. Tiago</span>
               </div>
 
-              <!-- Story 3 -->
-              <div onclick="openStory('Dona Benvinda', 'Receita tradicional de infusão para o estômago', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer">
-                <div class="w-14 h-14 rounded-full p-[2px] bg-gradient-to-tr from-forest to-amber-500">
+              <!-- Seguido 3 (Destaque visual em verde-mata) -->
+              <div onclick="openStory('Dona Benvinda', 'Receita tradicional de infusão para o estômago', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Novo saber publicado">
+                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs">
                   <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
                 </div>
-                <span class="text-[10px] font-semibold text-charcoal">D. Benvinda</span>
+                <span class="text-[10px] font-bold text-forest">D. Benvinda</span>
               </div>
 
-              <!-- Story 4 -->
+              <!-- Seguido 4 (Visto recentemente) -->
               <div onclick="openStory('Biojoias Vale', 'Tingimento artesanal com urucum e sementes de jarina', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer">
-                <div class="w-14 h-14 rounded-full p-[2px] bg-forest-light border border-forest/30">
+                <div class="w-14 h-14 rounded-full p-[2px] bg-cream-border">
                   <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
                 </div>
-                <span class="text-[10px] font-semibold text-charcoal">Biojoias</span>
+                <span class="text-[10px] font-semibold text-charcoal-soft">Biojoias</span>
               </div>
             </div>
+          </div>
+
+          <!-- Indicador de Feed Estritamente Cronológico (Sem Algoritmos Abusivos) -->
+          <div class="mx-3.5 px-3 py-2 rounded-xl bg-forest-light/60 border border-forest/20 flex items-center justify-between text-[11px] text-forest">
+            <span class="flex items-center gap-1.5 font-bold">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-forest"></i>
+              Feed Cronológico de Saberes
+            </span>
+            <span class="text-[10px] text-charcoal-soft font-medium">Recentes primeiro • Igualdade para todos</span>
           </div>
 
           <!-- Caixa Rápida de Publicação de Texto e Imagem -->
@@ -215,11 +219,11 @@
             </button>
           </div>
 
-          <!-- Posts Dinâmicos -->
+          <!-- Posts Dinâmicos (Ordenação Cronológica) -->
           <div id="posts-feed-container" class="space-y-3.5 px-3.5">
             
-            <!-- Post 1 -->
-            <article class="bg-white border border-cream-border rounded-2xl p-4 shadow-xs">
+            <!-- Post 1 (Dona Benvinda Ervas) -->
+            <article class="post-card bg-white border border-cream-border rounded-2xl p-4 shadow-xs transition-all duration-300">
               <div class="flex items-center justify-between mb-2.5">
                 <div class="flex items-center gap-2.5">
                   <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" class="w-9 h-9 rounded-full object-cover border border-forest/30">
@@ -228,13 +232,16 @@
                       Dona Benvinda Ervas
                       <i data-lucide="badge-check" class="w-3.5 h-3.5 text-forest"></i>
                     </h3>
-                    <span class="text-[10px] text-charcoal-soft">Chapada Diamantina / BA • Etnobotânica</span>
+                    <span class="text-[10px] text-charcoal-soft">Chapada Diamantina / BA • Agora mesmo</span>
                   </div>
                 </div>
-                <div class="flex items-center gap-1.5">
-                  <span class="text-[10px] bg-emerald-100 text-forest px-2 py-0.5 rounded-full font-bold border border-emerald-300 flex items-center gap-1" title="Responsabilidade técnica checada pela curadoria">
-                    <i data-lucide="shield-check" class="w-3 h-3 text-forest"></i> Curadoria Humana Validada
+                <div class="flex items-center gap-1">
+                  <span class="text-[9px] bg-emerald-100 text-forest px-2 py-0.5 rounded-full font-bold border border-emerald-300 flex items-center gap-1" title="Responsabilidade técnica checada pela curadoria">
+                    <i data-lucide="shield-check" class="w-3 h-3 text-forest"></i> Curadoria Validada
                   </span>
+                  <button onclick="hidePost(this)" class="text-charcoal-soft hover:text-forest p-1" title="Ocultar conteúdo (autonomia do usuário)">
+                    <i data-lucide="eye-off" class="w-3.5 h-3.5"></i>
+                  </button>
                   <button onclick="openReportModal('Post de Fitoterapia', 'Dona Benvinda Ervas')" class="text-charcoal-soft hover:text-red-500 p-1" title="Reportar violação ética ou desinformação em saúde">
                     <i data-lucide="shield-alert" class="w-4 h-4"></i>
                   </button>
@@ -247,34 +254,40 @@
                 <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&fit=crop" alt="Ervas" class="w-full h-48 object-cover">
               </div>
               <div class="flex items-center justify-between pt-2 border-t border-cream-border text-xs text-charcoal-soft">
-                <button onclick="toggleLike(this)" class="flex items-center gap-1.5 hover:text-terracota transition">
-                  <i data-lucide="heart" class="w-4 h-4"></i>
-                  <span class="likes-count text-[11px] font-semibold">142 curtidas</span>
+                <!-- Semente de Gratidão (Substituto de Curtidas - Sem Contadores Públicos) -->
+                <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-forest transition">
+                  <span class="text-sm">🌱</span>
+                  <span class="gratitude-label text-[11px] font-bold text-forest">Semear Gratidão</span>
                 </button>
+                <!-- Roda de Partilha (Substituto de Comentários) -->
                 <button onclick="toggleComments('comments-post-1')" class="flex items-center gap-1.5 hover:text-forest transition">
-                  <i data-lucide="message-circle" class="w-4 h-4"></i>
-                  <span class="text-[11px] font-semibold">23 conversas</span>
+                  <i data-lucide="message-square" class="w-4 h-4 text-forest"></i>
+                  <span class="text-[11px] font-semibold">Roda de Partilha</span>
                 </button>
+                <!-- Salvamento Invisível / Privado no Acervo -->
                 <button onclick="saveSeed(this)" class="flex items-center gap-1.5 hover:text-forest transition">
                   <i data-lucide="bookmark" class="w-4 h-4"></i>
-                  <span class="text-[11px]">Guardar semente</span>
+                  <span class="save-label text-[11px] font-semibold">Guardar no Acervo</span>
                 </button>
               </div>
 
-              <!-- Seção de comentários expansível -->
+              <!-- Roda de Partilha Construtiva -->
               <div id="comments-post-1" class="hidden mt-3 pt-3 border-t border-cream-border space-y-2">
+                <div class="text-[10px] font-bold text-forest uppercase tracking-wider flex items-center gap-1">
+                  <i data-lucide="users" class="w-3 h-3 text-forest"></i> Roda de Partilha de Saberes:
+                </div>
                 <div class="bg-cream p-2.5 rounded-xl text-xs">
-                  <span class="font-bold text-charcoal">Tiago Santos:</span> Gratidão imensa por essa partilha de cura tradicional, Dona Benvinda!
+                  <span class="font-bold text-charcoal">Tiago Santos:</span> Gratidão imensa por essa partilha tradicional, Dona Benvinda!
                 </div>
                 <div class="flex gap-2">
-                  <input type="text" placeholder="Escreva uma resposta comunitária..." class="flex-1 bg-cream px-3 py-1.5 rounded-xl text-xs border-none focus:ring-1 focus:ring-forest outline-none">
-                  <button onclick="showToast('Comentário publicado!')" class="bg-forest text-white px-3 py-1 rounded-xl text-xs font-semibold">Enviar</button>
+                  <input type="text" placeholder="Partilhe sua reflexão construtiva nesta roda..." class="flex-1 bg-cream px-3 py-1.5 rounded-xl text-xs border-none focus:ring-1 focus:ring-forest outline-none">
+                  <button onclick="showToast('Partilha publicada na roda!')" class="bg-forest text-white px-3 py-1 rounded-xl text-xs font-semibold">Partilhar</button>
                 </div>
               </div>
             </article>
 
-            <!-- Post 2 (Conteúdo Nativo com Pontos Extras) -->
-            <article class="bg-white border border-cream-border rounded-2xl p-4 shadow-xs">
+            <!-- Post 2 (Aldeia Yvy Porã) -->
+            <article class="post-card bg-white border border-cream-border rounded-2xl p-4 shadow-xs transition-all duration-300">
               <div class="flex items-center justify-between mb-2.5">
                 <div class="flex items-center gap-2.5">
                   <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" class="w-9 h-9 rounded-full object-cover border border-forest/30">
@@ -283,13 +296,16 @@
                       Aldeia Yvy Porã
                       <i data-lucide="badge-check" class="w-3.5 h-3.5 text-forest"></i>
                     </h3>
-                    <span class="text-[10px] text-charcoal-soft">Litoral Norte / SP • Cultura Viva</span>
+                    <span class="text-[10px] text-charcoal-soft">Litoral Norte / SP • Há 2 horas</span>
                   </div>
                 </div>
-                <div class="flex items-center gap-1.5">
-                  <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-bold border border-amber-300 flex items-center gap-1" title="Conteúdo autoral e exclusivo da comunidade">
+                <div class="flex items-center gap-1">
+                  <span class="text-[9px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-bold border border-amber-300 flex items-center gap-1" title="Conteúdo autoral e exclusivo da comunidade">
                     🌿 Conteúdo Nativo YBYgram (+20 pts)
                   </span>
+                  <button onclick="hidePost(this)" class="text-charcoal-soft hover:text-forest p-1" title="Ocultar conteúdo (autonomia do usuário)">
+                    <i data-lucide="eye-off" class="w-3.5 h-3.5"></i>
+                  </button>
                   <button onclick="openReportModal('Post Comunitário', 'Aldeia Yvy Porã')" class="text-charcoal-soft hover:text-red-500 p-1" title="Reportar violação ética">
                     <i data-lucide="shield-alert" class="w-4 h-4"></i>
                   </button>
@@ -302,21 +318,27 @@
                 <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&fit=crop" alt="Mutirão" class="w-full h-48 object-cover">
               </div>
               <div class="flex items-center justify-between pt-2 border-t border-cream-border text-xs text-charcoal-soft">
-                <button onclick="toggleLike(this)" class="flex items-center gap-1.5 hover:text-terracota transition">
-                  <i data-lucide="heart" class="w-4 h-4"></i>
-                  <span class="likes-count text-[11px] font-semibold">289 curtidas</span>
+                <!-- Semente de Gratidão -->
+                <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-forest transition">
+                  <span class="text-sm">🌱</span>
+                  <span class="gratitude-label text-[11px] font-bold text-forest">Semear Gratidão</span>
                 </button>
+                <!-- Roda de Partilha -->
                 <button onclick="toggleComments('comments-post-2')" class="flex items-center gap-1.5 hover:text-forest transition">
-                  <i data-lucide="message-circle" class="w-4 h-4"></i>
-                  <span class="text-[11px] font-semibold">41 conversas</span>
+                  <i data-lucide="message-square" class="w-4 h-4 text-forest"></i>
+                  <span class="text-[11px] font-semibold">Roda de Partilha</span>
                 </button>
+                <!-- Salvamento Invisível / Privado no Acervo -->
                 <button onclick="saveSeed(this)" class="flex items-center gap-1.5 hover:text-forest transition">
                   <i data-lucide="bookmark" class="w-4 h-4"></i>
-                  <span class="text-[11px]">Guardar semente</span>
+                  <span class="save-label text-[11px] font-semibold">Guardar no Acervo</span>
                 </button>
               </div>
 
               <div id="comments-post-2" class="hidden mt-3 pt-3 border-t border-cream-border space-y-2">
+                <div class="text-[10px] font-bold text-forest uppercase tracking-wider flex items-center gap-1">
+                  <i data-lucide="users" class="w-3 h-3 text-forest"></i> Roda de Partilha de Saberes:
+                </div>
                 <div class="bg-cream p-2.5 rounded-xl text-xs">
                   <span class="font-bold text-charcoal">Silviane:</span> Viva a força dos povos originários e das sementes crioulas!
                 </div>
@@ -326,7 +348,7 @@
           </div>
         </div>
 
-        <!-- SUB-ABA 1.2: VÍDEOS VERTICAIS (9:16) INCORPORADOS -->
+        <!-- SUB-ABA 1.2: VÍDEOS VERTICAIS (9:16) INCORPORADOS COM SELO DE ORIGEM -->
         <div id="subtab-videos" class="hidden p-3.5 space-y-4 pb-6">
           
           <!-- Banner Solicitado de Republicação de Vídeos Rápidos -->
@@ -340,7 +362,7 @@
                   Republique aqui seu vídeo curto do Insta, Face, YouTube, Kwai e TikTok
                 </h3>
                 <p class="text-[11px] text-emerald-100/80 mt-1 leading-relaxed">
-                  Não precisa de banco de dados! Basta colar o link oficial do seu Reel, Short ou TikTok que o YBYgram embute o player 9:16 diretamente com selo de transparência de origem.
+                  Não precisa de banco de dados! O YBYgram embute o player 9:16 diretamente com selo de transparência de rede de origem.
                 </p>
               </div>
             </div>
@@ -359,20 +381,23 @@
             
             <!-- Topo: Selo Discreto de Origem e Ações Éticas -->
             <div class="relative z-10 flex items-center justify-between">
-              <div class="flex items-center gap-1.5">
+              <div class="flex items-center gap-1.5 flex-wrap">
                 <span class="bg-black/70 text-emerald-300 border border-emerald-400/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
                   <i data-lucide="play" class="w-3 h-3 fill-emerald-300"></i> ODYSEE LIVRE
                 </span>
                 <span class="text-[9px] text-white/80 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
-                  <i data-lucide="external-link" class="w-2.5 h-2.5"></i> Rede de Origem
+                  <i data-lucide="external-link" class="w-2.5 h-2.5 text-emerald-300"></i> Rede de Origem
                 </span>
               </div>
               <div class="flex items-center gap-1">
+                <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo do feed">
+                  <i data-lucide="eye-off" class="w-4 h-4"></i>
+                </button>
                 <button onclick="openReportModal('Vídeo Curto', 'Mestre Tiago - Erva-Baleeira')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética / desinformação em saúde">
                   <i data-lucide="shield-alert" class="w-4 h-4"></i>
                 </button>
-                <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
-                  <i data-lucide="bookmark" class="w-5 h-5"></i>
+                <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo privado">
+                  <i data-lucide="bookmark" class="w-4 h-4"></i>
                 </button>
               </div>
             </div>
@@ -382,7 +407,7 @@
               <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
             </button>
 
-            <!-- Rodapé: Legenda e Ações -->
+            <!-- Rodapé: Legenda e Ações Sem Vaidade -->
             <div class="relative z-10 flex items-end justify-between">
               <div class="space-y-1.5 max-w-[78%]">
                 <div class="flex items-center gap-2">
@@ -394,19 +419,19 @@
                 </p>
               </div>
 
-              <!-- Ações laterais -->
+              <!-- Ações laterais (Sementes de Gratidão e Partilha sem Contadores Públicos) -->
               <div class="flex flex-col items-center gap-3">
-                <button onclick="toggleVideoLike(this)" class="flex flex-col items-center text-white gap-0.5">
-                  <i data-lucide="heart" class="w-6 h-6"></i>
-                  <span class="text-[10px] font-bold">840</span>
+                <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                  <span class="text-xl">🌱</span>
+                  <span class="text-[9px] font-bold">Semear</span>
                 </button>
-                <button onclick="showToast('Comentários do vídeo')" class="flex flex-col items-center text-white gap-0.5">
-                  <i data-lucide="message-circle" class="w-6 h-6"></i>
-                  <span class="text-[10px] font-bold">96</span>
+                <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                  <i data-lucide="message-square" class="w-5 h-5"></i>
+                  <span class="text-[9px] font-bold">Partilha</span>
                 </button>
                 <button onclick="showToast('Link do vídeo copiado!')" class="flex flex-col items-center text-white gap-0.5">
-                  <i data-lucide="share-2" class="w-6 h-6"></i>
-                  <span class="text-[10px] font-bold">Partilhar</span>
+                  <i data-lucide="share-2" class="w-5 h-5"></i>
+                  <span class="text-[9px] font-bold">Partilhar</span>
                 </button>
               </div>
             </div>
@@ -418,7 +443,7 @@
             <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
             
             <div class="relative z-10 flex items-center justify-between">
-              <div class="flex items-center gap-1.5">
+              <div class="flex items-center gap-1.5 flex-wrap">
                 <span class="bg-red-950/80 text-red-300 border border-red-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
                   <i data-lucide="play" class="w-3 h-3 fill-red-400"></i> YT SHORTS
                 </span>
@@ -427,10 +452,13 @@
                 </span>
               </div>
               <div class="flex items-center gap-1">
+                <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo do feed">
+                  <i data-lucide="eye-off" class="w-4 h-4"></i>
+                </button>
                 <button onclick="openReportModal('Vídeo Curto', 'Artesanato Guarani')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética">
                   <i data-lucide="shield-alert" class="w-4 h-4"></i>
                 </button>
-                <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
+                <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo privado">
                   <i data-lucide="bookmark" class="w-5 h-5"></i>
                 </button>
               </div>
@@ -452,13 +480,17 @@
               </div>
 
               <div class="flex flex-col items-center gap-3">
-                <button onclick="toggleVideoLike(this)" class="flex flex-col items-center text-white gap-0.5">
-                  <i data-lucide="heart" class="w-6 h-6"></i>
-                  <span class="text-[10px] font-bold">1.2k</span>
+                <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                  <span class="text-xl">🌱</span>
+                  <span class="text-[9px] font-bold">Semear</span>
                 </button>
-                <button onclick="showToast('Comentários')" class="flex flex-col items-center text-white gap-0.5">
-                  <i data-lucide="message-circle" class="w-6 h-6"></i>
-                  <span class="text-[10px] font-bold">142</span>
+                <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                  <i data-lucide="message-square" class="w-5 h-5"></i>
+                  <span class="text-[9px] font-bold">Partilha</span>
+                </button>
+                <button onclick="showToast('Link do vídeo copiado!')" class="flex flex-col items-center text-white gap-0.5">
+                  <i data-lucide="share-2" class="w-5 h-5"></i>
+                  <span class="text-[9px] font-bold">Partilhar</span>
                 </button>
               </div>
             </div>
@@ -466,28 +498,16 @@
           </div>
         </div>
 
-        <!-- SUB-ABA 1.3: DESTAQUES DE PRODUTOS -->
-        <div id="subtab-produtos" class="hidden p-3.5 space-y-3 pb-6">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-extrabold text-charcoal uppercase tracking-wider">Vitrine Comunitária Rápida</h3>
-            <button onclick="switchTab('shop')" class="text-xs text-forest font-bold hover:underline flex items-center gap-0.5">
-              Ver Loja Completa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-          <!-- Grid 2 colunas -->
-          <div class="grid grid-cols-2 gap-3" id="feed-products-grid"></div>
-        </div>
-
-        <!-- SUB-ABA 1.4: LEITURA & E-BOOKS -->
+        <!-- SUB-ABA 1.3: LEITURA & RECEITAS ANCESTRAIS (SEM ABA DE PRODUTOS NO FEED) -->
         <div id="subtab-leitura" class="hidden p-3.5 space-y-3 pb-6">
           <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs text-amber-900">
             <h4 class="font-bold flex items-center gap-1.5 mb-1">
               <i data-lucide="book-open" class="w-4 h-4 text-amber-700"></i>
-              Biblioteca Comunitária & Livros UICLAP
+              Biblioteca Comunitária, E-books & Receitas
             </h4>
-            Livros físicos impressos sob demanda e E-books em PDF com leitura direta no aplicativo.
+            Livros físicos impressos sob demanda (UICLAP), e-books em PDF e receitas etnobotânicas tradicionais.
           </div>
-          <!-- Grid 2 colunas de livros -->
+          <!-- Grid 2 colunas de livros e saberes de leitura -->
           <div class="grid grid-cols-2 gap-3" id="feed-books-grid"></div>
         </div>
 
@@ -874,6 +894,35 @@
             <p class="text-xs text-charcoal mt-2 leading-relaxed">
               Educadora popular, guardiã de sementes crioulas e defensora da soberania tecnológica e autonomia digital popular brasileira.
             </p>
+          </div>
+
+          <!-- Painel Privado de Impacto e Métricas do Autor (Fim da Vaidade) -->
+          <div class="bg-forest-light/60 border border-forest/20 p-3 rounded-2xl space-y-1.5 shadow-xs">
+            <div class="flex items-center justify-between text-[11px] font-bold text-forest">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="lock" class="w-3.5 h-3.5 text-forest"></i>
+                Métricas Privadas do Autor (Visível apenas para você)
+              </span>
+              <span class="text-[9px] bg-forest text-white px-1.5 py-0.5 rounded font-extrabold uppercase">Privado</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center pt-1">
+              <div class="bg-white p-2 rounded-xl border border-cream-border">
+                <div class="text-sm font-black text-forest">342 🌱</div>
+                <div class="text-[9px] text-charcoal-soft font-semibold">Sementes de Gratidão</div>
+              </div>
+              <div class="bg-white p-2 rounded-xl border border-cream-border">
+                <div class="text-sm font-black text-charcoal">48 📚</div>
+                <div class="text-[9px] text-charcoal-soft font-semibold">Saberes Partilhados</div>
+              </div>
+              <div class="bg-white p-2 rounded-xl border border-cream-border">
+                <div class="text-sm font-black text-terracota">89 🔒</div>
+                <div class="text-[9px] text-charcoal-soft font-semibold">Guardados em Acervos</div>
+              </div>
+            </div>
+            <div class="text-[10px] text-charcoal-soft italic text-center pt-0.5 flex items-center justify-center gap-1">
+              <i data-lucide="shield" class="w-3 h-3 text-forest"></i>
+              Sem contadores públicos de seguidores: conecte-se por saberes, não por vaidade.
+            </div>
           </div>
 
           <!-- Banner do Status Criador Soberano -->
@@ -1358,11 +1407,10 @@
       lucide.createIcons();
     }
 
-    // Sub-abas do Feed: [Saberes], [Vídeos], [Produtos], [Leitura]
+    // Sub-abas do Feed: [Saberes], [Vídeos], [Leitura / Receitas] (Filtros sem Duplicidade)
     function switchFeedSubTab(subTabName) {
       document.getElementById('subtab-saberes').classList.add('hidden');
       document.getElementById('subtab-videos').classList.add('hidden');
-      document.getElementById('subtab-produtos').classList.add('hidden');
       document.getElementById('subtab-leitura').classList.add('hidden');
 
       const target = document.getElementById(`subtab-${subTabName}`);
@@ -1553,33 +1601,69 @@
       showToast(`Cupom "YBYSAUDE" gerado com seus ${healthPoints} pontos! Desconto aplicado.`);
     }
 
-    // Interações de Posts e Stories
-    function toggleLike(btn) {
-      const heart = btn.querySelector('svg');
-      const countSpan = btn.querySelector('.likes-count');
-      let count = parseInt(countSpan.innerText);
-      if (btn.classList.contains('text-terracota')) {
-        btn.classList.remove('text-terracota');
-        countSpan.innerText = `${count - 1} apoios`;
-      } else {
-        btn.classList.add('text-terracota');
-        countSpan.innerText = `${count + 1} apoios`;
+    // Interações de Posts e Saberes (Sementes de Gratidão & Fim da Vaidade)
+    function toggleGratitude(btn) {
+      const label = btn.querySelector('.gratitude-label') || btn.querySelector('span:last-child');
+      btn.classList.toggle('text-forest');
+      btn.classList.toggle('font-bold');
+      if (label) {
+        if (label.innerText.includes('Semeada')) {
+          label.innerText = 'Semear Gratidão';
+          showToast('Semente de gratidão recolhida.');
+        } else {
+          label.innerText = 'Gratidão Semeada 🌱';
+          showToast('🌱 Semente de gratidão enviada de forma privada ao autor!');
+        }
       }
     }
 
-    function toggleVideoLike(btn) {
-      const countSpan = btn.querySelector('span');
-      btn.classList.toggle('text-terracota');
-      showToast('Vídeo apoiado na rede!');
+    function toggleVideoGratitude(btn) {
+      const label = btn.querySelector('span:last-child');
+      if (label && label.innerText === 'Semeada') {
+        label.innerText = 'Semear';
+        btn.classList.remove('text-emerald-400');
+        showToast('Semente de gratidão recolhida.');
+      } else if (label) {
+        label.innerText = 'Semeada';
+        btn.classList.add('text-emerald-400');
+        showToast('🌱 Semente de gratidão enviada privadamente ao autor!');
+      }
+    }
+
+    function hidePost(element) {
+      const card = element.classList && element.classList.contains('post-card')
+        ? element
+        : element.closest('article') || element.closest('.relative.bg-black') || element;
+      if (card) {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.95)';
+        card.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          card.style.display = 'none';
+        }, 300);
+        showToast('Conteúdo ocultado do seu feed com respeito à sua autonomia.');
+      }
     }
 
     function toggleComments(id) {
       document.getElementById(id).classList.toggle('hidden');
     }
 
+    // Salvamentos Invisíveis (Reflete apenas na estante/bio do autor)
     function saveSeed(btn) {
       btn.classList.toggle('text-forest');
-      showToast('Semente de conhecimento guardada no seu acervo!');
+      const label = btn.querySelector('.save-label');
+      if (label) {
+        if (label.innerText.includes('Salvo')) {
+          label.innerText = 'Guardar no Acervo';
+          showToast('Removido do acervo.');
+        } else {
+          label.innerText = 'Salvo no Acervo 🔒';
+          showToast('Saber guardado com segurança no seu acervo privado!');
+        }
+      } else {
+        showToast('Saber guardado no seu acervo privado!');
+      }
     }
 
     // Detecção visual de plataforma do vídeo curto
@@ -1672,10 +1756,13 @@
             </span>
           </div>
           <div class="flex items-center gap-1">
+            <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo">
+              <i data-lucide="eye-off" class="w-4 h-4"></i>
+            </button>
             <button onclick="openReportModal('Vídeo Curto', '${title.replace(/'/g, "\\'")}')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética / desinformação em saúde">
               <i data-lucide="shield-alert" class="w-4 h-4"></i>
             </button>
-            <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
+            <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo">
               <i data-lucide="bookmark" class="w-5 h-5"></i>
             </button>
           </div>
@@ -1695,13 +1782,13 @@
           </div>
 
           <div class="flex flex-col items-center gap-3">
-            <button onclick="toggleVideoLike(this)" class="flex flex-col items-center text-white gap-0.5">
-              <i data-lucide="heart" class="w-6 h-6"></i>
-              <span class="text-[10px] font-bold">1</span>
+            <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+              <span class="text-xl">🌱</span>
+              <span class="text-[9px] font-bold">Semear</span>
             </button>
-            <button onclick="showToast('Comentários')" class="flex flex-col items-center text-white gap-0.5">
-              <i data-lucide="message-circle" class="w-6 h-6"></i>
-              <span class="text-[10px] font-bold">0</span>
+            <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+              <i data-lucide="message-square" class="w-5 h-5"></i>
+              <span class="text-[9px] font-bold">Partilha</span>
             </button>
             <button onclick="showToast('Link copiado!')" class="flex flex-col items-center text-white gap-0.5">
               <i data-lucide="share-2" class="w-6 h-6"></i>
@@ -1720,11 +1807,11 @@
       // Abre a aba de vídeos
       switchTab('feed');
       switchFeedSubTab('videos');
-      showToast('🎬 Vídeo curto republicado no feed 9:16 com sucesso!');
+      showToast('🎬 Vídeo curto republicado com selo de transparência de rede de origem!');
       lucide.createIcons();
     }
 
-    // 2. Publicar Texto e Imagem no Feed de Saberes
+    // 2. Publicar Texto e Imagem no Feed de Saberes (Ordenação Cronológica)
     function submitNewTextPost() {
       const text = document.getElementById('new-text-content').value.trim();
       const imageUrl = document.getElementById('new-text-image').value.trim();
@@ -1737,7 +1824,7 @@
 
       const container = document.getElementById('posts-feed-container');
       const newArticle = document.createElement('article');
-      newArticle.className = 'bg-white border border-cream-border rounded-2xl p-4 shadow-xs';
+      newArticle.className = 'post-card bg-white border border-cream-border rounded-2xl p-4 shadow-xs transition-all duration-300';
       newArticle.innerHTML = `
         <div class="flex items-center justify-between mb-2.5">
           <div class="flex items-center gap-2.5">
@@ -1747,7 +1834,11 @@
               <span class="text-[10px] text-charcoal-soft">Agora mesmo • ${tag}</span>
             </div>
           </div>
-          <span class="text-[10px] bg-forest-light text-forest px-2 py-0.5 rounded-md font-semibold">Comunidade</span>
+          <div class="flex items-center gap-1">
+            <span class="text-[10px] bg-forest-light text-forest px-2 py-0.5 rounded-md font-semibold">Comunidade</span>
+            <button onclick="hidePost(this)" class="text-charcoal-soft hover:text-forest p-1" title="Ocultar conteúdo"><i data-lucide="eye-off" class="w-3.5 h-3.5"></i></button>
+            <button onclick="openReportModal('Post Comunitário', 'Silviane Terra')" class="text-charcoal-soft hover:text-red-500 p-1" title="Reportar violação ética"><i data-lucide="shield-alert" class="w-4 h-4"></i></button>
+          </div>
         </div>
         <p class="text-xs text-charcoal leading-relaxed mb-3">${text}</p>
         ${imageUrl ? `
@@ -1756,12 +1847,18 @@
           </div>
         ` : ''}
         <div class="flex items-center justify-between pt-2 border-t border-cream-border text-xs text-charcoal-soft">
-          <button onclick="toggleLike(this)" class="flex items-center gap-1.5 hover:text-terracota transition">
-            <i data-lucide="heart" class="w-4 h-4"></i>
-            <span class="likes-count text-[11px] font-semibold">1 apoio</span>
+          <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-forest transition">
+            <span class="text-sm">🌱</span>
+            <span class="gratitude-label text-[11px] font-bold text-forest">Semear Gratidão</span>
           </button>
-          <button class="flex items-center gap-1.5 hover:text-forest transition"><i data-lucide="message-circle" class="w-4 h-4"></i> Conversas</button>
-          <button onclick="saveSeed(this)" class="flex items-center gap-1.5 hover:text-forest transition"><i data-lucide="bookmark" class="w-4 h-4"></i> Guardar semente</button>
+          <button onclick="showToast('Roda de Partilha aberta!')" class="flex items-center gap-1.5 hover:text-forest transition">
+            <i data-lucide="message-square" class="w-4 h-4 text-forest"></i>
+            <span class="text-[11px] font-semibold">Roda de Partilha</span>
+          </button>
+          <button onclick="saveSeed(this)" class="flex items-center gap-1.5 hover:text-forest transition">
+            <i data-lucide="bookmark" class="w-4 h-4"></i>
+            <span class="save-label text-[11px] font-semibold">Guardar no Acervo</span>
+          </button>
         </div>
       `;
 

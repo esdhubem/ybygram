@@ -122,6 +122,113 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     user.bio,
                     style: theme.textTheme.bodyMedium?.copyWith(height: 1.35),
                   ),
+                  const SizedBox(height: 14),
+                  // PAINEL PRIVADO DE IMPACTO DO AUTOR (FIM DA VAIDADE)
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF245C45).withOpacity(0.06),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFF245C45).withOpacity(0.2)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.lock_outline, size: 16, color: Color(0xFF245C45)),
+                            const SizedBox(width: 6),
+                            const Text(
+                              'Painel Privado de Impacto do Autor',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF245C45),
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF245C45).withOpacity(0.12),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: const Text(
+                                'Acesso Exclusivo Seu',
+                                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF245C45)),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: theme.cardColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
+                                ),
+                                child: const Column(
+                                  children: [
+                                    Text('342', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF245C45))),
+                                    SizedBox(height: 2),
+                                    Text('🌱 Sementes', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                                    Text('de Gratidão', style: TextStyle(fontSize: 9, color: Colors.grey)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: theme.cardColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
+                                ),
+                                child: const Column(
+                                  children: [
+                                    Text('48', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFFC85A32))),
+                                    SizedBox(height: 2),
+                                    Text('📚 Saberes', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                                    Text('Partilhados', style: TextStyle(fontSize: 9, color: Colors.grey)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: theme.cardColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
+                                ),
+                                child: const Column(
+                                  children: [
+                                    Text('89', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.blueGrey)),
+                                    SizedBox(height: 2),
+                                    Text('🔒 No Acervo', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                                    Text('Salvo Privado', style: TextStyle(fontSize: 9, color: Colors.grey)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          '🛡️ Fim da Vaidade: O YBYgram não exibe contadores públicos de seguidores ou curtidas. As métricas acima são exclusivamente suas, avaliando a utilidade real dos seus saberes sem disputa de ego.',
+                          style: TextStyle(fontSize: 10, color: Colors.black54, height: 1.35),
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   // Banner de Status "Criador Soberano"
                   Container(

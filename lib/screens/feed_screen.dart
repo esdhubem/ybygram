@@ -16,17 +16,16 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  int _selectedSubTab = 0; // 0: Saberes, 1: Vídeos, 2: Produtos, 3: Leitura
+  int _selectedSubTab = 0; // 0: Saberes, 1: Vídeos, 2: Leitura / Receitas
   final TextEditingController _postTextController = TextEditingController();
   final TextEditingController _tagController = TextEditingController();
   final TextEditingController _videoLinkController = TextEditingController();
   final TextEditingController _videoTitleController = TextEditingController();
 
   final _subTabs = const [
-    ('📚 Saberes', 'Ensaios e fotos comunitárias'),
-    ('🎬 Vídeos', 'Reels verticais 9:16 livres'),
-    ('🛍️ Produtos', 'Destaques do marketplace'),
-    ('📖 Leitura', 'Livros UICLAP e E-books PDF'),
+    ('📚 Saberes', 'Textos e imagens comunitárias'),
+    ('🎬 Vídeos', 'Vídeos 9:16 com selo de origem'),
+    ('🌿 Leitura / Receitas', 'Livros UICLAP, e-books e receitas ancestrais'),
   ];
 
   @override
@@ -331,7 +330,6 @@ class _FeedScreenState extends State<FeedScreen> {
       body: switch (_selectedSubTab) {
         0 => _buildSaberesFeed(supabase),
         1 => _buildVideosFeed(supabase),
-        2 => _buildProdutosFeed(supabase),
         _ => _buildLeituraFeed(supabase),
       },
     );
@@ -344,12 +342,38 @@ class _FeedScreenState extends State<FeedScreen> {
       onRefresh: () async => setState(() {}),
       child: ListView(
         children: [
-          // Rodas de Saberes Vivas (Stories)
+          // Pessoas que Sigo (Avatares horizontais sem AO VIVO)
           StoriesBar(stories: supabase.stories),
           const Divider(height: 1),
+          // Banner de Feed Estritamente Cronológico (Igualdade de Condições)
+          Container(
+            margin: const EdgeInsets.fromLTRB(14, 8, 14, 4),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF245C45).withOpacity(0.08),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: const Color(0xFF245C45).withOpacity(0.2)),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.schedule, size: 14, color: Color(0xFF245C45)),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Feed Cronológico de Saberes (Recentes primeiro • Igualdade para todos)',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF245C45),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           // Caixa rápida de publicação de Texto e Foto
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: theme.cardColor,
@@ -388,7 +412,7 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
           ),
-          // Posts dinâmicos
+          // Posts dinâmicos cronológicos
           ...supabase.posts.map((post) => PostCard(
             post: post,
             onLikeChanged: () => setState(() {}),
@@ -403,7 +427,7 @@ class _FeedScreenState extends State<FeedScreen> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
-        // Banner solicitado de Republicação de Vídeos Curtos
+        // Banner de Republicação de Vídeos Curtos por Link
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           padding: const EdgeInsets.all(14),
@@ -451,22 +475,6 @@ class _FeedScreenState extends State<FeedScreen> {
         ),
         ...supabase.videoReels.map((reel) => VideoReelCard(reel: reel)),
       ],
-    );
-  }
-
-  Widget _buildProdutosFeed(MockSupabaseService supabase) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(12),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 0.68,
-      ),
-      itemCount: supabase.products.length,
-      itemBuilder: (context, index) {
-        return ProductCard(product: supabase.products[index]);
-      },
     );
   }
 

@@ -15,11 +15,40 @@ class VideoReelCard extends StatefulWidget {
 
 class _VideoReelCardState extends State<VideoReelCard> {
   bool _isPlaying = false;
+  bool _isDismissed = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final r = widget.reel;
+
+    if (_isDismissed) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.visibility_off, size: 16, color: Colors.grey),
+            const SizedBox(width: 8),
+            const Expanded(
+              child: Text(
+                'Vídeo ocultado do seu feed (Autonomia).',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
+              ),
+            ),
+            TextButton(
+              onPressed: () => setState(() => _isDismissed = false),
+              child: const Text('Desfazer', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      );
+    }
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -56,7 +85,7 @@ class _VideoReelCardState extends State<VideoReelCard> {
               ),
             ),
           ),
-          // Badge da plataforma no topo + Selo Discreto de Rede de Origem
+          // Badge da plataforma no topo + Selo Discreto de Rede de Origem + Ações Topo
           Positioned(
             top: 14,
             left: 14,
@@ -115,11 +144,27 @@ class _VideoReelCardState extends State<VideoReelCard> {
                     ),
                   ],
                 ),
-                // Botão de Denúncia Ética / Proteção à Saúde
-                IconButton(
-                  icon: const Icon(Icons.shield_outlined, color: Colors.white70, size: 20),
-                  tooltip: 'Reportar violação ética / desinformação em saúde',
-                  onPressed: () => _showReportDialog(context, r.title),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Autonomia do Usuário: Ocultar Vídeo
+                    IconButton(
+                      icon: const Icon(Icons.visibility_off_outlined, color: Colors.white70, size: 19),
+                      tooltip: 'Ocultar vídeo do meu feed (Autonomia)',
+                      onPressed: () {
+                        setState(() => _isDismissed = true);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Vídeo ocultado do seu feed.')),
+                        );
+                      },
+                    ),
+                    // Botão de Denúncia Ética / Proteção à Saúde
+                    IconButton(
+                      icon: const Icon(Icons.shield_outlined, color: Colors.white70, size: 19),
+                      tooltip: 'Reportar violação ética / desinformação em saúde',
+                      onPressed: () => _showReportDialog(context, r.title),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -143,47 +188,79 @@ class _VideoReelCardState extends State<VideoReelCard> {
               },
             ),
           ),
-          // Barra lateral de interações (Curtidas, Comentários, Compartilhar)
+          // Barra lateral de interações: FIM DA VAIDADE (Sem números públicos expostos)
           Positioned(
             right: 12,
             bottom: 40,
             child: Column(
               children: [
+                // 1. Semente de Gratidão (🌱) privada
                 IconButton(
-                  icon: Icon(
-                    r.isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: r.isLiked ? const Color(0xFFC85A32) : Colors.white,
+                  icon: Text(
+                    '🌱',
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: r.isLiked ? const Color(0xFF81C784) : Colors.white70,
+                    ),
                   ),
+                  tooltip: 'Semear Gratidão (Privada ao Autor)',
                   onPressed: () {
                     setState(() {
                       r.isLiked = !r.isLiked;
                       r.likesCount += r.isLiked ? 1 : -1;
                     });
-                  },
-                ),
-                Text(
-                  '${r.likesCount}',
-                  style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
-                IconButton(
-                  icon: const Icon(Icons.chat_bubble_outline, color: Colors.white),
-                  onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Abrindo comentários do vídeo comunitário.')),
+                      SnackBar(
+                        content: Text(r.isLiked
+                            ? '🌱 Semente de Gratidão plantada! O autor verá privadamente em sua bio.'
+                            : 'Semente recolhida.'),
+                        duration: const Duration(seconds: 1),
+                      ),
                     );
                   },
                 ),
-                Text(
-                  '${r.commentsCount}',
-                  style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                const Text(
+                  'Gratidão',
+                  style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 14),
+                // 2. Roda de Partilha de Saberes
                 IconButton(
-                  icon: const Icon(Icons.share_outlined, color: Colors.white),
+                  icon: const Icon(Icons.diversity_3, color: Colors.white, size: 22),
+                  tooltip: 'Roda de Partilha',
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Link compartilhado na rede!')),
+                      const SnackBar(content: Text('Roda de Partilha: trocas construtivas de saberes.')),
+                    );
+                  },
+                ),
+                const Text(
+                  'Partilha',
+                  style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 14),
+                // 3. Guardar no Acervo Pessoal (Invisível)
+                IconButton(
+                  icon: const Icon(Icons.bookmark_outline, color: Colors.white, size: 22),
+                  tooltip: 'Guardar no Acervo Pessoal (Invisível)',
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Vídeo guardado com sucesso no seu acervo pessoal!')),
+                    );
+                  },
+                ),
+                const Text(
+                  'Acervo',
+                  style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 14),
+                // 4. Compartilhar
+                IconButton(
+                  icon: const Icon(Icons.share_outlined, color: Colors.white, size: 20),
+                  tooltip: 'Compartilhar',
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Link do saber compartilhado na rede!')),
                     );
                   },
                 ),
