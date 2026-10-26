@@ -23,20 +23,13 @@ O aplicativo possui navegação inferior em 4 áreas principais:
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🔒 Propriedade Intelectual e Direitos Reservados
 
-### Pré-requisitos
-* [Flutter SDK 3+](https://flutter.dev/docs/get-started/install) instalado.
-* Dispositivo Android, iOS ou Navegador Web configurado.
+© Todos os direitos reservados.
 
-### Passos
-```bash
-# 1. Obter as dependências
-flutter pub get
+Este projeto, seu código-fonte, arquitetura, design, identidade visual e documentação são de propriedade exclusiva e confidencial de seus idealizadores.
 
-# 2. Executar em modo de desenvolvimento
-flutter run
-```
+É estritamente proibida qualquer reprodução, cópia, modificação, distribuição, sublicenciamento ou exploração comercial, total ou parcial, sem autorização prévia formal e expressa por escrito dos titulares dos direitos autorais.
 
 ---
 
