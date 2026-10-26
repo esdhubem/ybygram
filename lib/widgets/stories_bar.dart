@@ -29,29 +29,21 @@ class StoriesBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Cabeçalho da Aba Pessoas que Sigo
+          // Cabeçalho limpo da Aba PESSOAS QUE SIGO
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    const Icon(Icons.people_outline, size: 16, color: Color(0xFF245C45)),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Pessoas que Sigo',
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF245C45),
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ],
-                ),
+                const Icon(Icons.people_alt_outlined, size: 16, color: Color(0xFF245C45)),
+                const SizedBox(width: 6),
                 Text(
-                  'Novos saberes recentes',
-                  style: theme.textTheme.bodySmall?.copyWith(fontSize: 10, color: Colors.grey),
+                  'PESSOAS QUE SIGO',
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: const Color(0xFF245C45),
+                    letterSpacing: 0.8,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),
@@ -66,7 +58,6 @@ class StoriesBar extends StatelessWidget {
               itemCount: stories.length,
               itemBuilder: (context, index) {
                 final story = stories[index];
-                final isFirst = index == 0;
 
                 return GestureDetector(
                   onTap: () {
@@ -75,7 +66,7 @@ class StoriesBar extends StatelessWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Partilha de saberes de ${story.authorName}'),
+                          content: Text('Visualizando última partilha de ${story.authorName}'),
                           duration: const Duration(seconds: 1),
                         ),
                       );
@@ -100,7 +91,7 @@ class StoriesBar extends StatelessWidget {
                                     : theme.dividerColor.withOpacity(0.25),
                               ),
                             ),
-                            // Foto dentro do anel
+                            // Foto dentro do anel (Sem ícone de '+' conforme diretriz)
                             Container(
                               width: 56,
                               height: 56,
@@ -118,20 +109,6 @@ class StoriesBar extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            // Ícone de adicionar no seu saber
-                            if (isFirst)
-                              Positioned(
-                                right: 0,
-                                bottom: 0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF245C45),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.white, width: 1.5),
-                                  ),
-                                  child: const Icon(Icons.add, size: 14, color: Colors.white),
-                                ),
-                              ),
                           ],
                         ),
                         const SizedBox(height: 5),

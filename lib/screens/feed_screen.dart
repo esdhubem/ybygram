@@ -295,34 +295,66 @@ class _FeedScreenState extends State<FeedScreen> {
           preferredSize: const Size.fromHeight(48),
           child: Container(
             height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _subTabs.length,
-              itemBuilder: (context, index) {
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            alignment: Alignment.bottomLeft,
+            child: Row(
+              children: List.generate(_subTabs.length, (index) {
                 final isSelected = _selectedSubTab == index;
+
+                // Cores secundárias distintas para cada categoria quando inativa
+                final inactiveColor = switch (index) {
+                  0 => const Color(0xFF2D6F53).withOpacity(0.35),
+                  1 => const Color(0xFF804928).withOpacity(0.35),
+                  _ => const Color(0xFF476B3C).withOpacity(0.35),
+                };
+
+                final inactiveTextColor = switch (index) {
+                  0 => const Color(0xFFD3EDE1),
+                  1 => const Color(0xFFFBE8DA),
+                  _ => const Color(0xFFE5F2DF),
+                };
+
                 return Padding(
-                  padding: const EdgeInsets.only(right: 8, bottom: 6),
-                  child: FilterChip(
-                    label: Text(_subTabs[index].$1),
-                    selected: isSelected,
-                    selectedColor: const Color(0xFF245C45).withOpacity(0.18),
-                    checkmarkColor: const Color(0xFF245C45),
-                    labelStyle: TextStyle(
-                      color: isSelected ? const Color(0xFF245C45) : theme.textTheme.bodyMedium?.color,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                      fontSize: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(
-                        color: isSelected ? const Color(0xFF245C45) : theme.dividerColor.withOpacity(0.2),
+                  padding: const EdgeInsets.only(right: 6),
+                  child: InkWell(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    onTap: () => setState(() => _selectedSubTab = index),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      decoration: BoxDecoration(
+                        // Regra de seleção: Laranja de destaque (#C85A32) na aba ativa
+                        color: isSelected ? const Color(0xFFC85A32) : inactiveColor,
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                        border: Border(
+                          top: BorderSide(
+                            color: isSelected ? const Color(0xFFFFA07A) : Colors.white12,
+                            width: isSelected ? 2 : 1,
+                          ),
+                          left: const BorderSide(color: Colors.white12, width: 1),
+                          right: const BorderSide(color: Colors.white12, width: 1),
+                        ),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, -2),
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: Text(
+                        _subTabs[index].$1,
+                        style: TextStyle(
+                          color: isSelected ? Colors.white : inactiveTextColor,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
-                    onSelected: (_) => setState(() => _selectedSubTab = index),
                   ),
                 );
-              },
+              }),
             ),
           ),
         ),
@@ -336,49 +368,88 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   Widget _buildSaberesFeed(MockSupabaseService supabase) {
-    final theme = Theme.of(context);
-
     return RefreshIndicator(
       onRefresh: () async => setState(() {}),
       child: ListView(
         children: [
-          // Pessoas que Sigo (Avatares horizontais sem AO VIVO)
-          StoriesBar(stories: supabase.stories),
+          // 2. Pessoas que Sigo (Limpo e direciona para última publicação)
+          StoriesBar(
+            stories: supabase.stories,
+            onStoryTap: (story) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('📍 Visualizando última partilha de ${story.authorName}'),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
           const Divider(height: 1),
-          // Banner de Feed Estritamente Cronológico (Igualdade de Condições)
+          // 3. Card Dedicado: "Fluxo cronológico de oportunidades para todos"
           Container(
-            margin: const EdgeInsets.fromLTRB(14, 8, 14, 4),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            margin: const EdgeInsets.fromLTRB(14, 10, 14, 6),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
-              color: const Color(0xFF245C45).withOpacity(0.08),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFF245C45).withOpacity(0.2)),
+              color: const Color(0xFFE6EFE9), // Tom sutil orgânico destacado
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFF245C45).withOpacity(0.25)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.03),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.schedule, size: 14, color: Color(0xFF245C45)),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Feed Cronológico de Saberes (Recentes primeiro • Igualdade para todos)',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF245C45),
-                    ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF245C45).withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(Icons.balance, size: 20, color: Color(0xFF245C45)),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Fluxo cronológico de oportunidades para todos',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFF245C45),
+                          letterSpacing: -0.2,
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Icon(Icons.schedule, size: 12, color: Color(0xFF245C45)),
+                          SizedBox(width: 4),
+                          Text(
+                            'Recentes primeiro • Igualdade para todos',
+                            style: TextStyle(fontSize: 11, color: Color(0xFF1B4734), fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          // Caixa rápida de publicação de Texto e Foto
+          // 4. Harmonização da Caixa de Texto e Partilha (Tom de cinza claro unificado e idêntico)
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: theme.cardColor,
+              color: const Color(0xFFEAECE8), // Tom de cinza claro unificado
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: theme.dividerColor.withOpacity(0.15)),
+              border: Border.all(color: const Color(0xFFD5D8D2)),
             ),
             child: Row(
               children: [
@@ -394,12 +465,13 @@ class _FeedScreenState extends State<FeedScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.25),
+                        color: const Color(0xFFEAECE8), // Tom idêntico para coesão
                         borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: const Color(0xFFD5D8D2)),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Publicar texto, reflexão ou partilha com foto...',
-                        style: TextStyle(fontSize: 12, color: theme.textTheme.bodySmall?.color),
+                        style: TextStyle(fontSize: 12, color: Colors.black87),
                       ),
                     ),
                   ),

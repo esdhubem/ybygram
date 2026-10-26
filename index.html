@@ -119,15 +119,21 @@
         </div>
       </div>
 
-      <!-- BARRA DE SELEÇÃO DE FEED (Filtros Dinâmicos sem Duplicidade) -->
-      <nav id="feed-subtabs-nav" class="flex gap-1 overflow-x-auto hide-scrollbar pt-1">
-        <button onclick="switchFeedSubTab('saberes')" class="subtab-btn active px-3.5 py-1 rounded-full text-xs font-bold transition flex items-center gap-1 bg-white text-forest shadow-xs">
+      <!-- BARRA DE SELEÇÃO DE FEED: ABAS EM FORMATO DE CADERNO COM LARANJA DE DESTAQUE -->
+      <nav id="feed-subtabs-nav" class="flex gap-2 overflow-x-auto hide-scrollbar pt-2 px-1 border-b border-black/15">
+        <!-- Aba 1: Saberes (Ativa por padrão em Laranja #C85A32) -->
+        <button id="subtab-btn-saberes" onclick="switchFeedSubTab('saberes')" 
+          class="subtab-btn active px-4 py-2 rounded-t-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm border-t-2 border-x border-orange-400/30 bg-[#C85A32] text-white">
           <span>📚 Saberes</span>
         </button>
-        <button onclick="switchFeedSubTab('videos')" class="subtab-btn px-3.5 py-1 rounded-full text-xs font-semibold transition flex items-center gap-1 bg-forest-dark/60 text-emerald-100 hover:bg-forest-dark">
+        <!-- Aba 2: Vídeos (Inativa em tom terracota suave secundário) -->
+        <button id="subtab-btn-videos" onclick="switchFeedSubTab('videos')" 
+          class="subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928]">
           <span>🎬 Vídeos</span>
         </button>
-        <button onclick="switchFeedSubTab('leitura')" class="subtab-btn px-3.5 py-1 rounded-full text-xs font-semibold transition flex items-center gap-1 bg-forest-dark/60 text-emerald-100 hover:bg-forest-dark">
+        <!-- Aba 3: Leitura / Receitas (Inativa em tom musgo suave secundário) -->
+        <button id="subtab-btn-leitura" onclick="switchFeedSubTab('leitura')" 
+          class="subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#476B3C]/60 text-emerald-100 hover:bg-[#476B3C]">
           <span>🌿 Leitura / Receitas</span>
         </button>
       </nav>
@@ -144,54 +150,50 @@
         <!-- SUB-ABA 1.1: SABERES GERAIS (FEED CRONOLÓGICO) -->
         <div id="subtab-saberes" class="space-y-3 pb-6">
           
-          <!-- Aba "Pessoas que Sigo" (Avatares Deslizantes - Sem Selo de Ao Vivo) -->
-          <div class="bg-white border-b border-cream-border py-2.5 px-3">
-            <div class="flex items-center justify-between mb-1.5 px-1">
-              <span class="text-[10px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1">
-                <i data-lucide="users" class="w-3 h-3 text-forest"></i>
-                Pessoas que Sigo
+          <!-- 2. LIMPEZA NA SEÇÃO "PESSOAS QUE SIGO" (Sem descritivo secundário e sem sinal de mais no avatar) -->
+          <div class="bg-white border-b border-cream-border py-2.5 px-3.5 shadow-xs">
+            <div class="flex items-center mb-2 px-1">
+              <span class="text-[11px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1.5">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-forest"></i>
+                PESSOAS QUE SIGO
               </span>
-              <span class="text-[10px] text-charcoal-soft">Novos saberes de quem você acompanha</span>
             </div>
             <div class="flex gap-3 overflow-x-auto hide-scrollbar py-1">
-              <!-- Seu Story / Saber -->
-              <div onclick="showToast('Partilhar saber com quem te segue...')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer">
-                <div class="relative">
-                  <div class="w-14 h-14 rounded-full p-[2px] bg-forest">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
-                  </div>
-                  <span class="absolute bottom-0 right-0 w-4 h-4 bg-forest border-2 border-white rounded-full flex items-center justify-center text-white text-[10px] font-bold">+</span>
+              <!-- Seu Story / Saber (Sem o ícone de '+' conforme solicitado) -->
+              <div onclick="goToUserPublication('Você')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Seu perfil e saberes">
+                <div class="w-14 h-14 rounded-full p-[2px] bg-forest">
+                  <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
                 </div>
                 <span class="text-[10px] font-semibold text-charcoal">Você</span>
               </div>
 
-              <!-- Seguido 1 (Borda em verde-mata #245C45 por novo saber útil publicado) -->
-              <div onclick="openStory('Aldeia Yvy Porã', 'Plantio sagrado e preparo do solo com saberes ancestrais', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Novo saber publicado">
-                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
-                </div>
-                <span class="text-[10px] font-bold text-forest">Aldeia Yvy</span>
-              </div>
-
-              <!-- Seguido 2 (Destaque visual em verde-mata) -->
-              <div onclick="openStory('Mestre Tiago', 'Identificação botânica da Erva-Baleeira nativa', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Novo saber publicado">
-                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
-                </div>
-                <span class="text-[10px] font-bold text-forest">M. Tiago</span>
-              </div>
-
-              <!-- Seguido 3 (Destaque visual em verde-mata) -->
-              <div onclick="openStory('Dona Benvinda', 'Receita tradicional de infusão para o estômago', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Novo saber publicado">
-                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs">
+              <!-- Seguido 1: Dona Benvinda (Borda verde-mata #245C45 de conteúdo novo, clica e direciona) -->
+              <div onclick="goToUserPublication('Dona Benvinda Ervas')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Clique para ver a última publicação de Dona Benvinda">
+                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs hover:scale-105 transition">
                   <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
                 </div>
                 <span class="text-[10px] font-bold text-forest">D. Benvinda</span>
               </div>
 
-              <!-- Seguido 4 (Visto recentemente) -->
-              <div onclick="openStory('Biojoias Vale', 'Tingimento artesanal com urucum e sementes de jarina', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer">
-                <div class="w-14 h-14 rounded-full p-[2px] bg-cream-border">
+              <!-- Seguido 2: Mestre Tiago (Borda verde-mata de novo saber, clica e direciona) -->
+              <div onclick="goToUserPublication('Mestre Tiago')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Clique para ver a última publicação de Mestre Tiago">
+                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs hover:scale-105 transition">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
+                </div>
+                <span class="text-[10px] font-bold text-forest">M. Tiago</span>
+              </div>
+
+              <!-- Seguido 3: Aldeia Yvy Porã (Borda verde-mata de novo saber, clica e direciona) -->
+              <div onclick="goToUserPublication('Aldeia Yvy Porã')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Clique para ver a última publicação de Aldeia Yvy">
+                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs hover:scale-105 transition">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
+                </div>
+                <span class="text-[10px] font-bold text-forest">Aldeia Yvy</span>
+              </div>
+
+              <!-- Seguido 4: Biojoias Vale -->
+              <div onclick="goToUserPublication('Biojoias Vale')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Clique para ver a última publicação de Biojoias Vale">
+                <div class="w-14 h-14 rounded-full p-[2px] bg-cream-border hover:scale-105 transition">
                   <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
                 </div>
                 <span class="text-[10px] font-semibold text-charcoal-soft">Biojoias</span>
@@ -199,22 +201,29 @@
             </div>
           </div>
 
-          <!-- Indicador de Feed Estritamente Cronológico (Sem Algoritmos Abusivos) -->
-          <div class="mx-3.5 px-3 py-2 rounded-xl bg-forest-light/60 border border-forest/20 flex items-center justify-between text-[11px] text-forest">
-            <span class="flex items-center gap-1.5 font-bold">
-              <i data-lucide="clock" class="w-3.5 h-3.5 text-forest"></i>
-              Feed Cronológico de Saberes
-            </span>
-            <span class="text-[10px] text-charcoal-soft font-medium">Recentes primeiro • Igualdade para todos</span>
+          <!-- 3. CARD DE FLUXO CRONOLÓGICO: "Fluxo cronológico de oportunidades para todos" -->
+          <div class="mx-3.5 p-3.5 rounded-2xl bg-[#E6EFE9] border border-[#245C45]/25 shadow-xs flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-forest/15 border border-forest/20 flex items-center justify-center shrink-0">
+              <i data-lucide="scale" class="w-5 h-5 text-forest"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-xs font-extrabold text-forest tracking-tight">
+                Fluxo cronológico de oportunidades para todos
+              </h3>
+              <p class="text-[11px] text-forest-dark/80 font-medium mt-0.5 flex items-center gap-1.5">
+                <i data-lucide="clock" class="w-3 h-3 text-forest"></i>
+                Recentes primeiro • Igualdade para todos
+              </p>
+            </div>
           </div>
 
-          <!-- Caixa Rápida de Publicação de Texto e Imagem -->
-          <div class="mx-3.5 bg-white p-3 rounded-2xl border border-cream-border shadow-xs flex items-center gap-2.5">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-8 h-8 rounded-full object-cover">
-            <button onclick="openModal('modal-new-text-post')" class="flex-1 bg-cream text-left px-3.5 py-2 rounded-xl text-xs text-charcoal-soft hover:bg-cream-dark transition">
+          <!-- 4. HARMONIZAÇÃO DA CAIXA DE TEXTO E PARTILHA (Fundo cinza claro unificado e idêntico para a área e caixa) -->
+          <div class="mx-3.5 bg-[#EAECE8] p-3 rounded-2xl border border-[#D5D8D2] shadow-xs flex items-center gap-2.5">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-8 h-8 rounded-full object-cover border border-[#D5D8D2]">
+            <button onclick="openModal('modal-new-text-post')" class="flex-1 bg-[#EAECE8] text-left px-3.5 py-2.5 rounded-xl text-xs text-charcoal border border-[#D5D8D2] hover:bg-[#E2E5E0] transition font-medium">
               Escreva seu texto, reflexão ou partilha com foto...
             </button>
-            <button onclick="openModal('modal-new-text-post')" class="text-forest hover:text-forest-dark p-1" title="Adicionar Imagem">
+            <button onclick="openModal('modal-new-text-post')" class="text-forest hover:text-forest-dark p-1.5 rounded-lg hover:bg-[#E2E5E0] transition" title="Adicionar Imagem">
               <i data-lucide="image" class="w-4 h-4"></i>
             </button>
           </div>
@@ -1407,7 +1416,7 @@
       lucide.createIcons();
     }
 
-    // Sub-abas do Feed: [Saberes], [Vídeos], [Leitura / Receitas] (Filtros sem Duplicidade)
+    // 1. Sub-abas do Feed em formato de Abas de Caderno (Laranja na Ativa e tons distintos nas inativas)
     function switchFeedSubTab(subTabName) {
       document.getElementById('subtab-saberes').classList.add('hidden');
       document.getElementById('subtab-videos').classList.add('hidden');
@@ -1416,15 +1425,67 @@
       const target = document.getElementById(`subtab-${subTabName}`);
       if (target) target.classList.remove('hidden');
 
-      document.querySelectorAll('.subtab-btn').forEach(btn => {
-        btn.classList.remove('active', 'bg-white', 'text-forest', 'shadow-xs');
-        btn.classList.add('bg-forest-dark/60', 'text-emerald-100');
-      });
-      event.currentTarget.classList.add('active', 'bg-white', 'text-forest', 'shadow-xs');
-      event.currentTarget.classList.remove('bg-forest-dark/60', 'text-emerald-100');
+      // Reseta todas as abas para seus tons secundários específicos distintos
+      const saberesBtn = document.getElementById('subtab-btn-saberes');
+      const videosBtn = document.getElementById('subtab-btn-videos');
+      const leituraBtn = document.getElementById('subtab-btn-leitura');
+
+      if (saberesBtn) {
+        saberesBtn.className = 'subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#2D6F53]/60 text-emerald-100 hover:bg-[#2D6F53]';
+      }
+      if (videosBtn) {
+        videosBtn.className = 'subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928]';
+      }
+      if (leituraBtn) {
+        leituraBtn.className = 'subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#476B3C]/60 text-emerald-100 hover:bg-[#476B3C]';
+      }
+
+      // Aplica obrigatoriamente a cor Laranja (#C85A32) de destaque na aba ativa de caderno
+      const activeBtn = document.getElementById(`subtab-btn-${subTabName}`);
+      if (activeBtn) {
+        activeBtn.className = 'subtab-btn active px-4 py-2 rounded-t-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white -translate-y-0.5';
+      }
 
       document.getElementById('screen-container').scrollTop = 0;
       lucide.createIcons();
+    }
+
+    // 2. Direcionamento direto ao clicar na foto de quem você segue
+    function goToUserPublication(authorName) {
+      if (authorName === 'Você') {
+        openModal('modal-new-text-post');
+        showToast('Partilhe um novo relato ou saber comunitário!');
+        return;
+      }
+
+      // Garante que estamos na aba de Saberes
+      switchTab('feed');
+      switchFeedSubTab('saberes');
+
+      // Procura a publicação pelo nome do autor
+      const posts = document.querySelectorAll('.post-card');
+      let foundPost = null;
+
+      for (const p of posts) {
+        const title = p.querySelector('h3');
+        if (title && title.innerText.toLowerCase().includes(authorName.toLowerCase().split(' ')[0])) {
+          foundPost = p;
+          break;
+        }
+      }
+
+      if (foundPost) {
+        foundPost.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Efeito de destaque visual temporário
+        foundPost.classList.add('ring-4', 'ring-[#245C45]', 'ring-offset-2');
+        setTimeout(() => {
+          foundPost.classList.remove('ring-4', 'ring-[#245C45]', 'ring-offset-2');
+        }, 2200);
+        showToast(`📍 Visualizando última partilha de ${authorName}`);
+      } else {
+        // Se for um vídeo ou post em outra seção
+        showToast(`Última partilha de ${authorName} carregada no feed.`);
+      }
     }
 
     // Renderizador do Marketplace em Grade de 2 Colunas
