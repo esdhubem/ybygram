@@ -87,3 +87,52 @@ class CommentItem {
     required this.createdAt,
   });
 }
+
+class VideoLongItem {
+  final String id;
+  final String title;
+  final String authorName;
+  final String authorAvatar;
+  final String duration;
+  final String platform; // YouTube, Odysee Livre, PeerTube, Vimeo
+  final String platformBadge;
+  final String thumbnailUrl;
+  final String videoUrl;
+  final String timeAgo;
+
+  VideoLongItem({
+    required this.id,
+    required this.title,
+    required this.authorName,
+    required this.authorAvatar,
+    required this.duration,
+    required this.platform,
+    required this.platformBadge,
+    required this.thumbnailUrl,
+    required this.videoUrl,
+    this.timeAgo = 'Agora mesmo',
+  });
+}
+
+class AudioMusicItem {
+  final String id;
+  final String title;
+  final String authorName;
+  final String duration;
+  final String platform; // SoundCloud, Áudio Autoral, Bandcamp
+  final String platformBadge;
+  final String audioUrl;
+  final String coverUrl;
+
+  AudioMusicItem({
+    required this.id,
+    required this.title,
+    required this.authorName,
+    required this.duration,
+    required this.platform,
+    required this.platformBadge,
+    required this.audioUrl,
+    required this.coverUrl,
+  });
+}
+

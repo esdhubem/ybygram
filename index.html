@@ -106,11 +106,11 @@
           <span class="ml-2 text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full font-semibold border border-emerald-400/30">Rede Soberana</span>
         </div>
 
-        <!-- Ações do Topo: Botão Publicar Vídeo por Link + Avatar do Usuário -->
+        <!-- Ações do Topo: Botão Publicar por Link Externo + Avatar do Usuário -->
         <div class="flex items-center gap-2">
-          <button onclick="openModal('modal-new-video-link')" class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-forest-dark font-extrabold text-[11px] shadow-sm transition" title="Republicar Vídeo Curto por Link">
-            <i data-lucide="video" class="w-4 h-4"></i>
-            <span>+ Vídeo</span>
+          <button onclick="openModal('modal-new-video-link')" class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-forest-dark font-extrabold text-[11px] shadow-sm transition" title="Publicar por Link (Vídeo Curto, Longo ou Música)">
+            <i data-lucide="link-2" class="w-4 h-4"></i>
+            <span>+ Link</span>
           </button>
           <button onclick="switchTab('profile')" class="relative" title="Meu Perfil">
             <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face" alt="Perfil" class="w-8 h-8 rounded-full object-cover border-2 border-amber-300 shadow-sm">
@@ -119,22 +119,27 @@
         </div>
       </div>
 
-      <!-- BARRA DE SELEÇÃO DE FEED: ABAS EM FORMATO DE CADERNO COM LARANJA DE DESTAQUE -->
-      <nav id="feed-subtabs-nav" class="flex gap-2 overflow-x-auto hide-scrollbar pt-2 px-1 border-b border-black/15">
+      <!-- BARRA DE SELEÇÃO DE FEED: 4 ABAS TEMÁTICAS EM FORMATO DE CADERNO -->
+      <nav id="feed-subtabs-nav" class="flex gap-1.5 overflow-x-auto hide-scrollbar pt-2 px-1 border-b border-black/15">
         <!-- Aba 1: Saberes (Ativa por padrão em Laranja #C85A32) -->
         <button id="subtab-btn-saberes" onclick="switchFeedSubTab('saberes')" 
-          class="subtab-btn active px-4 py-2 rounded-t-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm border-t-2 border-x border-orange-400/30 bg-[#C85A32] text-white">
+          class="subtab-btn active px-3.5 py-2 rounded-t-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white shrink-0">
           <span>📚 Saberes</span>
         </button>
-        <!-- Aba 2: Vídeos (Inativa em tom terracota suave secundário) -->
-        <button id="subtab-btn-videos" onclick="switchFeedSubTab('videos')" 
-          class="subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928]">
-          <span>🎬 Vídeos</span>
+        <!-- Aba 2: Vídeos Curtos (Inativa em tom terracota) -->
+        <button id="subtab-btn-videos-curtos" onclick="switchFeedSubTab('videos-curtos')" 
+          class="subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928] shrink-0">
+          <span>🎬 Vídeos Curtos</span>
         </button>
-        <!-- Aba 3: Leitura / Receitas (Inativa em tom musgo suave secundário) -->
-        <button id="subtab-btn-leitura" onclick="switchFeedSubTab('leitura')" 
-          class="subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#476B3C]/60 text-emerald-100 hover:bg-[#476B3C]">
-          <span>🌿 Leitura / Receitas</span>
+        <!-- Aba 3: Vídeos Longos (Inativa em tom azul petróleo) -->
+        <button id="subtab-btn-videos-longos" onclick="switchFeedSubTab('videos-longos')" 
+          class="subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#204A6E]/60 text-sky-100 hover:bg-[#204A6E] shrink-0">
+          <span>🖥️ Vídeos Longos</span>
+        </button>
+        <!-- Aba 4: Música (Inativa em tom índigo/roxo) -->
+        <button id="subtab-btn-musica" onclick="switchFeedSubTab('musica')" 
+          class="subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#5B21B6]/60 text-purple-100 hover:bg-[#5B21B6] shrink-0">
+          <span>🎵 Música</span>
         </button>
       </nav>
     </header>
@@ -209,22 +214,22 @@
             </div>
           </div>
 
-          <!-- 4. HARMONIZAÇÃO DA CAIXA DE TEXTO E PARTILHA (Fundo cinza claro unificado e idêntico para a área e caixa) -->
+          <!-- 4. CAIXA DE TEXTO E PARTILHA (Container cinza #EAECE8 com campo interno branco para destaque) -->
           <div class="mx-3.5 bg-[#EAECE8] p-3 rounded-2xl border border-[#D5D8D2] shadow-xs flex items-center gap-2.5">
             <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-8 h-8 rounded-full object-cover border border-[#D5D8D2]">
-            <button onclick="openModal('modal-new-text-post')" class="flex-1 bg-[#EAECE8] text-left px-3.5 py-2.5 rounded-xl text-xs text-charcoal border border-[#D5D8D2] hover:bg-[#E2E5E0] transition font-medium">
+            <button onclick="openModal('modal-new-text-post')" class="flex-1 bg-white text-left px-3.5 py-2.5 rounded-xl text-xs text-charcoal border border-[#D5D8D2] hover:bg-neutral-50 shadow-xs transition font-medium">
               Escreva seu texto, reflexão ou partilha com foto...
             </button>
-            <button onclick="openModal('modal-new-text-post')" class="text-forest hover:text-forest-dark p-1.5 rounded-lg hover:bg-[#E2E5E0] transition" title="Adicionar Imagem">
+            <button onclick="openModal('modal-new-text-post')" class="text-forest hover:text-forest-dark p-1.5 rounded-lg hover:bg-white/70 transition" title="Adicionar Imagem">
               <i data-lucide="image" class="w-4 h-4"></i>
             </button>
           </div>
 
-          <!-- Posts Dinâmicos (Ordenação Cronológica) -->
+          <!-- Posts Dinâmicos (Ordenação Cronológica - Fundo #eaece8) -->
           <div id="posts-feed-container" class="space-y-3.5 px-3.5">
             
-            <!-- Post 1 (Dona Benvinda Ervas) -->
-            <article class="post-card bg-white border border-cream-border rounded-2xl p-4 shadow-xs transition-all duration-300">
+            <!-- Post 1 (Dona Benvinda Ervas - Fundo #eaece8) -->
+            <article class="post-card bg-[#eaece8] border border-[#d5d8d2] rounded-2xl p-4 shadow-xs transition-all duration-300">
               <div class="flex items-center justify-between mb-2.5">
                 <div class="flex items-center gap-2.5">
                   <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" class="w-9 h-9 rounded-full object-cover border border-forest/30">
@@ -251,10 +256,10 @@
               <p class="text-xs text-charcoal leading-relaxed mb-3">
                 O preparo das folhas de Guandú e Carqueja respeita o ciclo das luas. Compartilhamos aqui a receita tradicional de infusão para o bem-estar do estômago, preservando a memória das nossas avós sem o filtro de grandes corporações.
               </p>
-              <div class="rounded-xl overflow-hidden mb-3 border border-cream-border">
+              <div class="rounded-xl overflow-hidden mb-3 border border-[#d5d8d2]">
                 <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&fit=crop" alt="Ervas" class="w-full h-48 object-cover">
               </div>
-              <div class="flex items-center justify-between pt-2 border-t border-cream-border text-xs text-charcoal-soft">
+              <div class="flex items-center justify-between pt-2 border-t border-[#d5d8d2] text-xs text-charcoal-soft">
                 <!-- Semente de Gratidão (Substituto de Curtidas - Sem Contadores Públicos) -->
                 <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-forest transition">
                   <span class="text-sm">🌱</span>
@@ -273,22 +278,22 @@
               </div>
 
               <!-- Roda de Partilha Construtiva -->
-              <div id="comments-post-1" class="hidden mt-3 pt-3 border-t border-cream-border space-y-2">
+              <div id="comments-post-1" class="hidden mt-3 pt-3 border-t border-[#d5d8d2] space-y-2">
                 <div class="text-[10px] font-bold text-forest uppercase tracking-wider flex items-center gap-1">
                   <i data-lucide="users" class="w-3 h-3 text-forest"></i> Roda de Partilha de Saberes:
                 </div>
-                <div class="bg-cream p-2.5 rounded-xl text-xs">
+                <div class="bg-white/60 p-2.5 rounded-xl text-xs border border-[#d5d8d2]">
                   <span class="font-bold text-charcoal">Tiago Santos:</span> Gratidão imensa por essa partilha tradicional, Dona Benvinda!
                 </div>
                 <div class="flex gap-2">
-                  <input type="text" placeholder="Partilhe sua reflexão construtiva nesta roda..." class="flex-1 bg-cream px-3 py-1.5 rounded-xl text-xs border-none focus:ring-1 focus:ring-forest outline-none">
+                  <input type="text" placeholder="Partilhe sua reflexão construtiva nesta roda..." class="flex-1 bg-white/80 px-3 py-1.5 rounded-xl text-xs border border-[#d5d8d2] focus:ring-1 focus:ring-forest outline-none">
                   <button onclick="showToast('Partilha publicada na roda!')" class="bg-forest text-white px-3 py-1 rounded-xl text-xs font-semibold">Partilhar</button>
                 </div>
               </div>
             </article>
 
-            <!-- Post 2 (Aldeia Yvy Porã) -->
-            <article class="post-card bg-white border border-cream-border rounded-2xl p-4 shadow-xs transition-all duration-300">
+            <!-- Post 2 (Aldeia Yvy Porã - Fundo #eaece8) -->
+            <article class="post-card bg-[#eaece8] border border-[#d5d8d2] rounded-2xl p-4 shadow-xs transition-all duration-300">
               <div class="flex items-center justify-between mb-2.5">
                 <div class="flex items-center gap-2.5">
                   <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" class="w-9 h-9 rounded-full object-cover border border-forest/30">
@@ -315,10 +320,10 @@
               <p class="text-xs text-charcoal leading-relaxed mb-3">
                 Iniciamos hoje o mutirão do plantio de mandioca e milho guarani. Redes livres conectando quem planta com quem come, garantindo que o valor fique direto na comunidade sem passar por intermediários predatórios.
               </p>
-              <div class="rounded-xl overflow-hidden mb-3 border border-cream-border">
+              <div class="rounded-xl overflow-hidden mb-3 border border-[#d5d8d2]">
                 <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&fit=crop" alt="Mutirão" class="w-full h-48 object-cover">
               </div>
-              <div class="flex items-center justify-between pt-2 border-t border-cream-border text-xs text-charcoal-soft">
+              <div class="flex items-center justify-between pt-2 border-t border-[#d5d8d2] text-xs text-charcoal-soft">
                 <!-- Semente de Gratidão -->
                 <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-forest transition">
                   <span class="text-sm">🌱</span>
@@ -336,11 +341,11 @@
                 </button>
               </div>
 
-              <div id="comments-post-2" class="hidden mt-3 pt-3 border-t border-cream-border space-y-2">
+              <div id="comments-post-2" class="hidden mt-3 pt-3 border-t border-[#d5d8d2] space-y-2">
                 <div class="text-[10px] font-bold text-forest uppercase tracking-wider flex items-center gap-1">
                   <i data-lucide="users" class="w-3 h-3 text-forest"></i> Roda de Partilha de Saberes:
                 </div>
-                <div class="bg-cream p-2.5 rounded-xl text-xs">
+                <div class="bg-white/60 p-2.5 rounded-xl text-xs border border-[#d5d8d2]">
                   <span class="font-bold text-charcoal">Silviane:</span> Viva a força dos povos originários e das sementes crioulas!
                 </div>
               </div>
@@ -349,167 +354,329 @@
           </div>
         </div>
 
-        <!-- SUB-ABA 1.2: VÍDEOS VERTICAIS (9:16) INCORPORADOS COM SELO DE ORIGEM -->
-        <div id="subtab-videos" class="hidden p-3.5 space-y-4 pb-6">
+        <!-- SUB-ABA 1.2: VÍDEOS CURTOS (9:16) INCORPORADOS COM SELO DE ORIGEM (SEM AVISOS REDUNDANTES NO FEED) -->
+        <div id="subtab-videos-curtos" class="hidden p-3.5 space-y-4 pb-6">
           
-          <!-- Banner Solicitado de Republicação de Vídeos Rápidos -->
-          <div class="bg-gradient-to-r from-forest to-forest-dark p-4 rounded-2xl border border-emerald-400/30 text-white shadow-md flex flex-col gap-2.5">
-            <div class="flex items-start gap-2.5">
-              <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold text-base shrink-0 border border-emerald-400/30">
-                🎬
-              </div>
-              <div>
-                <h3 class="text-xs font-extrabold leading-tight text-white">
-                  Republique aqui seu vídeo curto do Insta, Face, YouTube, Kwai e TikTok
-                </h3>
-                <p class="text-[11px] text-emerald-100/80 mt-1 leading-relaxed">
-                  Não precisa de banco de dados! O YBYgram embute o player 9:16 diretamente com selo de transparência de rede de origem.
-                </p>
-              </div>
-            </div>
-            <button onclick="openModal('modal-new-video-link')" class="w-full bg-emerald-400 hover:bg-emerald-300 text-forest-dark py-2.5 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 shadow-sm">
-              <i data-lucide="link-2" class="w-4 h-4"></i> Colar Link de Vídeo Curto
-            </button>
-          </div>
-
-          <!-- Container Dinâmico de Vídeos (Permite adicionar novos vídeos no topo) -->
+          <!-- Container Dinâmico de Vídeos Curtos (Permite adicionar novos vídeos no topo) -->
           <div id="video-reels-list" class="space-y-4">
 
-          <!-- Card de Vídeo 1: Odysee -->
-          <div class="relative bg-black rounded-2xl overflow-hidden shadow-lg h-[460px] border border-neutral-800 flex flex-col justify-between p-4">
-            <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-75">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
-            
-            <!-- Topo: Selo Discreto de Origem e Ações Éticas -->
-            <div class="relative z-10 flex items-center justify-between">
-              <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="bg-black/70 text-emerald-300 border border-emerald-400/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
-                  <i data-lucide="play" class="w-3 h-3 fill-emerald-300"></i> ODYSEE LIVRE
-                </span>
-                <span class="text-[9px] text-white/80 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
-                  <i data-lucide="external-link" class="w-2.5 h-2.5 text-emerald-300"></i> Rede de Origem
-                </span>
-              </div>
-              <div class="flex items-center gap-1">
-                <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo do feed">
-                  <i data-lucide="eye-off" class="w-4 h-4"></i>
-                </button>
-                <button onclick="openReportModal('Vídeo Curto', 'Mestre Tiago - Erva-Baleeira')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética / desinformação em saúde">
-                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                </button>
-                <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo privado">
-                  <i data-lucide="bookmark" class="w-4 h-4"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- Botão Play Central -->
-            <button onclick="playVideoSimulation('Odysee: Identificação da Erva-Baleeira')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-forest/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
-              <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
-            </button>
-
-            <!-- Rodapé: Legenda e Ações Sem Vaidade -->
-            <div class="relative z-10 flex items-end justify-between">
-              <div class="space-y-1.5 max-w-[78%]">
-                <div class="flex items-center gap-2">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" class="w-7 h-7 rounded-full border border-white">
-                  <span class="text-xs font-bold text-white">Mestre Tiago</span>
+            <!-- Card de Vídeo Curto 1: Odysee Livre -->
+            <div class="relative bg-black rounded-2xl overflow-hidden shadow-lg h-[460px] border border-neutral-800 flex flex-col justify-between p-4">
+              <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-75">
+              <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+              
+              <!-- Topo: Selo Discreto de Origem e Ações Éticas -->
+              <div class="relative z-10 flex items-center justify-between">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-black/70 text-emerald-300 border border-emerald-400/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1 shadow-xs">
+                    <i data-lucide="play" class="w-3 h-3 fill-emerald-300"></i> ODYSEE LIVRE
+                  </span>
+                  <span class="text-[9px] text-white/80 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
+                    <i data-lucide="external-link" class="w-2.5 h-2.5 text-emerald-300"></i> Rede de Origem
+                  </span>
                 </div>
-                <p class="text-xs text-white/90 leading-snug line-clamp-2">
-                  Como identificar a Erva-Baleeira autêntica na Mata Atlântica e o preparo do óleo essencial anti-inflamatório.
-                </p>
-              </div>
-
-              <!-- Ações laterais (Sementes de Gratidão e Partilha sem Contadores Públicos) -->
-              <div class="flex flex-col items-center gap-3">
-                <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
-                  <span class="text-xl">🌱</span>
-                  <span class="text-[9px] font-bold">Semear</span>
-                </button>
-                <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
-                  <i data-lucide="message-square" class="w-5 h-5"></i>
-                  <span class="text-[9px] font-bold">Partilha</span>
-                </button>
-                <button onclick="showToast('Link do vídeo copiado!')" class="flex flex-col items-center text-white gap-0.5">
-                  <i data-lucide="share-2" class="w-5 h-5"></i>
-                  <span class="text-[9px] font-bold">Partilhar</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card de Vídeo 2: YouTube Shorts -->
-          <div class="relative bg-black rounded-2xl overflow-hidden shadow-lg h-[460px] border border-neutral-800 flex flex-col justify-between p-4">
-            <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-75">
-            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
-            
-            <div class="relative z-10 flex items-center justify-between">
-              <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="bg-red-950/80 text-red-300 border border-red-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
-                  <i data-lucide="play" class="w-3 h-3 fill-red-400"></i> YT SHORTS
-                </span>
-                <span class="text-[9px] text-white/80 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
-                  <i data-lucide="external-link" class="w-2.5 h-2.5"></i> Rede de Origem
-                </span>
-              </div>
-              <div class="flex items-center gap-1">
-                <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo do feed">
-                  <i data-lucide="eye-off" class="w-4 h-4"></i>
-                </button>
-                <button onclick="openReportModal('Vídeo Curto', 'Artesanato Guarani')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética">
-                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                </button>
-                <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo privado">
-                  <i data-lucide="bookmark" class="w-5 h-5"></i>
-                </button>
-              </div>
-            </div>
-
-            <button onclick="playVideoSimulation('YouTube Shorts: Trançado de Taquara')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-terracota/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
-              <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
-            </button>
-
-            <div class="relative z-10 flex items-end justify-between">
-              <div class="space-y-1.5 max-w-[78%]">
-                <div class="flex items-center gap-2">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop" class="w-7 h-7 rounded-full border border-white">
-                  <span class="text-xs font-bold text-white">Artesanato Guarani</span>
+                <div class="flex items-center gap-1">
+                  <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo do feed">
+                    <i data-lucide="eye-off" class="w-4 h-4"></i>
+                  </button>
+                  <button onclick="openReportModal('Vídeo Curto', 'Mestre Tiago - Erva-Baleeira')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética / desinformação em saúde">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                  </button>
+                  <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo privado">
+                    <i data-lucide="bookmark" class="w-4 h-4"></i>
+                  </button>
                 </div>
-                <p class="text-xs text-white/90 leading-snug line-clamp-2">
-                  Trançado ancestral com taquara verde para cestarias e balaios sustentáveis.
-                </p>
               </div>
 
-              <div class="flex flex-col items-center gap-3">
-                <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
-                  <span class="text-xl">🌱</span>
-                  <span class="text-[9px] font-bold">Semear</span>
-                </button>
-                <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
-                  <i data-lucide="message-square" class="w-5 h-5"></i>
-                  <span class="text-[9px] font-bold">Partilha</span>
-                </button>
-                <button onclick="showToast('Link do vídeo copiado!')" class="flex flex-col items-center text-white gap-0.5">
-                  <i data-lucide="share-2" class="w-5 h-5"></i>
-                  <span class="text-[9px] font-bold">Partilhar</span>
-                </button>
+              <!-- Botão Play Central -->
+              <button onclick="playVideoSimulation('Odysee: Identificação da Erva-Baleeira')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-forest/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
+                <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
+              </button>
+
+              <!-- Rodapé: Legenda e Ações Sem Vaidade -->
+              <div class="relative z-10 flex items-end justify-between">
+                <div class="space-y-1.5 max-w-[78%]">
+                  <div class="flex items-center gap-2">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" class="w-7 h-7 rounded-full border border-white">
+                    <span class="text-xs font-bold text-white">Mestre Tiago</span>
+                  </div>
+                  <p class="text-xs text-white/90 leading-snug line-clamp-2">
+                    Como identificar a Erva-Baleeira autêntica na Mata Atlântica e o preparo do óleo essencial anti-inflamatório.
+                  </p>
+                </div>
+
+                <!-- Ações laterais (Sementes de Gratidão e Partilha sem Contadores Públicos) -->
+                <div class="flex flex-col items-center gap-3">
+                  <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                    <span class="text-xl">🌱</span>
+                    <span class="text-[9px] font-bold">Semear</span>
+                  </button>
+                  <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-bold">Partilha</span>
+                  </button>
+                  <button onclick="showToast('Link do vídeo copiado!')" class="flex flex-col items-center text-white gap-0.5">
+                    <i data-lucide="share-2" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-bold">Partilhar</span>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+
+            <!-- Card de Vídeo Curto 2: YouTube Shorts -->
+            <div class="relative bg-black rounded-2xl overflow-hidden shadow-lg h-[460px] border border-neutral-800 flex flex-col justify-between p-4">
+              <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-75">
+              <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+              
+              <div class="relative z-10 flex items-center justify-between">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-red-950/80 text-red-300 border border-red-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1 shadow-xs">
+                    <i data-lucide="play" class="w-3 h-3 fill-red-400"></i> YT SHORTS
+                  </span>
+                  <span class="text-[9px] text-white/80 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
+                    <i data-lucide="external-link" class="w-2.5 h-2.5"></i> Rede de Origem
+                  </span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo do feed">
+                    <i data-lucide="eye-off" class="w-4 h-4"></i>
+                  </button>
+                  <button onclick="openReportModal('Vídeo Curto', 'Artesanato Guarani')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                  </button>
+                  <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo privado">
+                    <i data-lucide="bookmark" class="w-5 h-5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <button onclick="playVideoSimulation('YouTube Shorts: Trançado de Taquara')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-terracota/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
+                <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
+              </button>
+
+              <div class="relative z-10 flex items-end justify-between">
+                <div class="space-y-1.5 max-w-[78%]">
+                  <div class="flex items-center gap-2">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop" class="w-7 h-7 rounded-full border border-white">
+                    <span class="text-xs font-bold text-white">Artesanato Guarani</span>
+                  </div>
+                  <p class="text-xs text-white/90 leading-snug line-clamp-2">
+                    Trançado ancestral com taquara verde para cestarias e balaios sustentáveis.
+                  </p>
+                </div>
+
+                <div class="flex flex-col items-center gap-3">
+                  <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                    <span class="text-xl">🌱</span>
+                    <span class="text-[9px] font-bold">Semear</span>
+                  </button>
+                  <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-bold">Partilha</span>
+                  </button>
+                  <button onclick="showToast('Link do vídeo copiado!')" class="flex flex-col items-center text-white gap-0.5">
+                    <i data-lucide="share-2" class="w-5 h-5"></i>
+                    <span class="text-[9px] font-bold">Partilhar</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- SUB-ABA 1.3: LEITURA & RECEITAS ANCESTRAIS (SEM ABA DE PRODUTOS NO FEED) -->
-        <div id="subtab-leitura" class="hidden p-3.5 space-y-3 pb-6">
-          <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs text-amber-900">
-            <h4 class="font-bold flex items-center gap-1.5 mb-1">
-              <i data-lucide="book-open" class="w-4 h-4 text-amber-700"></i>
-              Biblioteca Comunitária, E-books & Receitas
-            </h4>
-            Livros físicos impressos sob demanda (UICLAP), e-books em PDF e receitas etnobotânicas tradicionais.
+        <!-- SUB-ABA 1.3: VÍDEOS LONGOS (FORMATO VITRINE / QUADRINHOS COM PLAYER EMBUTIDO) -->
+        <div id="subtab-videos-longos" class="hidden p-3.5 space-y-4 pb-6">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[11px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1.5">
+              <i data-lucide="tv" class="w-4 h-4 text-forest"></i>
+              VITRINE DE VÍDEOS LONGOS & AULAS
+            </span>
+            <span class="text-[10px] text-charcoal-soft font-medium">Toque para abrir no player embutido</span>
           </div>
-          <!-- Grid 2 colunas de livros e saberes de leitura -->
-          <div class="grid grid-cols-2 gap-3" id="feed-books-grid"></div>
+
+          <!-- Grade Vitrine / Estilo Quadrinhos de Vídeos Longos -->
+          <div id="long-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            
+            <!-- Card de Vídeo Longo 1 -->
+            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
+              <!-- Miniatura 16:9 com Duração e Selo de Origem -->
+              <div class="relative aspect-video w-full bg-black cursor-pointer group" onclick="openEmbeddedPlayer('Documentário: Manejo Tradicional de Abelhas Nativas Jataí', 'https://www.youtube.com/watch?v=sample1', 'YOUTUBE', 'Meliponário Yby Porã', 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800')">
+                <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+                <!-- Selo de Origem Discreto -->
+                <span class="absolute top-2.5 left-2.5 bg-red-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow-sm flex items-center gap-1">
+                  <i data-lucide="youtube" class="w-3 h-3"></i> YOUTUBE
+                </span>
+                <!-- Duração -->
+                <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-xs">
+                  24:18
+                </span>
+                <!-- Botão Play Central -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-11 h-11 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                    <i data-lucide="play" class="w-5 h-5 fill-forest ml-0.5"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- Informações -->
+              <div class="p-3">
+                <h4 class="text-xs font-bold text-charcoal leading-snug line-clamp-2">
+                  Manejo de Abelhas Nativas sem Ferrão Jataí: Multiplicação de Enxames e Caixa Inteligente
+                </h4>
+                <div class="mt-2 flex items-center justify-between text-[11px] text-charcoal-soft">
+                  <span class="font-semibold text-forest">Meliponário Yby Porã</span>
+                  <span>Há 3 dias</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card de Vídeo Longo 2 -->
+            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
+              <div class="relative aspect-video w-full bg-black cursor-pointer group" onclick="openEmbeddedPlayer('Aula Magna: Agrofloresta Sintrópica e Regeneração de Nascentes', 'https://odysee.com/agrofloresta', 'ODYSEE LIVRE', 'Coletivo Terra Livre', 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800')">
+                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+                <span class="absolute top-2.5 left-2.5 bg-emerald-700 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow-sm flex items-center gap-1">
+                  <i data-lucide="play" class="w-3 h-3 fill-white"></i> ODYSEE LIVRE
+                </span>
+                <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-xs">
+                  48:05
+                </span>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-11 h-11 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                    <i data-lucide="play" class="w-5 h-5 fill-forest ml-0.5"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="p-3">
+                <h4 class="text-xs font-bold text-charcoal leading-snug line-clamp-2">
+                  Agrofloresta Sintrópica na Prática: Regeneração e Plantio em Solos Degradados
+                </h4>
+                <div class="mt-2 flex items-center justify-between text-[11px] text-charcoal-soft">
+                  <span class="font-semibold text-forest">Coletivo Terra Livre</span>
+                  <span>Há 1 semana</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card de Vídeo Longo 3 -->
+            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
+              <div class="relative aspect-video w-full bg-black cursor-pointer group" onclick="openEmbeddedPlayer('Bioconstrução com Adobe e Bambu Tratado', 'https://www.youtube.com/watch?v=sample3', 'PEERTUBE', 'BioArquitetura Viva', 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800')">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+                <span class="absolute top-2.5 left-2.5 bg-orange-700 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow-sm flex items-center gap-1">
+                  <i data-lucide="radio" class="w-3 h-3"></i> PEERTUBE
+                </span>
+                <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-xs">
+                  36:40
+                </span>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-11 h-11 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                    <i data-lucide="play" class="w-5 h-5 fill-forest ml-0.5"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="p-3">
+                <h4 class="text-xs font-bold text-charcoal leading-snug line-clamp-2">
+                  Oficina de Bioconstrução: Teste de Resistência do Barro, Adobe e Amarras de Bambu
+                </h4>
+                <div class="mt-2 flex items-center justify-between text-[11px] text-charcoal-soft">
+                  <span class="font-semibold text-forest">BioArquitetura Viva</span>
+                  <span>Há 2 semanas</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SUB-ABA 1.4: MÚSICA & PAISAGENS SONORAS AUTORAIS -->
+        <div id="subtab-musica" class="hidden p-3.5 space-y-4 pb-6">
+          <div class="bg-gradient-to-r from-purple-900 to-indigo-950 p-4 rounded-2xl border border-purple-500/30 text-white shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-[9px] bg-purple-400/30 text-purple-200 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Acervo Sonoro Comunitário</span>
+              <h3 class="text-xs font-black text-white mt-1">Paisagens Sonoras & Cantos Tradicionais</h3>
+              <p class="text-[11px] text-purple-200/80 mt-0.5">Músicas autorais, sons da floresta e cantos de reza sem algoritmos comerciais.</p>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-200 flex items-center justify-center text-xl shrink-0 border border-purple-400/30">
+              🎵
+            </div>
+          </div>
+
+          <!-- Lista de Áudios / Paisagens Sonoras -->
+          <div id="music-audio-list" class="space-y-3">
+            
+            <!-- Faixa 1 -->
+            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl p-3.5 shadow-xs flex flex-col gap-2.5">
+              <div class="flex items-center gap-3">
+                <div class="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-cream-border">
+                  <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?w=150" class="w-full h-full object-cover">
+                  <button onclick="toggleAudioPlayback(this, 'Chuva na Floresta de Neblina e Cantos de Pássaros')" class="absolute inset-0 bg-black/40 flex items-center justify-center text-white hover:bg-black/60 transition">
+                    <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5 play-icon"></i>
+                  </button>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-1.5 mb-0.5">
+                    <span class="bg-orange-100 text-orange-800 text-[9px] font-bold px-1.5 py-0.5 rounded border border-orange-200 flex items-center gap-1">
+                      <i data-lucide="music" class="w-2.5 h-2.5"></i> SOUNDCLOUD
+                    </span>
+                    <span class="text-[10px] text-charcoal-soft font-mono">08:42</span>
+                  </div>
+                  <h4 class="text-xs font-bold text-charcoal truncate">Chuva na Floresta de Neblina e Cantos de Pássaros</h4>
+                  <p class="text-[11px] text-forest font-semibold mt-0.5">Guardiões da Mata Atlântica</p>
+                </div>
+              </div>
+
+              <!-- Barra de Áudio Estilizada -->
+              <div class="flex items-center gap-2 pt-1 border-t border-[#d5d8d2] text-[10px] text-charcoal-soft">
+                <span class="font-mono">0:00</span>
+                <div class="flex-1 bg-white h-2 rounded-full overflow-hidden border border-[#d5d8d2]">
+                  <div class="bg-purple-600 h-full w-1/4 rounded-full"></div>
+                </div>
+                <span class="font-mono">08:42</span>
+                <button onclick="toggleGratitude(this)" class="ml-2 flex items-center gap-1 text-forest hover:font-bold">
+                  <span>🌱</span>
+                  <span class="text-[10px] font-bold">Semear</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Faixa 2 -->
+            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl p-3.5 shadow-xs flex flex-col gap-2.5">
+              <div class="flex items-center gap-3">
+                <div class="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-cream-border">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-full h-full object-cover">
+                  <button onclick="toggleAudioPlayback(this, 'Canto Ancestral do Amanhecer: Nheengatu')" class="absolute inset-0 bg-black/40 flex items-center justify-center text-white hover:bg-black/60 transition">
+                    <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5 play-icon"></i>
+                  </button>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-1.5 mb-0.5">
+                    <span class="bg-purple-100 text-purple-800 text-[9px] font-bold px-1.5 py-0.5 rounded border border-purple-200 flex items-center gap-1">
+                      <i data-lucide="radio" class="w-2.5 h-2.5"></i> ÁUDIO AUTORAL
+                    </span>
+                    <span class="text-[10px] text-charcoal-soft font-mono">05:15</span>
+                  </div>
+                  <h4 class="text-xs font-bold text-charcoal truncate">Canto Ancestral do Amanhecer: Nheengatu e Flauta Nativa</h4>
+                  <p class="text-[11px] text-forest font-semibold mt-0.5">Coletivo Raízes Vivas</p>
+                </div>
+              </div>
+
+              <!-- Barra de Áudio Estilizada -->
+              <div class="flex items-center gap-2 pt-1 border-t border-[#d5d8d2] text-[10px] text-charcoal-soft">
+                <span class="font-mono">0:00</span>
+                <div class="flex-1 bg-white h-2 rounded-full overflow-hidden border border-[#d5d8d2]">
+                  <div class="bg-purple-600 h-full w-0 rounded-full"></div>
+                </div>
+                <span class="font-mono">05:15</span>
+                <button onclick="toggleGratitude(this)" class="ml-2 flex items-center gap-1 text-forest hover:font-bold">
+                  <span>🌱</span>
+                  <span class="text-[10px] font-bold">Semear</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </section>
@@ -1122,54 +1289,159 @@
     </div>
   </div>
 
-  <!-- Modal 1: Republicar Vídeo Curto (Link Oficial 9:16) -->
+  <!-- Modal 1: Publicação por Link Externo (Vídeo Curto, Longo ou Música) -->
   <div id="modal-new-video-link" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="bg-white w-full sm:max-w-[420px] rounded-t-3xl sm:rounded-3xl p-5 space-y-3.5 max-h-[90vh] overflow-y-auto">
+    <div class="bg-white w-full sm:max-w-[430px] rounded-t-3xl sm:rounded-3xl p-5 space-y-3.5 max-h-[92vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-2 border-b border-cream-border">
         <div class="flex items-center gap-2">
-          <span class="w-7 h-7 rounded-lg bg-emerald-100 text-forest flex items-center justify-center text-sm font-bold">🎬</span>
+          <span class="w-8 h-8 rounded-xl bg-emerald-100 text-forest flex items-center justify-center text-sm font-bold">🔗</span>
           <div>
-            <h3 class="text-sm font-bold text-charcoal">Republicar Vídeo Curto</h3>
-            <p class="text-[10px] text-charcoal-soft">Instagram Reels, Shorts, TikTok, Kwai ou Face</p>
+            <h3 class="text-sm font-bold text-charcoal">Publicação por Link Externo</h3>
+            <p class="text-[10px] text-charcoal-soft">Vídeos Curtos, Aulas Longas e Áudios Autorais</p>
           </div>
         </div>
         <button onclick="closeModal('modal-new-video-link')"><i data-lucide="x" class="w-5 h-5 text-charcoal-soft"></i></button>
       </div>
 
-      <div class="space-y-2">
-        <label class="block text-xs font-bold text-charcoal">1. Cole o link do vídeo rápido:</label>
+      <!-- Banner Explicativo Restrito à Janela Modal (Sem poluir as abas do feed) -->
+      <div class="bg-forest text-white p-3 rounded-xl border border-emerald-400/30 shadow-xs flex items-start gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-white/20 text-amber-300 flex items-center justify-center font-bold text-sm shrink-0">
+          🎬
+        </div>
+        <div class="text-[11px] leading-snug">
+          <span class="font-extrabold text-white block">Republique aqui via link externo:</span>
+          <span class="text-emerald-100/90">Insta Reels, YouTube, TikTok, Kwai, Odysee ou SoundCloud. Sem uso de banco de dados pesado: o YBYgram embute o player com selo ético da rede de origem.</span>
+        </div>
+      </div>
+
+      <!-- 1. Campo Link (Obrigatório) -->
+      <div class="space-y-1">
+        <label class="block text-xs font-bold text-charcoal flex items-center justify-between">
+          <span>1. Link da publicação <span class="text-red-500">*</span></span>
+          <span class="text-[10px] text-charcoal-soft font-normal">URL externa</span>
+        </label>
         <div class="relative">
-          <input type="url" id="video-link-input" oninput="detectPlatform(this.value)" placeholder="https://www.instagram.com/reel/... ou shorts/... ou tiktok..." class="w-full pl-8 pr-3 py-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest">
+          <input type="url" id="video-link-input" oninput="detectPlatform(this.value)" placeholder="https://..." class="w-full pl-8 pr-3 py-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest">
           <i data-lucide="link" class="w-4 h-4 text-charcoal-soft absolute left-2.5 top-3"></i>
         </div>
-        <div class="flex items-center gap-1.5 flex-wrap pt-1 text-[10px]" id="platform-detected-badge">
-          <span class="text-charcoal-soft font-semibold">Suporte a:</span>
-          <span class="bg-purple-100 text-purple-700 font-bold px-1.5 py-0.5 rounded">Insta Reels</span>
-          <span class="bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">YT Shorts</span>
-          <span class="bg-neutral-100 text-neutral-800 font-bold px-1.5 py-0.5 rounded">TikTok</span>
-          <span class="bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">Kwai</span>
-          <span class="bg-blue-100 text-blue-800 font-bold px-1.5 py-0.5 rounded">Face Reels</span>
+      </div>
+
+      <!-- 2. Plataforma de Origem (Obrigatório) -->
+      <div class="space-y-1">
+        <label class="block text-xs font-bold text-charcoal">
+          2. Plataforma de Origem <span class="text-red-500">*</span>
+        </label>
+        <select id="video-platform-select" class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest font-semibold text-charcoal">
+          <option value="">Selecione a plataforma de origem...</option>
+          <option value="YouTube">YouTube</option>
+          <option value="Instagram Reels">Instagram Reels</option>
+          <option value="TikTok">TikTok</option>
+          <option value="Kwai">Kwai</option>
+          <option value="Odysee Livre">Odysee Livre</option>
+          <option value="SoundCloud">SoundCloud</option>
+          <option value="PeerTube">PeerTube</option>
+          <option value="Facebook Reels">Facebook Reels</option>
+          <option value="Áudio Autoral">Áudio Autoral / Podcast Livre</option>
+          <option value="Outra Rede">Outra Rede Aberta</option>
+        </select>
+      </div>
+
+      <!-- 3. Formato Correspondente (Obrigatório: Direciona para a aba correta) -->
+      <div class="space-y-1">
+        <label class="block text-xs font-bold text-charcoal">
+          3. Escolha o Formato Correspondente <span class="text-red-500">*</span>
+        </label>
+        <div class="grid grid-cols-3 gap-2" id="format-selector-group">
+          <button type="button" onclick="selectPostFormat('curto')" id="format-btn-curto" class="format-choice-btn p-2 rounded-xl border-2 border-[#C85A32] bg-orange-50 flex flex-col items-center justify-center text-center transition">
+            <span class="text-base">🎬</span>
+            <span class="text-[11px] font-bold text-[#C85A32] mt-0.5">Curto</span>
+            <span class="text-[9px] text-charcoal-soft">9:16 (Pílula)</span>
+          </button>
+          <button type="button" onclick="selectPostFormat('longo')" id="format-btn-longo" class="format-choice-btn p-2 rounded-xl border border-cream-border bg-cream hover:bg-white flex flex-col items-center justify-center text-center transition">
+            <span class="text-base">🖥️</span>
+            <span class="text-[11px] font-bold text-charcoal mt-0.5">Longo</span>
+            <span class="text-[9px] text-charcoal-soft">16:9 (Vitrine)</span>
+          </button>
+          <button type="button" onclick="selectPostFormat('musica')" id="format-btn-musica" class="format-choice-btn p-2 rounded-xl border border-cream-border bg-cream hover:bg-white flex flex-col items-center justify-center text-center transition">
+            <span class="text-base">🎵</span>
+            <span class="text-[11px] font-bold text-charcoal mt-0.5">Música</span>
+            <span class="text-[9px] text-charcoal-soft">Áudio / Canto</span>
+          </button>
         </div>
+        <p id="format-hint" class="text-[10px] text-forest font-semibold mt-1">
+          ✓ Destino automático: <span class="underline">Aba [ 🎬 Vídeos Curtos ]</span>
+        </p>
       </div>
 
+      <!-- 4. Título / Legenda (Obrigatório) -->
       <div class="space-y-1">
-        <label class="block text-xs font-bold text-charcoal">2. Legenda / Título do vídeo:</label>
-        <input type="text" id="video-title-input" placeholder="Ex: Dica de como fazer adubo orgânico com cascas..." class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest">
+        <label class="block text-xs font-bold text-charcoal">
+          4. Título / Legenda da publicação <span class="text-red-500">*</span>
+        </label>
+        <input type="text" id="video-title-input" placeholder="Ex: Multiplicação de enxame de abelha Jataí..." class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest">
       </div>
 
+      <!-- 5. Autor / Canal -->
       <div class="space-y-1">
-        <label class="block text-xs font-bold text-charcoal">3. Canal / Autor:</label>
+        <label class="block text-xs font-bold text-charcoal">5. Canal / Autor responsável:</label>
         <input type="text" id="video-author-input" placeholder="Ex: @agroecologia_viva" class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest">
       </div>
 
-      <div class="bg-forest-light/60 p-2.5 rounded-xl border border-forest/20 text-[11px] text-forest flex items-start gap-2">
-        <i data-lucide="info" class="w-4 h-4 shrink-0 mt-0.5"></i>
-        <span>O vídeo será incorporado via player oficial leve no feed 9:16 sem ocupar espaço em servidor.</span>
+      <!-- Botão de Publicar com Validação Obrigatória -->
+      <button onclick="submitExternalLinkPost()" class="w-full bg-[#C85A32] hover:bg-[#B34B26] text-white py-2.5 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 shadow-sm">
+        <i data-lucide="check-circle-2" class="w-4 h-4"></i> Publicar Conteúdo no Feed
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Extra: Player Embutido de Vídeo Longo -->
+  <div id="modal-embedded-player" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-charcoal text-white w-full sm:max-w-[480px] rounded-3xl overflow-hidden shadow-2xl space-y-3 p-4">
+      <div class="flex items-center justify-between pb-2 border-b border-neutral-700">
+        <div class="flex items-center gap-2">
+          <span id="player-platform-badge" class="bg-red-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded uppercase">YOUTUBE</span>
+          <span id="player-author-text" class="text-xs text-neutral-300 font-semibold truncate max-w-[200px]">Autor</span>
+        </div>
+        <button onclick="closeModal('modal-embedded-player')" class="text-neutral-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
       </div>
 
-      <button onclick="submitNewVideoReel()" class="w-full bg-forest text-white py-2.5 rounded-xl text-xs font-bold hover:bg-forest-dark transition flex items-center justify-center gap-1.5 shadow-sm">
-        <i data-lucide="upload-cloud" class="w-4 h-4"></i> Publicar Vídeo no Feed 9:16
-      </button>
+      <!-- Área de Reprodução 16:9 Simulada com Controles -->
+      <div class="relative aspect-video w-full bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-neutral-800">
+        <img id="player-thumb-img" src="" class="w-full h-full object-cover opacity-60">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-16 h-16 rounded-full bg-forest/90 border-2 border-white/60 flex items-center justify-center text-white shadow-2xl animate-pulse">
+            <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
+          </div>
+        </div>
+        <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] bg-black/60 backdrop-blur-xs px-3 py-1.5 rounded-xl">
+          <span class="text-emerald-300 font-semibold flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Player Oficial Incorporado
+          </span>
+          <span class="text-neutral-300 font-mono">00:00 / HD</span>
+        </div>
+      </div>
+
+      <div>
+        <h3 id="player-title-text" class="text-xs font-bold text-white leading-snug">Título</h3>
+        <p class="text-[11px] text-neutral-400 mt-1">Hospedado externamente na rede de origem com transparência ética e sem anúncios invasivos do YBYgram.</p>
+      </div>
+
+      <div class="flex items-center justify-between pt-2 border-t border-neutral-700 text-xs text-neutral-300">
+        <button onclick="showToast('🌱 Gratidão enviada ao autor!')" class="flex items-center gap-1.5 hover:text-emerald-400">
+          <span>🌱</span>
+          <span class="text-[11px] font-bold">Semear Gratidão</span>
+        </button>
+        <button onclick="showToast('Roda de conversa aberta!')" class="flex items-center gap-1.5 hover:text-emerald-400">
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          <span class="text-[11px] font-semibold">Partilha</span>
+        </button>
+        <button onclick="showToast('Link do vídeo copiado!')" class="flex items-center gap-1.5 hover:text-emerald-400">
+          <i data-lucide="share-2" class="w-4 h-4"></i>
+          <span class="text-[11px] font-semibold">Partilhar</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1408,34 +1680,42 @@
       lucide.createIcons();
     }
 
-    // 1. Sub-abas do Feed em formato de Abas de Caderno (Laranja na Ativa e tons distintos nas inativas)
+    // 1. Sub-abas do Feed em formato de Abas de Caderno (Laranja na Ativa e cores distintas nas inativas)
     function switchFeedSubTab(subTabName) {
-      document.getElementById('subtab-saberes').classList.add('hidden');
-      document.getElementById('subtab-videos').classList.add('hidden');
-      document.getElementById('subtab-leitura').classList.add('hidden');
+      // Oculta todas as 4 abas temáticas
+      const tabs = ['saberes', 'videos-curtos', 'videos-longos', 'musica'];
+      tabs.forEach(tab => {
+        const el = document.getElementById(`subtab-${tab}`);
+        if (el) el.classList.add('hidden');
+      });
 
+      // Exibe a aba selecionada
       const target = document.getElementById(`subtab-${subTabName}`);
       if (target) target.classList.remove('hidden');
 
-      // Reseta todas as abas para seus tons secundários específicos distintos
+      // Reseta todas as 4 abas para seus estilos de divisória de caderno com cores distintas
       const saberesBtn = document.getElementById('subtab-btn-saberes');
-      const videosBtn = document.getElementById('subtab-btn-videos');
-      const leituraBtn = document.getElementById('subtab-btn-leitura');
+      const curtosBtn = document.getElementById('subtab-btn-videos-curtos');
+      const longosBtn = document.getElementById('subtab-btn-videos-longos');
+      const musicaBtn = document.getElementById('subtab-btn-musica');
 
       if (saberesBtn) {
-        saberesBtn.className = 'subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#2D6F53]/60 text-emerald-100 hover:bg-[#2D6F53]';
+        saberesBtn.className = 'subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#245C45]/60 text-emerald-100 hover:bg-[#245C45] shrink-0';
       }
-      if (videosBtn) {
-        videosBtn.className = 'subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928]';
+      if (curtosBtn) {
+        curtosBtn.className = 'subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928] shrink-0';
       }
-      if (leituraBtn) {
-        leituraBtn.className = 'subtab-btn px-4 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#476B3C]/60 text-emerald-100 hover:bg-[#476B3C]';
+      if (longosBtn) {
+        longosBtn.className = 'subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#204A6E]/60 text-sky-100 hover:bg-[#204A6E] shrink-0';
+      }
+      if (musicaBtn) {
+        musicaBtn.className = 'subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#5B21B6]/60 text-purple-100 hover:bg-[#5B21B6] shrink-0';
       }
 
-      // Aplica obrigatoriamente a cor Laranja (#C85A32) de destaque na aba ativa de caderno
+      // Aplica obrigatoriamente a cor Laranja (#C85A32) de destaque na aba ativa
       const activeBtn = document.getElementById(`subtab-btn-${subTabName}`);
       if (activeBtn) {
-        activeBtn.className = 'subtab-btn active px-4 py-2 rounded-t-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white -translate-y-0.5';
+        activeBtn.className = 'subtab-btn active px-3.5 py-2 rounded-t-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white -translate-y-0.5 shrink-0';
       }
 
       document.getElementById('screen-container').scrollTop = 0;
@@ -1719,149 +1999,298 @@
       }
     }
 
-    // Detecção visual de plataforma do vídeo curto
-    function detectPlatform(url) {
-      const badge = document.getElementById('platform-detected-badge');
-      if (!badge) return;
-      const lower = url.toLowerCase();
-      if (lower.includes('instagram.com') || lower.includes('instagr.am')) {
-        badge.innerHTML = '<span class="bg-purple-600 text-white font-black px-2 py-0.5 rounded">✓ Instagram Reels Detectado</span>';
-      } else if (lower.includes('youtube.com/shorts') || lower.includes('youtu.be')) {
-        badge.innerHTML = '<span class="bg-red-600 text-white font-black px-2 py-0.5 rounded">✓ YouTube Shorts Detectado</span>';
-      } else if (lower.includes('tiktok.com')) {
-        badge.innerHTML = '<span class="bg-black text-white font-black px-2 py-0.5 rounded">✓ TikTok Detectado</span>';
-      } else if (lower.includes('kwai.com') || lower.includes('kwaiapp')) {
-        badge.innerHTML = '<span class="bg-amber-600 text-white font-black px-2 py-0.5 rounded">✓ Kwai Detectado</span>';
-      } else if (lower.includes('facebook.com') || lower.includes('fb.watch')) {
-        badge.innerHTML = '<span class="bg-blue-600 text-white font-black px-2 py-0.5 rounded">✓ Facebook Reels Detectado</span>';
-      } else if (lower.includes('odysee.com')) {
-        badge.innerHTML = '<span class="bg-emerald-600 text-white font-black px-2 py-0.5 rounded">✓ Odysee Livre Detectado</span>';
-      } else {
-        badge.innerHTML = `
-          <span class="text-charcoal-soft font-semibold">Suporte a:</span>
-          <span class="bg-purple-100 text-purple-700 font-bold px-1.5 py-0.5 rounded">Insta Reels</span>
-          <span class="bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">YT Shorts</span>
-          <span class="bg-neutral-100 text-neutral-800 font-bold px-1.5 py-0.5 rounded">TikTok</span>
-          <span class="bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">Kwai</span>
-          <span class="bg-blue-100 text-blue-800 font-bold px-1.5 py-0.5 rounded">Face Reels</span>
-        `;
+    // Controle do Formato de Publicação por Link Externo
+    let currentExternalFormat = 'curto';
+
+    function selectPostFormat(fmt) {
+      currentExternalFormat = fmt;
+      const formats = ['curto', 'longo', 'musica'];
+      formats.forEach(f => {
+        const btn = document.getElementById(`format-btn-${f}`);
+        if (!btn) return;
+        if (f === fmt) {
+          btn.className = 'format-choice-btn p-2 rounded-xl border-2 border-[#C85A32] bg-orange-50 flex flex-col items-center justify-center text-center transition';
+          const title = btn.querySelector('span:nth-child(2)');
+          if (title) {
+            title.className = 'text-[11px] font-bold text-[#C85A32] mt-0.5';
+          }
+        } else {
+          btn.className = 'format-choice-btn p-2 rounded-xl border border-cream-border bg-cream hover:bg-white flex flex-col items-center justify-center text-center transition';
+          const title = btn.querySelector('span:nth-child(2)');
+          if (title) {
+            title.className = 'text-[11px] font-bold text-charcoal mt-0.5';
+          }
+        }
+      });
+
+      const hint = document.getElementById('format-hint');
+      if (hint) {
+        if (fmt === 'curto') {
+          hint.innerHTML = '✓ Destino automático: <span class="underline">Aba [ 🎬 Vídeos Curtos ]</span>';
+        } else if (fmt === 'longo') {
+          hint.innerHTML = '✓ Destino automático: <span class="underline">Aba [ 🖥️ Vídeos Longos ]</span>';
+        } else if (fmt === 'musica') {
+          hint.innerHTML = '✓ Destino automático: <span class="underline">Aba [ 🎵 Música ]</span>';
+        }
       }
     }
 
-    // 1. Publicar Vídeo Curto por Link (Instagram, Shorts, TikTok, Kwai)
-    function submitNewVideoReel() {
-      const url = document.getElementById('video-link-input').value.trim();
-      const title = document.getElementById('video-title-input').value.trim() || 'Vídeo curto compartilhado no YBYgram';
-      const author = document.getElementById('video-author-input').value.trim() || '@criador_soberano';
+    // Detecção visual inteligente de plataforma
+    function detectPlatform(url) {
+      const select = document.getElementById('video-platform-select');
+      if (!select) return;
+      const lower = url.toLowerCase();
+      if (lower.includes('instagram.com') || lower.includes('instagr.am')) {
+        select.value = 'Instagram Reels';
+        selectPostFormat('curto');
+      } else if (lower.includes('youtube.com/shorts') || lower.includes('youtu.be/shorts')) {
+        select.value = 'YouTube';
+        selectPostFormat('curto');
+      } else if (lower.includes('youtube.com') || lower.includes('youtu.be')) {
+        select.value = 'YouTube';
+        selectPostFormat('longo');
+      } else if (lower.includes('tiktok.com')) {
+        select.value = 'TikTok';
+        selectPostFormat('curto');
+      } else if (lower.includes('kwai.com') || lower.includes('kwaiapp')) {
+        select.value = 'Kwai';
+        selectPostFormat('curto');
+      } else if (lower.includes('odysee.com')) {
+        select.value = 'Odysee Livre';
+      } else if (lower.includes('soundcloud.com')) {
+        select.value = 'SoundCloud';
+        selectPostFormat('musica');
+      } else if (lower.includes('facebook.com') || lower.includes('fb.watch')) {
+        select.value = 'Facebook Reels';
+        selectPostFormat('curto');
+      }
+    }
 
+    // Validação Estrita e Publicação por Link Externo (Curto, Longo ou Música)
+    function submitExternalLinkPost() {
+      const url = document.getElementById('video-link-input').value.trim();
+      const platform = document.getElementById('video-platform-select').value;
+      const title = document.getElementById('video-title-input').value.trim();
+      const author = document.getElementById('video-author-input').value.trim() || '@criador_soberano';
+      const format = currentExternalFormat;
+
+      // Validação de formulário: o botão só executa se todos os campos obrigatórios estiverem preenchidos!
       if (!url) {
-        showToast('Por favor, cole o link do vídeo rápido.');
+        showToast('⚠️ Erro: Insira o link da publicação externa (*).');
+        document.getElementById('video-link-input').focus();
+        return;
+      }
+      if (!platform) {
+        showToast('⚠️ Erro: Selecione a plataforma de origem do conteúdo (*).');
+        document.getElementById('video-platform-select').focus();
+        return;
+      }
+      if (!format) {
+        showToast('⚠️ Erro: Escolha o formato correspondente (*).');
+        return;
+      }
+      if (!title) {
+        showToast('⚠️ Erro: Preencha o título ou legenda da publicação (*).');
+        document.getElementById('video-title-input').focus();
         return;
       }
 
-      // Determinar badge e cor conforme o link
-      let badgeName = 'VÍDEO CURTO';
-      let badgeBg = 'bg-black/60 text-emerald-300 border-emerald-400/40';
-      const lower = url.toLowerCase();
-      if (lower.includes('instagram')) {
-        badgeName = 'INSTAGRAM REELS';
-        badgeBg = 'bg-purple-900/80 text-purple-200 border-purple-500/40';
-      } else if (lower.includes('youtube') || lower.includes('youtu.be')) {
-        badgeName = 'YT SHORTS';
+      // Selo de origem discreto
+      let badgeBg = 'bg-black/70 text-emerald-300 border-emerald-400/40';
+      if (platform.includes('YouTube')) {
         badgeBg = 'bg-red-950/80 text-red-300 border-red-500/40';
-      } else if (lower.includes('tiktok')) {
-        badgeName = 'TIKTOK';
+      } else if (platform.includes('Instagram')) {
+        badgeBg = 'bg-purple-900/80 text-purple-200 border-purple-500/40';
+      } else if (platform.includes('TikTok')) {
         badgeBg = 'bg-neutral-900/90 text-neutral-200 border-neutral-600/40';
-      } else if (lower.includes('kwai')) {
-        badgeName = 'KWAI';
+      } else if (platform.includes('Kwai')) {
         badgeBg = 'bg-amber-950/80 text-amber-300 border-amber-500/40';
-      } else if (lower.includes('facebook') || lower.includes('fb.')) {
-        badgeName = 'FACEBOOK REELS';
-        badgeBg = 'bg-blue-950/80 text-blue-300 border-blue-500/40';
-      } else if (lower.includes('odysee')) {
-        badgeName = 'ODYSEE LIVRE';
-        badgeBg = 'bg-black/60 text-emerald-300 border-emerald-400/40';
+      } else if (platform.includes('SoundCloud')) {
+        badgeBg = 'bg-orange-950/80 text-orange-300 border-orange-500/40';
+      } else if (platform.includes('Odysee')) {
+        badgeBg = 'bg-black/70 text-emerald-300 border-emerald-400/40';
       }
 
-      // Imagem de preview mock
       const sampleThumbs = [
-        'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600&fit=crop',
-        'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&fit=crop',
-        'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&fit=crop',
-        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&fit=crop'
+        'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&fit=crop',
+        'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&fit=crop',
+        'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&fit=crop',
+        'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&fit=crop',
+        'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&fit=crop'
       ];
       const randomThumb = sampleThumbs[Math.floor(Math.random() * sampleThumbs.length)];
 
-      const container = document.getElementById('video-reels-list');
-      const videoCard = document.createElement('div');
-      videoCard.className = 'relative bg-black rounded-2xl overflow-hidden shadow-lg h-[460px] border border-neutral-800 flex flex-col justify-between p-4';
-      videoCard.innerHTML = `
-        <img src="${randomThumb}" class="absolute inset-0 w-full h-full object-cover opacity-75">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
-        
-        <div class="relative z-10 flex items-center justify-between">
-          <div class="flex items-center gap-1.5 flex-wrap">
-            <span class="${badgeBg} border text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
-              <i data-lucide="play" class="w-3 h-3 fill-current"></i> ${badgeName}
-            </span>
-            <span class="text-[9px] text-white/90 bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/20 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
-              <i data-lucide="external-link" class="w-2.5 h-2.5 text-emerald-300"></i> Rede de Origem
-            </span>
-          </div>
-          <div class="flex items-center gap-1">
-            <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo">
-              <i data-lucide="eye-off" class="w-4 h-4"></i>
-            </button>
-            <button onclick="openReportModal('Vídeo Curto', '${title.replace(/'/g, "\\'")}')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética / desinformação em saúde">
-              <i data-lucide="shield-alert" class="w-4 h-4"></i>
-            </button>
-            <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo">
-              <i data-lucide="bookmark" class="w-5 h-5"></i>
-            </button>
-          </div>
-        </div>
-
-        <button onclick="playVideoSimulation('${title}')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-forest/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
-          <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
-        </button>
-
-        <div class="relative z-10 flex items-end justify-between">
-          <div class="space-y-1.5 max-w-[78%]">
-            <div class="flex items-center gap-2">
-              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-7 h-7 rounded-full border border-white">
-              <span class="text-xs font-bold text-white">${author}</span>
+      // 1. DIRECIONAMENTO PARA ABA: VÍDEOS CURTOS (9:16)
+      if (format === 'curto') {
+        const container = document.getElementById('video-reels-list');
+        const videoCard = document.createElement('div');
+        videoCard.className = 'relative bg-black rounded-2xl overflow-hidden shadow-lg h-[460px] border border-neutral-800 flex flex-col justify-between p-4';
+        videoCard.innerHTML = `
+          <img src="${randomThumb}" class="absolute inset-0 w-full h-full object-cover opacity-75">
+          <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+          
+          <div class="relative z-10 flex items-center justify-between">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="${badgeBg} border text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1 shadow-xs">
+                <i data-lucide="play" class="w-3 h-3 fill-current"></i> ${platform.toUpperCase()}
+              </span>
+              <span class="text-[9px] text-white/90 bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/20 flex items-center gap-1">
+                <i data-lucide="external-link" class="w-2.5 h-2.5 text-emerald-300"></i> Rede de Origem
+              </span>
             </div>
-            <p class="text-xs text-white/90 leading-snug line-clamp-2">${title}</p>
+            <div class="flex items-center gap-1">
+              <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo"><i data-lucide="eye-off" class="w-4 h-4"></i></button>
+              <button onclick="openReportModal('Vídeo Curto', '${title.replace(/'/g, "\\'")}')" class="text-white/70 hover:text-red-400 p-1" title="Reportar"><i data-lucide="shield-alert" class="w-4 h-4"></i></button>
+              <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar"><i data-lucide="bookmark" class="w-5 h-5"></i></button>
+            </div>
           </div>
 
-          <div class="flex flex-col items-center gap-3">
-            <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
-              <span class="text-xl">🌱</span>
-              <span class="text-[9px] font-bold">Semear</span>
-            </button>
-            <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
-              <i data-lucide="message-square" class="w-5 h-5"></i>
-              <span class="text-[9px] font-bold">Partilha</span>
-            </button>
-            <button onclick="showToast('Link copiado!')" class="flex flex-col items-center text-white gap-0.5">
-              <i data-lucide="share-2" class="w-6 h-6"></i>
-              <span class="text-[10px] font-bold">Partilhar</span>
+          <button onclick="playVideoSimulation('${title.replace(/'/g, "\\'")}')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-forest/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
+            <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
+          </button>
+
+          <div class="relative z-10 flex items-end justify-between">
+            <div class="space-y-1.5 max-w-[78%]">
+              <div class="flex items-center gap-2">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-7 h-7 rounded-full border border-white">
+                <span class="text-xs font-bold text-white">${author}</span>
+              </div>
+              <p class="text-xs text-white/90 leading-snug line-clamp-2">${title}</p>
+            </div>
+
+            <div class="flex flex-col items-center gap-3">
+              <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                <span class="text-xl">🌱</span>
+                <span class="text-[9px] font-bold">Semear</span>
+              </button>
+              <button onclick="showToast('Roda de Partilha aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                <i data-lucide="message-square" class="w-5 h-5"></i>
+                <span class="text-[9px] font-bold">Partilha</span>
+              </button>
+              <button onclick="showToast('Link copiado!')" class="flex flex-col items-center text-white gap-0.5">
+                <i data-lucide="share-2" class="w-5 h-5"></i>
+                <span class="text-[10px] font-bold">Partilhar</span>
+              </button>
+            </div>
+          </div>
+        `;
+        container.prepend(videoCard);
+        switchTab('feed');
+        switchFeedSubTab('videos-curtos');
+      }
+
+      // 2. DIRECIONAMENTO PARA ABA: VÍDEOS LONGOS (16:9 VITRINE)
+      else if (format === 'longo') {
+        const container = document.getElementById('long-videos-grid');
+        const card = document.createElement('div');
+        card.className = 'bg-[#eaece8] border border-[#d5d8d2] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between';
+        card.innerHTML = `
+          <div class="relative aspect-video w-full bg-black cursor-pointer group" onclick="openEmbeddedPlayer('${title.replace(/'/g, "\\'")}', '${url}', '${platform}', '${author}', '${randomThumb}')">
+            <img src="${randomThumb}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+            <span class="absolute top-2.5 left-2.5 ${badgeBg} text-[9px] font-extrabold px-2 py-0.5 rounded shadow-sm flex items-center gap-1">
+              <i data-lucide="play" class="w-3 h-3 fill-current"></i> ${platform.toUpperCase()}
+            </span>
+            <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-xs">
+              HD
+            </span>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-11 h-11 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                <i data-lucide="play" class="w-5 h-5 fill-forest ml-0.5"></i>
+              </div>
+            </div>
+          </div>
+          <div class="p-3">
+            <h4 class="text-xs font-bold text-charcoal leading-snug line-clamp-2">${title}</h4>
+            <div class="mt-2 flex items-center justify-between text-[11px] text-charcoal-soft">
+              <span class="font-semibold text-forest">${author}</span>
+              <span>Agora mesmo</span>
+            </div>
+          </div>
+        `;
+        container.prepend(card);
+        switchTab('feed');
+        switchFeedSubTab('videos-longos');
+      }
+
+      // 3. DIRECIONAMENTO PARA ABA: MÚSICA & PAISAGENS SONORAS
+      else if (format === 'musica') {
+        const container = document.getElementById('music-audio-list');
+        const card = document.createElement('div');
+        card.className = 'bg-[#eaece8] border border-[#d5d8d2] rounded-2xl p-3.5 shadow-xs flex flex-col gap-2.5';
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-cream-border">
+              <img src="${randomThumb}" class="w-full h-full object-cover">
+              <button onclick="toggleAudioPlayback(this, '${title.replace(/'/g, "\\'")}')" class="absolute inset-0 bg-black/40 flex items-center justify-center text-white hover:bg-black/60 transition">
+                <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5 play-icon"></i>
+              </button>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1.5 mb-0.5">
+                <span class="${badgeBg} text-[9px] font-bold px-1.5 py-0.5 rounded border flex items-center gap-1">
+                  <i data-lucide="music" class="w-2.5 h-2.5"></i> ${platform.toUpperCase()}
+                </span>
+                <span class="text-[10px] text-charcoal-soft font-mono">Autoral</span>
+              </div>
+              <h4 class="text-xs font-bold text-charcoal truncate">${title}</h4>
+              <p class="text-[11px] text-forest font-semibold mt-0.5">${author}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-1 border-t border-[#d5d8d2] text-[10px] text-charcoal-soft">
+            <span class="font-mono">0:00</span>
+            <div class="flex-1 bg-white h-2 rounded-full overflow-hidden border border-[#d5d8d2]">
+              <div class="bg-purple-600 h-full w-1/3 rounded-full"></div>
+            </div>
+            <span class="font-mono">Stream</span>
+            <button onclick="toggleGratitude(this)" class="ml-2 flex items-center gap-1 text-forest hover:font-bold">
+              <span>🌱</span>
+              <span class="text-[10px] font-bold">Semear</span>
             </button>
           </div>
-        </div>
-      `;
+        `;
+        container.prepend(card);
+        switchTab('feed');
+        switchFeedSubTab('musica');
+      }
 
-      container.prepend(videoCard);
+      // Limpeza de formulário e fechamento da modal
       document.getElementById('video-link-input').value = '';
+      document.getElementById('video-platform-select').value = '';
       document.getElementById('video-title-input').value = '';
       document.getElementById('video-author-input').value = '';
+      selectPostFormat('curto');
       closeModal('modal-new-video-link');
-      
-      // Abre a aba de vídeos
-      switchTab('feed');
-      switchFeedSubTab('videos');
-      showToast('🎬 Vídeo curto republicado com selo de transparência de rede de origem!');
+
+      showToast(`✨ Publicação incorporada com sucesso na aba correta com selo da rede de origem (${platform})!`);
       lucide.createIcons();
+    }
+
+    // Modal do Player Embutido de Vídeo Longo
+    function openEmbeddedPlayer(title, url, platform, author, thumb) {
+      document.getElementById('player-platform-badge').innerText = platform.toUpperCase();
+      document.getElementById('player-author-text').innerText = author;
+      document.getElementById('player-title-text').innerText = title;
+      document.getElementById('player-thumb-img').src = thumb || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800';
+      openModal('modal-embedded-player');
+    }
+
+    // Controle de Reprodução de Áudio na aba Música
+    function toggleAudioPlayback(btn, trackTitle) {
+      const icon = btn.querySelector('.play-icon') || btn.querySelector('svg');
+      const isPlaying = btn.getAttribute('data-playing') === 'true';
+      if (isPlaying) {
+        btn.setAttribute('data-playing', 'false');
+        showToast(`⏸️ Áudio pausado: ${trackTitle}`);
+      } else {
+        btn.setAttribute('data-playing', 'true');
+        showToast(`▶️ Reproduzindo no player sonoro: ${trackTitle}`);
+      }
+    }
+
+    // Compatibilidade com chamadas legadas
+    function submitNewVideoReel() {
+      submitExternalLinkPost();
     }
 
     // 2. Publicar Texto e Imagem no Feed de Saberes (Ordenação Cronológica)
@@ -1877,7 +2306,7 @@
 
       const container = document.getElementById('posts-feed-container');
       const newArticle = document.createElement('article');
-      newArticle.className = 'post-card bg-white border border-cream-border rounded-2xl p-4 shadow-xs transition-all duration-300';
+      newArticle.className = 'post-card bg-[#eaece8] border border-[#d5d8d2] rounded-2xl p-4 shadow-xs transition-all duration-300';
       newArticle.innerHTML = `
         <div class="flex items-center justify-between mb-2.5">
           <div class="flex items-center gap-2.5">

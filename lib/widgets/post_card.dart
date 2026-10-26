@@ -75,10 +75,11 @@ class _PostCardState extends State<PostCard> {
 
     return Card(
       elevation: 0,
+      color: const Color(0xFFEAECE8),
       margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: theme.dividerColor.withOpacity(0.15)),
+        side: BorderSide(color: const Color(0xFFD5D8D2)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

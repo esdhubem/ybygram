@@ -15,6 +15,8 @@ class MockSupabaseService {
   late List<StoryItem> stories;
   late List<PostItem> posts;
   late List<VideoReelItem> videoReels;
+  late List<VideoLongItem> longVideos;
+  late List<AudioMusicItem> musicAudios;
   late List<ProductItem> products;
   late List<CourseModule> schoolModules;
   late HealthHabitsState habitsState;
@@ -128,7 +130,7 @@ class MockSupabaseService {
         authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
         title: 'Como identificar a Erva-Baleeira autêntica na Mata Atlântica e seu uso medicinal.',
         platform: 'Odysee',
-        platformBadge: 'ODYSSEE LIVRE',
+        platformBadge: 'ODYSEE LIVRE',
         thumbnailUrl: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600',
         likesCount: 840,
         commentsCount: 96,
@@ -156,6 +158,68 @@ class MockSupabaseService {
         thumbnailUrl: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600',
         likesCount: 620,
         commentsCount: 54,
+      ),
+    ];
+
+    longVideos = [
+      VideoLongItem(
+        id: 'vl_1',
+        title: 'Manejo de Abelhas Nativas sem Ferrão Jataí: Multiplicação de Enxames e Caixa Inteligente',
+        authorName: 'Meliponário Yby Porã',
+        authorAvatar: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=150',
+        duration: '24:18',
+        platform: 'YouTube',
+        platformBadge: 'YOUTUBE',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800',
+        videoUrl: 'https://www.youtube.com/watch?v=sample1',
+        timeAgo: 'Há 3 dias',
+      ),
+      VideoLongItem(
+        id: 'vl_2',
+        title: 'Agrofloresta Sintrópica na Prática: Regeneração e Plantio em Solos Degradados',
+        authorName: 'Coletivo Terra Livre',
+        authorAvatar: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=150',
+        duration: '48:05',
+        platform: 'Odysee Livre',
+        platformBadge: 'ODYSEE LIVRE',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800',
+        videoUrl: 'https://odysee.com/agrofloresta',
+        timeAgo: 'Há 1 semana',
+      ),
+      VideoLongItem(
+        id: 'vl_3',
+        title: 'Oficina de Bioconstrução: Teste de Resistência do Barro, Adobe e Amarras de Bambu',
+        authorName: 'BioArquitetura Viva',
+        authorAvatar: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=150',
+        duration: '36:40',
+        platform: 'PeerTube',
+        platformBadge: 'PEERTUBE',
+        thumbnailUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800',
+        videoUrl: 'https://peertube.tv/bioconstrucao',
+        timeAgo: 'Há 2 semanas',
+      ),
+    ];
+
+    musicAudios = [
+      AudioMusicItem(
+        id: 'mus_1',
+        title: 'Chuva na Floresta de Neblina e Cantos de Pássaros Nativos',
+        authorName: 'Guardiões da Mata Atlântica',
+        duration: '08:42',
+        platform: 'SoundCloud',
+        platformBadge: 'SOUNDCLOUD',
+        audioUrl: 'https://soundcloud.com/mata-neblina',
+        coverUrl: 'https://images.unsplash.com/photo-1511497584788-87676104235f?w=400',
+      ),
+      AudioMusicItem(
+        id: 'mus_2',
+        title: 'Canto Ancestral do Amanhecer: Nheengatu e Flauta Nativa',
+        authorName: 'Coletivo Raízes Vivas',
+        duration: '05:15',
+        platform: 'Áudio Autoral',
+        platformBadge: 'ÁUDIO AUTORAL',
+        audioUrl: 'https://audio.ybygram.org/canto-amanhecer',
+        coverUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
       ),
     ];
 
