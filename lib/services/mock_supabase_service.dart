@@ -37,13 +37,6 @@ class MockSupabaseService {
 
     stories = [
       const StoryItem(
-        id: 'st_0',
-        authorName: 'Você',
-        avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
-        isLive: false,
-        hasUnseen: false,
-      ),
-      const StoryItem(
         id: 'st_1',
         authorName: 'Aldeia Yvy',
         avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
