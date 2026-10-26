@@ -21,6 +21,8 @@ class _FeedScreenState extends State<FeedScreen> {
   final TextEditingController _tagController = TextEditingController();
   final TextEditingController _videoLinkController = TextEditingController();
   final TextEditingController _videoTitleController = TextEditingController();
+  final TextEditingController _videoDescController = TextEditingController();
+  final TextEditingController _videoAuthorController = TextEditingController();
   final TextEditingController _videoSearchController = TextEditingController();
   String _selectedVideoTopic = 'Todos';
 
@@ -37,6 +39,8 @@ class _FeedScreenState extends State<FeedScreen> {
     _tagController.dispose();
     _videoLinkController.dispose();
     _videoTitleController.dispose();
+    _videoDescController.dispose();
+    _videoAuthorController.dispose();
     _videoSearchController.dispose();
     super.dispose();
   }
@@ -247,14 +251,43 @@ class _FeedScreenState extends State<FeedScreen> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    // Campo 4: Título / Legenda (Obrigatório)
-                    const Text('4. Título / Legenda *', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                    // Campo 4: Título / Legenda da publicação (Obrigatório)
+                    const Text('4. Título / Legenda da publicação *', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 4),
                     TextField(
                       controller: _videoTitleController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.title, size: 18),
-                        hintText: 'Ex: Manejo tradicional e identificação...',
+                        hintText: 'Ex: Multiplicação de enxame de abelha Jataí...',
+                        hintStyle: TextStyle(fontSize: 12),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // Campo 5: Descrição
+                    const Text('5. Descrição:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 4),
+                    TextField(
+                      controller: _videoDescController,
+                      maxLines: 2,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.description_outlined, size: 18),
+                        hintText: 'Descreva os saberes, contexto ou detalhes da publicação...',
+                        hintStyle: TextStyle(fontSize: 12),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // Campo 6: Canal / Autor Responsável
+                    const Text('6. Canal / Autor Responsável:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 4),
+                    TextField(
+                      controller: _videoAuthorController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.person_outline, size: 18),
+                        hintText: 'Ex: @agroecologia_viva ou Nome do Canal',
                         hintStyle: TextStyle(fontSize: 12),
                         border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
                         contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -286,11 +319,14 @@ class _FeedScreenState extends State<FeedScreen> {
                         }
 
                         final user = MockSupabaseService().currentUser;
+                        final author = _videoAuthorController.text.trim().isNotEmpty
+                            ? _videoAuthorController.text.trim()
+                            : user.name;
 
                         if (currentFormat == 'curto') {
                           final newReel = VideoReelItem(
                             id: 'vr_${DateTime.now().millisecondsSinceEpoch}',
-                            authorName: user.name,
+                            authorName: author,
                             authorHandle: user.handle,
                             authorAvatar: user.avatarUrl,
                             title: title,
@@ -304,12 +340,14 @@ class _FeedScreenState extends State<FeedScreen> {
                             _selectedSubTab = 1;
                             _videoLinkController.clear();
                             _videoTitleController.clear();
+                            _videoDescController.clear();
+                            _videoAuthorController.clear();
                           });
                         } else if (currentFormat == 'longo') {
                           final newLong = VideoLongItem(
                             id: 'vl_${DateTime.now().millisecondsSinceEpoch}',
                             title: title,
-                            authorName: user.name,
+                            authorName: author,
                             authorAvatar: user.avatarUrl,
                             duration: '18:30',
                             platform: currentPlatform,
@@ -323,12 +361,14 @@ class _FeedScreenState extends State<FeedScreen> {
                             _selectedSubTab = 2;
                             _videoLinkController.clear();
                             _videoTitleController.clear();
+                            _videoDescController.clear();
+                            _videoAuthorController.clear();
                           });
                         } else {
                           final newMusic = AudioMusicItem(
                             id: 'mus_${DateTime.now().millisecondsSinceEpoch}',
                             title: title,
-                            authorName: user.name,
+                            authorName: author,
                             duration: '06:20',
                             platform: currentPlatform,
                             platformBadge: currentPlatform.toUpperCase(),
@@ -340,6 +380,8 @@ class _FeedScreenState extends State<FeedScreen> {
                             _selectedSubTab = 3;
                             _videoLinkController.clear();
                             _videoTitleController.clear();
+                            _videoDescController.clear();
+                            _videoAuthorController.clear();
                           });
                         }
 

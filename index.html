@@ -1350,9 +1350,15 @@
         <input type="text" id="video-title-input" placeholder="Ex: Multiplicação de enxame de abelha Jataí..." class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest">
       </div>
 
-      <!-- 5. Autor / Canal -->
+      <!-- 5. Descrição -->
       <div class="space-y-1">
-        <label class="block text-xs font-bold text-charcoal">5. Canal / Autor responsável:</label>
+        <label class="block text-xs font-bold text-charcoal">5. Descrição:</label>
+        <textarea id="video-desc-input" rows="2" placeholder="Descreva os saberes, contexto ou detalhes da publicação..." class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest resize-none"></textarea>
+      </div>
+
+      <!-- 6. Canal / Autor Responsável -->
+      <div class="space-y-1">
+        <label class="block text-xs font-bold text-charcoal">6. Canal / Autor Responsável:</label>
         <input type="text" id="video-author-input" placeholder="Ex: @agroecologia_viva" class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest">
       </div>
 
@@ -2203,6 +2209,7 @@
       document.getElementById('video-link-input').value = '';
       document.getElementById('video-platform-select').value = '';
       document.getElementById('video-title-input').value = '';
+      if (document.getElementById('video-desc-input')) document.getElementById('video-desc-input').value = '';
       document.getElementById('video-author-input').value = '';
       selectPostFormat('curto');
       closeModal('modal-new-video-link');
