@@ -431,7 +431,7 @@ class _FeedScreenState extends State<FeedScreen> {
                           Icon(Icons.schedule, size: 12, color: Color(0xFF245C45)),
                           SizedBox(width: 4),
                           Text(
-                            'Recentes primeiro • Igualdade para todos',
+                            'Recentes primeiro',
                             style: TextStyle(fontSize: 11, color: Color(0xFF1B4734), fontWeight: FontWeight.w500),
                           ),
                         ],
