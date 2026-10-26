@@ -122,27 +122,27 @@
         </div>
       </div>
 
-      <!-- BARRA DE SELEÇÃO DE FEED: 4 ABAS TEMÁTICAS EM FORMATO DE CADERNO -->
-      <nav id="feed-subtabs-nav" class="flex gap-1.5 overflow-x-auto hide-scrollbar pt-2 px-1 border-b border-black/15">
+      <!-- BARRA DE SELEÇÃO DE FEED: 4 ABAS TEMÁTICAS EM FORMATO DE CADERNO (100% VISÍVEIS) -->
+      <nav id="feed-subtabs-nav" class="grid grid-cols-4 gap-1 pt-2 px-0.5 border-b border-black/15 w-full">
         <!-- Aba 1: Saberes (Ativa por padrão em Laranja #C85A32) -->
         <button id="subtab-btn-saberes" onclick="switchFeedSubTab('saberes')" 
-          class="subtab-btn active px-3.5 py-2 rounded-t-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white shrink-0">
-          <span>📚 Saberes</span>
+          class="subtab-btn active px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white">
+          <span class="truncate">📚 Saberes</span>
         </button>
         <!-- Aba 2: Vídeos Curtos (Inativa em tom terracota) -->
         <button id="subtab-btn-videos-curtos" onclick="switchFeedSubTab('videos-curtos')" 
-          class="subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928] shrink-0">
-          <span>🎬 Vídeos Curtos</span>
+          class="subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-semibold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928]">
+          <span class="truncate">🎬 Curtos</span>
         </button>
         <!-- Aba 3: Vídeos Longos (Inativa em tom azul petróleo) -->
         <button id="subtab-btn-videos-longos" onclick="switchFeedSubTab('videos-longos')" 
-          class="subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#204A6E]/60 text-sky-100 hover:bg-[#204A6E] shrink-0">
-          <span>🖥️ Vídeos Longos</span>
+          class="subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-semibold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#204A6E]/60 text-sky-100 hover:bg-[#204A6E]">
+          <span class="truncate">🖥️ Longos</span>
         </button>
         <!-- Aba 4: Música (Inativa em tom índigo/roxo) -->
         <button id="subtab-btn-musica" onclick="switchFeedSubTab('musica')" 
-          class="subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#5B21B6]/60 text-purple-100 hover:bg-[#5B21B6] shrink-0">
-          <span>🎵 Música</span>
+          class="subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-semibold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#5B21B6]/60 text-purple-100 hover:bg-[#5B21B6]">
+          <span class="truncate">🎵 Música</span>
         </button>
       </nav>
     </header>
@@ -1665,22 +1665,22 @@
       const musicaBtn = document.getElementById('subtab-btn-musica');
 
       if (saberesBtn) {
-        saberesBtn.className = 'subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#245C45]/60 text-emerald-100 hover:bg-[#245C45] shrink-0';
+        saberesBtn.className = 'subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-semibold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#245C45]/60 text-emerald-100 hover:bg-[#245C45]';
       }
       if (curtosBtn) {
-        curtosBtn.className = 'subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928] shrink-0';
+        curtosBtn.className = 'subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-semibold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#804928]/60 text-amber-100 hover:bg-[#804928]';
       }
       if (longosBtn) {
-        longosBtn.className = 'subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#204A6E]/60 text-sky-100 hover:bg-[#204A6E] shrink-0';
+        longosBtn.className = 'subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-semibold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#204A6E]/60 text-sky-100 hover:bg-[#204A6E]';
       }
       if (musicaBtn) {
-        musicaBtn.className = 'subtab-btn px-3.5 py-2 rounded-t-xl text-xs font-semibold transition flex items-center gap-1.5 border-t border-x border-white/10 bg-[#5B21B6]/60 text-purple-100 hover:bg-[#5B21B6] shrink-0';
+        musicaBtn.className = 'subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-semibold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#5B21B6]/60 text-purple-100 hover:bg-[#5B21B6]';
       }
 
       // Aplica obrigatoriamente a cor Laranja (#C85A32) de destaque na aba ativa
       const activeBtn = document.getElementById(`subtab-btn-${subTabName}`);
       if (activeBtn) {
-        activeBtn.className = 'subtab-btn active px-3.5 py-2 rounded-t-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white -translate-y-0.5 shrink-0';
+        activeBtn.className = 'subtab-btn active px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 shadow-md border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white -translate-y-0.5';
       }
 
       document.getElementById('screen-container').scrollTop = 0;

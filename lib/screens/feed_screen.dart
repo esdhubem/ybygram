@@ -29,8 +29,8 @@ class _FeedScreenState extends State<FeedScreen> {
 
   final _subTabs = const [
     ('📚 Saberes', 'Postagens em texto e imagem'),
-    ('🎬 Vídeos Curtos', 'Pílulas verticais em 9:16'),
-    ('🖥️ Vídeos Longos', 'Grade vitrine com player embutido'),
+    ('🎬 Curtos', 'Pílulas verticais em 9:16'),
+    ('🖥️ Longos', 'Grade vitrine com player embutido'),
     ('🎵 Música', 'Paisagens sonoras e cantos autorais'),
   ];
 
@@ -550,36 +550,36 @@ class _FeedScreenState extends State<FeedScreen> {
           preferredSize: const Size.fromHeight(48),
           child: Container(
             height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            alignment: Alignment.bottomLeft,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(_subTabs.length, (index) {
-                  final isSelected = _selectedSubTab == index;
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              children: List.generate(_subTabs.length, (index) {
+                final isSelected = _selectedSubTab == index;
 
-                  // Cores secundárias distintas para cada categoria quando inativa (estilo abas de caderno)
-                  final inactiveColor = switch (index) {
-                    0 => const Color(0xFF245C45).withOpacity(0.40),
-                    1 => const Color(0xFF804928).withOpacity(0.40),
-                    2 => const Color(0xFF204A6E).withOpacity(0.40),
-                    _ => const Color(0xFF5B21B6).withOpacity(0.40),
-                  };
+                // Cores secundárias distintas para cada categoria quando inativa (estilo abas de caderno)
+                final inactiveColor = switch (index) {
+                  0 => const Color(0xFF245C45).withOpacity(0.40),
+                  1 => const Color(0xFF804928).withOpacity(0.40),
+                  2 => const Color(0xFF204A6E).withOpacity(0.40),
+                  _ => const Color(0xFF5B21B6).withOpacity(0.40),
+                };
 
-                  final inactiveTextColor = switch (index) {
-                    0 => const Color(0xFFD3EDE1),
-                    1 => const Color(0xFFFBE8DA),
-                    2 => const Color(0xFFE2E8F0),
-                    _ => const Color(0xFFEDE9FE),
-                  };
+                final inactiveTextColor = switch (index) {
+                  0 => const Color(0xFFD3EDE1),
+                  1 => const Color(0xFFFBE8DA),
+                  2 => const Color(0xFFE2E8F0),
+                  _ => const Color(0xFFEDE9FE),
+                };
 
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 6),
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
                     child: InkWell(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                       onTap: () => setState(() => _selectedSubTab = index),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                           // Regra de seleção: Laranja de destaque (#C85A32) na aba ativa
                           color: isSelected ? const Color(0xFFC85A32) : inactiveColor,
@@ -604,17 +604,20 @@ class _FeedScreenState extends State<FeedScreen> {
                         ),
                         child: Text(
                           _subTabs[index].$1,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: isSelected ? Colors.white : inactiveTextColor,
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                            fontSize: 12,
+                            fontSize: 11,
                           ),
                         ),
                       ),
                     ),
-                  );
-                }),
-              ),
+                  ),
+                );
+              }),
             ),
           ),
         ),
