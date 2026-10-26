@@ -558,7 +558,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   const Text(
                     'Rede Soberana',
                     style: TextStyle(
-                      color: Color(0xFF6EE7B7),
+                      color: Colors.white,
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
                     ),
