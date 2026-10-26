@@ -1,29 +1,58 @@
 import 'package:flutter/material.dart';
+import '../services/mock_supabase_service.dart';
+import '../models/product.dart';
+import '../widgets/product_card.dart';
 import 'profile_screen.dart';
 
-class MarketplaceScreen extends StatelessWidget {
+class MarketplaceScreen extends StatefulWidget {
   const MarketplaceScreen({super.key});
 
-  static const products = [
-    ('Camiseta YBYgram', 'Loja oficial', 'R\$ 59,90', Icons.checkroom_outlined),
-    ('Caderno artesanal', 'Criador independente', 'R\$ 32,00', Icons.menu_book_outlined),
-    ('Biojoia autoral', 'Artesanato comunitário', 'R\$ 45,00', Icons.auto_awesome_outlined),
-    ('Livro independente', 'Livraria comunitária', 'R\$ 39,90', Icons.book_outlined),
+  @override
+  State<MarketplaceScreen> createState() => _MarketplaceScreenState();
+}
+
+class _MarketplaceScreenState extends State<MarketplaceScreen> {
+  int _selectedFilter = 0; // 0: Todos, 1: Oficiais POD, 2: Artesãos MEI, 3: Livros & E-books
+
+  final _filters = const [
+    '✨ Todos',
+    '🌿 YBYgram Oficial (POD)',
+    '🍯 Artesãos & MEI',
+    '📚 Livros & E-books',
   ];
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final supabase = MockSupabaseService();
+
+    final filteredProducts = supabase.products.where((p) {
+      if (_selectedFilter == 1) return p.type == ProductType.officialPod;
+      if (_selectedFilter == 2) return p.type == ProductType.localArtisan;
+      if (_selectedFilter == 3) return p.type == ProductType.physicalBook || p.type == ProductType.ebookDigital;
+      return true;
+    }).toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Loja e Economia Solidária', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Loja Comunitária', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
-            tooltip: 'Meu perfil',
-            icon: const CircleAvatar(
-              radius: 16,
-              child: Icon(Icons.person_outline, size: 20),
+            tooltip: 'Filtros Éticos',
+            icon: const Icon(Icons.verified_outlined, color: Color(0xFF245C45)),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Marketplace 100% livre de manufatura predatória ou produtos chineses de massa.'),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            tooltip: 'Meu Perfil',
+            icon: CircleAvatar(
+              radius: 17,
+              backgroundImage: NetworkImage(supabase.currentUser.avatarUrl),
             ),
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const ProfileScreen()),
@@ -31,107 +60,84 @@ class MarketplaceScreen extends StatelessWidget {
           ),
           const SizedBox(width: 8),
         ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Text(
-            'Comércio Comunitário',
-            style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Vitrine demonstrativa de produtos de produtores locais e economia solidária.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.textTheme.bodySmall?.color,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48),
+          child: Container(
+            height: 48,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _filters.length,
+              itemBuilder: (context, index) {
+                final isSelected = _selectedFilter == index;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8, bottom: 6),
+                  child: FilterChip(
+                    label: Text(_filters[index]),
+                    selected: isSelected,
+                    selectedColor: const Color(0xFF245C45).withOpacity(0.18),
+                    checkmarkColor: const Color(0xFF245C45),
+                    labelStyle: TextStyle(
+                      color: isSelected ? const Color(0xFF245C45) : null,
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(
+                        color: isSelected ? const Color(0xFF245C45) : theme.dividerColor.withOpacity(0.2),
+                      ),
+                    ),
+                    onSelected: (_) => setState(() => _selectedFilter = index),
+                  ),
+                );
+              },
             ),
           ),
-          const SizedBox(height: 16),
-          const ProductGrid(),
+        ),
+      ),
+      body: Column(
+        children: [
+          // Banner de Regras Éticas do Marketplace
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: const Color(0xFF245C45).withOpacity(0.08),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFF245C45).withOpacity(0.2)),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.shield_outlined, color: Color(0xFF245C45), size: 18),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Economia Solidária: 95% do valor vai direto para o artesão/produtor nacional via Split Pagar.me.',
+                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF245C45)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Grade ESTRITAMENTE em 2 Colunas (Masonry / GridView)
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(14),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.68,
+              ),
+              itemCount: filteredProducts.length,
+              itemBuilder: (context, index) {
+                return ProductCard(product: filteredProducts[index]);
+              },
+            ),
+          ),
         ],
       ),
-    );
-  }
-}
-
-class ProductGrid extends StatelessWidget {
-  final bool compact;
-  const ProductGrid({super.key, this.compact = false});
-
-  static const products = MarketplaceScreen.products;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: compact,
-      physics: compact ? const NeverScrollableScrollPhysics() : const ClampingScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 0.74,
-      ),
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        final p = products[index];
-        final theme = Theme.of(context);
-
-        return Card(
-          elevation: 0,
-          clipBehavior: Clip.antiAlias,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: BorderSide(color: theme.dividerColor.withOpacity(0.2)),
-          ),
-          child: InkWell(
-            onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Detalhes de produto serão integrados nesta etapa.')),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(p.$4, size: 48, color: theme.colorScheme.primary),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    p.$1,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    p.$2,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    p.$3,
-                    style: TextStyle(
-                      color: theme.colorScheme.secondary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
