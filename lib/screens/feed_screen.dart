@@ -385,17 +385,17 @@ class _FeedScreenState extends State<FeedScreen> {
             },
           ),
           const Divider(height: 1),
-          // 3. Card Dedicado: "Fluxo cronológico de oportunidades para todos"
+          // 3. Card Dedicado: "Fluxo cronológico de oportunidades para todos" (Cor #f6cf4c)
           Container(
             margin: const EdgeInsets.fromLTRB(14, 10, 14, 6),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
-              color: const Color(0xFFE6EFE9), // Tom sutil orgânico destacado
+              color: const Color(0xFFF6CF4C), // Cor amarela/dourada solicitada #f6cf4c
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF245C45).withOpacity(0.25)),
+              border: Border.all(color: const Color(0xFFE5BE38)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.03),
+                  color: Colors.black.withOpacity(0.04),
                   blurRadius: 6,
                   offset: const Offset(0, 2),
                 ),
@@ -406,10 +406,11 @@ class _FeedScreenState extends State<FeedScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF245C45).withOpacity(0.12),
+                    color: Colors.white.withOpacity(0.4),
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: const Color(0xFF245C45).withOpacity(0.15)),
                   ),
-                  child: const Icon(Icons.balance, size: 20, color: Color(0xFF245C45)),
+                  child: const Icon(Icons.balance, size: 20, color: Color(0xFF1B4734)),
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -420,19 +421,19 @@ class _FeedScreenState extends State<FeedScreen> {
                         'Fluxo cronológico de oportunidades para todos',
                         style: TextStyle(
                           fontSize: 12,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF245C45),
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF1B4734),
                           letterSpacing: -0.2,
                         ),
                       ),
                       SizedBox(height: 2),
                       Row(
                         children: [
-                          Icon(Icons.schedule, size: 12, color: Color(0xFF245C45)),
+                          Icon(Icons.schedule, size: 12, color: Color(0xFF1B4734)),
                           SizedBox(width: 4),
                           Text(
                             'Recentes primeiro',
-                            style: TextStyle(fontSize: 11, color: Color(0xFF1B4734), fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 11, color: Color(0xFF245C45), fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
