@@ -231,7 +231,14 @@
                     <span class="text-[10px] text-charcoal-soft">Chapada Diamantina / BA • Etnobotânica</span>
                   </div>
                 </div>
-                <span class="text-[10px] bg-forest-light text-forest px-2 py-0.5 rounded-md font-semibold">Comunidade</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] bg-emerald-100 text-forest px-2 py-0.5 rounded-full font-bold border border-emerald-300 flex items-center gap-1" title="Responsabilidade técnica checada pela curadoria">
+                    <i data-lucide="shield-check" class="w-3 h-3 text-forest"></i> Curadoria Humana Validada
+                  </span>
+                  <button onclick="openReportModal('Post de Fitoterapia', 'Dona Benvinda Ervas')" class="text-charcoal-soft hover:text-red-500 p-1" title="Reportar violação ética ou desinformação em saúde">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                  </button>
+                </div>
               </div>
               <p class="text-xs text-charcoal leading-relaxed mb-3">
                 O preparo das folhas de Guandú e Carqueja respeita o ciclo das luas. Compartilhamos aqui a receita tradicional de infusão para o bem-estar do estômago, preservando a memória das nossas avós sem o filtro de grandes corporações.
@@ -266,7 +273,7 @@
               </div>
             </article>
 
-            <!-- Post 2 -->
+            <!-- Post 2 (Conteúdo Nativo com Pontos Extras) -->
             <article class="bg-white border border-cream-border rounded-2xl p-4 shadow-xs">
               <div class="flex items-center justify-between mb-2.5">
                 <div class="flex items-center gap-2.5">
@@ -279,7 +286,14 @@
                     <span class="text-[10px] text-charcoal-soft">Litoral Norte / SP • Cultura Viva</span>
                   </div>
                 </div>
-                <span class="text-[10px] bg-terracota-light text-terracota px-2 py-0.5 rounded-md font-semibold">Autonomia</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full font-bold border border-amber-300 flex items-center gap-1" title="Conteúdo autoral e exclusivo da comunidade">
+                    🌿 Conteúdo Nativo YBYgram (+20 pts)
+                  </span>
+                  <button onclick="openReportModal('Post Comunitário', 'Aldeia Yvy Porã')" class="text-charcoal-soft hover:text-red-500 p-1" title="Reportar violação ética">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                  </button>
+                </div>
               </div>
               <p class="text-xs text-charcoal leading-relaxed mb-3">
                 Iniciamos hoje o mutirão do plantio de mandioca e milho guarani. Redes livres conectando quem planta com quem come, garantindo que o valor fique direto na comunidade sem passar por intermediários predatórios.
@@ -326,7 +340,7 @@
                   Republique aqui seu vídeo curto do Insta, Face, YouTube, Kwai e TikTok
                 </h3>
                 <p class="text-[11px] text-emerald-100/80 mt-1 leading-relaxed">
-                  Não precisa de banco de dados! Basta colar o link oficial do seu Reel, Short ou TikTok que o YBYgram embute o player 9:16 diretamente.
+                  Não precisa de banco de dados! Basta colar o link oficial do seu Reel, Short ou TikTok que o YBYgram embute o player 9:16 diretamente com selo de transparência de origem.
                 </p>
               </div>
             </div>
@@ -343,14 +357,24 @@
             <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-75">
             <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
             
-            <!-- Topo: Badge da Plataforma -->
+            <!-- Topo: Selo Discreto de Origem e Ações Éticas -->
             <div class="relative z-10 flex items-center justify-between">
-              <span class="bg-black/60 text-emerald-300 border border-emerald-400/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
-                <i data-lucide="play" class="w-3 h-3 fill-emerald-300"></i> ODYSEE LIVRE
-              </span>
-              <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
-                <i data-lucide="bookmark" class="w-5 h-5"></i>
-              </button>
+              <div class="flex items-center gap-1.5">
+                <span class="bg-black/70 text-emerald-300 border border-emerald-400/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
+                  <i data-lucide="play" class="w-3 h-3 fill-emerald-300"></i> ODYSEE LIVRE
+                </span>
+                <span class="text-[9px] text-white/80 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
+                  <i data-lucide="external-link" class="w-2.5 h-2.5"></i> Rede de Origem
+                </span>
+              </div>
+              <div class="flex items-center gap-1">
+                <button onclick="openReportModal('Vídeo Curto', 'Mestre Tiago - Erva-Baleeira')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética / desinformação em saúde">
+                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                </button>
+                <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
+                  <i data-lucide="bookmark" class="w-5 h-5"></i>
+                </button>
+              </div>
             </div>
 
             <!-- Botão Play Central -->
@@ -394,12 +418,22 @@
             <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
             
             <div class="relative z-10 flex items-center justify-between">
-              <span class="bg-red-950/80 text-red-300 border border-red-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
-                <i data-lucide="play" class="w-3 h-3 fill-red-400"></i> YT SHORTS
-              </span>
-              <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
-                <i data-lucide="bookmark" class="w-5 h-5"></i>
-              </button>
+              <div class="flex items-center gap-1.5">
+                <span class="bg-red-950/80 text-red-300 border border-red-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
+                  <i data-lucide="play" class="w-3 h-3 fill-red-400"></i> YT SHORTS
+                </span>
+                <span class="text-[9px] text-white/80 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
+                  <i data-lucide="external-link" class="w-2.5 h-2.5"></i> Rede de Origem
+                </span>
+              </div>
+              <div class="flex items-center gap-1">
+                <button onclick="openReportModal('Vídeo Curto', 'Artesanato Guarani')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética">
+                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                </button>
+                <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
+                  <i data-lucide="bookmark" class="w-5 h-5"></i>
+                </button>
+              </div>
             </div>
 
             <button onclick="playVideoSimulation('YouTube Shorts: Trançado de Taquara')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-terracota/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
@@ -576,6 +610,49 @@
                 </div>
               </div>
               <i data-lucide="play-circle" class="w-4 h-4 text-terracota"></i>
+            </div>
+          </div>
+
+          <!-- Módulo 4: Código de Ética e Proteção à Saúde Integrativa -->
+          <div class="bg-white border border-cream-border rounded-2xl overflow-hidden shadow-xs">
+            <div class="p-3.5 bg-forest-light/50 border-b border-cream-border flex items-center justify-between">
+              <div>
+                <h4 class="text-xs font-bold text-forest">Módulo 4: Código de Ética & Saúde Integrativa</h4>
+                <p class="text-[10px] text-charcoal-soft">Combate a charlatanismo, validação e rigor</p>
+              </div>
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">1/3</span>
+            </div>
+            <div class="divide-y divide-cream-border text-xs">
+              <div class="p-3 flex items-center justify-between hover:bg-cream transition cursor-pointer" onclick="openClassVideo('Repúdio Absoluto a Práticas Ilícitas', '12:30', 'Proibição rigorosa de promessas de cura milagrosa de câncer, diagnósticos pseudocientíficos e desestímulo a tratamentos convencionais.')">
+                <div class="flex items-center gap-2.5">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+                  <div>
+                    <div class="font-semibold text-charcoal">1. Repúdio a promessas de cura milagrosa</div>
+                    <div class="text-[10px] text-charcoal-soft">Duração: 12:30 • Assistida</div>
+                  </div>
+                </div>
+                <i data-lucide="play-circle" class="w-4 h-4 text-forest"></i>
+              </div>
+              <div class="p-3 flex items-center justify-between hover:bg-cream transition cursor-pointer" onclick="openClassVideo('Filtro de Curadoria Humana', '09:45', 'Processo obrigatório de validação de criadores de saúde e checagem de credenciais antes da comercialização.')">
+                <div class="flex items-center gap-2.5">
+                  <i data-lucide="circle" class="w-4 h-4 text-charcoal-soft"></i>
+                  <div>
+                    <div class="font-semibold text-charcoal">2. Validação e Selo de Curadoria Humana</div>
+                    <div class="text-[10px] text-charcoal-soft">Duração: 09:45 • Pendente</div>
+                  </div>
+                </div>
+                <i data-lucide="play-circle" class="w-4 h-4 text-terracota"></i>
+              </div>
+              <div class="p-3 flex items-center justify-between hover:bg-cream transition cursor-pointer" onclick="openClassVideo('Transparência e Rigor Científico', '08:20', 'Como fundamentar posts em fitoterapia documentada, etnobotânica e artigos científicos sem clickbait.')">
+                <div class="flex items-center gap-2.5">
+                  <i data-lucide="circle" class="w-4 h-4 text-charcoal-soft"></i>
+                  <div>
+                    <div class="font-semibold text-charcoal">3. Rigor científico e saberes documentados</div>
+                    <div class="text-[10px] text-charcoal-soft">Duração: 08:20 • Pendente</div>
+                  </div>
+                </div>
+                <i data-lucide="play-circle" class="w-4 h-4 text-terracota"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -1080,6 +1157,87 @@
     </div>
   </div>
 
+  <!-- Modal 3: Denúncia Ética Comunitária & Proteção à Saúde Integrativa -->
+  <div id="modal-report" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-[430px] rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-2 border-b border-cream-border">
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-base font-bold">🛡️</span>
+          <div>
+            <h3 class="text-sm font-bold text-charcoal">Denúncia Ética Comunitária</h3>
+            <p class="text-[10px] text-charcoal-soft">Proteção à saúde integrativa e combate a charlatanismo</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-report')"><i data-lucide="x" class="w-5 h-5 text-charcoal-soft"></i></button>
+      </div>
+
+      <!-- Alvo da Denúncia -->
+      <div class="bg-cream p-3 rounded-xl border border-cream-border text-xs">
+        <span class="text-[10px] font-bold text-charcoal-soft uppercase tracking-wider block mb-0.5" id="report-target-type">Conteúdo reportado:</span>
+        <div class="font-bold text-charcoal" id="report-target-name">—</div>
+      </div>
+
+      <!-- Opções de Violação Ética -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-charcoal">Motivo da violação ética:</label>
+        
+        <label class="flex items-start gap-2.5 p-2.5 rounded-xl bg-cream/70 hover:bg-cream border border-cream-border cursor-pointer text-xs">
+          <input type="radio" name="report_reason" value="cura-milagrosa" checked class="mt-0.5 text-forest focus:ring-forest">
+          <div>
+            <span class="font-bold text-red-700 block text-[11px]">Promessa de cura milagrosa</span>
+            <span class="text-[10px] text-charcoal-soft leading-tight block">Promete curar câncer ou doenças graves através de pseudociência ou milagres.</span>
+          </div>
+        </label>
+
+        <label class="flex items-start gap-2.5 p-2.5 rounded-xl bg-cream/70 hover:bg-cream border border-cream-border cursor-pointer text-xs">
+          <input type="radio" name="report_reason" value="abandono-tratamento" class="mt-0.5 text-forest focus:ring-forest">
+          <div>
+            <span class="font-bold text-red-700 block text-[11px]">Desestímulo a tratamento convencional</span>
+            <span class="text-[10px] text-charcoal-soft leading-tight block">Incentiva a abandonar remédios prescritos, quimioterapia ou exames médicos.</span>
+          </div>
+        </label>
+
+        <label class="flex items-start gap-2.5 p-2.5 rounded-xl bg-cream/70 hover:bg-cream border border-cream-border cursor-pointer text-xs">
+          <input type="radio" name="report_reason" value="pseudociencia" class="mt-0.5 text-forest focus:ring-forest">
+          <div>
+            <span class="font-bold text-charcoal block text-[11px]">Diagnóstico pseudocientífico perigoso</span>
+            <span class="text-[10px] text-charcoal-soft leading-tight block">Afirma diagnosticar doenças graves sem amparo científico ou responsabilidade técnica.</span>
+          </div>
+        </label>
+
+        <label class="flex items-start gap-2.5 p-2.5 rounded-xl bg-cream/70 hover:bg-cream border border-cream-border cursor-pointer text-xs">
+          <input type="radio" name="report_reason" value="comercio-irregular" class="mt-0.5 text-forest focus:ring-forest">
+          <div>
+            <span class="font-bold text-charcoal block text-[11px]">Comércio irregular / Sem curadoria técnica</span>
+            <span class="text-[10px] text-charcoal-soft leading-tight block">Venda de produtos de saúde sem validação de curadoria humana ou registro profissional.</span>
+          </div>
+        </label>
+
+        <label class="flex items-start gap-2.5 p-2.5 rounded-xl bg-cream/70 hover:bg-cream border border-cream-border cursor-pointer text-xs">
+          <input type="radio" name="report_reason" value="sensacionalismo" class="mt-0.5 text-forest focus:ring-forest">
+          <div>
+            <span class="font-bold text-charcoal block text-[11px]">Sensacionalismo vazio / Desinformação</span>
+            <span class="text-[10px] text-charcoal-soft leading-tight block">Clickbait enganoso, ausência de fontes documentadas ou desrespeito às diretrizes do YBYgram.</span>
+          </div>
+        </label>
+      </div>
+
+      <div class="space-y-1">
+        <label class="block text-xs font-bold text-charcoal">Detalhes adicionais (opcional):</label>
+        <textarea id="report-details" rows="2" placeholder="Descreva brevemente a violação para a equipe de moderação..." class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest resize-none"></textarea>
+      </div>
+
+      <div class="bg-red-50 p-2.5 rounded-xl border border-red-200 text-[10px] text-red-800 flex items-start gap-2">
+        <i data-lucide="shield" class="w-4 h-4 shrink-0 mt-0.5 text-red-600"></i>
+        <span>A curadoria central humana do YBYgram analisa todas as denúncias em regime prioritário para garantir um ecossistema ético e seguro.</span>
+      </div>
+
+      <button onclick="submitReport()" class="w-full bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+        <i data-lucide="alert-triangle" class="w-4 h-4"></i> Enviar Denúncia para Curadoria Central
+      </button>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div id="toast" class="fixed bottom-16 sm:bottom-8 left-1/2 -translate-x-1/2 bg-forest-dark text-white px-4 py-2 rounded-full text-xs font-bold shadow-xl z-50 hidden transition-all"></div>
 
@@ -1505,12 +1663,22 @@
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
         
         <div class="relative z-10 flex items-center justify-between">
-          <span class="${badgeBg} border text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
-            <i data-lucide="play" class="w-3 h-3 fill-current"></i> ${badgeName}
-          </span>
-          <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
-            <i data-lucide="bookmark" class="w-5 h-5"></i>
-          </button>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="${badgeBg} border text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
+              <i data-lucide="play" class="w-3 h-3 fill-current"></i> ${badgeName}
+            </span>
+            <span class="text-[9px] text-white/90 bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/20 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
+              <i data-lucide="external-link" class="w-2.5 h-2.5 text-emerald-300"></i> Rede de Origem
+            </span>
+          </div>
+          <div class="flex items-center gap-1">
+            <button onclick="openReportModal('Vídeo Curto', '${title.replace(/'/g, "\\'")}')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética / desinformação em saúde">
+              <i data-lucide="shield-alert" class="w-4 h-4"></i>
+            </button>
+            <button onclick="showToast('Vídeo salvo!')" class="text-white hover:text-amber-300 p-1">
+              <i data-lucide="bookmark" class="w-5 h-5"></i>
+            </button>
+          </div>
         </div>
 
         <button onclick="playVideoSimulation('${title}')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-forest/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
@@ -1635,6 +1803,23 @@
       document.getElementById(`proftab-${tab}`).classList.add('border-forest', 'text-forest');
       document.getElementById(`proftab-${tab}`).classList.remove('border-transparent', 'text-charcoal-soft');
       lucide.createIcons();
+    }
+
+    // Denúncia Ética Comunitária & Proteção à Saúde Integrativa
+    function openReportModal(type, targetName) {
+      const typeElem = document.getElementById('report-target-type');
+      const nameElem = document.getElementById('report-target-name');
+      const detailsElem = document.getElementById('report-details');
+      if (typeElem) typeElem.innerText = `Reportar ${type}:`;
+      if (nameElem) nameElem.innerText = targetName;
+      if (detailsElem) detailsElem.value = '';
+      openModal('modal-report');
+    }
+
+    function submitReport() {
+      const target = document.getElementById('report-target-name')?.innerText || 'conteúdo';
+      closeModal('modal-report');
+      showToast(`🛡️ Denúncia sobre "${target}" enviada com sucesso! A curadoria central analisará com prioridade ética.`);
     }
 
     // Utilitários de Modais e Toast

@@ -56,32 +56,72 @@ class _VideoReelCardState extends State<VideoReelCard> {
               ),
             ),
           ),
-          // Badge da plataforma no topo (Odysee, YouTube Shorts, etc)
+          // Badge da plataforma no topo + Selo Discreto de Rede de Origem
           Positioned(
             top: 14,
             left: 14,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.65),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white24, width: 1),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.play_circle_fill, size: 14, color: Color(0xFFC85A32)),
-                  const SizedBox(width: 5),
-                  Text(
-                    r.platformBadge,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5,
+            right: 14,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.65),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white24, width: 1),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.play_circle_fill, size: 14, color: Color(0xFFC85A32)),
+                          const SizedBox(width: 5),
+                          Text(
+                            r.platformBadge,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    const SizedBox(width: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.55),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white12, width: 1),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.open_in_new, size: 11, color: Color(0xFF81C784)),
+                          SizedBox(width: 4),
+                          Text(
+                            'Rede de Origem',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                // Botão de Denúncia Ética / Proteção à Saúde
+                IconButton(
+                  icon: const Icon(Icons.shield_outlined, color: Colors.white70, size: 20),
+                  tooltip: 'Reportar violação ética / desinformação em saúde',
+                  onPressed: () => _showReportDialog(context, r.title),
+                ),
+              ],
             ),
           ),
           // Botão Play central
@@ -194,6 +234,61 @@ class _VideoReelCardState extends State<VideoReelCard> {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showReportDialog(BuildContext context, String title) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.shield, color: Color(0xFFC85A32), size: 22),
+            SizedBox(width: 8),
+            Text('Denúncia Ética', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Conteúdo: "$title"', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 12),
+              const Text('Motivo da denúncia ética / saúde:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 6),
+              const Text('• Promessa de cura milagrosa de doença grave\n• Desestímulo a tratamentos convencionais prescritos\n• Diagnóstico pseudocientífico perigoso\n• Venda de produto sem registro profissional\n• Sensacionalismo de cliques ou clickbait', style: TextStyle(fontSize: 11, height: 1.4)),
+              const SizedBox(height: 12),
+              const TextField(
+                decoration: InputDecoration(
+                  hintText: 'Detalhes adicionais para a curadoria (opcional)...',
+                  hintStyle: TextStyle(fontSize: 11),
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                ),
+                maxLines: 2,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFC85A32),
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('🛡️ Denúncia enviada! A curadoria central do YBYgram analisará com máxima prioridade.')),
+              );
+            },
+            child: const Text('Enviar Denúncia'),
           ),
         ],
       ),

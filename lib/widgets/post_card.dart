@@ -78,9 +78,42 @@ class _PostCardState extends State<PostCard> {
                     ],
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.more_horiz, size: 20),
-                  onPressed: () {},
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (p.communityTag.toLowerCase().contains('etnobotânica') ||
+                        p.communityTag.toLowerCase().contains('saúde') ||
+                        p.communityTag.toLowerCase().contains('ervas'))
+                      Container(
+                        margin: const EdgeInsets.only(right: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEBF4F0),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: const Color(0xFF245C45).withOpacity(0.3)),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.verified_user, size: 11, color: Color(0xFF245C45)),
+                            SizedBox(width: 3),
+                            Text(
+                              'Curadoria Validada',
+                              style: TextStyle(
+                                color: Color(0xFF245C45),
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    IconButton(
+                      icon: const Icon(Icons.shield_outlined, size: 19, color: Colors.black45),
+                      tooltip: 'Reportar violação ética / desinformação em saúde',
+                      onPressed: () => _showPostReportDialog(context, p.authorName),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -237,6 +270,68 @@ class _PostCardState extends State<PostCard> {
             ],
           ],
         ),
+      ),
+    );
+  }
+
+  void _showPostReportDialog(BuildContext context, String author) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.shield, color: Color(0xFFC85A32), size: 22),
+            SizedBox(width: 8),
+            Text('Denúncia Ética', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Postagem de: $author', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 12),
+              const Text('Motivo da denúncia ética / saúde:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 6),
+              const Text(
+                '• Promessa de cura milagrosa (câncer/doenças crônicas)\n'
+                '• Desestímulo a tratamentos médicos convencionais\n'
+                '• Diagnóstico pseudocientífico perigoso\n'
+                '• Venda sem responsável técnico ou curadoria\n'
+                '• Desinformação ou sensacionalismo de cliques',
+                style: TextStyle(fontSize: 11, height: 1.4),
+              ),
+              const SizedBox(height: 12),
+              const TextField(
+                decoration: InputDecoration(
+                  hintText: 'Detalhes adicionais para a curadoria (opcional)...',
+                  hintStyle: TextStyle(fontSize: 11),
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                ),
+                maxLines: 2,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFC85A32),
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('🛡️ Denúncia enviada! A curadoria central do YBYgram analisará com máxima prioridade.')),
+              );
+            },
+            child: const Text('Enviar Denúncia'),
+          ),
+        ],
       ),
     );
   }

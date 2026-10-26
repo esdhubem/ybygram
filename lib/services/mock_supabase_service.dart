@@ -314,6 +314,37 @@ class MockSupabaseService {
           ),
         ],
       ),
+      CourseModule(
+        id: 'mod_4',
+        title: 'Módulo 4: Código de Ética e Proteção à Saúde Integrativa',
+        description: 'Combate rigoroso a charlatanismo, validação prévia de criadores de saúde e rigor científico.',
+        lessons: [
+          LessonItem(
+            id: 'l_4_1',
+            title: '1. Repúdio absoluto a promessas de cura milagrosa',
+            duration: '12:30',
+            videoEmbedUrl: 'https://odysee.com/$/embed/repudio-cura-milagrosa',
+            summary: 'Proibição severa de promessas de cura de câncer, diagnósticos pseudocientíficos e desestímulo a tratamentos convencionais.',
+            isCompleted: true,
+          ),
+          LessonItem(
+            id: 'l_4_2',
+            title: '2. Filtro de curadoria humana e validação de vendedor',
+            duration: '09:45',
+            videoEmbedUrl: 'https://odysee.com/$/embed/curadoria-humana-saude',
+            summary: 'Checagem de credenciais profissionais e validação prévia para comercialização de fitoterápicos e serviços integrativos.',
+            isCompleted: false,
+          ),
+          LessonItem(
+            id: 'l_4_3',
+            title: '3. Transparência, rigor científico e denúncia comunitária',
+            duration: '08:20',
+            videoEmbedUrl: 'https://odysee.com/$/embed/rigor-cientifico-denuncia',
+            summary: 'Como embasar saberes em etnobotânica séria, estudos científicos e usar a ferramenta de denúncia da comunidade.',
+            isCompleted: false,
+          ),
+        ],
+      ),
     ];
 
     habitsState = HealthHabitsState();
