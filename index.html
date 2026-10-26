@@ -96,24 +96,35 @@
   <!-- Container Mobile Centralizado (App Shell Mobile) -->
   <main class="w-full sm:max-w-[430px] h-[100dvh] sm:h-[890px] sm:max-h-[94vh] bg-cream sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden sm:border sm:border-cream-border relative">
     
-    <!-- ==================== CABEÇALHO SUPERIOR ==================== -->
-    <header class="bg-forest text-white px-4 pt-3 pb-2.5 shrink-0 shadow-sm z-30 flex flex-col gap-2">
-      <div class="flex items-center justify-between">
+    <!-- ==================== CABEÇALHO SUPERIOR (Estilo Tecnológico com Gradiente Profundo e Brilho Neon) ==================== -->
+    <header class="text-white px-4 pt-3.5 pb-2.5 shrink-0 z-30 flex flex-col gap-2 shadow-[0_6px_25px_-2px_rgba(5,30,20,0.65)] border-b border-emerald-400/20 relative overflow-hidden"
+      style="background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%);">
+      
+      <!-- Reflexo suave de luz ambiental no topo do cabeçalho -->
+      <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-emerald-400/15 blur-2xl pointer-events-none"></div>
+
+      <div class="flex items-center justify-between relative z-10">
         <!-- Logotipo elegante em texto "YBYgram" -->
         <div class="flex items-center gap-1 cursor-pointer" onclick="switchTab('feed')">
-          <span class="text-xl font-extrabold tracking-tight text-white">YBY</span>
-          <span class="text-xl font-light tracking-tight text-amber-300">gram</span>
-          <span class="ml-2 text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full font-semibold border border-emerald-400/30">Rede Soberana</span>
+          <span class="text-xl font-extrabold tracking-tight text-white drop-shadow-sm">YBY</span>
+          <span class="text-xl font-light tracking-tight text-amber-300 drop-shadow-[0_0_8px_rgba(252,211,77,0.5)]">gram</span>
+          <span class="ml-2 text-[9px] bg-emerald-950/70 text-emerald-300 px-2 py-0.5 rounded-full font-bold border border-emerald-400/60 shadow-[0_0_10px_rgba(52,211,153,0.35)] backdrop-blur-md flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]"></span>
+            Rede Soberana
+          </span>
         </div>
 
-        <!-- Ações do Topo: Botão Faça sua Postagem + Avatar do Usuário -->
+        <!-- Ações do Topo: Botão Faça sua Postagem Lindo em Amarelo Dourado + Avatar do Usuário -->
         <div class="flex items-center gap-2">
-          <button onclick="openModal('modal-new-video-link')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F6CF4C] hover:bg-[#ecc23a] text-[#1B4734] font-black text-[11px] sm:text-xs shadow-sm border border-[#e5be38] transition whitespace-nowrap active:scale-95" title="Faça sua Postagem">
-            <i data-lucide="link-2" class="w-4 h-4 text-[#1B4734]"></i>
-            <span>Faça sua Postagem</span>
+          <button onclick="openModal('modal-new-video-link')" 
+            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-black text-[11px] sm:text-xs text-[#0a281b] transition whitespace-nowrap active:scale-95 border border-[#FFF2A8] shadow-[0_0_15px_rgba(246,207,76,0.55),inset_0_1px_1px_rgba(255,255,255,0.8)] hover:shadow-[0_0_22px_rgba(246,207,76,0.75)] hover:brightness-105" 
+            style="background: linear-gradient(135deg, #FFE27A 0%, #F6CF4C 50%, #E3A316 100%);"
+            title="Faça sua Postagem">
+            <i data-lucide="link-2" class="w-4 h-4 text-[#0a281b]"></i>
+            <span class="tracking-tight">Faça sua Postagem</span>
           </button>
           <button onclick="switchTab('profile')" class="relative" title="Meu Perfil">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face" alt="Perfil" class="w-8 h-8 rounded-full object-cover border-2 border-amber-300 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face" alt="Perfil" class="w-8 h-8 rounded-full object-cover border-2 border-amber-300 shadow-[0_0_10px_rgba(252,211,77,0.4)]">
             <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-terracota border border-white rounded-full flex items-center justify-center text-[7px] text-white font-bold">✓</span>
           </button>
         </div>
@@ -198,20 +209,25 @@
             </div>
           </div>
 
-          <!-- 3. CARD DE FLUXO CRONOLÓGICO: "Algoritmos Amigáveis" (Cor #f6cf4c) -->
-          <div class="mx-3.5 p-3.5 rounded-2xl bg-[#f6cf4c] border border-[#e5be38] shadow-xs flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-white/40 border border-[#245C45]/20 flex items-center justify-center shrink-0">
-              <i data-lucide="scale" class="w-5 h-5 text-[#1B4734]"></i>
+          <!-- 3. CARD DE FLUXO CRONOLÓGICO: "Algoritmos Amigáveis" (Estilo Lindo com Gradiente Dourado, Profundidade e Efeito Vidro) -->
+          <div class="mx-3.5 p-3.5 rounded-2xl shadow-[0_10px_25px_-4px_rgba(217,119,6,0.35),0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_2px_rgba(255,255,255,0.85)] border border-[#FFF1A8] flex items-center gap-3 relative overflow-hidden"
+            style="background: radial-gradient(130% 120% at 85% 15%, #FFF2A8 0%, #F6CF4C 45%, #D49312 100%);">
+            
+            <!-- Efeito de iluminação suave ambiente no canto -->
+            <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/25 blur-xl pointer-events-none"></div>
+
+            <div class="w-10 h-10 rounded-xl bg-white/45 backdrop-blur-md border border-white/80 shadow-[0_2px_8px_rgba(0,0,0,0.06)] flex items-center justify-center shrink-0 relative z-10">
+              <i data-lucide="scale" class="w-5 h-5 text-[#0A291C]"></i>
             </div>
-            <div class="flex-1">
-              <span class="inline-block text-[10px] font-black uppercase tracking-wider text-[#1B4734] bg-white/50 px-2 py-0.5 rounded-md mb-0.5">
-                🌱 Algoritmos Amigáveis
+            <div class="flex-1 relative z-10">
+              <span class="inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-wider text-[#0A291C] bg-white/55 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/75 shadow-[0_0_8px_rgba(255,255,255,0.4)] mb-1">
+                <span>🌱</span> ALGORITMOS AMIGÁVEIS
               </span>
-              <h3 class="text-xs font-black text-[#1B4734] tracking-tight">
+              <h3 class="text-xs font-black text-[#0A291C] tracking-tight leading-snug">
                 Fluxo cronológico de oportunidades para todos
               </h3>
-              <p class="text-[11px] text-[#245C45] font-semibold mt-0.5 flex items-center gap-1.5">
-                <i data-lucide="clock" class="w-3 h-3 text-[#1B4734]"></i>
+              <p class="text-[11px] text-[#144933] font-bold mt-0.5 flex items-center gap-1.5">
+                <i data-lucide="clock" class="w-3 h-3 text-[#0A291C]"></i>
                 Recentes primeiro
               </p>
             </div>

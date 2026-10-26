@@ -487,43 +487,133 @@ class _FeedScreenState extends State<FeedScreen> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 16,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF1D6E4B), Color(0xFF12442E), Color(0xFF082417)],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+            ),
+            border: Border(
+              bottom: BorderSide(color: Color(0x3334D399), width: 1),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x66051E14),
+                blurRadius: 18,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+        ),
         title: Row(
           children: [
             const Text(
               'YBY',
               style: TextStyle(
                 fontWeight: FontWeight.w900,
-                color: Color(0xFF245C45),
+                color: Colors.white,
                 letterSpacing: -0.5,
                 fontSize: 24,
+                shadows: [Shadow(color: Colors.black26, blurRadius: 4)],
               ),
             ),
-            Text(
+            const Text(
               'gram',
               style: TextStyle(
-                fontWeight: FontWeight.w400,
-                color: theme.colorScheme.secondary,
+                fontWeight: FontWeight.w300,
+                color: Color(0xFFFCD34D),
                 letterSpacing: -0.5,
                 fontSize: 24,
+                shadows: [Shadow(color: Color(0x80FCD34D), blurRadius: 8)],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+              decoration: BoxDecoration(
+                color: const Color(0xFF06281A).withOpacity(0.7),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFF34D399).withOpacity(0.6)),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF34D399).withOpacity(0.35),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 5,
+                    height: 5,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF34D399),
+                      shape: BoxShape.circle,
+                      boxShadow: [BoxShadow(color: Color(0xFF34D399), blurRadius: 6)],
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Text(
+                    'Rede Soberana',
+                    style: TextStyle(
+                      color: Color(0xFF6EE7B7),
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
         actions: [
-          // Botão Superior: Faça sua Postagem
-          TextButton.icon(
-            style: TextButton.styleFrom(
-              backgroundColor: const Color(0xFFF6CF4C),
-              foregroundColor: const Color(0xFF1B4734),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              shape: RoundedRectangleBorder(
+          // Botão Superior: Faça sua Postagem Lindo em Amarelo Dourado
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFFFFE27A), Color(0xFFF6CF4C), Color(0xFFE3A316)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFFFFF2A8), width: 1),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFF6CF4C).withOpacity(0.55),
+                  blurRadius: 12,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
                 borderRadius: BorderRadius.circular(12),
-                side: const BorderSide(color: Color(0xFFE5BE38)),
+                onTap: _showNewVideoLinkDialog,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.link, size: 16, color: Color(0xFF0A291C)),
+                      SizedBox(width: 5),
+                      Text(
+                        'Faça sua Postagem',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 12,
+                          color: Color(0xFF0A291C),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            icon: const Icon(Icons.link, size: 18, color: Color(0xFF1B4734)),
-            label: const Text('Faça sua Postagem', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12, color: Color(0xFF1B4734))),
-            onPressed: _showNewVideoLinkDialog,
           ),
           const SizedBox(width: 8),
           IconButton(
@@ -693,19 +783,23 @@ class _FeedScreenState extends State<FeedScreen> {
             },
           ),
           const Divider(height: 1),
-          // Card de Oportunidades Cronológico (#F6CF4C)
+          // Card de Oportunidades Cronológico: "Algoritmos Amigáveis" (Gradiente Dourado Radiante e Efeito Vidro)
           Container(
             margin: const EdgeInsets.fromLTRB(14, 10, 14, 6),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
-              color: const Color(0xFFF6CF4C),
+              gradient: const LinearGradient(
+                colors: [Color(0xFFFFF2A8), Color(0xFFF6CF4C), Color(0xFFD49312)],
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+              ),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFE5BE38)),
+              border: Border.all(color: const Color(0xFFFFF1A8), width: 1),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
-                  blurRadius: 6,
-                  offset: const Offset(0, 2),
+                  color: const Color(0xFFD49312).withOpacity(0.35),
+                  blurRadius: 18,
+                  offset: const Offset(0, 6),
                 ),
               ],
             ),
@@ -714,11 +808,18 @@ class _FeedScreenState extends State<FeedScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.4),
+                    color: Colors.white.withOpacity(0.50),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xFF245C45).withOpacity(0.15)),
+                    border: Border.all(color: Colors.white.withOpacity(0.80)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                  child: const Icon(Icons.balance, size: 20, color: Color(0xFF1B4734)),
+                  child: const Icon(Icons.balance, size: 20, color: Color(0xFF0A291C)),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -726,11 +827,12 @@ class _FeedScreenState extends State<FeedScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
                         margin: const EdgeInsets.only(bottom: 3),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.50),
-                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.white.withOpacity(0.55),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white.withOpacity(0.75)),
                         ),
                         child: const Text(
                           '🌱 ALGORITMOS AMIGÁVEIS',
@@ -738,7 +840,7 @@ class _FeedScreenState extends State<FeedScreen> {
                             fontSize: 9,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 0.5,
-                            color: Color(0xFF1B4734),
+                            color: Color(0xFF0A291C),
                           ),
                         ),
                       ),
@@ -747,18 +849,18 @@ class _FeedScreenState extends State<FeedScreen> {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w900,
-                          color: Color(0xFF1B4734),
+                          color: Color(0xFF0A291C),
                           letterSpacing: -0.2,
                         ),
                       ),
                       const SizedBox(height: 2),
                       const Row(
                         children: [
-                          Icon(Icons.schedule, size: 12, color: Color(0xFF1B4734)),
+                          Icon(Icons.schedule, size: 12, color: Color(0xFF0A291C)),
                           SizedBox(width: 4),
                           Text(
                             'Recentes primeiro',
-                            style: TextStyle(fontSize: 11, color: Color(0xFF245C45), fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 11, color: Color(0xFF144933), fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
