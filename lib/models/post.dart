@@ -99,6 +99,9 @@ class VideoLongItem {
   final String thumbnailUrl;
   final String videoUrl;
   final String timeAgo;
+  final String views;
+  final String category;
+  final bool isLive;
 
   VideoLongItem({
     required this.id,
@@ -111,6 +114,9 @@ class VideoLongItem {
     required this.thumbnailUrl,
     required this.videoUrl,
     this.timeAgo = 'Agora mesmo',
+    this.views = '14 mil visualizações',
+    this.category = 'Agroecologia',
+    this.isLive = false,
   });
 }
 

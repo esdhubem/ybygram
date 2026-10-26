@@ -21,6 +21,8 @@ class _FeedScreenState extends State<FeedScreen> {
   final TextEditingController _tagController = TextEditingController();
   final TextEditingController _videoLinkController = TextEditingController();
   final TextEditingController _videoTitleController = TextEditingController();
+  final TextEditingController _videoSearchController = TextEditingController();
+  String _selectedVideoTopic = 'Todos';
 
   final _subTabs = const [
     ('📚 Saberes', 'Postagens em texto e imagem'),
@@ -35,6 +37,7 @@ class _FeedScreenState extends State<FeedScreen> {
     _tagController.dispose();
     _videoLinkController.dispose();
     _videoTitleController.dispose();
+    _videoSearchController.dispose();
     super.dispose();
   }
 
@@ -705,137 +708,291 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  // ABA 3: Vídeos Longos (Grade/Quadrinhos Estilo Vitrine com Player Embutido)
+  // ABA 3: Vídeos Longos (Estilo YouTube com Motor de Pesquisa e Player Dedicado)
   Widget _buildVideosLongosFeed(MockSupabaseService supabase) {
+    final query = _videoSearchController.text.trim().toLowerCase();
+    final filteredVideos = supabase.longVideos.where((v) {
+      final matchesTopic = _selectedVideoTopic == 'Todos' ||
+          v.category.toLowerCase() == _selectedVideoTopic.toLowerCase();
+      final matchesQuery = query.isEmpty ||
+          v.title.toLowerCase().contains(query) ||
+          v.authorName.toLowerCase().contains(query) ||
+          v.category.toLowerCase().contains(query) ||
+          v.platform.toLowerCase().contains(query);
+      return matchesTopic && matchesQuery;
+    }).toList();
+
     return ListView(
       padding: const EdgeInsets.all(14),
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'VITRINE DE VÍDEOS LONGOS & AULAS',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w900,
-                color: Color(0xFF245C45),
-                letterSpacing: 0.5,
-              ),
-            ),
-            Text(
-              'Toque para assistir',
-              style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 12,
-            childAspectRatio: 0.82,
-          ),
-          itemCount: supabase.longVideos.length,
-          itemBuilder: (context, index) {
-            final video = supabase.longVideos[index];
-            return InkWell(
-              borderRadius: BorderRadius.circular(16),
-              onTap: () => _openEmbeddedPlayer(video),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAECE8),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFD5D8D2)),
+        // 1. Motor de Pesquisa de Assunto
+        Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: _videoSearchController,
+                onChanged: (val) => setState(() {}),
+                decoration: InputDecoration(
+                  hintText: 'Pesquisar vídeos, aulas ou assuntos...',
+                  hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
+                  prefixIcon: const Icon(Icons.search, size: 20, color: Color(0xFF245C45)),
+                  suffixIcon: _videoSearchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.clear, size: 18),
+                          onPressed: () {
+                            _videoSearchController.clear();
+                            setState(() {});
+                          },
+                        )
+                      : null,
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Color(0xFFD5D8D2)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Color(0xFFD5D8D2)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Color(0xFF245C45), width: 1.5),
+                  ),
                 ),
-                clipBehavior: Clip.antiAlias,
+              ),
+              const SizedBox(height: 10),
+              // Chips de Assuntos / Tópicos Rápidos
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    'Todos',
+                    'Agroecologia',
+                    'Abelhas Nativas',
+                    'Plantas Medicinais',
+                    'Bioconstrução',
+                    'Soberania Digital',
+                  ].map((topic) {
+                    final isSelected = _selectedVideoTopic == topic;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: FilterChip(
+                        label: Text(topic),
+                        labelStyle: TextStyle(
+                          fontSize: 11,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                          color: isSelected ? Colors.white : const Color(0xFF1D2D24),
+                        ),
+                        selected: isSelected,
+                        selectedColor: const Color(0xFFC85A32),
+                        backgroundColor: Colors.white,
+                        checkmarkColor: Colors.white,
+                        showCheckmark: false,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(
+                            color: isSelected ? const Color(0xFFC85A32) : const Color(0xFFD5D8D2),
+                          ),
+                        ),
+                        onSelected: (val) {
+                          setState(() {
+                            _selectedVideoTopic = topic;
+                          });
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        if (filteredVideos.isEmpty)
+          Container(
+            padding: const EdgeInsets.all(28),
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                const Icon(Icons.search_off, size: 48, color: Colors.grey),
+                const SizedBox(height: 8),
+                const Text(
+                  'Nenhum vídeo encontrado para este assunto.',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.grey),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _videoSearchController.clear();
+                    setState(() => _selectedVideoTopic = 'Todos');
+                  },
+                  child: const Text('Limpar filtros de busca'),
+                ),
+              ],
+            ),
+          )
+        else
+          // 2. Lista de Vídeos Longos (Estilo YouTube Exato)
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: filteredVideos.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 14),
+            itemBuilder: (context, index) {
+              final video = filteredVideos[index];
+              return InkWell(
+                borderRadius: BorderRadius.circular(16),
+                onTap: () => _openEmbeddedPlayer(video),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Miniatura 16:9 com Selo de Origem e Duração
+                    // Miniatura 16:9 com Cantos Arredondados e Badges
                     AspectRatio(
                       aspectRatio: 16 / 9,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.network(video.thumbnailUrl, fit: BoxFit.cover),
-                          Container(color: Colors.black26),
-                          // Selo de Origem Discreto
-                          Positioned(
-                            top: 6,
-                            left: 6,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: video.platform.toLowerCase().contains('youtube') ? Colors.red.shade700 : const Color(0xFF245C45),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                video.platformBadge,
-                                style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w900),
-                              ),
-                            ),
-                          ),
-                          // Duração
-                          Positioned(
-                            bottom: 6,
-                            right: 6,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.black87,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                video.duration,
-                                style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.network(video.thumbnailUrl, fit: BoxFit.cover),
+                            Container(color: Colors.black12),
+                            // Selo de Origem Superior
+                            Positioned(
+                              top: 8,
+                              left: 8,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
+                                decoration: BoxDecoration(
+                                  color: video.platform.toLowerCase().contains('youtube')
+                                      ? Colors.red.shade700
+                                      : const Color(0xFF245C45),
+                                  borderRadius: BorderRadius.circular(6),
+                                  boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
+                                ),
+                                child: Text(
+                                  video.platformBadge,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          // Botão Play Central
-                          const Center(
-                            child: CircleAvatar(
-                              radius: 18,
-                              backgroundColor: Colors.white70,
-                              child: Icon(Icons.play_arrow, color: Color(0xFF245C45), size: 24),
+                            // Badge de Duração ou AO VIVO Inferior Direito
+                            Positioned(
+                              bottom: 8,
+                              right: 8,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: video.isLive ? Colors.red.shade700 : Colors.black87,
+                                  borderRadius: BorderRadius.circular(6),
+                                  boxShadow: const [BoxShadow(color: Colors.black38, blurRadius: 4)],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (video.isLive) ...[
+                                      const Icon(Icons.circle, color: Colors.white, size: 7),
+                                      const SizedBox(width: 4),
+                                      const Text(
+                                        'AO VIVO',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                    ] else
+                                      Text(
+                                        video.duration,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontFamily: 'monospace',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            video.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, height: 1.2),
+                    const SizedBox(height: 10),
+                    // Detalhes no Estilo YouTube (Avatar + Título + Canal + Views + Menu)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 18,
+                          backgroundImage: NetworkImage(video.authorAvatar),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                video.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.25,
+                                  color: Color(0xFF1D2D24),
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              Row(
+                                children: [
+                                  Text(
+                                    video.authorName,
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Icon(Icons.check_circle, size: 13, color: Colors.grey.shade600),
+                                ],
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                '${video.views} • ${video.timeAgo}',
+                                style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            video.authorName,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 10, color: Color(0xFF245C45), fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.more_vert, size: 18, color: Colors.grey.shade700),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Opções para: ${video.title}')),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
       ],
     );
-  }
-
   // ABA 4: Música (Paisagens Sonoras, Cantos e Áudios Autorais)
   Widget _buildMusicaFeed(MockSupabaseService supabase) {
     return ListView(
@@ -995,78 +1152,130 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  // Diálogo com Player Oficial Embutido de Vídeo Longo
+  // Janela Dedicada do Vídeo com Botão X de Fechar
   void _openEmbeddedPlayer(VideoLongItem video) {
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1F2937),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        contentPadding: const EdgeInsets.all(16),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      barrierColor: Colors.black.withOpacity(0.92),
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+        child: Stack(
+          alignment: Alignment.topRight,
           children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    video.platformBadge,
-                    style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    video.authorName,
-                    style: const TextStyle(color: Colors.white70, fontSize: 12),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white70, size: 20),
-                  onPressed: () => Navigator.pop(ctx),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Stack(
-                alignment: Alignment.center,
+            // Container do Player
+            Container(
+              margin: const EdgeInsets.only(top: 36),
+              decoration: BoxDecoration(
+                color: const Color(0xFF121814),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.white12),
+                boxShadow: const [BoxShadow(color: Colors.black87, blurRadius: 20)],
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(video.thumbnailUrl, fit: BoxFit.cover, width: double.infinity),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black38,
-                      borderRadius: BorderRadius.circular(12),
+                  // Player 16:9
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.network(video.thumbnailUrl, fit: BoxFit.cover, width: double.infinity),
+                        Container(color: Colors.black45),
+                        const CircleAvatar(
+                          radius: 32,
+                          backgroundColor: Color(0xFFC85A32),
+                          child: Icon(Icons.play_arrow, color: Colors.white, size: 44),
+                        ),
+                        // Barra de player discreta
+                        Positioned(
+                          bottom: 10,
+                          left: 12,
+                          right: 12,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  video.platformBadge,
+                                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  video.duration,
+                                  style: const TextStyle(color: Colors.white, fontSize: 10, fontFamily: 'monospace'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const CircleAvatar(
-                    radius: 28,
-                    backgroundColor: Color(0xFF245C45),
-                    child: Icon(Icons.play_arrow, color: Colors.white, size: 36),
+                  // Detalhes abaixo do vídeo
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          video.title,
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14, height: 1.3),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 14,
+                              backgroundImage: NetworkImage(video.authorAvatar),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              video.authorName,
+                              style: const TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(width: 4),
+                            const Icon(Icons.check_circle, size: 13, color: Colors.white54),
+                            const Spacer(),
+                            Text(
+                              video.views,
+                              style: const TextStyle(color: Colors.white54, fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 12),
-            Text(
-              video.title,
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'Reproduzido via player oficial leve incorporado na rede de origem.',
-              style: TextStyle(color: Colors.white54, fontSize: 11),
+            // Botão "X" bem visível no canto superior direito para fechar e voltar
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Material(
+                color: Colors.white24,
+                shape: const CircleBorder(),
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white, size: 24),
+                  tooltip: 'Fechar vídeo',
+                  onPressed: () => Navigator.pop(ctx),
+                ),
+              ),
             ),
           ],
         ),

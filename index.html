@@ -485,108 +485,39 @@
           </div>
         </div>
 
-        <!-- SUB-ABA 1.3: VÍDEOS LONGOS (FORMATO VITRINE / QUADRINHOS COM PLAYER EMBUTIDO) -->
-        <div id="subtab-videos-longos" class="hidden p-3.5 space-y-4 pb-6">
-          <div class="flex items-center justify-between px-1">
-            <span class="text-[11px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1.5">
-              <i data-lucide="tv" class="w-4 h-4 text-forest"></i>
-              VITRINE DE VÍDEOS LONGOS & AULAS
-            </span>
-            <span class="text-[10px] text-charcoal-soft font-medium">Toque para abrir no player embutido</span>
+        <!-- SUB-ABA 1.3: VÍDEOS LONGOS (ESTILO YOUTUBE COM MOTOR DE PESQUISA E JANELA DEDICADA) -->
+        <div id="subtab-videos-longos" class="hidden p-3.5 space-y-3.5 pb-6">
+          
+          <!-- 1. Motor de Pesquisa de Assuntos -->
+          <div class="space-y-2">
+            <div class="relative flex items-center">
+              <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
+              <input 
+                type="text" 
+                id="video-search-input" 
+                oninput="filterLongVideos()" 
+                placeholder="Pesquisar vídeos, aulas ou assuntos..." 
+                class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white border border-[#d5d8d2] text-xs outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+              >
+              <button id="clear-video-search-btn" onclick="clearVideoSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- Chips de Assuntos Rápidos -->
+            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+              <button onclick="selectVideoTopic('todos')" class="topic-chip active px-3 py-1.5 rounded-lg text-[11px] font-bold bg-[#C85A32] text-white shrink-0 transition" data-topic="todos">Todos</button>
+              <button onclick="selectVideoTopic('Agroecologia')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Agroecologia">Agroecologia</button>
+              <button onclick="selectVideoTopic('Abelhas Nativas')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Abelhas Nativas">Abelhas Nativas</button>
+              <button onclick="selectVideoTopic('Plantas Medicinais')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Plantas Medicinais">Plantas Medicinais</button>
+              <button onclick="selectVideoTopic('Bioconstrução')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Bioconstrução">Bioconstrução</button>
+              <button onclick="selectVideoTopic('Soberania Digital')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Soberania Digital">Soberania Digital</button>
+            </div>
           </div>
 
-          <!-- Grade Vitrine / Estilo Quadrinhos de Vídeos Longos -->
-          <div id="long-videos-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            
-            <!-- Card de Vídeo Longo 1 -->
-            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
-              <!-- Miniatura 16:9 com Duração e Selo de Origem -->
-              <div class="relative aspect-video w-full bg-black cursor-pointer group" onclick="openEmbeddedPlayer('Documentário: Manejo Tradicional de Abelhas Nativas Jataí', 'https://www.youtube.com/watch?v=sample1', 'YOUTUBE', 'Meliponário Yby Porã', 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800')">
-                <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-                <!-- Selo de Origem Discreto -->
-                <span class="absolute top-2.5 left-2.5 bg-red-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow-sm flex items-center gap-1">
-                  <i data-lucide="youtube" class="w-3 h-3"></i> YOUTUBE
-                </span>
-                <!-- Duração -->
-                <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-xs">
-                  24:18
-                </span>
-                <!-- Botão Play Central -->
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <div class="w-11 h-11 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-                    <i data-lucide="play" class="w-5 h-5 fill-forest ml-0.5"></i>
-                  </div>
-                </div>
-              </div>
-              <!-- Informações -->
-              <div class="p-3">
-                <h4 class="text-xs font-bold text-charcoal leading-snug line-clamp-2">
-                  Manejo de Abelhas Nativas sem Ferrão Jataí: Multiplicação de Enxames e Caixa Inteligente
-                </h4>
-                <div class="mt-2 flex items-center justify-between text-[11px] text-charcoal-soft">
-                  <span class="font-semibold text-forest">Meliponário Yby Porã</span>
-                  <span>Há 3 dias</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card de Vídeo Longo 2 -->
-            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
-              <div class="relative aspect-video w-full bg-black cursor-pointer group" onclick="openEmbeddedPlayer('Aula Magna: Agrofloresta Sintrópica e Regeneração de Nascentes', 'https://odysee.com/agrofloresta', 'ODYSEE LIVRE', 'Coletivo Terra Livre', 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800')">
-                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-                <span class="absolute top-2.5 left-2.5 bg-emerald-700 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow-sm flex items-center gap-1">
-                  <i data-lucide="play" class="w-3 h-3 fill-white"></i> ODYSEE LIVRE
-                </span>
-                <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-xs">
-                  48:05
-                </span>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <div class="w-11 h-11 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-                    <i data-lucide="play" class="w-5 h-5 fill-forest ml-0.5"></i>
-                  </div>
-                </div>
-              </div>
-              <div class="p-3">
-                <h4 class="text-xs font-bold text-charcoal leading-snug line-clamp-2">
-                  Agrofloresta Sintrópica na Prática: Regeneração e Plantio em Solos Degradados
-                </h4>
-                <div class="mt-2 flex items-center justify-between text-[11px] text-charcoal-soft">
-                  <span class="font-semibold text-forest">Coletivo Terra Livre</span>
-                  <span>Há 1 semana</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card de Vídeo Longo 3 -->
-            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between">
-              <div class="relative aspect-video w-full bg-black cursor-pointer group" onclick="openEmbeddedPlayer('Bioconstrução com Adobe e Bambu Tratado', 'https://www.youtube.com/watch?v=sample3', 'PEERTUBE', 'BioArquitetura Viva', 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800')">
-                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-                <span class="absolute top-2.5 left-2.5 bg-orange-700 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow-sm flex items-center gap-1">
-                  <i data-lucide="radio" class="w-3 h-3"></i> PEERTUBE
-                </span>
-                <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-xs">
-                  36:40
-                </span>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <div class="w-11 h-11 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-                    <i data-lucide="play" class="w-5 h-5 fill-forest ml-0.5"></i>
-                  </div>
-                </div>
-              </div>
-              <div class="p-3">
-                <h4 class="text-xs font-bold text-charcoal leading-snug line-clamp-2">
-                  Oficina de Bioconstrução: Teste de Resistência do Barro, Adobe e Amarras de Bambu
-                </h4>
-                <div class="mt-2 flex items-center justify-between text-[11px] text-charcoal-soft">
-                  <span class="font-semibold text-forest">BioArquitetura Viva</span>
-                  <span>Há 2 semanas</span>
-                </div>
-              </div>
-            </div>
-
+          <!-- Grade de Vídeos Longos (Renderizada Dinamicamente no Estilo YouTube da foto de referência) -->
+          <div id="long-videos-grid" class="space-y-4">
+            <!-- Cards gerados via renderLongVideos() -->
           </div>
         </div>
 
@@ -1432,52 +1363,39 @@
     </div>
   </div>
 
-  <!-- Modal Extra: Player Embutido de Vídeo Longo -->
-  <div id="modal-embedded-player" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-3 sm:p-4">
-    <div class="bg-charcoal text-white w-full sm:max-w-[480px] rounded-3xl overflow-hidden shadow-2xl space-y-3 p-4">
-      <div class="flex items-center justify-between pb-2 border-b border-neutral-700">
-        <div class="flex items-center gap-2">
-          <span id="player-platform-badge" class="bg-red-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded uppercase">YOUTUBE</span>
-          <span id="player-author-text" class="text-xs text-neutral-300 font-semibold truncate max-w-[200px]">Autor</span>
-        </div>
-        <button onclick="closeModal('modal-embedded-player')" class="text-neutral-400 hover:text-white p-1">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+  <!-- Modal Exclusivo: Janela só com o Vídeo e Botão X de Fechar -->
+  <div id="modal-video-player" class="fixed inset-0 bg-black/95 z-50 hidden flex flex-col justify-center items-center p-3 sm:p-6 backdrop-blur-md">
+    <!-- Botão X bem visível no canto superior direito para fechar e retornar à página -->
+    <button onclick="closeVideoPlayerModal()" class="absolute top-4 right-4 z-50 flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/20 hover:bg-white/30 text-white font-bold text-xs transition shadow-xl backdrop-blur-md cursor-pointer border border-white/20">
+      <i data-lucide="x" class="w-5 h-5"></i>
+      <span>Fechar</span>
+    </button>
+
+    <!-- Container Central com o Player de Vídeo -->
+    <div class="w-full max-w-4xl flex flex-col gap-3">
+      <div class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+        <iframe 
+          id="dedicated-video-iframe"
+          src="" 
+          class="w-full h-full border-0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          title="Player YBYgram">
+        </iframe>
       </div>
 
-      <!-- Área de Reprodução 16:9 Simulada com Controles -->
-      <div class="relative aspect-video w-full bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-neutral-800">
-        <img id="player-thumb-img" src="" class="w-full h-full object-cover opacity-60">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-16 h-16 rounded-full bg-forest/90 border-2 border-white/60 flex items-center justify-center text-white shadow-2xl animate-pulse">
-            <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
+      <!-- Metadados limpos abaixo do player -->
+      <div class="flex items-start justify-between text-white gap-3 px-1">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span id="player-modal-badge" class="bg-red-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded uppercase">YOUTUBE</span>
+            <span id="player-modal-subject" class="text-[10px] text-neutral-400 font-mono">Assunto</span>
           </div>
+          <h3 id="player-modal-title" class="text-sm sm:text-base font-bold text-white leading-snug">Título</h3>
+          <p id="player-modal-author" class="text-xs text-neutral-300 font-semibold flex items-center gap-1">Canal</p>
         </div>
-        <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] bg-black/60 backdrop-blur-xs px-3 py-1.5 rounded-xl">
-          <span class="text-emerald-300 font-semibold flex items-center gap-1">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Player Oficial Incorporado
-          </span>
-          <span class="text-neutral-300 font-mono">00:00 / HD</span>
-        </div>
-      </div>
-
-      <div>
-        <h3 id="player-title-text" class="text-xs font-bold text-white leading-snug">Título</h3>
-        <p class="text-[11px] text-neutral-400 mt-1">Hospedado externamente na rede de origem com transparência ética e sem anúncios invasivos do YBYgram.</p>
-      </div>
-
-      <div class="flex items-center justify-between pt-2 border-t border-neutral-700 text-xs text-neutral-300">
-        <button onclick="showToast('🌱 Gratidão enviada ao autor!')" class="flex items-center gap-1.5 hover:text-emerald-400">
-          <span>🌱</span>
-          <span class="text-[11px] font-bold">Semear Gratidão</span>
-        </button>
-        <button onclick="showToast('Roda de conversa aberta!')" class="flex items-center gap-1.5 hover:text-emerald-400">
-          <i data-lucide="message-square" class="w-4 h-4"></i>
-          <span class="text-[11px] font-semibold">Partilha</span>
-        </button>
-        <button onclick="showToast('Link do vídeo copiado!')" class="flex items-center gap-1.5 hover:text-emerald-400">
-          <i data-lucide="share-2" class="w-4 h-4"></i>
-          <span class="text-[11px] font-semibold">Partilhar</span>
+        <button onclick="closeVideoPlayerModal()" class="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shrink-0">
+          <i data-lucide="corner-up-left" class="w-3.5 h-3.5"></i> Voltar à página
         </button>
       </div>
     </div>
@@ -2217,36 +2135,25 @@
         switchFeedSubTab('videos-curtos');
       }
 
-      // 2. DIRECIONAMENTO PARA ABA: VÍDEOS LONGOS (16:9 VITRINE)
+      // 2. DIRECIONAMENTO PARA ABA: VÍDEOS LONGOS (16:9 ESTILO YOUTUBE)
       else if (format === 'longo') {
-        const container = document.getElementById('long-videos-grid');
-        const card = document.createElement('div');
-        card.className = 'bg-[#eaece8] border border-[#d5d8d2] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between';
-        card.innerHTML = `
-          <div class="relative aspect-video w-full bg-black cursor-pointer group" onclick="openEmbeddedPlayer('${title.replace(/'/g, "\\'")}', '${url}', '${platform}', '${author}', '${randomThumb}')">
-            <img src="${randomThumb}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
-            <span class="absolute top-2.5 left-2.5 ${badgeBg} text-[9px] font-extrabold px-2 py-0.5 rounded shadow-sm flex items-center gap-1">
-              <i data-lucide="play" class="w-3 h-3 fill-current"></i> ${platform.toUpperCase()}
-            </span>
-            <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-xs">
-              HD
-            </span>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div class="w-11 h-11 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-                <i data-lucide="play" class="w-5 h-5 fill-forest ml-0.5"></i>
-              </div>
-            </div>
-          </div>
-          <div class="p-3">
-            <h4 class="text-xs font-bold text-charcoal leading-snug line-clamp-2">${title}</h4>
-            <div class="mt-2 flex items-center justify-between text-[11px] text-charcoal-soft">
-              <span class="font-semibold text-forest">${author}</span>
-              <span>Agora mesmo</span>
-            </div>
-          </div>
-        `;
-        container.prepend(card);
+        const newLongVideo = {
+          id: 'lv_' + Date.now(),
+          title: title,
+          author: author,
+          avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
+          platform: platform,
+          platformBadge: platform.toUpperCase(),
+          duration: '18:30',
+          isLive: false,
+          views: 'Agora mesmo',
+          timeAgo: 'Recente',
+          subject: 'Soberania Digital',
+          thumb: randomThumb,
+          embedUrl: url.includes('odysee.com') ? `https://odysee.com/$/embed/${url.replace('https://odysee.com/', '')}` : 'https://odysee.com/$/embed/@esdhubem:a/ybygram:f'
+        };
+        LONG_VIDEOS.unshift(newLongVideo);
+        renderLongVideos(LONG_VIDEOS);
         switchTab('feed');
         switchFeedSubTab('videos-longos');
       }
@@ -2304,13 +2211,267 @@
       lucide.createIcons();
     }
 
-    // Modal do Player Embutido de Vídeo Longo
+    // -------------------------------------------------------------
+    // CATÁLOGO E MOTOR DE PESQUISA: VÍDEOS LONGOS (ESTILO YOUTUBE)
+    // -------------------------------------------------------------
+    const LONG_VIDEOS = [
+      {
+        id: 'lv_1',
+        title: 'Manejo de Abelhas Nativas sem Ferrão Jataí: Multiplicação de Enxames e Caixa Inteligente',
+        author: 'Meliponário Yby Porã',
+        avatar: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=150',
+        platform: 'YouTube',
+        platformBadge: 'YOUTUBE',
+        duration: '24:18',
+        isLive: false,
+        views: '22 mil assistindo',
+        timeAgo: 'Há 3 dias',
+        subject: 'Abelhas Nativas',
+        thumb: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800',
+        embedUrl: 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'
+      },
+      {
+        id: 'lv_2',
+        title: 'Agrofloresta Sintrópica na Prática: Regeneração e Plantio em Solos Degradados',
+        author: 'Coletivo Terra Livre',
+        avatar: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=150',
+        platform: 'Odysee Livre',
+        platformBadge: 'ODYSEE LIVRE',
+        duration: '48:05',
+        isLive: false,
+        views: '45 mil visualizações',
+        timeAgo: 'Há 1 semana',
+        subject: 'Agroecologia',
+        thumb: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800',
+        embedUrl: 'https://odysee.com/$/embed/@esdhubem:a/ybygram:f'
+      },
+      {
+        id: 'lv_3',
+        title: 'Oficina de Bioconstrução: Teste de Resistência do Barro, Adobe e Amarras de Bambu',
+        author: 'BioArquitetura Viva',
+        avatar: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=150',
+        platform: 'PeerTube',
+        platformBadge: 'PEERTUBE',
+        duration: '36:40',
+        isLive: false,
+        views: '18 mil visualizações',
+        timeAgo: 'Há 2 semanas',
+        subject: 'Bioconstrução',
+        thumb: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800',
+        embedUrl: 'https://odysee.com/$/embed/@esdhubem:a/ybygram:f'
+      },
+      {
+        id: 'lv_4',
+        title: 'Identificação Botânica e Propriedades Terapêuticas da Guaçatonga e Espinheira-Santa',
+        author: 'Dona Benvinda Ervas',
+        avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
+        platform: 'YouTube',
+        platformBadge: 'YOUTUBE',
+        duration: '19:50',
+        isLive: false,
+        views: '9,9 mil assistindo',
+        timeAgo: 'Ontem',
+        subject: 'Plantas Medicinais',
+        thumb: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800',
+        embedUrl: 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'
+      },
+      {
+        id: 'lv_5',
+        title: 'Rede Descentralizada e Soberania Digital: Como Proteger Saberes sem Big Techs',
+        author: 'Redes Livres Brasil',
+        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+        platform: 'Odysee Livre',
+        platformBadge: 'ODYSEE LIVRE',
+        duration: '31:15',
+        isLive: true,
+        views: '26 mil assistindo',
+        timeAgo: 'AO VIVO',
+        subject: 'Soberania Digital',
+        thumb: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800',
+        embedUrl: 'https://odysee.com/$/embed/@esdhubem:a/ybygram:f'
+      },
+      {
+        id: 'lv_6',
+        title: 'Sementes Crioulas e Permacultura: Conservação Genética Tradicional Comunitária',
+        author: 'Guardiões de Sementes',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+        platform: 'YouTube',
+        platformBadge: 'YOUTUBE',
+        duration: '42:10',
+        isLive: false,
+        views: '14 mil visualizações',
+        timeAgo: 'Há 4 dias',
+        subject: 'Agroecologia',
+        thumb: 'https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=800',
+        embedUrl: 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'
+      }
+    ];
+
+    let currentVideoTopic = 'todos';
+
+    function renderLongVideos(list) {
+      const container = document.getElementById('long-videos-grid');
+      if (!container) return;
+
+      if (!list || list.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center bg-white rounded-2xl border border-[#d5d8d2] space-y-2">
+            <span class="text-3xl">🔍</span>
+            <p class="text-xs font-bold text-charcoal">Nenhum vídeo encontrado para este assunto.</p>
+            <p class="text-[11px] text-charcoal-soft">Tente buscar por outro termo ou selecione outro tópico.</p>
+            <button onclick="clearVideoSearch()" class="mt-2 px-3 py-1 bg-forest text-white text-xs font-bold rounded-lg hover:bg-forest-dark transition">Limpar Filtros</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(v => {
+        let badgeColor = 'bg-red-600';
+        if (v.platform.toLowerCase().includes('odysee')) badgeColor = 'bg-emerald-700';
+        else if (v.platform.toLowerCase().includes('peertube')) badgeColor = 'bg-orange-700';
+
+        return `
+          <div class="video-card bg-transparent cursor-pointer group flex flex-col gap-2.5 transition" onclick="openDedicatedVideoPlayer('${v.id}')">
+            <!-- Miniatura 16:9 com cantos arredondados -->
+            <div class="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-xs border border-black/5">
+              <img src="${v.thumb}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+              <div class="absolute inset-0 bg-black/15 group-hover:bg-transparent transition"></div>
+              
+              <!-- Selo de Origem Discreto Superior -->
+              <span class="absolute top-2.5 left-2.5 ${badgeColor} text-white text-[9px] font-black px-2 py-0.5 rounded-md shadow-sm uppercase tracking-wider flex items-center gap-1">
+                ${v.platformBadge}
+              </span>
+
+              <!-- Badge de Duração ou AO VIVO Inferior Direito -->
+              ${v.isLive ? `
+                <span class="absolute bottom-2.5 right-2.5 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-md flex items-center gap-1 uppercase tracking-wider shadow-md animate-pulse">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white"></span> AO VIVO
+                </span>
+              ` : `
+                <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded-md backdrop-blur-xs">
+                  ${v.duration}
+                </span>
+              `}
+
+              <!-- Play central no hover -->
+              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                <div class="w-12 h-12 rounded-full bg-white/90 text-forest flex items-center justify-center shadow-xl group-hover:scale-110 transition">
+                  <i data-lucide="play" class="w-6 h-6 fill-forest ml-0.5"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detalhes no Estilo YouTube (Avatar + Título + Canal com Verificado + Views + Menu) -->
+            <div class="flex items-start gap-3 px-0.5">
+              <img src="${v.avatar}" class="w-9 h-9 rounded-full object-cover shrink-0 border border-black/10 mt-0.5">
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xs sm:text-sm font-bold text-charcoal leading-snug line-clamp-2 group-hover:text-forest transition">
+                  ${v.title}
+                </h4>
+                <div class="flex items-center gap-1 mt-1 text-[11px] text-neutral-600 font-semibold">
+                  <span>${v.author}</span>
+                  <svg class="w-3.5 h-3.5 text-neutral-500 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <div class="text-[11px] text-neutral-500 mt-0.5">
+                  <span>${v.views}</span> • <span>${v.timeAgo}</span>
+                </div>
+              </div>
+              <button onclick="event.stopPropagation(); showToast('Opções para: ' + '${v.title.replace(/'/g, "\\'")}')" class="text-neutral-400 hover:text-neutral-700 p-1">
+                <i data-lucide="more-vertical" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function filterLongVideos() {
+      const searchInput = document.getElementById('video-search-input');
+      const clearBtn = document.getElementById('clear-video-search-btn');
+      const query = (searchInput?.value || '').trim().toLowerCase();
+
+      if (clearBtn) {
+        if (query) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+
+      const filtered = LONG_VIDEOS.filter(v => {
+        const matchesTopic = currentVideoTopic === 'todos' || v.subject.toLowerCase() === currentVideoTopic.toLowerCase();
+        const matchesQuery = !query || 
+          v.title.toLowerCase().includes(query) ||
+          v.author.toLowerCase().includes(query) ||
+          v.subject.toLowerCase().includes(query) ||
+          v.platform.toLowerCase().includes(query);
+        return matchesTopic && matchesQuery;
+      });
+
+      renderLongVideos(filtered);
+    }
+
+    function selectVideoTopic(topic) {
+      currentVideoTopic = topic;
+      document.querySelectorAll('.topic-chip').forEach(btn => {
+        if (btn.getAttribute('data-topic') === topic) {
+          btn.className = 'topic-chip active px-3 py-1.5 rounded-lg text-[11px] font-bold bg-[#C85A32] text-white shrink-0 transition shadow-xs';
+        } else {
+          btn.className = 'topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition';
+        }
+      });
+      filterLongVideos();
+    }
+
+    function clearVideoSearch() {
+      const searchInput = document.getElementById('video-search-input');
+      if (searchInput) searchInput.value = '';
+      currentVideoTopic = 'todos';
+      document.querySelectorAll('.topic-chip').forEach(btn => {
+        if (btn.getAttribute('data-topic') === 'todos') {
+          btn.className = 'topic-chip active px-3 py-1.5 rounded-lg text-[11px] font-bold bg-[#C85A32] text-white shrink-0 transition shadow-xs';
+        } else {
+          btn.className = 'topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition';
+        }
+      });
+      filterLongVideos();
+    }
+
+    // Janela Focada Somente no Vídeo com Botão X de Fechar
+    function openDedicatedVideoPlayer(videoId) {
+      const video = LONG_VIDEOS.find(v => v.id === videoId) || LONG_VIDEOS[0];
+      if (!video) return;
+
+      document.getElementById('player-modal-badge').innerText = video.platformBadge;
+      document.getElementById('player-modal-subject').innerText = video.subject;
+      document.getElementById('player-modal-title').innerText = video.title;
+      document.getElementById('player-modal-author').innerText = `${video.author} • ${video.views}`;
+      
+      const iframe = document.getElementById('dedicated-video-iframe');
+      if (iframe) {
+        iframe.src = video.embedUrl || 'https://odysee.com/$/embed/@esdhubem:a/ybygram:f';
+      }
+
+      openModal('modal-video-player');
+    }
+
+    function closeVideoPlayerModal() {
+      const iframe = document.getElementById('dedicated-video-iframe');
+      if (iframe) {
+        iframe.src = ''; // Para imediatamente a reprodução
+      }
+      closeModal('modal-video-player');
+      // Retorna perfeitamente para a página de vídeos longos
+      switchTab('feed');
+      switchFeedSubTab('videos-longos');
+    }
+
+    // Compatibilidade com chamadas legadas
     function openEmbeddedPlayer(title, url, platform, author, thumb) {
-      document.getElementById('player-platform-badge').innerText = platform.toUpperCase();
-      document.getElementById('player-author-text').innerText = author;
-      document.getElementById('player-title-text').innerText = title;
-      document.getElementById('player-thumb-img').src = thumb || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800';
-      openModal('modal-embedded-player');
+      const found = LONG_VIDEOS.find(v => v.title === title);
+      if (found) {
+        openDedicatedVideoPlayer(found.id);
+      } else {
+        openDedicatedVideoPlayer(LONG_VIDEOS[0]?.id);
+      }
     }
 
     // Controle de Reprodução de Áudio na aba Música
@@ -2452,6 +2613,11 @@
       t.innerText = msg;
       t.classList.remove('hidden');
       setTimeout(() => t.classList.add('hidden'), 3200);
+    }
+
+    // Inicialização da grade de vídeos longos estilo YouTube
+    if (typeof renderLongVideos === 'function') {
+      renderLongVideos(LONG_VIDEOS);
     }
   </script>
 </body>
