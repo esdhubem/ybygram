@@ -25,6 +25,7 @@ class _FeedScreenState extends State<FeedScreen> {
   final TextEditingController _videoAuthorController = TextEditingController();
   final TextEditingController _videoSearchController = TextEditingController();
   String _selectedVideoTopic = 'Todos';
+  String? _activeInlineVideoId;
 
   final _subTabs = const [
     ('📚 Saberes', 'Postagens em texto e imagem'),
@@ -885,90 +886,189 @@ class _FeedScreenState extends State<FeedScreen> {
             separatorBuilder: (_, __) => const SizedBox(height: 14),
             itemBuilder: (context, index) {
               final video = filteredVideos[index];
-              return InkWell(
-                borderRadius: BorderRadius.circular(16),
-                onTap: () => _openEmbeddedPlayer(video),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Miniatura 16:9 com Cantos Arredondados e Badges
-                    AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.network(video.thumbnailUrl, fit: BoxFit.cover),
-                            Container(color: Colors.black12),
-                            // Selo de Origem Superior
-                            Positioned(
-                              top: 8,
-                              left: 8,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
-                                decoration: BoxDecoration(
-                                  color: video.platform.toLowerCase().contains('youtube')
-                                      ? Colors.red.shade700
-                                      : const Color(0xFF245C45),
-                                  borderRadius: BorderRadius.circular(6),
-                                  boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
-                                ),
-                                child: Text(
-                                  video.platformBadge,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 0.5,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // Badge de Duração ou AO VIVO Inferior Direito
-                            Positioned(
-                              bottom: 8,
-                              right: 8,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                                decoration: BoxDecoration(
-                                  color: video.isLive ? Colors.red.shade700 : Colors.black87,
-                                  borderRadius: BorderRadius.circular(6),
-                                  boxShadow: const [BoxShadow(color: Colors.black38, blurRadius: 4)],
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    if (video.isLive) ...[
-                                      const Icon(Icons.circle, color: Colors.white, size: 7),
-                                      const SizedBox(width: 4),
-                                      const Text(
-                                        'AO VIVO',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.w900,
+              final isPlaying = _activeInlineVideoId == video.id;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Miniatura 16:9 OU Player Inline Direto no Card (Sem abrir janela)
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: isPlaying
+                          ? Container(
+                              color: const Color(0xFF121814),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Image.network(video.thumbnailUrl, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
+                                  Container(color: Colors.black.withOpacity(0.72)),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const CircleAvatar(
+                                        radius: 26,
+                                        backgroundColor: Color(0xFFC85A32),
+                                        child: Icon(Icons.play_arrow, color: Colors.white, size: 36),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black54,
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Icon(Icons.graphic_eq, color: Color(0xFFC85A32), size: 16),
+                                            const SizedBox(width: 6),
+                                            Text(
+                                              'Assistindo via ${video.platform}',
+                                              style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ] else
-                                      Text(
-                                        video.duration,
+                                    ],
+                                  ),
+                                  // Botão Fechar Player e voltar para miniatura
+                                  Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() => _activeInlineVideoId = null);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.85),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: Colors.white24),
+                                        ),
+                                        child: const Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(Icons.close, color: Colors.white, size: 14),
+                                            SizedBox(width: 4),
+                                            Text('Fechar', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Selo de Origem
+                                  Positioned(
+                                    top: 8,
+                                    left: 8,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF245C45),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        video.platformBadge,
+                                        style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w900),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : InkWell(
+                              onTap: () {
+                                setState(() => _activeInlineVideoId = video.id);
+                              },
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  Image.network(video.thumbnailUrl, fit: BoxFit.cover),
+                                  Container(color: Colors.black12),
+                                  // Selo de Origem Superior
+                                  Positioned(
+                                    top: 8,
+                                    left: 8,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
+                                      decoration: BoxDecoration(
+                                        color: video.platform.toLowerCase().contains('youtube')
+                                            ? Colors.red.shade700
+                                            : const Color(0xFF245C45),
+                                        borderRadius: BorderRadius.circular(6),
+                                        boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
+                                      ),
+                                      child: Text(
+                                        video.platformBadge,
                                         style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 10,
-                                          fontFamily: 'monospace',
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.w900,
+                                          letterSpacing: 0.5,
                                         ),
                                       ),
-                                  ],
-                                ),
+                                    ),
+                                  ),
+                                  // Botão Central de Play
+                                  Center(
+                                    child: Container(
+                                      width: 48,
+                                      height: 48,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFFC85A32),
+                                        shape: BoxShape.circle,
+                                        boxShadow: [BoxShadow(color: Colors.black45, blurRadius: 10)],
+                                      ),
+                                      child: const Icon(Icons.play_arrow, color: Colors.white, size: 28),
+                                    ),
+                                  ),
+                                  // Badge de Duração ou AO VIVO Inferior Direito
+                                  Positioned(
+                                    bottom: 8,
+                                    right: 8,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: video.isLive ? Colors.red.shade700 : Colors.black87,
+                                        borderRadius: BorderRadius.circular(6),
+                                        boxShadow: const [BoxShadow(color: Colors.black38, blurRadius: 4)],
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          if (video.isLive) ...[
+                                            const Icon(Icons.circle, color: Colors.white, size: 7),
+                                            const SizedBox(width: 4),
+                                            const Text(
+                                              'AO VIVO',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                          ] else
+                                            Text(
+                                              video.duration,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                                fontFamily: 'monospace',
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
                     ),
-                    const SizedBox(height: 10),
+                  ),
+                  const SizedBox(height: 10),
                     // Detalhes no Estilo YouTube (Avatar + Título + Canal + Views + Menu)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1194,135 +1294,11 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  // Janela Dedicada do Vídeo com Botão X de Fechar
+  // Reprodução de Vídeo Inline (Direto no Card sem abrir janela)
   void _openEmbeddedPlayer(VideoLongItem video) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.92),
-      builder: (ctx) => Dialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            // Container do Player
-            Container(
-              margin: const EdgeInsets.only(top: 36),
-              decoration: BoxDecoration(
-                color: const Color(0xFF121814),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.white12),
-                boxShadow: const [BoxShadow(color: Colors.black87, blurRadius: 20)],
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Player 16:9
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Image.network(video.thumbnailUrl, fit: BoxFit.cover, width: double.infinity),
-                        Container(color: Colors.black45),
-                        const CircleAvatar(
-                          radius: 32,
-                          backgroundColor: Color(0xFFC85A32),
-                          child: Icon(Icons.play_arrow, color: Colors.white, size: 44),
-                        ),
-                        // Barra de player discreta
-                        Positioned(
-                          bottom: 10,
-                          left: 12,
-                          right: 12,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                decoration: BoxDecoration(
-                                  color: Colors.black87,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  video.platformBadge,
-                                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                decoration: BoxDecoration(
-                                  color: Colors.black87,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  video.duration,
-                                  style: const TextStyle(color: Colors.white, fontSize: 10, fontFamily: 'monospace'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Detalhes abaixo do vídeo
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          video.title,
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14, height: 1.3),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 14,
-                              backgroundImage: NetworkImage(video.authorAvatar),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              video.authorName,
-                              style: const TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(width: 4),
-                            const Icon(Icons.check_circle, size: 13, color: Colors.white54),
-                            const Spacer(),
-                            Text(
-                              video.views,
-                              style: const TextStyle(color: Colors.white54, fontSize: 11),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Botão "X" bem visível no canto superior direito para fechar e voltar
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Material(
-                color: Colors.white24,
-                shape: const CircleBorder(),
-                child: IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white, size: 24),
-                  tooltip: 'Fechar vídeo',
-                  onPressed: () => Navigator.pop(ctx),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    setState(() {
+      _activeInlineVideoId = video.id;
+    });
   }
 }
 
