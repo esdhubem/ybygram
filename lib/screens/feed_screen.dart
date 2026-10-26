@@ -678,11 +678,28 @@ class _FeedScreenState extends State<FeedScreen> {
                   child: const Icon(Icons.balance, size: 20, color: Color(0xFF1B4734)),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        margin: const EdgeInsets.only(bottom: 3),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.50),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text(
+                          '🌱 ALGORITMOS AMIGÁVEIS',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.5,
+                            color: Color(0xFF1B4734),
+                          ),
+                        ),
+                      ),
+                      const Text(
                         'Fluxo cronológico de oportunidades para todos',
                         style: TextStyle(
                           fontSize: 12,
@@ -691,8 +708,8 @@ class _FeedScreenState extends State<FeedScreen> {
                           letterSpacing: -0.2,
                         ),
                       ),
-                      SizedBox(height: 2),
-                      Row(
+                      const SizedBox(height: 2),
+                      const Row(
                         children: [
                           Icon(Icons.schedule, size: 12, color: Color(0xFF1B4734)),
                           SizedBox(width: 4),
