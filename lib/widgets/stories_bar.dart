@@ -37,7 +37,7 @@ class StoriesBar extends StatelessWidget {
                 const Icon(Icons.people_alt_outlined, size: 16, color: Color(0xFF245C45)),
                 const SizedBox(width: 6),
                 Text(
-                  'PESSOAS QUE SIGO',
+                  'Rede de Conexões',
                   style: theme.textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                     color: const Color(0xFF245C45),

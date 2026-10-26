@@ -646,12 +646,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   _ => const Color(0xFF5B21B6).withOpacity(0.40),
                 };
 
-                final inactiveTextColor = switch (index) {
-                  0 => const Color(0xFFD3EDE1),
-                  1 => const Color(0xFFFBE8DA),
-                  2 => const Color(0xFFE2E8F0),
-                  _ => const Color(0xFFEDE9FE),
-                };
+                const inactiveTextColor = Colors.white;
 
                 return Expanded(
                   child: Padding(
@@ -970,7 +965,69 @@ class _FeedScreenState extends State<FeedScreen> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
-        // Motor de Pesquisa da Aba Vídeos Curtos (Posicionado no topo onde a seta indica)
+        // Card Explicativo: Vídeos Curtos (No mesmo estilo do card de Música)
+        Container(
+          margin: const EdgeInsets.fromLTRB(14, 4, 14, 10),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF6E3012), Color(0xFF3A1506)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFF59E0B).withOpacity(0.3)),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF59E0B).withOpacity(0.25),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text(
+                        'PÍLULAS VERTICAIS SOBERANAS',
+                        style: TextStyle(
+                          color: Color(0xFFFDE68A),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 9,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Vídeos Curtos & Práticas da Terra',
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Saberes práticos, agroecologia e momentos da comunidade em formato 9:16.',
+                      style: TextStyle(color: Colors.white70, fontSize: 11),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF59E0B).withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: const Color(0xFFF59E0B).withOpacity(0.3)),
+                ),
+                alignment: Alignment.center,
+                child: const Text('🎬', style: TextStyle(fontSize: 20)),
+              ),
+            ],
+          ),
+        ),
+        // Motor de Pesquisa da Aba Vídeos Curtos
         _buildSearchField(
           controller: _curtosSearchController,
           hintText: 'Pesquisar vídeos curtos ou criadores...',
@@ -1026,6 +1083,68 @@ class _FeedScreenState extends State<FeedScreen> {
     return ListView(
       padding: const EdgeInsets.all(14),
       children: [
+        // Card Explicativo: Vídeos Longos (No mesmo estilo lindo do card de Música)
+        Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF0D3455), Color(0xFF081F33)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFF38BDF8).withOpacity(0.3)),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF38BDF8).withOpacity(0.25),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text(
+                        'ACERVO AUDIOVISUAL LIVRE',
+                        style: TextStyle(
+                          color: Color(0xFFBAE6FD),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 9,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Aulas, Vivências & Documentários',
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Encontros gravados, registros tradicionais e aulas completas com player direto.',
+                      style: TextStyle(color: Colors.white70, fontSize: 11),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF38BDF8).withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: const Color(0xFF38BDF8).withOpacity(0.3)),
+                ),
+                alignment: Alignment.center,
+                child: const Text('🖥️', style: TextStyle(fontSize: 20)),
+              ),
+            ],
+          ),
+        ),
         // 1. Motor de Pesquisa de Assunto
         Container(
           margin: const EdgeInsets.only(bottom: 12),
