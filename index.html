@@ -106,8 +106,11 @@
           <span class="ml-2 text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full font-semibold border border-emerald-400/30">Rede Soberana</span>
         </div>
 
-        <!-- Ações do Topo: Botão Publicar por Link Externo + Avatar do Usuário -->
+        <!-- Ações do Topo: Texto Faça sua Postagem + Botão Publicar por Link Externo + Avatar do Usuário -->
         <div class="flex items-center gap-2">
+          <span onclick="openModal('modal-new-video-link')" class="text-[11px] sm:text-xs font-bold text-amber-200 hover:text-white cursor-pointer tracking-wide transition select-none flex items-center whitespace-nowrap" title="Clique para publicar">
+            Faça sua Postagem
+          </span>
           <button onclick="openModal('modal-new-video-link')" class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-forest-dark font-extrabold text-[11px] shadow-sm transition" title="Publicar por Link (Vídeo Curto, Longo ou Música)">
             <i data-lucide="link-2" class="w-4 h-4"></i>
             <span>+ Link</span>
