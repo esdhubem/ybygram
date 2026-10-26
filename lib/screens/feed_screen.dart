@@ -24,6 +24,9 @@ class _FeedScreenState extends State<FeedScreen> {
   final TextEditingController _videoDescController = TextEditingController();
   final TextEditingController _videoAuthorController = TextEditingController();
   final TextEditingController _videoSearchController = TextEditingController();
+  final TextEditingController _saberesSearchController = TextEditingController();
+  final TextEditingController _curtosSearchController = TextEditingController();
+  final TextEditingController _musicaSearchController = TextEditingController();
   String _selectedVideoTopic = 'Todos';
   String? _activeInlineVideoId;
 
@@ -43,6 +46,9 @@ class _FeedScreenState extends State<FeedScreen> {
     _videoDescController.dispose();
     _videoAuthorController.dispose();
     _videoSearchController.dispose();
+    _saberesSearchController.dispose();
+    _curtosSearchController.dispose();
+    _musicaSearchController.dispose();
     super.dispose();
   }
 
@@ -614,8 +620,59 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
+  // Componente Reutilizável: Motor de Pesquisa Unificado
+  Widget _buildSearchField({
+    required TextEditingController controller,
+    required String hintText,
+    required VoidCallback onChanged,
+    required VoidCallback onClear,
+    EdgeInsetsGeometry margin = const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+  }) {
+    return Container(
+      margin: margin,
+      child: TextField(
+        controller: controller,
+        onChanged: (_) => onChanged(),
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
+          prefixIcon: const Icon(Icons.search, size: 20, color: Color(0xFF245C45)),
+          suffixIcon: controller.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear, size: 18),
+                  onPressed: onClear,
+                )
+              : null,
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(color: Color(0xFFD5D8D2)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(color: Color(0xFFD5D8D2)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(color: Color(0xFF245C45), width: 1.5),
+          ),
+        ),
+      ),
+    );
+  }
+
   // ABA 1: Saberes (Textos e Imagens Comunitárias)
   Widget _buildSaberesFeed(MockSupabaseService supabase) {
+    final query = _saberesSearchController.text.trim().toLowerCase();
+    final filteredPosts = supabase.posts.where((post) {
+      if (query.isEmpty) return true;
+      return post.content.toLowerCase().contains(query) ||
+          post.authorName.toLowerCase().contains(query) ||
+          post.tags.any((t) => t.toLowerCase().contains(query));
+    }).toList();
+
     return RefreshIndicator(
       onRefresh: () async => setState(() {}),
       child: ListView(
@@ -708,6 +765,17 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
           ),
+          // Motor de Pesquisa da Aba Saberes (Posicionado exatamente onde a seta indica: entre Algoritmos Amigáveis e Partilha)
+          _buildSearchField(
+            controller: _saberesSearchController,
+            hintText: 'Pesquisar publicações, saberes ou autores...',
+            onChanged: () => setState(() {}),
+            onClear: () {
+              _saberesSearchController.clear();
+              setState(() {});
+            },
+            margin: const EdgeInsets.fromLTRB(14, 4, 14, 6),
+          ),
           // Caixa de Partilha (Container cinza #EAECE8 e campo interno BRANCO para destaque)
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -750,23 +818,88 @@ class _FeedScreenState extends State<FeedScreen> {
               ],
             ),
           ),
-          // Posts dinâmicos cronológicos
-          ...supabase.posts.map((post) => PostCard(
-            post: post,
-            onLikeChanged: () => setState(() {}),
-          )),
+          // Posts dinâmicos cronológicos filtrados
+          if (filteredPosts.isEmpty)
+            Container(
+              padding: const EdgeInsets.all(28),
+              alignment: Alignment.center,
+              child: Column(
+                children: [
+                  const Icon(Icons.search_off, size: 40, color: Colors.grey),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Nenhuma publicação encontrada para esta busca.',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.grey),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _saberesSearchController.clear();
+                      setState(() {});
+                    },
+                    child: const Text('Limpar busca'),
+                  ),
+                ],
+              ),
+            )
+          else
+            ...filteredPosts.map((post) => PostCard(
+              post: post,
+              onLikeChanged: () => setState(() {}),
+            )),
           const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  // ABA 2: Vídeos Curtos (9:16) — LIMPO, SEM AVISOS REDUNDANTES NO TOPO
+  // ABA 2: Vídeos Curtos (9:16) — Motor de Pesquisa no topo conforme indicado pela seta
   Widget _buildVideosCurtosFeed(MockSupabaseService supabase) {
+    final query = _curtosSearchController.text.trim().toLowerCase();
+    final filteredReels = supabase.videoReels.where((reel) {
+      if (query.isEmpty) return true;
+      return reel.caption.toLowerCase().contains(query) ||
+          reel.authorName.toLowerCase().contains(query) ||
+          reel.tag.toLowerCase().contains(query);
+    }).toList();
+
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
-        ...supabase.videoReels.map((reel) => VideoReelCard(reel: reel)),
+        // Motor de Pesquisa da Aba Vídeos Curtos (Posicionado no topo onde a seta indica)
+        _buildSearchField(
+          controller: _curtosSearchController,
+          hintText: 'Pesquisar vídeos curtos ou criadores...',
+          onChanged: () => setState(() {}),
+          onClear: () {
+            _curtosSearchController.clear();
+            setState(() {});
+          },
+          margin: const EdgeInsets.fromLTRB(14, 2, 14, 10),
+        ),
+        if (filteredReels.isEmpty)
+          Container(
+            padding: const EdgeInsets.all(28),
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                const Icon(Icons.search_off, size: 40, color: Colors.grey),
+                const SizedBox(height: 8),
+                const Text(
+                  'Nenhum vídeo curto encontrado.',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.grey),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _curtosSearchController.clear();
+                    setState(() {});
+                  },
+                  child: const Text('Limpar busca'),
+                ),
+              ],
+            ),
+          )
+        else
+          ...filteredReels.map((reel) => VideoReelCard(reel: reel)),
       ],
     );
   }
@@ -1155,8 +1288,18 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
       ],
     );
+  }
+
   // ABA 4: Música (Paisagens Sonoras, Cantos e Áudios Autorais)
   Widget _buildMusicaFeed(MockSupabaseService supabase) {
+    final query = _musicaSearchController.text.trim().toLowerCase();
+    final filteredAudios = supabase.musicAudios.where((audio) {
+      if (query.isEmpty) return true;
+      return audio.title.toLowerCase().contains(query) ||
+          audio.authorName.toLowerCase().contains(query) ||
+          audio.platformBadge.toLowerCase().contains(query);
+    }).toList();
+
     return ListView(
       padding: const EdgeInsets.all(14),
       children: [
@@ -1193,8 +1336,41 @@ class _FeedScreenState extends State<FeedScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 14),
-        ...supabase.musicAudios.map((audio) {
+        // Motor de Pesquisa da Aba Música (Posicionado logo abaixo do card roxo conforme indicado pela seta)
+        _buildSearchField(
+          controller: _musicaSearchController,
+          hintText: 'Pesquisar cantos, paisagens sonoras ou artistas...',
+          onChanged: () => setState(() {}),
+          onClear: () {
+            _musicaSearchController.clear();
+            setState(() {});
+          },
+          margin: const EdgeInsets.only(top: 10, bottom: 12),
+        ),
+        if (filteredAudios.isEmpty)
+          Container(
+            padding: const EdgeInsets.all(28),
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                const Icon(Icons.search_off, size: 40, color: Colors.grey),
+                const SizedBox(height: 8),
+                const Text(
+                  'Nenhum áudio ou música encontrado.',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.grey),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _musicaSearchController.clear();
+                    setState(() {});
+                  },
+                  child: const Text('Limpar busca'),
+                ),
+              ],
+            ),
+          )
+        else
+          ...filteredAudios.map((audio) {
           return Container(
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.all(12),

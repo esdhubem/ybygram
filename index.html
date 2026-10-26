@@ -217,6 +217,21 @@
             </div>
           </div>
 
+          <!-- Motor de Pesquisa em Saberes -->
+          <div class="mx-3.5 relative flex items-center">
+            <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
+            <input 
+              type="text" 
+              id="saberes-search-input" 
+              oninput="filterSaberesPosts()" 
+              placeholder="Pesquisar publicações, saberes ou autores..." 
+              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white border border-[#d5d8d2] text-xs outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+            >
+            <button id="clear-saberes-search-btn" onclick="clearSaberesSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
           <!-- 4. CAIXA DE TEXTO E PARTILHA (Container cinza #EAECE8 com campo interno branco para destaque) -->
           <div class="mx-3.5 bg-[#EAECE8] p-3 rounded-2xl border border-[#D5D8D2] shadow-xs flex items-center gap-2.5">
             <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-8 h-8 rounded-full object-cover border border-[#D5D8D2]">
@@ -360,6 +375,21 @@
         <!-- SUB-ABA 1.2: VÍDEOS CURTOS (9:16) INCORPORADOS COM SELO DE ORIGEM (SEM AVISOS REDUNDANTES NO FEED) -->
         <div id="subtab-videos-curtos" class="hidden p-3.5 space-y-4 pb-6">
           
+          <!-- Motor de Pesquisa em Vídeos Curtos -->
+          <div class="relative flex items-center">
+            <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
+            <input 
+              type="text" 
+              id="curtos-search-input" 
+              oninput="filterCurtosVideos()" 
+              placeholder="Pesquisar vídeos curtos ou criadores..." 
+              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white border border-[#d5d8d2] text-xs outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+            >
+            <button id="clear-curtos-search-btn" onclick="clearCurtosSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
           <!-- Container Dinâmico de Vídeos Curtos (Permite adicionar novos vídeos no topo) -->
           <div id="video-reels-list" class="space-y-4">
 
@@ -535,6 +565,21 @@
             <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-200 flex items-center justify-center text-xl shrink-0 border border-purple-400/30">
               🎵
             </div>
+          </div>
+
+          <!-- Motor de Pesquisa em Música & Áudios -->
+          <div class="relative flex items-center">
+            <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
+            <input 
+              type="text" 
+              id="musica-search-input" 
+              oninput="filterMusicaTracks()" 
+              placeholder="Pesquisar cantos, paisagens sonoras ou artistas..." 
+              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white border border-[#d5d8d2] text-xs outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+            >
+            <button id="clear-musica-search-btn" onclick="clearMusicaSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
           </div>
 
           <!-- Lista de Áudios / Paisagens Sonoras -->
@@ -2446,6 +2491,84 @@
         }
       });
       filterLongVideos();
+    }
+
+    // 1. Motor de Busca de Saberes
+    function filterSaberesPosts() {
+      const input = document.getElementById('saberes-search-input');
+      const clearBtn = document.getElementById('clear-saberes-search-btn');
+      const query = (input?.value || '').trim().toLowerCase();
+      if (clearBtn) {
+        if (query) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      const posts = document.querySelectorAll('#posts-feed-container article.post-card');
+      posts.forEach(post => {
+        const text = post.innerText.toLowerCase();
+        if (!query || text.includes(query)) {
+          post.style.display = '';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    }
+
+    function clearSaberesSearch() {
+      const input = document.getElementById('saberes-search-input');
+      if (input) input.value = '';
+      filterSaberesPosts();
+    }
+
+    // 2. Motor de Busca de Vídeos Curtos
+    function filterCurtosVideos() {
+      const input = document.getElementById('curtos-search-input');
+      const clearBtn = document.getElementById('clear-curtos-search-btn');
+      const query = (input?.value || '').trim().toLowerCase();
+      if (clearBtn) {
+        if (query) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      const reels = document.querySelectorAll('#video-reels-list > div');
+      reels.forEach(reel => {
+        const text = reel.innerText.toLowerCase();
+        if (!query || text.includes(query)) {
+          reel.style.display = '';
+        } else {
+          reel.style.display = 'none';
+        }
+      });
+    }
+
+    function clearCurtosSearch() {
+      const input = document.getElementById('curtos-search-input');
+      if (input) input.value = '';
+      filterCurtosVideos();
+    }
+
+    // 3. Motor de Busca de Música & Paisagens Sonoras
+    function filterMusicaTracks() {
+      const input = document.getElementById('musica-search-input');
+      const clearBtn = document.getElementById('clear-musica-search-btn');
+      const query = (input?.value || '').trim().toLowerCase();
+      if (clearBtn) {
+        if (query) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      const tracks = document.querySelectorAll('#music-audio-list > div');
+      tracks.forEach(track => {
+        const text = track.innerText.toLowerCase();
+        if (!query || text.includes(query)) {
+          track.style.display = '';
+        } else {
+          track.style.display = 'none';
+        }
+      });
+    }
+
+    function clearMusicaSearch() {
+      const input = document.getElementById('musica-search-input');
+      if (input) input.value = '';
+      filterMusicaTracks();
     }
 
     // Variável para rastrear qual vídeo está reproduzindo no momento
