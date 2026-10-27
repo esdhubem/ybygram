@@ -790,6 +790,315 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
+  void _showQuickNotePlayerDialog(StoryItem story) {
+    if (story.quickNote == null) return;
+    final note = story.quickNote!;
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.85),
+      builder: (ctx) {
+        return Center(
+          child: Container(
+            width: MediaQuery.of(ctx).size.width * 0.88,
+            height: 520,
+            decoration: BoxDecoration(
+              color: const Color(0xFF171717),
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(color: Colors.white.withOpacity(0.15)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.6),
+                  blurRadius: 25,
+                  offset: const Offset(0, 10),
+                )
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(28),
+              child: Stack(
+                children: [
+                  // Conteúdo central: Vídeo curto ou Visualizador de Voz
+                  Positioned.fill(
+                    child: note.isVideo
+                        ? Image.network(
+                            story.avatarUrl,
+                            fit: BoxFit.cover,
+                            color: Colors.black.withOpacity(0.2),
+                            colorBlendMode: BlendMode.darken,
+                          )
+                        : Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Color(0xFF0F172A), Color(0xFF064E3B), Color(0xFF022C22)],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                            child: Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 46,
+                                    backgroundImage: NetworkImage(story.avatarUrl),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  const Icon(Icons.graphic_eq, color: Color(0xFF34D399), size: 48),
+                                  const SizedBox(height: 6),
+                                  const Text(
+                                    'Voz da Terra • Reproduzindo em loop',
+                                    style: TextStyle(color: Colors.white70, fontSize: 11),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                  ),
+
+                  // Barra de Progresso de 15s no topo
+                  Positioned(
+                    top: 12,
+                    left: 14,
+                    right: 14,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: const LinearProgressIndicator(
+                        value: null,
+                        backgroundColor: Colors.white24,
+                        valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF34D399)),
+                        minHeight: 4,
+                      ),
+                    ),
+                  ),
+
+                  // Cabeçalho com dados do autor e botão fechar
+                  Positioned(
+                    top: 24,
+                    left: 14,
+                    right: 14,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 18,
+                              backgroundImage: NetworkImage(story.avatarUrl),
+                            ),
+                            const SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      story.authorName,
+                                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF059669),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        note.isVideo ? '🎬 Vídeo 15s' : '🎙️ Áudio 15s',
+                                        style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Text(
+                                  'Recado Comunitário • Expira em 24h',
+                                  style: TextStyle(color: Colors.white70, fontSize: 10),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close, color: Colors.white),
+                          onPressed: () => Navigator.pop(ctx),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Rodapé com legenda do recado e botão de semear gratidão
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.transparent, Colors.black.withOpacity(0.85), Colors.black],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(color: Colors.white12),
+                            ),
+                            child: Text(
+                              note.text,
+                              style: const TextStyle(color: Colors.white, fontSize: 12, height: 1.35),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF059669),
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  ),
+                                  icon: const Text('🌱'),
+                                  label: const Text('Semear Gratidão', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                                  onPressed: () {
+                                    Navigator.pop(ctx);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('🌱 Semente de gratidão enviada a ${story.authorName}!')),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showRecordQuickNoteDialog() {
+    bool isVideo = true;
+    final controller = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        '🎙️ Gravar Recado Rápido',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close, size: 20),
+                        onPressed: () => Navigator.pop(ctx),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    'Grave um vídeo ou nota de voz de até 15s • Sem custo de servidor, expira em 24h.',
+                    style: TextStyle(fontSize: 11, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 12),
+                  // Alternar Vídeo / Áudio
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: isVideo ? const Color(0xFF059669).withOpacity(0.12) : null,
+                            side: BorderSide(color: isVideo ? const Color(0xFF059669) : Colors.grey.shade300),
+                          ),
+                          icon: const Icon(Icons.videocam, size: 16),
+                          label: const Text('Vídeo Curto (15s)'),
+                          onPressed: () => setSheetState(() => isVideo = true),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: !isVideo ? const Color(0xFF059669).withOpacity(0.12) : null,
+                            side: BorderSide(color: !isVideo ? const Color(0xFF059669) : Colors.grey.shade300),
+                          ),
+                          icon: const Icon(Icons.mic, size: 16),
+                          label: const Text('Nota de Voz (15s)'),
+                          onPressed: () => setSheetState(() => isVideo = false),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      labelText: 'Legenda / Mensagem do Recado',
+                      hintText: 'Ex: Bom dia! Acabamos de preparar as sementes...',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      contentPadding: const EdgeInsets.all(12),
+                    ),
+                    maxLines: 2,
+                  ),
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 44,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF245C45),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      icon: const Icon(Icons.check_circle_outline),
+                      label: const Text('Publicar Recado Rápido (24h)', style: TextStyle(fontWeight: FontWeight.bold)),
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('🎙️ Recado Rápido publicado na sua Rede de Conexões por 24h!')),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   // ABA 1: Saberes (Textos e Imagens Comunitárias)
   Widget _buildSaberesFeed(MockSupabaseService supabase) {
     final query = _saberesSearchController.text.trim().toLowerCase();
@@ -807,6 +1116,8 @@ class _FeedScreenState extends State<FeedScreen> {
           // Pessoas que Sigo
           StoriesBar(
             stories: supabase.stories,
+            onQuickNoteTap: _showQuickNotePlayerDialog,
+            onRecordTap: _showRecordQuickNoteDialog,
             onStoryTap: (story) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

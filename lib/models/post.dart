@@ -1,9 +1,28 @@
+class QuickNoteItem {
+  final String text;
+  final String? mediaUrl;
+  final bool isVideo; // true = vídeo curto, false = nota de voz
+  final String durationText;
+  final DateTime createdAt;
+
+  const QuickNoteItem({
+    required this.text,
+    this.mediaUrl,
+    this.isVideo = true,
+    this.durationText = '0:15',
+    required this.createdAt,
+  });
+
+  bool get isExpired => DateTime.now().difference(createdAt).inHours >= 24;
+}
+
 class StoryItem {
   final String id;
   final String authorName;
   final String avatarUrl;
   final bool isLive;
   final bool hasUnseen;
+  final QuickNoteItem? quickNote;
 
   const StoryItem({
     required this.id,
@@ -11,7 +30,10 @@ class StoryItem {
     required this.avatarUrl,
     this.isLive = false,
     this.hasUnseen = true,
+    this.quickNote,
   });
+
+  bool get hasActiveQuickNote => quickNote != null && !quickNote!.isExpired;
 }
 
 class PostItem {

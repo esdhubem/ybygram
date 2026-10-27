@@ -165,46 +165,21 @@
         <!-- SUB-ABA 1.1: SABERES GERAIS (FEED CRONOLÓGICO) -->
         <div id="subtab-saberes" class="space-y-3 pb-6">
           
-          <!-- 2. SEÇÃO REDE DE CONEXÕES -->
+          <!-- 2. SEÇÃO REDE DE CONEXÕES COM RECADO RÁPIDO (Quick Note / Video Status) -->
           <div class="bg-white border-b border-cream-border py-2.5 px-3.5 shadow-xs">
-            <div class="flex items-center mb-2 px-1">
+            <div class="flex items-center justify-between mb-2 px-1">
               <span class="text-[11px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1.5">
                 <i data-lucide="users" class="w-3.5 h-3.5 text-forest"></i>
                 Rede de Conexões
               </span>
+              <button onclick="openQuickNoteRecorder()" class="text-[10px] font-bold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition shadow-2xs active:scale-95" title="Gravar Recado Rápido de até 15 segundos (sem custo de servidor, expira em 24h)">
+                <i data-lucide="video" class="w-3 h-3 text-emerald-700"></i>
+                <span>+ Recado Rápido</span>
+              </button>
             </div>
-            <div class="flex gap-3 overflow-x-auto hide-scrollbar py-1">
-              <!-- Seguido 1: Dona Benvinda (Borda verde-mata #245C45 de conteúdo novo, clica e direciona) -->
-              <div onclick="goToUserPublication('Dona Benvinda Ervas')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Clique para ver a última publicação de Dona Benvinda">
-                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs hover:scale-105 transition">
-                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
-                </div>
-                <span class="text-[10px] font-bold text-forest">D. Benvinda</span>
-              </div>
-
-              <!-- Seguido 2: Mestre Tiago (Borda verde-mata de novo saber, clica e direciona) -->
-              <div onclick="goToUserPublication('Mestre Tiago')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Clique para ver a última publicação de Mestre Tiago">
-                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs hover:scale-105 transition">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
-                </div>
-                <span class="text-[10px] font-bold text-forest">M. Tiago</span>
-              </div>
-
-              <!-- Seguido 3: Aldeia Yvy Porã (Borda verde-mata de novo saber, clica e direciona) -->
-              <div onclick="goToUserPublication('Aldeia Yvy Porã')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Clique para ver a última publicação de Aldeia Yvy">
-                <div class="w-14 h-14 rounded-full p-[2.5px] bg-forest shadow-xs hover:scale-105 transition">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
-                </div>
-                <span class="text-[10px] font-bold text-forest">Aldeia Yvy</span>
-              </div>
-
-              <!-- Seguido 4: Biojoias Vale -->
-              <div onclick="goToUserPublication('Biojoias Vale')" class="flex flex-col items-center gap-1 shrink-0 cursor-pointer" title="Clique para ver a última publicação de Biojoias Vale">
-                <div class="w-14 h-14 rounded-full p-[2px] bg-cream-border hover:scale-105 transition">
-                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop" class="w-full h-full rounded-full object-cover bg-white">
-                </div>
-                <span class="text-[10px] font-semibold text-charcoal-soft">Biojoias</span>
-              </div>
+            <!-- Lista horizontal de avatares com borda viva quando houver recado ativo -->
+            <div id="connections-bar-container" class="flex gap-3 overflow-x-auto hide-scrollbar py-1">
+              <!-- Renderizado dinamicamente via renderConnectionsBar() -->
             </div>
           </div>
 
@@ -1372,6 +1347,130 @@
 
   <!-- ==================== MODAIS ==================== -->
 
+  <!-- Modal 0A: Player de Recado Rápido (Quick Note / Video Status até 15s em Loop) -->
+  <div id="modal-quick-note-player" class="fixed inset-0 bg-black/90 z-50 hidden flex flex-col items-center justify-center p-3 sm:p-6 backdrop-blur-md transition-all">
+    <div class="relative w-full max-w-[380px] h-[580px] max-h-[92vh] bg-neutral-950 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between border border-white/15">
+      
+      <!-- Barra de Progresso de 15 Segundos -->
+      <div class="absolute top-3 left-3 right-3 z-30 flex items-center gap-1">
+        <div class="flex-1 h-1.5 bg-white/20 rounded-full overflow-hidden">
+          <div id="quick-note-progress-bar" class="h-full bg-emerald-400 rounded-full transition-all duration-100" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Cabeçalho do Player de Status -->
+      <div class="relative z-20 pt-6 px-4 flex items-center justify-between bg-gradient-to-b from-black/85 via-black/40 to-transparent">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-emerald-400 via-amber-300 to-emerald-500 shadow-md">
+            <img id="quick-note-player-avatar" src="" class="w-full h-full rounded-full object-cover bg-neutral-800">
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h4 id="quick-note-player-author" class="text-xs font-black text-white"></h4>
+              <span id="quick-note-player-badge" class="text-[9px] bg-emerald-500/90 text-white px-1.5 py-0.2 rounded-full font-bold">15s</span>
+            </div>
+            <p id="quick-note-player-time" class="text-[10px] text-neutral-300 font-medium"></p>
+          </div>
+        </div>
+        <button onclick="closeQuickNotePlayer()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-md transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Conteúdo do Player (Vídeo ou Visualizador de Voz com Onda Sonora) -->
+      <div id="quick-note-player-media-container" class="absolute inset-0 flex items-center justify-center overflow-hidden">
+        <!-- Inserido dinamicamente: vídeo em loop ou imagem com ondas de áudio -->
+      </div>
+
+      <!-- Rodapé do Player com Legenda e Ações -->
+      <div class="relative z-20 p-4 bg-gradient-to-t from-black/95 via-black/75 to-transparent space-y-3">
+        <div class="bg-black/50 backdrop-blur-md p-3 rounded-2xl border border-white/10">
+          <p id="quick-note-player-caption" class="text-xs text-white leading-relaxed font-medium"></p>
+        </div>
+        <div class="flex items-center justify-between gap-2">
+          <button onclick="giveGratitudeToQuickNote()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+            <span>🌱</span> Semear Gratidão
+          </button>
+          <button id="quick-note-view-post-btn" onclick="" class="px-3 py-2 bg-white/15 hover:bg-white/25 text-white rounded-xl text-xs font-bold transition flex items-center gap-1">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Ver Saber
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 0B: Gravar Recado Rápido (Até 15s • Sem custo de servidor • Expira em 24h) -->
+  <div id="modal-quick-note-record" class="fixed inset-0 bg-black/75 z-50 hidden flex items-center justify-center p-3 sm:p-4 backdrop-blur-sm transition-all">
+    <div class="bg-white w-full max-w-[400px] rounded-3xl p-5 space-y-4 max-h-[92vh] overflow-y-auto shadow-2xl">
+      <div class="flex items-center justify-between pb-2 border-b border-cream-border">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-emerald-100 text-forest flex items-center justify-center text-base font-bold">
+            🎙️
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-charcoal">Gravar Recado Rápido</h3>
+            <p class="text-[10px] text-charcoal-soft">Vídeo ou voz de até 15s • Expira em 24h</p>
+          </div>
+        </div>
+        <button onclick="closeQuickNoteRecorder()"><i data-lucide="x" class="w-5 h-5 text-charcoal-soft"></i></button>
+      </div>
+
+      <!-- Tipo de Recado: Vídeo ou Áudio -->
+      <div class="flex rounded-xl bg-cream p-1 text-xs font-bold">
+        <button type="button" id="record-type-video-btn" onclick="selectRecordType('video')" class="flex-1 py-1.5 rounded-lg bg-white text-forest shadow-xs transition flex items-center justify-center gap-1.5">
+          <i data-lucide="video" class="w-3.5 h-3.5"></i> Vídeo Curto
+        </button>
+        <button type="button" id="record-type-audio-btn" onclick="selectRecordType('audio')" class="flex-1 py-1.5 rounded-lg text-charcoal-soft hover:text-forest transition flex items-center justify-center gap-1.5">
+          <i data-lucide="mic" class="w-3.5 h-3.5"></i> Nota de Voz
+        </button>
+      </div>
+
+      <!-- Área de Visualização e Gravação -->
+      <div class="relative w-full aspect-square bg-neutral-900 rounded-2xl overflow-hidden flex flex-col items-center justify-center border border-neutral-700">
+        <!-- Preview de Vídeo ou Avatar com onda sonora -->
+        <div id="record-preview-container" class="absolute inset-0 flex items-center justify-center">
+          <!-- Renderizado dinamicamente -->
+        </div>
+
+        <!-- Timer Circular de 15 segundos -->
+        <div class="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-mono font-bold flex items-center gap-1.5 border border-white/20">
+          <span id="record-status-dot" class="w-2 h-2 rounded-full bg-neutral-400"></span>
+          <span id="record-timer-text">00:15</span>
+        </div>
+
+        <!-- Botão Central de Gravar / Parar -->
+        <div class="absolute bottom-4 z-20 flex flex-col items-center gap-1.5">
+          <button id="record-toggle-btn" onclick="toggleRecording()" class="w-14 h-14 rounded-full bg-red-500 hover:bg-red-600 border-4 border-white shadow-xl flex items-center justify-center text-white transition active:scale-95">
+            <div id="record-btn-icon" class="w-5 h-5 rounded-full bg-white"></div>
+          </button>
+          <span id="record-hint-text" class="text-[10px] text-white/90 font-bold drop-shadow">Toque para gravar</span>
+        </div>
+      </div>
+
+      <!-- Campo de Legenda / Frase do Recado -->
+      <div class="space-y-1">
+        <label class="block text-xs font-bold text-charcoal">Mensagem ou relato do recado:</label>
+        <textarea id="record-caption-input" rows="2" placeholder="Ex: Bom dia comunidade! Acabamos de colher sementes de melipona..." class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest resize-none"></textarea>
+      </div>
+
+      <!-- Informação ecológica e soberana -->
+      <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 text-[10px] text-emerald-800 flex items-start gap-2">
+        <i data-lucide="shield-check" class="w-4 h-4 shrink-0 text-emerald-600 mt-0.5"></i>
+        <span><strong>Soberania e Baixo Impacto:</strong> O recado fica armazenado localmente no dispositivo e expira automaticamente em 24h, economizando energia e banda de servidores.</span>
+      </div>
+
+      <div class="flex gap-2">
+        <button id="save-quick-note-btn" onclick="saveMyQuickNote()" class="flex-1 bg-forest hover:bg-forest-dark text-white py-2.5 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 shadow-xs">
+          <i data-lucide="check" class="w-4 h-4"></i> Publicar Recado (24h)
+        </button>
+        <button id="delete-quick-note-btn" onclick="deleteMyQuickNote()" class="hidden px-3 py-2.5 bg-red-100 hover:bg-red-200 text-red-700 rounded-xl text-xs font-bold transition" title="Excluir recado atual">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Checkout Pagar.me com Split & PIX -->
   <div id="modal-checkout" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 transition-all">
     <div class="bg-white w-full sm:max-w-[400px] rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
@@ -1792,6 +1891,7 @@
       renderMarketplaceGrid(PRODUCTS);
       renderFeedProducts();
       renderFeedBooks();
+      renderConnectionsBar();
     });
 
     // Navegação Principal de Abas Inferiores
@@ -1887,7 +1987,445 @@
       lucide.createIcons();
     }
 
-    // 2. Direcionamento direto ao clicar na foto de quem você segue
+    // ==========================================
+    // RECADOS RÁPIDOS (QUICK NOTE / VIDEO STATUS)
+    // ==========================================
+    let CONNECTIONS_DATA = [
+      {
+        id: 'user_you',
+        author: 'Você',
+        fullName: 'Silviane Terra',
+        avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face',
+        isCurrentUser: true,
+        postTarget: 'Silviane Terra',
+        quickNote: null // Carregado do localStorage se ativo
+      },
+      {
+        id: 'benvinda',
+        author: 'D. Benvinda',
+        fullName: 'Dona Benvinda Ervas',
+        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop',
+        postTarget: 'Dona Benvinda Ervas',
+        quickNote: {
+          type: 'video',
+          timeAgo: 'Há 2h',
+          caption: '🌿 Bom dia comunidade da terra! O extrato de guaçatonga e espinheira fresca já foi coado no orvalho da manhã. Muita saúde a todos!',
+          duration: 15,
+          mediaUrl: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500&fit=crop'
+        }
+      },
+      {
+        id: 'tiago',
+        author: 'M. Tiago',
+        fullName: 'Mestre Tiago',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop',
+        postTarget: 'Mestre Tiago',
+        quickNote: {
+          type: 'audio',
+          timeAgo: 'Há 4h',
+          caption: '🪵 Salve amigos! Selecionamos taquaras maduras na lua minguante. Quem quiser aprender o ponto de corte, chega na oficina às 16h!',
+          duration: 12,
+          mediaUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop'
+        }
+      },
+      {
+        id: 'aldeia',
+        author: 'Aldeia Yvy',
+        fullName: 'Aldeia Yvy Porã',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop',
+        postTarget: 'Aldeia Yvy Porã',
+        quickNote: null // Sem recado ativo -> clique direciona para publicação no feed
+      },
+      {
+        id: 'biojoias',
+        author: 'Biojoias',
+        fullName: 'Biojoias Vale',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop',
+        postTarget: 'Biojoias Vale',
+        quickNote: null // Sem recado ativo -> clique direciona para publicação no feed
+      }
+    ];
+
+    // Verifica se há recado gravado pelo usuário ativo nas últimas 24h
+    function loadUserQuickNote() {
+      try {
+        const stored = localStorage.getItem('yby_user_quick_note');
+        if (stored) {
+          const note = JSON.parse(stored);
+          const now = Date.now();
+          if (note.expiresAt && now < note.expiresAt) {
+            const hoursLeft = Math.ceil((note.expiresAt - now) / (1000 * 60 * 60));
+            CONNECTIONS_DATA[0].quickNote = {
+              type: note.type || 'video',
+              timeAgo: `Expira em ${hoursLeft}h`,
+              caption: note.caption || 'Recado de Silviane para a comunidade!',
+              duration: 15,
+              mediaUrl: CONNECTIONS_DATA[0].avatar
+            };
+          } else {
+            localStorage.removeItem('yby_user_quick_note');
+            CONNECTIONS_DATA[0].quickNote = null;
+          }
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar recado do usuário:', e);
+      }
+    }
+
+    // Renderiza a Barra Horizontal da Rede de Conexões
+    function renderConnectionsBar() {
+      loadUserQuickNote();
+      const container = document.getElementById('connections-bar-container');
+      if (!container) return;
+
+      container.innerHTML = CONNECTIONS_DATA.map(conn => {
+        const hasQuickNote = !!conn.quickNote;
+        
+        // Se tem recado ativo: Borda viva com gradiente animado pulsante e badge
+        // Se NÃO tem recado ativo: Borda normal sutil em verde-mata
+        let borderClass = '';
+        let badgeIcon = '';
+
+        if (hasQuickNote) {
+          borderClass = 'p-[3px] bg-gradient-to-tr from-emerald-500 via-amber-400 to-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.7)] animate-pulse';
+          badgeIcon = conn.quickNote.type === 'video' 
+            ? '<span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-emerald-600 border border-white rounded-full flex items-center justify-center text-[8px] text-white font-black shadow-xs">🎬</span>'
+            : '<span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-emerald-600 border border-white rounded-full flex items-center justify-center text-[8px] text-white font-black shadow-xs">🎙️</span>';
+        } else if (conn.isCurrentUser) {
+          borderClass = 'p-[2px] bg-neutral-300';
+          badgeIcon = '<span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-emerald-600 border border-white rounded-full flex items-center justify-center text-[10px] text-white font-black shadow-xs">+</span>';
+        } else {
+          borderClass = 'p-[2.5px] bg-[#245C45] shadow-xs';
+        }
+
+        const titleHint = conn.isCurrentUser
+          ? (hasQuickNote ? 'Seu Recado Rápido está ativo! Clique para ver ou editar' : 'Clique para gravar seu Recado Rápido (até 15s)')
+          : (hasQuickNote ? `Ver Recado Rápido de ${conn.author}` : `Ver última partilha de ${conn.author} no feed`);
+
+        return `
+          <div onclick="handleConnectionClick('${conn.id}')" 
+               class="flex flex-col items-center gap-1 shrink-0 cursor-pointer group" 
+               title="${titleHint}">
+            <div class="relative">
+              <div class="w-14 h-14 rounded-full ${borderClass} group-hover:scale-105 transition-all duration-300">
+                <img src="${conn.avatar}" alt="${conn.author}" class="w-full h-full rounded-full object-cover bg-neutral-100">
+              </div>
+              ${badgeIcon}
+            </div>
+            <span class="text-[10px] ${hasQuickNote ? 'font-black text-emerald-800' : 'font-bold text-[#245C45]'} tracking-tight">
+              ${conn.author}
+            </span>
+          </div>
+        `;
+      }).join('');
+      
+      lucide.createIcons();
+    }
+
+    // Ação ao Clicar em um Avatar da Rede de Conexões
+    function handleConnectionClick(connId) {
+      const conn = CONNECTIONS_DATA.find(c => c.id === connId);
+      if (!conn) return;
+
+      // Se for "Você" e NÃO tiver recado gravado: abre o gravador direto
+      if (conn.isCurrentUser && !conn.quickNote) {
+        openQuickNoteRecorder();
+        return;
+      }
+
+      // Se o autor tiver um Recado Rápido ativo: abre o Player de Status estilo WhatsApp/Instagram
+      if (conn.quickNote) {
+        openQuickNotePlayer(conn.id);
+        return;
+      }
+
+      // Se o autor NÃO tiver recado ativo: direciona para a última publicação do autor no feed
+      goToUserPublication(conn.postTarget);
+    }
+
+    // ==========================================
+    // PLAYER DE RECADO RÁPIDO (15 SEGUNDOS EM LOOP)
+    // ==========================================
+    let quickNoteTimerInterval = null;
+    let quickNoteCurrentSeconds = 0;
+    const QUICK_NOTE_DURATION = 15; // 15 segundos
+
+    function openQuickNotePlayer(connId) {
+      const conn = CONNECTIONS_DATA.find(c => c.id === connId);
+      if (!conn || !conn.quickNote) return;
+
+      const modal = document.getElementById('modal-quick-note-player');
+      const avatarEl = document.getElementById('quick-note-player-avatar');
+      const authorEl = document.getElementById('quick-note-player-author');
+      const timeEl = document.getElementById('quick-note-player-time');
+      const badgeEl = document.getElementById('quick-note-player-badge');
+      const captionEl = document.getElementById('quick-note-player-caption');
+      const mediaContainer = document.getElementById('quick-note-player-media-container');
+      const viewPostBtn = document.getElementById('quick-note-view-post-btn');
+
+      avatarEl.src = conn.avatar;
+      authorEl.innerText = conn.fullName || conn.author;
+      timeEl.innerText = `${conn.quickNote.timeAgo} • Recado Comunitário`;
+      badgeEl.innerText = conn.quickNote.type === 'video' ? '🎬 Vídeo 15s' : '🎙️ Nota de Voz 15s';
+      captionEl.innerText = conn.quickNote.caption;
+
+      // Configura botão de ir para a publicação
+      viewPostBtn.onclick = () => {
+        closeQuickNotePlayer();
+        goToUserPublication(conn.postTarget);
+      };
+
+      // Conteúdo multimídia do player
+      if (conn.quickNote.type === 'video') {
+        mediaContainer.innerHTML = `
+          <div class="relative w-full h-full">
+            <img src="${conn.quickNote.mediaUrl || conn.avatar}" class="w-full h-full object-cover brightness-90 animate-pulse" style="animation-duration: 4s;">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60"></div>
+            <!-- Indicador sutil de reprodução -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-2xl">
+                <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Visualizador de Nota de Voz com equalizador e ondas sonoras animadas
+        mediaContainer.innerHTML = `
+          <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900 p-6 space-y-6">
+            <div class="relative">
+              <img src="${conn.avatar}" class="w-28 h-28 rounded-full object-cover border-4 border-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.5)]">
+              <span class="absolute bottom-1 right-1 w-8 h-8 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center text-white text-sm">🎙️</span>
+            </div>
+            
+            <!-- Ondas sonoras animadas (Equalizador) -->
+            <div class="flex items-center gap-1.5 h-12">
+              <span class="w-1.5 bg-emerald-400 rounded-full animate-bounce" style="height: 40px; animation-delay: 0.1s;"></span>
+              <span class="w-1.5 bg-amber-300 rounded-full animate-bounce" style="height: 24px; animation-delay: 0.3s;"></span>
+              <span class="w-1.5 bg-emerald-400 rounded-full animate-bounce" style="height: 48px; animation-delay: 0.2s;"></span>
+              <span class="w-1.5 bg-emerald-300 rounded-full animate-bounce" style="height: 32px; animation-delay: 0.4s;"></span>
+              <span class="w-1.5 bg-amber-400 rounded-full animate-bounce" style="height: 44px; animation-delay: 0.15s;"></span>
+              <span class="w-1.5 bg-emerald-400 rounded-full animate-bounce" style="height: 20px; animation-delay: 0.35s;"></span>
+              <span class="w-1.5 bg-amber-300 rounded-full animate-bounce" style="height: 40px; animation-delay: 0.25s;"></span>
+            </div>
+          </div>
+        `;
+      }
+
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+
+      // Inicia a barra de progresso contínua de 15 segundos em loop
+      startQuickNoteProgressBar();
+    }
+
+    function startQuickNoteProgressBar() {
+      clearInterval(quickNoteTimerInterval);
+      const progressBar = document.getElementById('quick-note-progress-bar');
+      quickNoteCurrentSeconds = 0;
+      if (progressBar) progressBar.style.width = '0%';
+
+      const stepMs = 100;
+      const totalSteps = (QUICK_NOTE_DURATION * 1000) / stepMs;
+      let currentStep = 0;
+
+      quickNoteTimerInterval = setInterval(() => {
+        currentStep++;
+        const percent = (currentStep / totalSteps) * 100;
+        if (progressBar) progressBar.style.width = `${percent}%`;
+
+        // Ao completar 15 segundos, reinicia suavemente em loop contínuo
+        if (currentStep >= totalSteps) {
+          currentStep = 0;
+          if (progressBar) {
+            progressBar.style.transition = 'none';
+            progressBar.style.width = '0%';
+            setTimeout(() => {
+              progressBar.style.transition = 'width 100ms linear';
+            }, 50);
+          }
+        }
+      }, stepMs);
+    }
+
+    function closeQuickNotePlayer() {
+      clearInterval(quickNoteTimerInterval);
+      const modal = document.getElementById('modal-quick-note-player');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function giveGratitudeToQuickNote() {
+      showToast('🌱 Semente de gratidão enviada ao autor do recado!');
+      closeQuickNotePlayer();
+    }
+
+    // ==========================================
+    // GRAVAÇÃO DE RECADO RÁPIDO (USUÁRIO)
+    // ==========================================
+    let currentRecordType = 'video';
+    let isRecordingNow = false;
+    let recordTimerInterval = null;
+    let recordRemainingSeconds = 15;
+    let userHasRecorded = false;
+
+    function openQuickNoteRecorder() {
+      const modal = document.getElementById('modal-quick-note-record');
+      const deleteBtn = document.getElementById('delete-quick-note-btn');
+      const captionInput = document.getElementById('record-caption-input');
+
+      // Se já tem recado gravado, pré-carrega para poder editar ou excluir
+      const userConn = CONNECTIONS_DATA[0];
+      if (userConn && userConn.quickNote) {
+        if (deleteBtn) deleteBtn.classList.remove('hidden');
+        if (captionInput) captionInput.value = userConn.quickNote.caption || '';
+      } else {
+        if (deleteBtn) deleteBtn.classList.add('hidden');
+        if (captionInput) captionInput.value = '';
+      }
+
+      selectRecordType('video');
+      resetRecordState();
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeQuickNoteRecorder() {
+      stopRecordingProcess();
+      const modal = document.getElementById('modal-quick-note-record');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function selectRecordType(type) {
+      currentRecordType = type;
+      const videoBtn = document.getElementById('record-type-video-btn');
+      const audioBtn = document.getElementById('record-type-audio-btn');
+      const preview = document.getElementById('record-preview-container');
+
+      if (type === 'video') {
+        videoBtn.className = 'flex-1 py-1.5 rounded-lg bg-white text-forest shadow-xs font-bold transition flex items-center justify-center gap-1.5';
+        audioBtn.className = 'flex-1 py-1.5 rounded-lg text-charcoal-soft hover:text-forest font-bold transition flex items-center justify-center gap-1.5';
+        
+        preview.innerHTML = `
+          <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-800 to-neutral-900">
+            <img src="${CONNECTIONS_DATA[0].avatar}" class="w-32 h-32 rounded-full object-cover border-4 border-emerald-500/80 shadow-2xl">
+            <span class="text-xs text-white/80 font-bold mt-3 flex items-center gap-1">
+              <i data-lucide="camera" class="w-3.5 h-3.5 text-emerald-400"></i> Câmera Frontal Ativa
+            </span>
+          </div>
+        `;
+      } else {
+        audioBtn.className = 'flex-1 py-1.5 rounded-lg bg-white text-forest shadow-xs font-bold transition flex items-center justify-center gap-1.5';
+        videoBtn.className = 'flex-1 py-1.5 rounded-lg text-charcoal-soft hover:text-forest font-bold transition flex items-center justify-center gap-1.5';
+        
+        preview.innerHTML = `
+          <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900">
+            <div class="w-24 h-24 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-3xl shadow-xl">
+              🎙️
+            </div>
+            <span class="text-xs text-emerald-300 font-bold mt-3 flex items-center gap-1">
+              Microfone Sensível • Voz da Terra
+            </span>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    function resetRecordState() {
+      isRecordingNow = false;
+      userHasRecorded = false;
+      recordRemainingSeconds = 15;
+      clearInterval(recordTimerInterval);
+      const timerText = document.getElementById('record-timer-text');
+      const dot = document.getElementById('record-status-dot');
+      const btnIcon = document.getElementById('record-btn-icon');
+      const hint = document.getElementById('record-hint-text');
+
+      if (timerText) timerText.innerText = '00:15';
+      if (dot) dot.className = 'w-2 h-2 rounded-full bg-neutral-400';
+      if (btnIcon) btnIcon.className = 'w-5 h-5 rounded-full bg-white';
+      if (hint) hint.innerText = 'Toque para gravar';
+    }
+
+    function toggleRecording() {
+      if (!isRecordingNow) {
+        startRecordingProcess();
+      } else {
+        stopRecordingProcess();
+      }
+    }
+
+    function startRecordingProcess() {
+      isRecordingNow = true;
+      recordRemainingSeconds = 15;
+      const dot = document.getElementById('record-status-dot');
+      const btnIcon = document.getElementById('record-btn-icon');
+      const hint = document.getElementById('record-hint-text');
+
+      if (dot) dot.className = 'w-2 h-2 rounded-full bg-red-500 animate-ping';
+      if (btnIcon) btnIcon.className = 'w-4 h-4 rounded-xs bg-white'; // Ícone quadrado de STOP
+      if (hint) hint.innerText = 'Gravando... toque para finalizar';
+
+      clearInterval(recordTimerInterval);
+      recordTimerInterval = setInterval(() => {
+        recordRemainingSeconds--;
+        const timerText = document.getElementById('record-timer-text');
+        if (timerText) {
+          timerText.innerText = `00:${recordRemainingSeconds < 10 ? '0' : ''}${recordRemainingSeconds}`;
+        }
+
+        if (recordRemainingSeconds <= 0) {
+          stopRecordingProcess();
+          showToast('⏱️ Limite de 15 segundos atingido!');
+        }
+      }, 1000);
+    }
+
+    function stopRecordingProcess() {
+      clearInterval(recordTimerInterval);
+      if (isRecordingNow) {
+        isRecordingNow = false;
+        userHasRecorded = true;
+        const dot = document.getElementById('record-status-dot');
+        const btnIcon = document.getElementById('record-btn-icon');
+        const hint = document.getElementById('record-hint-text');
+
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        if (btnIcon) btnIcon.className = 'w-5 h-5 rounded-full bg-white';
+        if (hint) hint.innerText = '✅ Recado gravado com sucesso!';
+      }
+    }
+
+    function saveMyQuickNote() {
+      const caption = document.getElementById('record-caption-input')?.value.trim() || 'Partilha de momento consciente na comunidade.';
+      
+      const newNote = {
+        type: currentRecordType,
+        caption: caption,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + (24 * 60 * 60 * 1000) // 24 horas a partir de agora
+      };
+
+      try {
+        localStorage.setItem('yby_user_quick_note', JSON.stringify(newNote));
+        showToast('🎙️ Seu Recado Rápido está ativo e visível na Rede de Conexões por 24h!');
+      } catch (e) {
+        console.error('Erro ao salvar no localStorage:', e);
+      }
+
+      closeQuickNoteRecorder();
+      renderConnectionsBar();
+    }
+
+    function deleteMyQuickNote() {
+      localStorage.removeItem('yby_user_quick_note');
+      CONNECTIONS_DATA[0].quickNote = null;
+      closeQuickNoteRecorder();
+      renderConnectionsBar();
+      showToast('Recado Rápido removido da sua Rede de Conexões.');
+    }
+
+    // 2. Direcionamento direto ao clicar na foto de quem você segue (quando sem recado ativo)
     function goToUserPublication(authorName) {
       if (authorName === 'Você') {
         openModal('modal-new-text-post');

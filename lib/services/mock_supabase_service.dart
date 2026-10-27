@@ -38,26 +38,38 @@ class MockSupabaseService {
     );
 
     stories = [
-      const StoryItem(
+      StoryItem(
         id: 'st_1',
         authorName: 'Aldeia Yvy',
         avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
         isLive: true,
         hasUnseen: true,
       ),
-      const StoryItem(
+      StoryItem(
         id: 'st_2',
         authorName: 'Mestre Tiago',
         avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
         isLive: false,
         hasUnseen: true,
+        quickNote: QuickNoteItem(
+          text: '🪵 Salve amigos! Selecionamos taquaras maduras na lua minguante. Quem quiser aprender o ponto de corte, chega na oficina às 16h!',
+          isVideo: false,
+          durationText: '0:12',
+          createdAt: DateTime.now().subtract(const Duration(hours: 4)),
+        ),
       ),
-      const StoryItem(
+      StoryItem(
         id: 'st_3',
         authorName: 'Dona Benvinda',
         avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150',
         isLive: false,
         hasUnseen: true,
+        quickNote: QuickNoteItem(
+          text: '🌿 Bom dia comunidade da terra! O extrato de guaçatonga e espinheira fresca já foi coado no orvalho da manhã. Muita saúde a todos!',
+          isVideo: true,
+          durationText: '0:15',
+          createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+        ),
       ),
       const StoryItem(
         id: 'st_4',
