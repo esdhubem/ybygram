@@ -99,23 +99,23 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
         indicatorColor: theme.colorScheme.primary.withOpacity(0.15),
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.explore_outlined),
-            selectedIcon: Icon(Icons.explore, color: Color(0xFF245C45)),
+            icon: Icon(Icons.explore_outlined, color: Color(0xFF10B981)),
+            selectedIcon: Icon(Icons.explore, color: Color(0xFF059669)),
             label: 'Feed',
           ),
           NavigationDestination(
-            icon: Icon(Icons.school_outlined),
-            selectedIcon: Icon(Icons.school, color: Color(0xFF245C45)),
+            icon: Icon(Icons.school_outlined, color: Color(0xFF0284C7)),
+            selectedIcon: Icon(Icons.school, color: Color(0xFF0284C7)),
             label: 'Aulas',
           ),
           NavigationDestination(
-            icon: Icon(Icons.favorite_outline),
-            selectedIcon: Icon(Icons.favorite, color: Color(0xFF245C45)),
+            icon: Icon(Icons.favorite_outline, color: Color(0xFFE11D48)),
+            selectedIcon: Icon(Icons.favorite, color: Color(0xFFE11D48)),
             label: 'Hábitos',
           ),
           NavigationDestination(
-            icon: Icon(Icons.storefront_outlined),
-            selectedIcon: Icon(Icons.storefront, color: Color(0xFF245C45)),
+            icon: Icon(Icons.storefront_outlined, color: Color(0xFFEA580C)),
+            selectedIcon: Icon(Icons.storefront, color: Color(0xFFEA580C)),
             label: 'Loja',
           ),
         ],

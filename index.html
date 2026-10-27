@@ -1333,25 +1333,37 @@
 
     </div>
 
-    <!-- ==================== BARRA DE NAVEGAÇÃO INFERIOR ==================== -->
-    <nav class="bg-white border-t border-cream-border px-3 py-2 shrink-0 flex items-center justify-around z-30 shadow-lg">
-      <button onclick="switchTab('feed')" id="nav-btn-feed" class="nav-item flex flex-col items-center gap-0.5 text-forest font-bold text-[10px] transition">
-        <i data-lucide="compass" class="w-5 h-5"></i>
+    <!-- ==================== BARRA DE NAVEGAÇÃO INFERIOR COM ÍCONES COLORIDOS ==================== -->
+    <nav class="bg-white border-t border-cream-border px-3 py-1.5 shrink-0 flex items-center justify-around z-30 shadow-lg">
+      <!-- Feed: Verde Esmeralda -->
+      <button onclick="switchTab('feed')" id="nav-btn-feed" class="nav-item flex flex-col items-center gap-0.5 text-emerald-700 font-bold text-[10px] transition">
+        <div id="nav-icon-feed" class="p-1.5 rounded-2xl bg-emerald-100 text-emerald-600 shadow-xs scale-105 transition-all duration-200">
+          <i data-lucide="compass" class="w-5 h-5 text-emerald-600"></i>
+        </div>
         <span>Feed</span>
       </button>
 
-      <button onclick="switchTab('classes')" id="nav-btn-classes" class="nav-item flex flex-col items-center gap-0.5 text-charcoal-soft hover:text-forest font-medium text-[10px] transition">
-        <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+      <!-- Aulas: Azul Céu / Intelectual -->
+      <button onclick="switchTab('classes')" id="nav-btn-classes" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-sky-600 font-medium text-[10px] transition">
+        <div id="nav-icon-classes" class="p-1.5 rounded-2xl text-sky-500 hover:bg-sky-50 transition-all duration-200">
+          <i data-lucide="graduation-cap" class="w-5 h-5 text-sky-500"></i>
+        </div>
         <span>Aulas</span>
       </button>
 
-      <button onclick="switchTab('habits')" id="nav-btn-habits" class="nav-item flex flex-col items-center gap-0.5 text-charcoal-soft hover:text-forest font-medium text-[10px] transition">
-        <i data-lucide="heart" class="w-5 h-5"></i>
+      <!-- Hábitos: Rosa / Carmesim Saúde -->
+      <button onclick="switchTab('habits')" id="nav-btn-habits" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-rose-600 font-medium text-[10px] transition">
+        <div id="nav-icon-habits" class="p-1.5 rounded-2xl text-rose-500 hover:bg-rose-50 transition-all duration-200">
+          <i data-lucide="heart" class="w-5 h-5 text-rose-500"></i>
+        </div>
         <span>Hábitos</span>
       </button>
 
-      <button onclick="switchTab('shop')" id="nav-btn-shop" class="nav-item flex flex-col items-center gap-0.5 text-charcoal-soft hover:text-forest font-medium text-[10px] transition">
-        <i data-lucide="store" class="w-5 h-5"></i>
+      <!-- Loja: Laranja Âmbar / Terracota Comercial -->
+      <button onclick="switchTab('shop')" id="nav-btn-shop" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-amber-600 font-medium text-[10px] transition">
+        <div id="nav-icon-shop" class="p-1.5 rounded-2xl text-amber-500 hover:bg-amber-50 transition-all duration-200">
+          <i data-lucide="store" class="w-5 h-5 text-amber-500"></i>
+        </div>
         <span>Loja</span>
       </button>
     </nav>
@@ -1788,15 +1800,37 @@
       const activeTab = document.getElementById(`tab-${tabId}`);
       if (activeTab) activeTab.classList.remove('hidden');
 
-      // Atualiza botões da barra inferior
-      document.querySelectorAll('.nav-item').forEach(btn => {
-        btn.classList.remove('text-forest', 'font-bold');
-        btn.classList.add('text-charcoal-soft', 'font-medium');
+      // Configuração de cores específicas para cada aba
+      const tabConfigs = {
+        feed: { bg: 'bg-emerald-100', text: 'text-emerald-700' },
+        classes: { bg: 'bg-sky-100', text: 'text-sky-700' },
+        habits: { bg: 'bg-rose-100', text: 'text-rose-700' },
+        shop: { bg: 'bg-amber-100', text: 'text-amber-700' }
+      };
+
+      // Reseta todos os botões mantendo seus ícones coloridos
+      const allTabs = ['feed', 'classes', 'habits', 'shop'];
+      allTabs.forEach(id => {
+        const btn = document.getElementById(`nav-btn-${id}`);
+        const iconContainer = document.getElementById(`nav-icon-${id}`);
+        if (btn) {
+          btn.classList.remove('font-bold', 'text-emerald-700', 'text-sky-700', 'text-rose-700', 'text-amber-700');
+          btn.classList.add('font-medium', 'text-neutral-600');
+        }
+        if (iconContainer) {
+          iconContainer.classList.remove('bg-emerald-100', 'bg-sky-100', 'bg-rose-100', 'bg-amber-100', 'shadow-xs', 'scale-105');
+        }
       });
+
+      // Ativa a aba selecionada com destaque
       const currentNavBtn = document.getElementById(`nav-btn-${tabId}`);
-      if (currentNavBtn) {
-        currentNavBtn.classList.remove('text-charcoal-soft', 'font-medium');
-        currentNavBtn.classList.add('text-forest', 'font-bold');
+      const currentIconContainer = document.getElementById(`nav-icon-${tabId}`);
+      if (currentNavBtn && tabConfigs[tabId]) {
+        currentNavBtn.classList.remove('font-medium', 'text-neutral-600');
+        currentNavBtn.classList.add('font-bold', tabConfigs[tabId].text);
+      }
+      if (currentIconContainer && tabConfigs[tabId]) {
+        currentIconContainer.classList.add(tabConfigs[tabId].bg, 'shadow-xs', 'scale-105');
       }
 
       // Esconde ou exibe barra de sub-abas do feed no cabeçalho
