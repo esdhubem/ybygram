@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import '../services/mock_supabase_service.dart';
 import '../models/product.dart';
 import '../models/post.dart';
@@ -796,165 +797,179 @@ class _FeedScreenState extends State<FeedScreen> {
 
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.85),
+      barrierColor: Colors.black.withOpacity(0.75),
       builder: (ctx) {
-        return Center(
-          child: Container(
-            width: MediaQuery.of(ctx).size.width * 0.88,
-            height: 520,
-            decoration: BoxDecoration(
-              color: const Color(0xFF171717),
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: Colors.white.withOpacity(0.15)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.6),
-                  blurRadius: 25,
-                  offset: const Offset(0, 10),
-                )
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(28),
-              child: Stack(
-                children: [
-                  // Conteúdo central: Vídeo curto ou Visualizador de Voz
-                  Positioned.fill(
-                    child: note.isVideo
-                        ? Image.network(
-                            story.avatarUrl,
-                            fit: BoxFit.cover,
-                            color: Colors.black.withOpacity(0.2),
-                            colorBlendMode: BlendMode.darken,
-                          )
-                        : Container(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Color(0xFF0F172A), Color(0xFF064E3B), Color(0xFF022C22)],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 46,
-                                    backgroundImage: NetworkImage(story.avatarUrl),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  const Icon(Icons.graphic_eq, color: Color(0xFF34D399), size: 48),
-                                  const SizedBox(height: 6),
-                                  const Text(
-                                    'Voz da Terra • Reproduzindo em loop',
-                                    style: TextStyle(color: Colors.white70, fontSize: 11),
-                                  ),
-                                ],
-                              ),
-                            ),
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Center(
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                width: 320,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Botão Fechar no topo direito
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () => Navigator.pop(ctx),
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white.withOpacity(0.18),
+                            border: Border.all(color: Colors.white24),
                           ),
-                  ),
-
-                  // Barra de Progresso de 15s no topo
-                  Positioned(
-                    top: 12,
-                    left: 14,
-                    right: 14,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: const LinearProgressIndicator(
-                        value: null,
-                        backgroundColor: Colors.white24,
-                        valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF34D399)),
-                        minHeight: 4,
+                          child: const Icon(Icons.close, color: Colors.white, size: 18),
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 8),
 
-                  // Cabeçalho com dados do autor e botão fechar
-                  Positioned(
-                    top: 24,
-                    left: 14,
-                    right: 14,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // CÍRCULO / BOLINHA CENTRAL 1:1 (ESTILO WHATSAPP)
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 18,
-                              backgroundImage: NetworkImage(story.avatarUrl),
-                            ),
-                            const SizedBox(width: 8),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        // Anel de Progresso Circular de 15s em loop
+                        const SizedBox(
+                          width: 250,
+                          height: 250,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3.5,
+                            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF34D399)),
+                            backgroundColor: Colors.white24,
+                          ),
+                        ),
+
+                        // Bolinha de Vídeo / Áudio com borda elegante #245C45
+                        Container(
+                          width: 236,
+                          height: 236,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: const Color(0xFF245C45), width: 4),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF245C45).withOpacity(0.4),
+                                blurRadius: 20,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: ClipOval(
+                            child: Stack(
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      story.authorName,
-                                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF059669),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Text(
-                                        note.isVideo ? '🎬 Vídeo 15s' : '🎙️ Áudio 15s',
-                                        style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
+                                Positioned.fill(
+                                  child: note.isVideo
+                                      ? Image.network(
+                                          story.avatarUrl,
+                                          fit: BoxFit.cover,
+                                          color: Colors.black.withOpacity(0.2),
+                                          colorBlendMode: BlendMode.darken,
+                                        )
+                                      : Container(
+                                          decoration: const BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [Color(0xFF0F172A), Color(0xFF064E3B), Color(0xFF022C22)],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: 36,
+                                                  backgroundImage: NetworkImage(story.avatarUrl),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                const Icon(Icons.graphic_eq, color: Color(0xFF34D399), size: 36),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                 ),
-                                const Text(
-                                  'Recado Comunitário • Expira em 24h',
-                                  style: TextStyle(color: Colors.white70, fontSize: 10),
+                                // Indicador Play central discreto no vídeo
+                                if (note.isVideo)
+                                  Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white.withOpacity(0.25),
+                                        border: Border.all(color: Colors.white30),
+                                      ),
+                                      child: const Icon(Icons.play_arrow, color: Colors.white, size: 28),
+                                    ),
+                                  ),
+                                // Tag discreta de autor no topo da bolinha
+                                Positioned(
+                                  top: 12,
+                                  left: 0,
+                                  right: 0,
+                                  child: Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.65),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(color: Colors.white24),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            story.authorName,
+                                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          const Text(
+                                            '• 15s',
+                                            style: TextStyle(color: Color(0xFF34D399), fontWeight: FontWeight.bold, fontSize: 10),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.close, color: Colors.white),
-                          onPressed: () => Navigator.pop(ctx),
+                          ),
                         ),
                       ],
                     ),
-                  ),
 
-                  // Rodapé com legenda do recado e botão de semear gratidão
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
+                    const SizedBox(height: 16),
+
+                    // CONTROLES COMPACTOS E MINIMALISTAS LOGO ABAIXO DA BOLINHA
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.transparent, Colors.black.withOpacity(0.85), Colors.black],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
+                        color: const Color(0xFF171717).withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: Colors.white12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.5),
+                            blurRadius: 15,
+                            offset: const Offset(0, 4),
+                          )
+                        ],
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(color: Colors.white12),
-                            ),
-                            child: Text(
-                              note.text,
-                              style: const TextStyle(color: Colors.white, fontSize: 12, height: 1.35),
-                            ),
+                          Text(
+                            note.text,
+                            style: const TextStyle(color: Colors.white, fontSize: 12, height: 1.3),
+                            textAlign: TextAlign.center,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: 10),
                           Row(
@@ -964,10 +979,12 @@ class _FeedScreenState extends State<FeedScreen> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF059669),
                                     foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                    elevation: 0,
                                   ),
-                                  icon: const Text('🌱'),
-                                  label: const Text('Semear Gratidão', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                                  icon: const Text('🌱', style: TextStyle(fontSize: 12)),
+                                  label: const Text('Semear Gratidão', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
                                   onPressed: () {
                                     Navigator.pop(ctx);
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -976,13 +993,31 @@ class _FeedScreenState extends State<FeedScreen> {
                                   },
                                 ),
                               ),
+                              const SizedBox(width: 8),
+                              OutlinedButton.icon(
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  side: BorderSide(color: Colors.white.withOpacity(0.2)),
+                                  backgroundColor: Colors.white.withOpacity(0.08),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                ),
+                                icon: const Icon(Icons.article_outlined, size: 14),
+                                label: const Text('Ver Saber', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                                onPressed: () {
+                                  Navigator.pop(ctx);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Abrindo saberes de ${story.authorName}...')),
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -995,102 +1030,269 @@ class _FeedScreenState extends State<FeedScreen> {
     bool isVideo = true;
     final controller = TextEditingController();
 
-    showModalBottomSheet(
+    showDialog(
       context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      barrierColor: Colors.black.withOpacity(0.75),
       builder: (ctx) {
         return StatefulBuilder(
-          builder: (context, setSheetState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        '🎙️ Gravar Recado Rápido',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close, size: 20),
-                        onPressed: () => Navigator.pop(ctx),
-                      ),
-                    ],
-                  ),
-                  const Text(
-                    'Grave um vídeo ou nota de voz de até 15s • Sem custo de servidor, expira em 24h.',
-                    style: TextStyle(fontSize: 11, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 12),
-                  // Alternar Vídeo / Áudio
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: isVideo ? const Color(0xFF059669).withOpacity(0.12) : null,
-                            side: BorderSide(color: isVideo ? const Color(0xFF059669) : Colors.grey.shade300),
+          builder: (context, setDialogState) {
+            return BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Center(
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    width: 320,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Botão Fechar no topo direito
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: InkWell(
+                            onTap: () => Navigator.pop(ctx),
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white.withOpacity(0.18),
+                                border: Border.all(color: Colors.white24),
+                              ),
+                              child: const Icon(Icons.close, color: Colors.white, size: 18),
+                            ),
                           ),
-                          icon: const Icon(Icons.videocam, size: 16),
-                          label: const Text('Vídeo Curto (15s)'),
-                          onPressed: () => setSheetState(() => isVideo = true),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: !isVideo ? const Color(0xFF059669).withOpacity(0.12) : null,
-                            side: BorderSide(color: !isVideo ? const Color(0xFF059669) : Colors.grey.shade300),
+
+                        // Seletor Minimalista de Formato (Vídeo / Voz)
+                        Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.white12),
                           ),
-                          icon: const Icon(Icons.mic, size: 16),
-                          label: const Text('Nota de Voz (15s)'),
-                          onPressed: () => setSheetState(() => isVideo = false),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GestureDetector(
+                                onTap: () => setDialogState(() => isVideo = true),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: isVideo ? const Color(0xFF059669) : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Icon(Icons.videocam, size: 14, color: Colors.white),
+                                      SizedBox(width: 4),
+                                      Text('Vídeo', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => setDialogState(() => isVideo = false),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: !isVideo ? const Color(0xFF059669) : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Icon(Icons.mic, size: 14, color: Colors.white),
+                                      SizedBox(width: 4),
+                                      Text('Voz', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: controller,
-                    decoration: InputDecoration(
-                      labelText: 'Legenda / Mensagem do Recado',
-                      hintText: 'Ex: Bom dia! Acabamos de preparar as sementes...',
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                      contentPadding: const EdgeInsets.all(12),
+                        const SizedBox(height: 14),
+
+                        // BOLINHA CENTRAL CIRCULAR DE GRAVAÇÃO (1:1 ESTILO WHATSAPP)
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // Anel de gravação circular
+                            const SizedBox(
+                              width: 250,
+                              height: 250,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3.5,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                                backgroundColor: Colors.white24,
+                              ),
+                            ),
+
+                            // Visor Circular com borda elegante #245C45
+                            Container(
+                              width: 236,
+                              height: 236,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: const Color(0xFF245C45), width: 4),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    blurRadius: 20,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: ClipOval(
+                                child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      child: isVideo
+                                          ? Container(
+                                              color: const Color(0xFF262626),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: const [
+                                                  CircleAvatar(
+                                                    radius: 36,
+                                                    backgroundColor: Color(0xFF059669),
+                                                    child: Icon(Icons.person, size: 40, color: Colors.white),
+                                                  ),
+                                                  SizedBox(height: 8),
+                                                  Text(
+                                                    'Câmera Frontal Ativa',
+                                                    style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : Container(
+                                              decoration: const BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [Color(0xFF0F172A), Color(0xFF064E3B), Color(0xFF022C22)],
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: const [
+                                                    Icon(Icons.mic, color: Color(0xFF34D399), size: 44),
+                                                    SizedBox(height: 6),
+                                                    Text(
+                                                      'Microfone Ativo • Voz da Terra',
+                                                      style: TextStyle(color: Colors.white70, fontSize: 10),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                    ),
+                                    // Timer superior discreto
+                                    Positioned(
+                                      top: 10,
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                          decoration: BoxDecoration(
+                                            color: Colors.black.withOpacity(0.6),
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(color: Colors.white24),
+                                          ),
+                                          child: const Text(
+                                            '00:15',
+                                            style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'monospace'),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // Botão de Gravação circular no interior inferior
+                                    Positioned(
+                                      bottom: 12,
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                        child: Container(
+                                          width: 36,
+                                          height: 36,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.redAccent,
+                                            border: Border.all(color: Colors.white, width: 2),
+                                          ),
+                                          child: const Center(
+                                            child: Icon(Icons.fiber_manual_record, color: Colors.white, size: 18),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        // CONTROLES COMPACTOS LOGO ABAIXO DA BOLINHA
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF171717).withOpacity(0.85),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.white12),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextField(
+                                controller: controller,
+                                style: const TextStyle(color: Colors.white, fontSize: 11),
+                                decoration: InputDecoration(
+                                  hintText: 'Escreva uma legenda rápida...',
+                                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 11),
+                                  border: InputBorder.none,
+                                  isDense: true,
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                                ),
+                                maxLines: 1,
+                              ),
+                              const SizedBox(height: 8),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 36,
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF059669),
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                  icon: const Icon(Icons.check, size: 16),
+                                  label: const Text('Publicar Recado (24h)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                                  onPressed: () {
+                                    Navigator.pop(ctx);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('🎙️ Recado Rápido publicado na sua Rede de Conexões por 24h!')),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    maxLines: 2,
                   ),
-                  const SizedBox(height: 14),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 44,
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF245C45),
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      ),
-                      icon: const Icon(Icons.check_circle_outline),
-                      label: const Text('Publicar Recado Rápido (24h)', style: TextStyle(fontWeight: FontWeight.bold)),
-                      onPressed: () {
-                        Navigator.pop(ctx);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('🎙️ Recado Rápido publicado na sua Rede de Conexões por 24h!')),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                ),
               ),
             );
           },

@@ -1347,127 +1347,117 @@
 
   <!-- ==================== MODAIS ==================== -->
 
-  <!-- Modal 0A: Player de Recado Rápido (Quick Note / Video Status até 15s em Loop) -->
-  <div id="modal-quick-note-player" class="fixed inset-0 bg-black/90 z-50 hidden flex flex-col items-center justify-center p-3 sm:p-6 backdrop-blur-md transition-all">
-    <div class="relative w-full max-w-[380px] h-[580px] max-h-[92vh] bg-neutral-950 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between border border-white/15">
-      
-      <!-- Barra de Progresso de 15 Segundos -->
-      <div class="absolute top-3 left-3 right-3 z-30 flex items-center gap-1">
-        <div class="flex-1 h-1.5 bg-white/20 rounded-full overflow-hidden">
-          <div id="quick-note-progress-bar" class="h-full bg-emerald-400 rounded-full transition-all duration-100" style="width: 0%;"></div>
-        </div>
-      </div>
+  <!-- Modal 0A: Player de Recado Rápido (BOLINHA CIRCULAR ESTILO WHATSAPP 1:1) -->
+  <div id="modal-quick-note-player" class="fixed inset-0 bg-black/75 z-50 hidden flex flex-col items-center justify-center p-4 backdrop-blur-md transition-all">
+    <!-- Botão Fechar Discreto -->
+    <button onclick="closeQuickNotePlayer()" class="absolute top-5 right-5 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-md transition cursor-pointer shadow-lg border border-white/20">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
 
-      <!-- Cabeçalho do Player de Status -->
-      <div class="relative z-20 pt-6 px-4 flex items-center justify-between bg-gradient-to-b from-black/85 via-black/40 to-transparent">
-        <div class="flex items-center gap-2.5">
-          <div class="w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-emerald-400 via-amber-300 to-emerald-500 shadow-md">
-            <img id="quick-note-player-avatar" src="" class="w-full h-full rounded-full object-cover bg-neutral-800">
+    <div class="flex flex-col items-center gap-4 max-w-[340px] w-full">
+      <!-- BOLINHA CENTRAL CIRCULAR DE VÍDEO (1:1 com borda elegante e barra de progresso circular) -->
+      <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full p-2 flex items-center justify-center shadow-[0_0_35px_rgba(0,0,0,0.6),0_0_20px_rgba(36,92,69,0.35)]">
+        
+        <!-- SVG com Anel de Progresso Circular contínuo de 15 segundos em loop (WhatsApp style) -->
+        <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none z-30" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="47" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" fill="transparent" />
+          <circle id="quick-note-circle-progress" cx="50" cy="50" r="47" stroke="#34D399" stroke-width="3" stroke-linecap="round" fill="transparent" stroke-dasharray="295.3" stroke-dashoffset="295.3" class="transition-all duration-100" />
+        </svg>
+
+        <!-- Container do Vídeo / Áudio (Estritamente Circular 50% border-radius) -->
+        <div class="w-full h-full rounded-full overflow-hidden relative border-4 border-[#245C45] shadow-inner bg-neutral-900">
+          <div id="quick-note-player-media-container" class="w-full h-full flex items-center justify-center">
+            <!-- Conteúdo circular -->
           </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <h4 id="quick-note-player-author" class="text-xs font-black text-white"></h4>
-              <span id="quick-note-player-badge" class="text-[9px] bg-emerald-500/90 text-white px-1.5 py-0.2 rounded-full font-bold">15s</span>
-            </div>
-            <p id="quick-note-player-time" class="text-[10px] text-neutral-300 font-medium"></p>
+
+          <!-- Tag Discreta interna com Nome e Tempo -->
+          <div class="absolute top-3 left-1/2 -translate-x-1/2 z-20 px-3 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center gap-1.5 shadow-sm">
+            <span id="quick-note-player-author" class="text-[10px] font-black tracking-tight"></span>
+            <span class="text-[8px] text-emerald-400 font-bold">• 15s</span>
           </div>
         </div>
-        <button onclick="closeQuickNotePlayer()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-md transition">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
       </div>
 
-      <!-- Conteúdo do Player (Vídeo ou Visualizador de Voz com Onda Sonora) -->
-      <div id="quick-note-player-media-container" class="absolute inset-0 flex items-center justify-center overflow-hidden">
-        <!-- Inserido dinamicamente: vídeo em loop ou imagem com ondas de áudio -->
-      </div>
-
-      <!-- Rodapé do Player com Legenda e Ações -->
-      <div class="relative z-20 p-4 bg-gradient-to-t from-black/95 via-black/75 to-transparent space-y-3">
-        <div class="bg-black/50 backdrop-blur-md p-3 rounded-2xl border border-white/10">
-          <p id="quick-note-player-caption" class="text-xs text-white leading-relaxed font-medium"></p>
-        </div>
-        <div class="flex items-center justify-between gap-2">
-          <button onclick="giveGratitudeToQuickNote()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+      <!-- Interface Clean e Compacta: Legenda e Botões posicionados logo abaixo da bolinha -->
+      <div class="w-full bg-neutral-900/80 backdrop-blur-md p-3.5 rounded-2xl border border-white/15 text-center space-y-2.5 shadow-xl">
+        <p id="quick-note-player-caption" class="text-xs text-white/95 leading-relaxed font-medium line-clamp-3"></p>
+        
+        <div class="flex items-center justify-center gap-2 pt-1">
+          <button onclick="giveGratitudeToQuickNote()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
             <span>🌱</span> Semear Gratidão
           </button>
-          <button id="quick-note-view-post-btn" onclick="" class="px-3 py-2 bg-white/15 hover:bg-white/25 text-white rounded-xl text-xs font-bold transition flex items-center gap-1">
+          <button id="quick-note-view-post-btn" onclick="" class="px-3 py-2 bg-white/15 hover:bg-white/25 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 border border-white/10">
             <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Ver Saber
           </button>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- Modal 0B: Gravar Recado Rápido (Até 15s • Sem custo de servidor • Expira em 24h) -->
-  <div id="modal-quick-note-record" class="fixed inset-0 bg-black/75 z-50 hidden flex items-center justify-center p-3 sm:p-4 backdrop-blur-sm transition-all">
-    <div class="bg-white w-full max-w-[400px] rounded-3xl p-5 space-y-4 max-h-[92vh] overflow-y-auto shadow-2xl">
-      <div class="flex items-center justify-between pb-2 border-b border-cream-border">
+  <!-- Modal 0B: Gravar Recado Rápido (BOLINHA CIRCULAR ESTILO WHATSAPP 1:1) -->
+  <div id="modal-quick-note-record" class="fixed inset-0 bg-black/75 z-50 hidden flex flex-col items-center justify-center p-4 backdrop-blur-md transition-all">
+    <!-- Botão Fechar -->
+    <button onclick="closeQuickNoteRecorder()" class="absolute top-5 right-5 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-md transition cursor-pointer shadow-lg border border-white/20">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+
+    <div class="flex flex-col items-center gap-3.5 max-w-[340px] w-full">
+      
+      <!-- Seletor Minimalista de Formato (Vídeo / Áudio) -->
+      <div class="flex rounded-full bg-black/50 backdrop-blur-md p-1 text-[11px] font-bold border border-white/15 text-white">
+        <button type="button" id="record-type-video-btn" onclick="selectRecordType('video')" class="px-3.5 py-1 rounded-full bg-emerald-600 text-white shadow-xs transition flex items-center gap-1">
+          <i data-lucide="video" class="w-3 h-3"></i> Vídeo
+        </button>
+        <button type="button" id="record-type-audio-btn" onclick="selectRecordType('audio')" class="px-3.5 py-1 rounded-full text-white/70 hover:text-white transition flex items-center gap-1">
+          <i data-lucide="mic" class="w-3 h-3"></i> Voz
+        </button>
+      </div>
+
+      <!-- BOLINHA CENTRAL CIRCULAR DE GRAVAÇÃO (1:1 com borda elegante estilo WhatsApp) -->
+      <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full p-2 flex items-center justify-center shadow-[0_0_35px_rgba(0,0,0,0.6),0_0_20px_rgba(36,92,69,0.35)]">
+        
+        <!-- SVG com Anel de Progresso de Gravação -->
+        <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none z-30" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="47" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" fill="transparent" />
+          <circle id="record-circle-progress" cx="50" cy="50" r="47" stroke="#EF4444" stroke-width="3.5" stroke-linecap="round" fill="transparent" stroke-dasharray="295.3" stroke-dashoffset="295.3" class="transition-all duration-100" />
+        </svg>
+
+        <!-- Visor Circular da Câmera / Microfone -->
+        <div class="w-full h-full rounded-full overflow-hidden relative border-4 border-[#245C45] shadow-inner bg-neutral-900 flex items-center justify-center">
+          <div id="record-preview-container" class="w-full h-full flex items-center justify-center">
+            <!-- Conteúdo da câmera frontal ou microfone -->
+          </div>
+
+          <!-- Timer sobreposto discreto na parte superior interna -->
+          <div class="absolute top-3 left-1/2 -translate-x-1/2 z-20 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[10px] font-mono font-bold flex items-center gap-1.5 border border-white/20">
+            <span id="record-status-dot" class="w-2 h-2 rounded-full bg-neutral-400"></span>
+            <span id="record-timer-text">00:15</span>
+          </div>
+
+          <!-- Botão Central de Gravar / Parar no interior inferior da bolinha -->
+          <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1">
+            <button id="record-toggle-btn" onclick="toggleRecording()" class="w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 border-2 border-white shadow-xl flex items-center justify-center text-white transition active:scale-95">
+              <div id="record-btn-icon" class="w-4 h-4 rounded-full bg-white"></div>
+            </button>
+            <span id="record-hint-text" class="text-[9px] text-white/90 font-bold drop-shadow">Toque p/ gravar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles Compactos Logo Abaixo da Bolinha -->
+      <div class="w-full bg-neutral-900/80 backdrop-blur-md p-3 rounded-2xl border border-white/15 space-y-2 shadow-xl">
+        <input type="text" id="record-caption-input" placeholder="Escreva uma legenda rápida para a bolinha..." class="w-full p-2 rounded-xl bg-black/40 border border-white/15 text-xs text-white outline-none focus:border-emerald-400 placeholder:text-neutral-400">
+        
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-emerald-100 text-forest flex items-center justify-center text-base font-bold">
-            🎙️
-          </div>
-          <div>
-            <h3 class="text-sm font-bold text-charcoal">Gravar Recado Rápido</h3>
-            <p class="text-[10px] text-charcoal-soft">Vídeo ou voz de até 15s • Expira em 24h</p>
-          </div>
-        </div>
-        <button onclick="closeQuickNoteRecorder()"><i data-lucide="x" class="w-5 h-5 text-charcoal-soft"></i></button>
-      </div>
-
-      <!-- Tipo de Recado: Vídeo ou Áudio -->
-      <div class="flex rounded-xl bg-cream p-1 text-xs font-bold">
-        <button type="button" id="record-type-video-btn" onclick="selectRecordType('video')" class="flex-1 py-1.5 rounded-lg bg-white text-forest shadow-xs transition flex items-center justify-center gap-1.5">
-          <i data-lucide="video" class="w-3.5 h-3.5"></i> Vídeo Curto
-        </button>
-        <button type="button" id="record-type-audio-btn" onclick="selectRecordType('audio')" class="flex-1 py-1.5 rounded-lg text-charcoal-soft hover:text-forest transition flex items-center justify-center gap-1.5">
-          <i data-lucide="mic" class="w-3.5 h-3.5"></i> Nota de Voz
-        </button>
-      </div>
-
-      <!-- Área de Visualização e Gravação -->
-      <div class="relative w-full aspect-square bg-neutral-900 rounded-2xl overflow-hidden flex flex-col items-center justify-center border border-neutral-700">
-        <!-- Preview de Vídeo ou Avatar com onda sonora -->
-        <div id="record-preview-container" class="absolute inset-0 flex items-center justify-center">
-          <!-- Renderizado dinamicamente -->
-        </div>
-
-        <!-- Timer Circular de 15 segundos -->
-        <div class="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-mono font-bold flex items-center gap-1.5 border border-white/20">
-          <span id="record-status-dot" class="w-2 h-2 rounded-full bg-neutral-400"></span>
-          <span id="record-timer-text">00:15</span>
-        </div>
-
-        <!-- Botão Central de Gravar / Parar -->
-        <div class="absolute bottom-4 z-20 flex flex-col items-center gap-1.5">
-          <button id="record-toggle-btn" onclick="toggleRecording()" class="w-14 h-14 rounded-full bg-red-500 hover:bg-red-600 border-4 border-white shadow-xl flex items-center justify-center text-white transition active:scale-95">
-            <div id="record-btn-icon" class="w-5 h-5 rounded-full bg-white"></div>
+          <button id="save-quick-note-btn" onclick="saveMyQuickNote()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-md">
+            <i data-lucide="check" class="w-3.5 h-3.5"></i> Publicar Recado (24h)
           </button>
-          <span id="record-hint-text" class="text-[10px] text-white/90 font-bold drop-shadow">Toque para gravar</span>
+          <button id="delete-quick-note-btn" onclick="deleteMyQuickNote()" class="hidden px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl text-xs font-bold transition border border-red-500/30" title="Excluir recado">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
         </div>
       </div>
 
-      <!-- Campo de Legenda / Frase do Recado -->
-      <div class="space-y-1">
-        <label class="block text-xs font-bold text-charcoal">Mensagem ou relato do recado:</label>
-        <textarea id="record-caption-input" rows="2" placeholder="Ex: Bom dia comunidade! Acabamos de colher sementes de melipona..." class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest resize-none"></textarea>
-      </div>
-
-      <!-- Informação ecológica e soberana -->
-      <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 text-[10px] text-emerald-800 flex items-start gap-2">
-        <i data-lucide="shield-check" class="w-4 h-4 shrink-0 text-emerald-600 mt-0.5"></i>
-        <span><strong>Soberania e Baixo Impacto:</strong> O recado fica armazenado localmente no dispositivo e expira automaticamente em 24h, economizando energia e banda de servidores.</span>
-      </div>
-
-      <div class="flex gap-2">
-        <button id="save-quick-note-btn" onclick="saveMyQuickNote()" class="flex-1 bg-forest hover:bg-forest-dark text-white py-2.5 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 shadow-xs">
-          <i data-lucide="check" class="w-4 h-4"></i> Publicar Recado (24h)
-        </button>
-        <button id="delete-quick-note-btn" onclick="deleteMyQuickNote()" class="hidden px-3 py-2.5 bg-red-100 hover:bg-red-200 text-red-700 rounded-xl text-xs font-bold transition" title="Excluir recado atual">
-          <i data-lucide="trash-2" class="w-4 h-4"></i>
-        </button>
-      </div>
     </div>
   </div>
 
@@ -2127,103 +2117,72 @@
       const conn = CONNECTIONS_DATA.find(c => c.id === connId);
       if (!conn) return;
 
-      // Se for "Você" e NÃO tiver recado gravado: abre o gravador direto
-      if (conn.isCurrentUser && !conn.quickNote) {
-        openQuickNoteRecorder();
-        return;
-      }
-
-      // Se o autor tiver um Recado Rápido ativo: abre o Player de Status estilo WhatsApp/Instagram
-      if (conn.quickNote) {
-        openQuickNotePlayer(conn.id);
-        return;
-      }
-
-      // Se o autor NÃO tiver recado ativo: direciona para a última publicação do autor no feed
-      goToUserPublication(conn.postTarget);
-    }
-
-    // ==========================================
-    // PLAYER DE RECADO RÁPIDO (15 SEGUNDOS EM LOOP)
-    // ==========================================
-    let quickNoteTimerInterval = null;
-    let quickNoteCurrentSeconds = 0;
-    const QUICK_NOTE_DURATION = 15; // 15 segundos
-
-    function openQuickNotePlayer(connId) {
+      function openQuickNotePlayer(connId) {
       const conn = CONNECTIONS_DATA.find(c => c.id === connId);
       if (!conn || !conn.quickNote) return;
 
       const modal = document.getElementById('modal-quick-note-player');
-      const avatarEl = document.getElementById('quick-note-player-avatar');
       const authorEl = document.getElementById('quick-note-player-author');
-      const timeEl = document.getElementById('quick-note-player-time');
-      const badgeEl = document.getElementById('quick-note-player-badge');
       const captionEl = document.getElementById('quick-note-player-caption');
       const mediaContainer = document.getElementById('quick-note-player-media-container');
       const viewPostBtn = document.getElementById('quick-note-view-post-btn');
 
-      avatarEl.src = conn.avatar;
-      authorEl.innerText = conn.fullName || conn.author;
-      timeEl.innerText = `${conn.quickNote.timeAgo} • Recado Comunitário`;
-      badgeEl.innerText = conn.quickNote.type === 'video' ? '🎬 Vídeo 15s' : '🎙️ Nota de Voz 15s';
-      captionEl.innerText = conn.quickNote.caption;
+      if (authorEl) authorEl.innerText = conn.fullName || conn.author;
+      if (captionEl) captionEl.innerText = conn.quickNote.caption || 'Sem legenda informada.';
 
-      // Configura botão de ir para a publicação
-      viewPostBtn.onclick = () => {
-        closeQuickNotePlayer();
-        goToUserPublication(conn.postTarget);
-      };
+      // Configura botão de ir para o saber/publicação no feed
+      if (viewPostBtn) {
+        viewPostBtn.onclick = () => {
+          closeQuickNotePlayer();
+          goToUserPublication(conn.postTarget);
+        };
+      }
 
-      // Conteúdo multimídia do player
-      if (conn.quickNote.type === 'video') {
-        mediaContainer.innerHTML = `
-          <div class="relative w-full h-full">
-            <img src="${conn.quickNote.mediaUrl || conn.avatar}" class="w-full h-full object-cover brightness-90 animate-pulse" style="animation-duration: 4s;">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/60"></div>
-            <!-- Indicador sutil de reprodução -->
-            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-2xl">
-                <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
+      // Conteúdo multimídia estritamente circular 1:1 (estilo WhatsApp)
+      if (mediaContainer) {
+        if (conn.quickNote.type === 'video') {
+          mediaContainer.innerHTML = `
+            <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+              <img src="${conn.quickNote.mediaUrl || conn.avatar}" class="w-full h-full object-cover brightness-95 animate-pulse" style="animation-duration: 4s;">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30"></div>
+              <!-- Indicador sutil de reprodução -->
+              <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-lg">
+                  <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5"></i>
+                </div>
               </div>
             </div>
-          </div>
-        `;
-      } else {
-        // Visualizador de Nota de Voz com equalizador e ondas sonoras animadas
-        mediaContainer.innerHTML = `
-          <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900 p-6 space-y-6">
-            <div class="relative">
-              <img src="${conn.avatar}" class="w-28 h-28 rounded-full object-cover border-4 border-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.5)]">
-              <span class="absolute bottom-1 right-1 w-8 h-8 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center text-white text-sm">🎙️</span>
+          `;
+        } else {
+          // Visualizador circular de nota de voz com equalizador
+          mediaContainer.innerHTML = `
+            <div class="relative w-full h-full rounded-full overflow-hidden flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900 p-4">
+              <img src="${conn.avatar}" class="w-20 h-20 rounded-full object-cover border-2 border-emerald-400 shadow-md mb-2">
+              <div class="flex items-center gap-1.5 h-8">
+                <span class="w-1 bg-emerald-400 rounded-full animate-bounce" style="height: 24px; animation-delay: 0.1s;"></span>
+                <span class="w-1 bg-amber-300 rounded-full animate-bounce" style="height: 16px; animation-delay: 0.3s;"></span>
+                <span class="w-1 bg-emerald-400 rounded-full animate-bounce" style="height: 28px; animation-delay: 0.2s;"></span>
+                <span class="w-1 bg-emerald-300 rounded-full animate-bounce" style="height: 20px; animation-delay: 0.4s;"></span>
+                <span class="w-1 bg-amber-400 rounded-full animate-bounce" style="height: 26px; animation-delay: 0.15s;"></span>
+                <span class="w-1 bg-emerald-400 rounded-full animate-bounce" style="height: 14px; animation-delay: 0.35s;"></span>
+              </div>
             </div>
-            
-            <!-- Ondas sonoras animadas (Equalizador) -->
-            <div class="flex items-center gap-1.5 h-12">
-              <span class="w-1.5 bg-emerald-400 rounded-full animate-bounce" style="height: 40px; animation-delay: 0.1s;"></span>
-              <span class="w-1.5 bg-amber-300 rounded-full animate-bounce" style="height: 24px; animation-delay: 0.3s;"></span>
-              <span class="w-1.5 bg-emerald-400 rounded-full animate-bounce" style="height: 48px; animation-delay: 0.2s;"></span>
-              <span class="w-1.5 bg-emerald-300 rounded-full animate-bounce" style="height: 32px; animation-delay: 0.4s;"></span>
-              <span class="w-1.5 bg-amber-400 rounded-full animate-bounce" style="height: 44px; animation-delay: 0.15s;"></span>
-              <span class="w-1.5 bg-emerald-400 rounded-full animate-bounce" style="height: 20px; animation-delay: 0.35s;"></span>
-              <span class="w-1.5 bg-amber-300 rounded-full animate-bounce" style="height: 40px; animation-delay: 0.25s;"></span>
-            </div>
-          </div>
-        `;
+          `;
+        }
       }
 
       modal.classList.remove('hidden');
       lucide.createIcons();
 
-      // Inicia a barra de progresso contínua de 15 segundos em loop
+      // Inicia anel de progresso circular contínuo de 15 segundos em loop (WhatsApp style)
       startQuickNoteProgressBar();
     }
 
     function startQuickNoteProgressBar() {
       clearInterval(quickNoteTimerInterval);
-      const progressBar = document.getElementById('quick-note-progress-bar');
-      quickNoteCurrentSeconds = 0;
-      if (progressBar) progressBar.style.width = '0%';
+      const circle = document.getElementById('quick-note-circle-progress');
+      const CIRCLE_LEN = 295.3;
+      if (circle) circle.style.strokeDashoffset = CIRCLE_LEN;
 
       const stepMs = 100;
       const totalSteps = (QUICK_NOTE_DURATION * 1000) / stepMs;
@@ -2231,17 +2190,19 @@
 
       quickNoteTimerInterval = setInterval(() => {
         currentStep++;
-        const percent = (currentStep / totalSteps) * 100;
-        if (progressBar) progressBar.style.width = `${percent}%`;
+        const progress = currentStep / totalSteps;
+        if (circle) {
+          circle.style.strokeDashoffset = (CIRCLE_LEN * (1 - progress)).toFixed(1);
+        }
 
         // Ao completar 15 segundos, reinicia suavemente em loop contínuo
         if (currentStep >= totalSteps) {
           currentStep = 0;
-          if (progressBar) {
-            progressBar.style.transition = 'none';
-            progressBar.style.width = '0%';
+          if (circle) {
+            circle.style.transition = 'none';
+            circle.style.strokeDashoffset = CIRCLE_LEN;
             setTimeout(() => {
-              progressBar.style.transition = 'width 100ms linear';
+              circle.style.transition = 'stroke-dashoffset 100ms linear';
             }, 50);
           }
         }
@@ -2250,6 +2211,8 @@
 
     function closeQuickNotePlayer() {
       clearInterval(quickNoteTimerInterval);
+      const circle = document.getElementById('quick-note-circle-progress');
+      if (circle) circle.style.strokeDashoffset = '295.3';
       const modal = document.getElementById('modal-quick-note-player');
       if (modal) modal.classList.add('hidden');
     }
@@ -2302,31 +2265,35 @@
       const preview = document.getElementById('record-preview-container');
 
       if (type === 'video') {
-        videoBtn.className = 'flex-1 py-1.5 rounded-lg bg-white text-forest shadow-xs font-bold transition flex items-center justify-center gap-1.5';
-        audioBtn.className = 'flex-1 py-1.5 rounded-lg text-charcoal-soft hover:text-forest font-bold transition flex items-center justify-center gap-1.5';
+        if (videoBtn) videoBtn.className = 'px-3.5 py-1 rounded-full bg-emerald-600 text-white shadow-xs font-bold transition flex items-center gap-1';
+        if (audioBtn) audioBtn.className = 'px-3.5 py-1 rounded-full text-white/70 hover:text-white font-bold transition flex items-center gap-1';
         
-        preview.innerHTML = `
-          <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-800 to-neutral-900">
-            <img src="${CONNECTIONS_DATA[0].avatar}" class="w-32 h-32 rounded-full object-cover border-4 border-emerald-500/80 shadow-2xl">
-            <span class="text-xs text-white/80 font-bold mt-3 flex items-center gap-1">
-              <i data-lucide="camera" class="w-3.5 h-3.5 text-emerald-400"></i> Câmera Frontal Ativa
-            </span>
-          </div>
-        `;
-      } else {
-        audioBtn.className = 'flex-1 py-1.5 rounded-lg bg-white text-forest shadow-xs font-bold transition flex items-center justify-center gap-1.5';
-        videoBtn.className = 'flex-1 py-1.5 rounded-lg text-charcoal-soft hover:text-forest font-bold transition flex items-center justify-center gap-1.5';
-        
-        preview.innerHTML = `
-          <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900">
-            <div class="w-24 h-24 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-3xl shadow-xl">
-              🎙️
+        if (preview) {
+          preview.innerHTML = `
+            <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-800 to-neutral-900">
+              <img src="${CONNECTIONS_DATA[0].avatar}" class="w-28 h-28 rounded-full object-cover border-4 border-emerald-500/80 shadow-xl">
+              <span class="text-[10px] text-white/80 font-bold mt-2 flex items-center gap-1">
+                <i data-lucide="camera" class="w-3 h-3 text-emerald-400"></i> Câmera Frontal Ativa
+              </span>
             </div>
-            <span class="text-xs text-emerald-300 font-bold mt-3 flex items-center gap-1">
-              Microfone Sensível • Voz da Terra
-            </span>
-          </div>
-        `;
+          `;
+        }
+      } else {
+        if (audioBtn) audioBtn.className = 'px-3.5 py-1 rounded-full bg-emerald-600 text-white shadow-xs font-bold transition flex items-center gap-1';
+        if (videoBtn) videoBtn.className = 'px-3.5 py-1 rounded-full text-white/70 hover:text-white font-bold transition flex items-center gap-1';
+        
+        if (preview) {
+          preview.innerHTML = `
+            <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900">
+              <div class="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-2xl shadow-lg">
+                🎙️
+              </div>
+              <span class="text-[10px] text-emerald-300 font-bold mt-2 flex items-center gap-1">
+                Microfone Ativo • Voz da Terra
+              </span>
+            </div>
+          `;
+        }
       }
       lucide.createIcons();
     }
@@ -2340,11 +2307,13 @@
       const dot = document.getElementById('record-status-dot');
       const btnIcon = document.getElementById('record-btn-icon');
       const hint = document.getElementById('record-hint-text');
+      const recordCircle = document.getElementById('record-circle-progress');
 
       if (timerText) timerText.innerText = '00:15';
       if (dot) dot.className = 'w-2 h-2 rounded-full bg-neutral-400';
-      if (btnIcon) btnIcon.className = 'w-5 h-5 rounded-full bg-white';
-      if (hint) hint.innerText = 'Toque para gravar';
+      if (btnIcon) btnIcon.className = 'w-4 h-4 rounded-full bg-white';
+      if (hint) hint.innerText = 'Toque p/ gravar';
+      if (recordCircle) recordCircle.style.strokeDashoffset = '295.3';
     }
 
     function toggleRecording() {
@@ -2361,10 +2330,12 @@
       const dot = document.getElementById('record-status-dot');
       const btnIcon = document.getElementById('record-btn-icon');
       const hint = document.getElementById('record-hint-text');
+      const recordCircle = document.getElementById('record-circle-progress');
+      const CIRCLE_LEN = 295.3;
 
       if (dot) dot.className = 'w-2 h-2 rounded-full bg-red-500 animate-ping';
-      if (btnIcon) btnIcon.className = 'w-4 h-4 rounded-xs bg-white'; // Ícone quadrado de STOP
-      if (hint) hint.innerText = 'Gravando... toque para finalizar';
+      if (btnIcon) btnIcon.className = 'w-3.5 h-3.5 rounded-xs bg-white'; // Ícone quadrado de STOP
+      if (hint) hint.innerText = 'Gravando... toque p/ parar';
 
       clearInterval(recordTimerInterval);
       recordTimerInterval = setInterval(() => {
@@ -2372,6 +2343,12 @@
         const timerText = document.getElementById('record-timer-text');
         if (timerText) {
           timerText.innerText = `00:${recordRemainingSeconds < 10 ? '0' : ''}${recordRemainingSeconds}`;
+        }
+
+        if (recordCircle) {
+          const elapsed = 15 - recordRemainingSeconds;
+          const progress = elapsed / 15;
+          recordCircle.style.strokeDashoffset = (CIRCLE_LEN * (1 - progress)).toFixed(1);
         }
 
         if (recordRemainingSeconds <= 0) {
@@ -2391,8 +2368,8 @@
         const hint = document.getElementById('record-hint-text');
 
         if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
-        if (btnIcon) btnIcon.className = 'w-5 h-5 rounded-full bg-white';
-        if (hint) hint.innerText = '✅ Recado gravado com sucesso!';
+        if (btnIcon) btnIcon.className = 'w-4 h-4 rounded-full bg-white';
+        if (hint) hint.innerText = '✓ Gravado com sucesso!';
       }
     }
 
