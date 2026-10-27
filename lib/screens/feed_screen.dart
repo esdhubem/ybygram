@@ -595,38 +595,49 @@ class _FeedScreenState extends State<FeedScreen> {
                 borderRadius: BorderRadius.circular(12),
                 onTap: _showNewVideoLinkDialog,
                 child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.link, size: 16, color: Color(0xFF0A291C)),
-                      SizedBox(width: 5),
-                      Text(
-                        'Faça sua Postagem',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 12,
-                          color: Color(0xFF0A291C),
-                        ),
-                      ),
-                    ],
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                  child: Text(
+                    'Faça sua Postagem',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 12,
+                      color: Color(0xFF0A291C),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
           const SizedBox(width: 8),
-          IconButton(
-            tooltip: 'Meu Perfil',
-            icon: CircleAvatar(
-              radius: 17,
-              backgroundImage: NetworkImage(supabase.currentUser.avatarUrl),
-            ),
-            onPressed: () => Navigator.of(context).push(
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const ProfileScreen()),
             ),
+            child: Container(
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFFEF4444), width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFEF4444).withOpacity(0.7),
+                    blurRadius: 14,
+                    spreadRadius: 2,
+                  ),
+                  BoxShadow(
+                    color: const Color(0xFFDC2626).withOpacity(0.45),
+                    blurRadius: 22,
+                    spreadRadius: 4,
+                  ),
+                ],
+              ),
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(supabase.currentUser.avatarUrl),
+              ),
+            ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
