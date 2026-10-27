@@ -1744,49 +1744,36 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              // Chips de Assuntos / Tópicos Rápidos
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    'Todos',
-                    'Agroecologia',
-                    'Abelhas Nativas',
-                    'Plantas Medicinais',
-                    'Bioconstrução',
-                    'Soberania Digital',
-                  ].map((topic) {
-                    final isSelected = _selectedVideoTopic == topic;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: FilterChip(
-                        label: Text(topic),
-                        labelStyle: TextStyle(
-                          fontSize: 11,
-                          fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                          color: isSelected ? Colors.white : const Color(0xFF1D2D24),
-                        ),
-                        selected: isSelected,
-                        selectedColor: const Color(0xFFC85A32),
-                        backgroundColor: Colors.white,
-                        checkmarkColor: Colors.white,
-                        showCheckmark: false,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: isSelected ? const Color(0xFFC85A32) : const Color(0xFFD5D8D2),
-                          ),
-                        ),
-                        onSelected: (val) {
-                          setState(() {
-                            _selectedVideoTopic = topic;
-                          });
-                        },
-                      ),
-                    );
-                  }).toList(),
-                ),
+              // Mini Abas de Caderno: 8 Temas da Natureza e Comunidade
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Fileira 1
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        {'name': 'Todos', 'icon': '✨'},
+                        {'name': 'Agroecologia', 'icon': '🌱'},
+                        {'name': 'Plantas Medicinais', 'icon': '🌿'},
+                        {'name': 'Abelhas Nativas', 'icon': '🐝'},
+                      ].map((item) => _buildNotebookCategoryTab(item['name']!, item['icon']!)).toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  // Fileira 2
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        {'name': 'Saúde Integrativa', 'icon': '💚'},
+                        {'name': 'Artesanato MEI', 'icon': '🧶'},
+                        {'name': 'Filosofia & Saberes', 'icon': '📜'},
+                        {'name': 'Música & Cultura', 'icon': '🎵'},
+                      ].map((item) => _buildNotebookCategoryTab(item['name']!, item['icon']!)).toList(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -2271,6 +2258,81 @@ class _FeedScreenState extends State<FeedScreen> {
           );
         }),
       ],
+    );
+  }
+
+  // Mini Aba de Caderno para Filtro de Temas da Natureza
+  Widget _buildNotebookCategoryTab(String theme, String icon) {
+    final isSelected = _selectedVideoTopic == theme;
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _selectedVideoTopic = theme;
+          });
+        },
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(12),
+          bottom: Radius.circular(6),
+        ),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: isSelected ? const Color(0xFFC85A32) : Colors.white,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(12),
+              bottom: Radius.circular(6),
+            ),
+            border: Border(
+              top: BorderSide(
+                color: isSelected ? const Color(0xFFFDBA74) : const Color(0xFFE2DDD2),
+                width: isSelected ? 2.5 : 1,
+              ),
+              left: BorderSide(
+                color: isSelected ? const Color(0xFFEA580C) : const Color(0xFFD5D8D2),
+              ),
+              right: BorderSide(
+                color: isSelected ? const Color(0xFFEA580C) : const Color(0xFFD5D8D2),
+              ),
+              bottom: BorderSide(
+                color: isSelected ? const Color(0xFF9A3412) : const Color(0xFFD5D8D2),
+                width: 1.5,
+              ),
+            ),
+            boxShadow: [
+              if (isSelected)
+                BoxShadow(
+                  color: const Color(0xFFC85A32).withOpacity(0.35),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                )
+              else
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.03),
+                  blurRadius: 3,
+                  offset: const Offset(0, 1),
+                ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(icon, style: const TextStyle(fontSize: 11)),
+              const SizedBox(width: 4),
+              Text(
+                theme,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                  color: isSelected ? Colors.white : const Color(0xFF1D2D24),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

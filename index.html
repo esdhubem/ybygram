@@ -95,6 +95,44 @@
       box-shadow: 0 6px 25px -2px rgba(5, 30, 20, 0.65);
     }
 
+    /* Mini Abas de Caderno (Chips de Natureza) */
+    .notebook-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.85rem 0.85rem 0.45rem 0.45rem;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      user-select: none;
+      border-top: 2.5px solid #E2DDD2;
+      border-left: 1px solid rgba(0, 0, 0, 0.08);
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+      border-bottom: 1.5px solid rgba(0, 0, 0, 0.12);
+      background: linear-gradient(180deg, #FFFFFF 0%, #FBF9F4 100%);
+      color: #1D2D24;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .notebook-chip:hover {
+      background: #F4EFE6;
+      border-top-color: #C85A32;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    }
+    .notebook-chip.active {
+      background: linear-gradient(180deg, #D4633B 0%, #C85A32 100%) !important;
+      color: #FFFFFF !important;
+      border-top-color: #FDBA74 !important;
+      border-left-color: #EA580C !important;
+      border-right-color: #EA580C !important;
+      border-bottom-color: #9A3412 !important;
+      box-shadow: 0 4px 10px rgba(200, 90, 50, 0.38) !important;
+      transform: translateY(-2px);
+    }
+
     .app-footer-fixed {
       position: fixed;
       bottom: 0;
@@ -257,6 +295,44 @@
             <button id="clear-saberes-search-btn" onclick="clearSaberesSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
               <i data-lucide="x" class="w-4 h-4"></i>
             </button>
+          </div>
+
+          <!-- Mini Abas de Caderno em Saberes -->
+          <div class="mx-3.5">
+            <!-- Mini Abas de Caderno: Filtro de Categorias / Temas da Natureza -->
+            <div class="category-tabs-container space-y-1.5 py-1">
+              <!-- Duas Fileiras Bem Distribuídas e Visíveis de Imediato -->
+              <div class="grid grid-rows-2 grid-flow-col auto-cols-max gap-1.5 overflow-x-auto hide-scrollbar pb-1 px-0.5">
+                <!-- Fileira 1 / 2 distribuídas automaticamente -->
+                <button onclick="selectCategoryTheme('Todos')" class="notebook-chip active" data-theme="Todos">
+                  <span>✨</span> Todos
+                </button>
+                <button onclick="selectCategoryTheme('Saúde Integrativa')" class="notebook-chip" data-theme="Saúde Integrativa">
+                  <span>💚</span> Saúde Integrativa
+                </button>
+
+                <button onclick="selectCategoryTheme('Agroecologia')" class="notebook-chip" data-theme="Agroecologia">
+                  <span>🌱</span> Agroecologia
+                </button>
+                <button onclick="selectCategoryTheme('Artesanato MEI')" class="notebook-chip" data-theme="Artesanato MEI">
+                  <span>🧶</span> Artesanato MEI
+                </button>
+
+                <button onclick="selectCategoryTheme('Plantas Medicinais')" class="notebook-chip" data-theme="Plantas Medicinais">
+                  <span>🌿</span> Plantas Medicinais
+                </button>
+                <button onclick="selectCategoryTheme('Filosofia & Saberes')" class="notebook-chip" data-theme="Filosofia & Saberes">
+                  <span>📜</span> Filosofia & Saberes
+                </button>
+
+                <button onclick="selectCategoryTheme('Abelhas Nativas')" class="notebook-chip" data-theme="Abelhas Nativas">
+                  <span>🐝</span> Abelhas Nativas
+                </button>
+                <button onclick="selectCategoryTheme('Música & Cultura')" class="notebook-chip" data-theme="Música & Cultura">
+                  <span>🎵</span> Música & Cultura
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- 4. CAIXA DE TEXTO E PARTILHA (Container cinza #EAECE8 com campo interno branco para destaque) -->
@@ -588,14 +664,39 @@
               </button>
             </div>
 
-            <!-- Chips de Assuntos Rápidos -->
-            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-              <button onclick="selectVideoTopic('todos')" class="topic-chip active px-3 py-1.5 rounded-lg text-[11px] font-bold bg-[#C85A32] text-white shrink-0 transition" data-topic="todos">Todos</button>
-              <button onclick="selectVideoTopic('Agroecologia')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Agroecologia">Agroecologia</button>
-              <button onclick="selectVideoTopic('Abelhas Nativas')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Abelhas Nativas">Abelhas Nativas</button>
-              <button onclick="selectVideoTopic('Plantas Medicinais')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Plantas Medicinais">Plantas Medicinais</button>
-              <button onclick="selectVideoTopic('Bioconstrução')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Bioconstrução">Bioconstrução</button>
-              <button onclick="selectVideoTopic('Soberania Digital')" class="topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition" data-topic="Soberania Digital">Soberania Digital</button>
+            <!-- Mini Abas de Caderno: Filtro de Categorias / Temas da Natureza -->
+            <div class="category-tabs-container space-y-1.5 py-1">
+              <!-- Duas Fileiras Bem Distribuídas e Visíveis de Imediato -->
+              <div class="grid grid-rows-2 grid-flow-col auto-cols-max gap-1.5 overflow-x-auto hide-scrollbar pb-1 px-0.5">
+                <!-- Fileira 1 / 2 distribuídas automaticamente -->
+                <button onclick="selectCategoryTheme('Todos')" class="notebook-chip active" data-theme="Todos">
+                  <span>✨</span> Todos
+                </button>
+                <button onclick="selectCategoryTheme('Saúde Integrativa')" class="notebook-chip" data-theme="Saúde Integrativa">
+                  <span>💚</span> Saúde Integrativa
+                </button>
+
+                <button onclick="selectCategoryTheme('Agroecologia')" class="notebook-chip" data-theme="Agroecologia">
+                  <span>🌱</span> Agroecologia
+                </button>
+                <button onclick="selectCategoryTheme('Artesanato MEI')" class="notebook-chip" data-theme="Artesanato MEI">
+                  <span>🧶</span> Artesanato MEI
+                </button>
+
+                <button onclick="selectCategoryTheme('Plantas Medicinais')" class="notebook-chip" data-theme="Plantas Medicinais">
+                  <span>🌿</span> Plantas Medicinais
+                </button>
+                <button onclick="selectCategoryTheme('Filosofia & Saberes')" class="notebook-chip" data-theme="Filosofia & Saberes">
+                  <span>📜</span> Filosofia & Saberes
+                </button>
+
+                <button onclick="selectCategoryTheme('Abelhas Nativas')" class="notebook-chip" data-theme="Abelhas Nativas">
+                  <span>🐝</span> Abelhas Nativas
+                </button>
+                <button onclick="selectCategoryTheme('Música & Cultura')" class="notebook-chip" data-theme="Música & Cultura">
+                  <span>🎵</span> Música & Cultura
+                </button>
+              </div>
             </div>
           </div>
 
@@ -3824,6 +3925,66 @@
         subject: 'Agroecologia',
         thumb: 'https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=800',
         embedUrl: 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'
+      },
+      {
+        id: 'lv_7',
+        title: 'Fitoterapia e Saúde Integrativa: Alimentação Viva, Chás e Fortalecimento Imunológico',
+        author: 'Dra. Luiza Candeias',
+        avatar: 'https://images.unsplash.com/photo-1594824813590-7f2824905a8b?w=150',
+        platform: 'YouTube',
+        platformBadge: 'YOUTUBE',
+        duration: '28:40',
+        isLive: false,
+        views: '16 mil assistindo',
+        timeAgo: 'Há 5 dias',
+        subject: 'Saúde Integrativa',
+        thumb: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800',
+        embedUrl: 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'
+      },
+      {
+        id: 'lv_8',
+        title: 'Biojoias de Sementes Nativas e Fibras Naturais: Economia Criativa do Artesanato MEI',
+        author: 'Cooperativa Teias da Terra',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+        platform: 'Odysee Livre',
+        platformBadge: 'ODYSEE LIVRE',
+        duration: '21:15',
+        isLive: false,
+        views: '11 mil visualizações',
+        timeAgo: 'Há 6 dias',
+        subject: 'Artesanato MEI',
+        thumb: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800',
+        embedUrl: 'https://odysee.com/$/embed/@esdhubem:a/ybygram:f'
+      },
+      {
+        id: 'lv_9',
+        title: 'Filosofia das Epistemologias do Sul: Saberes Ancestrais e Autonomia Comunitária',
+        author: 'Mestre Tiago Arayá',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+        platform: 'PeerTube',
+        platformBadge: 'PEERTUBE',
+        duration: '39:50',
+        isLive: false,
+        views: '19 mil visualizações',
+        timeAgo: 'Há 1 semana',
+        subject: 'Filosofia & Saberes',
+        thumb: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800',
+        embedUrl: 'https://odysee.com/$/embed/@esdhubem:a/ybygram:f'
+      },
+      {
+        id: 'lv_10',
+        title: 'Cantos da Terra e Ciranda das Sementes: Paisagens Sonoras e Tradição Oral',
+        author: 'Dona Maria do Pífano',
+        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150',
+        platform: 'YouTube',
+        platformBadge: 'YOUTUBE',
+        duration: '18:25',
+        isLive: false,
+        views: '31 mil visualizações',
+        timeAgo: 'Há 3 dias',
+        subject: 'Música & Cultura',
+        thumb: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800',
+        embedUrl: 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'
       }
     ];
 
@@ -3920,7 +4081,7 @@
       }
 
       const filtered = LONG_VIDEOS.filter(v => {
-        const matchesTopic = currentVideoTopic === 'todos' || v.subject.toLowerCase() === currentVideoTopic.toLowerCase();
+        const matchesTopic = currentVideoTopic === 'todos' || currentVideoTopic === 'Todos' || v.subject.toLowerCase() === currentVideoTopic.toLowerCase() || (THEME_KEYWORDS[currentVideoTopic] && THEME_KEYWORDS[currentVideoTopic].some(kw => v.title.toLowerCase().includes(kw) || v.subject.toLowerCase().includes(kw)));
         const matchesQuery = !query || 
           v.title.toLowerCase().includes(query) ||
           v.author.toLowerCase().includes(query) ||
@@ -3932,16 +4093,93 @@
       renderLongVideos(filtered);
     }
 
-    function selectVideoTopic(topic) {
-      currentVideoTopic = topic;
-      document.querySelectorAll('.topic-chip').forEach(btn => {
-        if (btn.getAttribute('data-topic') === topic) {
-          btn.className = 'topic-chip active px-3 py-1.5 rounded-lg text-[11px] font-bold bg-[#C85A32] text-white shrink-0 transition shadow-xs';
+    let currentCategoryTheme = 'Todos';
+
+    // Palavras-chave associadas a cada um dos 8 temas oficiais para filtragem inteligente em publicações
+    const THEME_KEYWORDS = {
+      'Agroecologia': ['agroecologia', 'agroflorest', 'plantio', 'mandioca', 'milho', 'solo', 'semente', 'adubo', 'compostag', 'orgânic'],
+      'Plantas Medicinais': ['planta', 'medicina', 'erva', 'fitoterap', 'guaçatonga', 'espinheira', 'infusão', 'chá', 'tintura', 'folha'],
+      'Abelhas Nativas': ['abelha', 'melipon', 'jataí', 'enxame', 'mel', 'caixa', 'poliniz', 'ferrão'],
+      'Saúde Integrativa': ['saúde', 'integrativ', 'bem-estar', 'estômago', 'imunol', 'cura', 'terap', 'corpo', 'mente'],
+      'Artesanato MEI': ['artesanat', 'biojoia', 'fibra', 'mei', 'costura', 'cerâmica', 'teias', 'barro', 'feito à mão'],
+      'Filosofia & Saberes': ['filosofia', 'saber', 'ancestral', 'memória', 'tradição', 'soberania', 'comunidade', 'rede livre'],
+      'Música & Cultura': ['música', 'canto', 'som', 'ciranda', 'sonor', 'violão', 'cultura', 'ritmo', 'flauta', 'pífano']
+    };
+
+    function selectCategoryTheme(theme) {
+      currentCategoryTheme = theme;
+      currentVideoTopic = theme.toLowerCase() === 'todos' ? 'todos' : theme;
+
+      // Atualiza visualmente todas as mini abas de caderno (chips) da página
+      document.querySelectorAll('.notebook-chip').forEach(btn => {
+        const btnTheme = btn.getAttribute('data-theme');
+        if (btnTheme === theme) {
+          btn.classList.add('active');
         } else {
-          btn.className = 'topic-chip px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white border border-[#d5d8d2] text-charcoal hover:bg-neutral-100 shrink-0 transition';
+          btn.classList.remove('active');
         }
       });
+
+      // 1. Filtra Vídeos Longos instantaneamente
       filterLongVideos();
+
+      // 2. Filtra Publicações de Saberes instantaneamente
+      filterSaberesByTheme(theme);
+    }
+
+    // Compatibilidade com código legado
+    function selectVideoTopic(topic) {
+      selectCategoryTheme(topic);
+    }
+
+    function filterSaberesByTheme(theme) {
+      const posts = document.querySelectorAll('#posts-feed-container article.post-card');
+      const searchInput = document.getElementById('saberes-search-input');
+      const query = (searchInput?.value || '').trim().toLowerCase();
+      let visibleCount = 0;
+
+      posts.forEach(post => {
+        const text = post.innerText.toLowerCase();
+        
+        // Verifica se corresponde à busca textual
+        const matchesQuery = !query || text.includes(query);
+
+        // Verifica se corresponde ao tema selecionado
+        let matchesTheme = (theme === 'Todos' || theme.toLowerCase() === 'todos');
+        if (!matchesTheme && THEME_KEYWORDS[theme]) {
+          matchesTheme = THEME_KEYWORDS[theme].some(kw => text.includes(kw));
+        }
+
+        if (matchesQuery && matchesTheme) {
+          post.style.display = '';
+          visibleCount++;
+        } else {
+          post.style.display = 'none';
+        }
+      });
+
+      // Feedback amigável se nenhum post bater exatamente com o filtro
+      let emptyMsg = document.getElementById('saberes-empty-theme-msg');
+      if (visibleCount === 0) {
+        if (!emptyMsg) {
+          emptyMsg = document.createElement('div');
+          emptyMsg.id = 'saberes-empty-theme-msg';
+          emptyMsg.className = 'p-6 text-center bg-white rounded-2xl border border-[#d5d8d2] space-y-2 mt-2';
+          emptyMsg.innerHTML = `
+            <span class="text-3xl">🌱</span>
+            <p class="text-xs font-bold text-charcoal">Nenhum saber com o tema "${theme}" no momento.</p>
+            <button onclick="selectCategoryTheme('Todos')" class="px-3.5 py-1.5 rounded-xl bg-[#245C45] text-white text-xs font-bold hover:bg-[#1c4735] transition shadow-xs">
+              Ver todos os saberes
+            </button>
+          `;
+          document.getElementById('posts-feed-container').appendChild(emptyMsg);
+        } else {
+          emptyMsg.style.display = '';
+          emptyMsg.querySelector('p').innerText = `Nenhum saber com o tema "${theme}" no momento.`;
+        }
+      } else if (emptyMsg) {
+        emptyMsg.style.display = 'none';
+      }
     }
 
     function clearVideoSearch() {
