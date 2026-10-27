@@ -1566,7 +1566,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     ),
                     const SizedBox(height: 2),
                     const Text(
-                      'Saberes práticos, agroecologia e momentos da comunidade em formato 9:16.',
+                      'Saberes Práticos e Momentos da Comunidade.',
                       style: TextStyle(color: Colors.white70, fontSize: 11),
                     ),
                   ],
