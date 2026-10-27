@@ -58,178 +58,317 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Foto do perfil com Selo Criador Soberano
-                  Row(
-                    children: [
-                      Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 40,
+                  // CABEÇALHO ESTILO TIKTOK / BIOLINK SOBERANO
+                  // Avatar Circular com Suporte a Recado Rápido (WhatsApp 1:1)
+                  GestureDetector(
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('🎙️ Recado Rápido: Toque para gravar ou ver status de 15 segundos')),
+                      );
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF10B981), Color(0xFFF59E0B), Color(0xFFC85A32)],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF10B981).withOpacity(0.3),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: CircleAvatar(
+                            radius: 46,
                             backgroundImage: NetworkImage(user.avatarUrl),
                           ),
-                          if (user.isSovereignCreator)
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF51DE06),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(Icons.verified, size: 16, color: Colors.white),
+                        ),
+                        if (user.isSovereignCreator)
+                          Positioned(
+                            bottom: 2,
+                            right: 4,
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF51DE06),
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.white, width: 2),
+                                boxShadow: const [
+                                  BoxShadow(color: Colors.black26, blurRadius: 4),
+                                ],
                               ),
+                              child: const Icon(Icons.check, size: 14, color: Colors.white),
                             ),
-                        ],
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user.name,
-                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF245C45),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.white, width: 1.5),
                             ),
-                            Text(
-                              user.handle,
-                              style: TextStyle(color: theme.colorScheme.secondary, fontWeight: FontWeight.w600),
-                            ),
-                            Row(
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.location_on_outlined, size: 14, color: Color(0xFF245C45)),
-                                const SizedBox(width: 4),
-                                Expanded(
-                                  child: Text(
-                                    user.location,
-                                    style: theme.textTheme.bodySmall?.copyWith(fontSize: 11),
-                                  ),
+                                Icon(Icons.videocam, size: 10, color: Colors.white),
+                                SizedBox(width: 2),
+                                Text(
+                                  '15s',
+                                  style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
                                 ),
                               ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Nome do Criador e Selo Criadora Soberana
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        user.name,
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                      ),
+                      const SizedBox(width: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE8F5E9),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: const Color(0xFF81C784)),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('🌱', style: TextStyle(fontSize: 10)),
+                            SizedBox(width: 3),
+                            Text(
+                              'Criadora Soberana',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF245C45),
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  // Bio
-                  Text(
-                    user.bio,
-                    style: theme.textTheme.bodyMedium?.copyWith(height: 1.35),
+                  const SizedBox(height: 2),
+
+                  // Alça (@) e Localização
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        user.handle,
+                        style: const TextStyle(
+                          color: Color(0xFFC85A32),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      const Text('•', style: TextStyle(color: Colors.grey)),
+                      const SizedBox(width: 6),
+                      const Icon(Icons.location_on_outlined, size: 13, color: Color(0xFF245C45)),
+                      const SizedBox(width: 2),
+                      Text(
+                        user.location,
+                        style: theme.textTheme.bodySmall?.copyWith(fontSize: 11),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 14),
-                  // PAINEL PRIVADO DE IMPACTO DO AUTOR (FIM DA VAIDADE)
+                  const SizedBox(height: 12),
+
+                  // 1. BARRA DE CONEXÕES OFICIAIS & BIOLINK INTEGRADO (SUBSTITUTO DE SEGUIDORES / CURTIDAS)
                   Container(
-                    padding: const EdgeInsets.all(14),
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF245C45).withOpacity(0.06),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFF245C45).withOpacity(0.2)),
+                      border: Border.all(color: Colors.black12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.03),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.lock_outline, size: 16, color: Color(0xFF245C45)),
-                            const SizedBox(width: 6),
-                            const Text(
-                              'Painel Privado de Impacto do Autor',
+                            Icon(Icons.link, size: 14, color: Color(0xFF245C45)),
+                            SizedBox(width: 4),
+                            Text(
+                              'CONEXÕES OFICIAIS • BIOLINK YBY',
                               style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
                                 color: Color(0xFF245C45),
-                              ),
-                            ),
-                            const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF245C45).withOpacity(0.12),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: const Text(
-                                'Acesso Exclusivo Seu',
-                                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF245C45)),
+                                letterSpacing: 0.5,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 8),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: theme.cardColor,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
-                                ),
-                                child: const Column(
-                                  children: [
-                                    Text('342', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF245C45))),
-                                    SizedBox(height: 2),
-                                    Text('🌱 Sementes', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
-                                    Text('de Gratidão', style: TextStyle(fontSize: 9, color: Colors.grey)),
-                                  ],
-                                ),
+                            // Instagram
+                            _buildSocialButton(
+                              icon: Icons.camera_alt,
+                              color: const Color(0xFFE1306C),
+                              tooltip: 'Instagram Oficial',
+                              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('🌐 Abrindo Instagram oficial: @silviane.terra')),
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: theme.cardColor,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
-                                ),
-                                child: const Column(
-                                  children: [
-                                    Text('48', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFFC85A32))),
-                                    SizedBox(height: 2),
-                                    Text('📚 Saberes', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
-                                    Text('Partilhados', style: TextStyle(fontSize: 9, color: Colors.grey)),
-                                  ],
-                                ),
+                            // LinkedIn
+                            _buildSocialButton(
+                              icon: Icons.work_outline,
+                              color: const Color(0xFF0A66C2),
+                              tooltip: 'LinkedIn Profissional',
+                              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('🌐 Abrindo LinkedIn oficial: Silviane Terra')),
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: theme.cardColor,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
-                                ),
-                                child: const Column(
-                                  children: [
-                                    Text('89', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.blueGrey)),
-                                    SizedBox(height: 2),
-                                    Text('🔒 No Acervo', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
-                                    Text('Salvo Privado', style: TextStyle(fontSize: 9, color: Colors.grey)),
-                                  ],
-                                ),
+                            // Facebook
+                            _buildSocialButton(
+                              icon: Icons.facebook,
+                              color: const Color(0xFF1877F2),
+                              tooltip: 'Comunidade no Facebook',
+                              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('🌐 Abrindo Facebook oficial: Comunidade Silviane')),
+                              ),
+                            ),
+                            // YouTube
+                            _buildSocialButton(
+                              icon: Icons.play_circle_fill,
+                              color: const Color(0xFFFF0000),
+                              tooltip: 'Canal no YouTube',
+                              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('🌐 Abrindo YouTube oficial: Canal Saberes da Terra')),
+                              ),
+                            ),
+                            // Spotify
+                            _buildSocialButton(
+                              icon: Icons.graphic_eq,
+                              color: const Color(0xFF1DB954),
+                              tooltip: 'Podcast no Spotify',
+                              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('🌐 Abrindo Spotify oficial: Podcast Saberes Ancestrais')),
+                              ),
+                            ),
+                            // Biolink
+                            _buildSocialButton(
+                              icon: Icons.share,
+                              color: const Color(0xFF245C45),
+                              tooltip: 'Copiar Biolink',
+                              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('🔗 Link do perfil copiado com sucesso!')),
                               ),
                             ),
                           ],
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          '🛡️ Fim da Vaidade: O YBYgram não exibe contadores públicos de seguidores ou curtidas. As métricas acima são exclusivamente suas, avaliando a utilidade real dos seus saberes sem disputa de ego.',
-                          style: TextStyle(fontSize: 10, color: Colors.black54, height: 1.35),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
+
+                  // BOTÕES DE AÇÃO DO PERFIL (ESTILO TIKTOK SOBERANO)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.black26),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                          ),
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Modo de edição do perfil')),
+                            );
+                          },
+                          child: const Text('Editar Perfil', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black87)),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF245C45),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                          ),
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('🎙️ Abrindo gravador de Recado Rápido')),
+                            );
+                          },
+                          icon: const Icon(Icons.radio, size: 14, color: Color(0xFFFCD34D)),
+                          label: const Text('Recado Rápido', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black26),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.send_outlined, size: 18, color: Color(0xFF245C45)),
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('🔗 Compartilhando Perfil Soberano')),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 2. BIOGRAFIA DE PROPÓSITO E SABERES
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: Colors.black12),
+                    ),
+                    child: Text(
+                      user.bio,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium?.copyWith(height: 1.4, fontSize: 12),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
                   // Banner de Status "Criador Soberano"
                   Container(
                     padding: const EdgeInsets.all(14),
@@ -507,6 +646,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSocialButton({
+    required IconData icon,
+    required Color color,
+    required String tooltip,
+    required VoidCallback onTap,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.08),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: color.withOpacity(0.25)),
+          ),
+          child: Icon(icon, size: 18, color: color),
+        ),
+      ),
     );
   }
 
