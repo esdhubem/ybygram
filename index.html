@@ -2037,6 +2037,7 @@
     ];
 
     // Verifica se há recado gravado pelo usuário ativo nas últimas 24h
+    // Verifica se há recado gravado pelo usuário ativo nas últimas 24h
     function loadUserQuickNote() {
       try {
         const stored = localStorage.getItem('yby_user_quick_note');
@@ -2050,7 +2051,7 @@
               timeAgo: `Expira em ${hoursLeft}h`,
               caption: note.caption || 'Recado de Silviane para a comunidade!',
               duration: 15,
-              mediaUrl: CONNECTIONS_DATA[0].avatar
+              mediaUrl: note.mediaUrl || CONNECTIONS_DATA[0].avatar
             };
           } else {
             localStorage.removeItem('yby_user_quick_note');
@@ -2071,8 +2072,6 @@
       container.innerHTML = CONNECTIONS_DATA.map(conn => {
         const hasQuickNote = !!conn.quickNote;
         
-        // Se tem recado ativo: Borda viva com gradiente animado pulsante e badge
-        // Se NÃO tem recado ativo: Borda normal sutil em verde-mata
         let borderClass = '';
         let badgeIcon = '';
 
@@ -2117,7 +2116,30 @@
       const conn = CONNECTIONS_DATA.find(c => c.id === connId);
       if (!conn) return;
 
-      function openQuickNotePlayer(connId) {
+      // Se for "Você" e NÃO tiver recado gravado: abre o gravador direto
+      if (conn.isCurrentUser && !conn.quickNote) {
+        openQuickNoteRecorder();
+        return;
+      }
+
+      // Se o autor tiver um Recado Rápido ativo: abre o Player de Status estilo WhatsApp
+      if (conn.quickNote) {
+        openQuickNotePlayer(conn.id);
+        return;
+      }
+
+      // Se o autor NÃO tiver recado ativo: direciona para a última publicação do autor no feed
+      goToUserPublication(conn.postTarget);
+    }
+
+    // ==========================================
+    // PLAYER DE RECADO RÁPIDO (15 SEGUNDOS EM LOOP)
+    // ==========================================
+    let quickNoteTimerInterval = null;
+    let quickNoteCurrentSeconds = 0;
+    const QUICK_NOTE_DURATION = 15; // 15 segundos
+
+    function openQuickNotePlayer(connId) {
       const conn = CONNECTIONS_DATA.find(c => c.id === connId);
       if (!conn || !conn.quickNote) return;
 
@@ -2141,22 +2163,41 @@
       // Conteúdo multimídia estritamente circular 1:1 (estilo WhatsApp)
       if (mediaContainer) {
         if (conn.quickNote.type === 'video') {
-          mediaContainer.innerHTML = `
-            <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
-              <img src="${conn.quickNote.mediaUrl || conn.avatar}" class="w-full h-full object-cover brightness-95 animate-pulse" style="animation-duration: 4s;">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30"></div>
-              <!-- Indicador sutil de reprodução -->
-              <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-lg">
-                  <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5"></i>
+          const mediaUrl = conn.quickNote.mediaUrl || '';
+          const isRealVideo = mediaUrl.startsWith('blob:') || 
+                              mediaUrl.startsWith('data:video') || 
+                              mediaUrl.endsWith('.mp4') || 
+                              mediaUrl.endsWith('.webm');
+
+          if (isRealVideo) {
+            mediaContainer.innerHTML = `
+              <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-black">
+                <video id="quick-note-active-video" src="${mediaUrl}" autoplay loop playsinline class="w-full h-full object-cover"></video>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30 pointer-events-none"></div>
+              </div>
+            `;
+          } else {
+            mediaContainer.innerHTML = `
+              <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                <img src="${mediaUrl || conn.avatar}" class="w-full h-full object-cover brightness-95 animate-pulse" style="animation-duration: 4s;">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30"></div>
+                <!-- Indicador sutil de reprodução -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-lg">
+                    <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5"></i>
+                  </div>
                 </div>
               </div>
-            </div>
-          `;
+            `;
+          }
         } else {
-          // Visualizador circular de nota de voz com equalizador
+          // Visualizador circular de nota de voz com áudio real se disponível
+          const mediaUrl = conn.quickNote.mediaUrl || '';
+          const isRealAudio = mediaUrl.startsWith('blob:') || mediaUrl.startsWith('data:audio');
+
           mediaContainer.innerHTML = `
             <div class="relative w-full h-full rounded-full overflow-hidden flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900 p-4">
+              ${isRealAudio ? `<audio id="quick-note-active-audio" src="${mediaUrl}" autoplay loop></audio>` : ''}
               <img src="${conn.avatar}" class="w-20 h-20 rounded-full object-cover border-2 border-emerald-400 shadow-md mb-2">
               <div class="flex items-center gap-1.5 h-8">
                 <span class="w-1 bg-emerald-400 rounded-full animate-bounce" style="height: 24px; animation-delay: 0.1s;"></span>
@@ -2211,6 +2252,12 @@
 
     function closeQuickNotePlayer() {
       clearInterval(quickNoteTimerInterval);
+      // Pausa e silencia qualquer elemento de mídia tocando no player
+      const activeVideo = document.getElementById('quick-note-active-video');
+      const activeAudio = document.getElementById('quick-note-active-audio');
+      if (activeVideo) { activeVideo.pause(); activeVideo.src = ''; }
+      if (activeAudio) { activeAudio.pause(); activeAudio.src = ''; }
+
       const circle = document.getElementById('quick-note-circle-progress');
       if (circle) circle.style.strokeDashoffset = '295.3';
       const modal = document.getElementById('modal-quick-note-player');
@@ -2223,13 +2270,19 @@
     }
 
     // ==========================================
-    // GRAVAÇÃO DE RECADO RÁPIDO (USUÁRIO)
+    // GRAVAÇÃO DE RECADO RÁPIDO COM MEDIADEVICES & MEDIARECORDER
     // ==========================================
-    let currentRecordType = 'video';
-    let isRecordingNow = false;
-    let recordTimerInterval = null;
-    let recordRemainingSeconds = 15;
-    let userHasRecorded = false;
+    let mediaStream = null;          // MediaStream da câmera / microfone
+    let mediaRecorder = null;        // Instância de MediaRecorder
+    let recordedChunks = [];         // Chunks binários gravados
+    let recordedBlob = null;         // Blob gravado final
+    let recordedBlobUrl = null;      // URL de objeto para reprodução
+    let recordedBase64 = null;       // Base64 para persistência
+    let isRecordingNow = false;      // Estado ativo de gravação
+    let isPreviewingRecorded = false;// Estado de prévia antes de publicar
+    let currentRecordType = 'video'; // 'video' ou 'audio'
+    let recordTimerInterval = null;  // Timer regressivo
+    let recordRemainingSeconds = 15; // 15 segundos máximos
 
     function openQuickNoteRecorder() {
       const modal = document.getElementById('modal-quick-note-record');
@@ -2246,63 +2299,160 @@
         if (captionInput) captionInput.value = '';
       }
 
-      selectRecordType('video');
       resetRecordState();
+      selectRecordType('video');
       modal.classList.remove('hidden');
       lucide.createIcons();
     }
 
     function closeQuickNoteRecorder() {
-      stopRecordingProcess();
+      if (isRecordingNow) {
+        stopRecordingProcess();
+      }
+      stopMediaStream();
+      resetRecordState();
       const modal = document.getElementById('modal-quick-note-record');
       if (modal) modal.classList.add('hidden');
     }
 
     function selectRecordType(type) {
       currentRecordType = type;
+      resetRecordState();
+
       const videoBtn = document.getElementById('record-type-video-btn');
       const audioBtn = document.getElementById('record-type-audio-btn');
-      const preview = document.getElementById('record-preview-container');
 
       if (type === 'video') {
         if (videoBtn) videoBtn.className = 'px-3.5 py-1 rounded-full bg-emerald-600 text-white shadow-xs font-bold transition flex items-center gap-1';
         if (audioBtn) audioBtn.className = 'px-3.5 py-1 rounded-full text-white/70 hover:text-white font-bold transition flex items-center gap-1';
-        
-        if (preview) {
-          preview.innerHTML = `
-            <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-800 to-neutral-900">
-              <img src="${CONNECTIONS_DATA[0].avatar}" class="w-28 h-28 rounded-full object-cover border-4 border-emerald-500/80 shadow-xl">
-              <span class="text-[10px] text-white/80 font-bold mt-2 flex items-center gap-1">
-                <i data-lucide="camera" class="w-3 h-3 text-emerald-400"></i> Câmera Frontal Ativa
-              </span>
-            </div>
-          `;
-        }
       } else {
         if (audioBtn) audioBtn.className = 'px-3.5 py-1 rounded-full bg-emerald-600 text-white shadow-xs font-bold transition flex items-center gap-1';
         if (videoBtn) videoBtn.className = 'px-3.5 py-1 rounded-full text-white/70 hover:text-white font-bold transition flex items-center gap-1';
-        
-        if (preview) {
+      }
+
+      initMediaStream(type);
+      lucide.createIcons();
+    }
+
+    // Inicialização da Câmera / Microfone com MediaDevices API
+    async function initMediaStream(type) {
+      stopMediaStream();
+      const preview = document.getElementById('record-preview-container');
+      if (!preview) return;
+
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          throw new Error('Navegador não suporta navigator.mediaDevices.getUserMedia ou ambiente requer HTTPS/localhost.');
+        }
+
+        if (type === 'video') {
           preview.innerHTML = `
-            <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900">
-              <div class="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-2xl shadow-lg">
-                🎙️
+            <div class="relative w-full h-full flex items-center justify-center bg-black">
+              <video id="record-live-video" autoplay playsinline muted class="w-full h-full object-cover"></video>
+              <div id="camera-loading-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-white text-[11px] font-bold gap-1.5 z-10">
+                <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>Iniciando câmera...</span>
               </div>
-              <span class="text-[10px] text-emerald-300 font-bold mt-2 flex items-center gap-1">
-                Microfone Ativo • Voz da Terra
-              </span>
             </div>
           `;
+
+          try {
+            // Tenta abrir a câmera frontal móvel com resolução ideal 1:1
+            mediaStream = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 640 } },
+              audio: true
+            });
+          } catch (errFacing) {
+            // Fallback genérico caso facingMode não seja suportado
+            mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          }
+
+          const videoEl = document.getElementById('record-live-video');
+          const loader = document.getElementById('camera-loading-overlay');
+          if (videoEl && mediaStream) {
+            videoEl.srcObject = mediaStream;
+            videoEl.onloadedmetadata = () => {
+              videoEl.play().catch(e => console.warn('Erro ao reproduzir live video:', e));
+              if (loader) loader.classList.add('hidden');
+            };
+          }
+        } else {
+          // Modo Nota de Voz
+          preview.innerHTML = `
+            <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900 p-4">
+              <div class="relative">
+                <img src="${CONNECTIONS_DATA[0].avatar}" class="w-20 h-20 rounded-full object-cover border-2 border-emerald-400 shadow-xl">
+                <span class="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-emerald-500 border border-white flex items-center justify-center text-xs">🎙️</span>
+              </div>
+              <div class="flex items-center gap-1.5 h-6 mt-3">
+                <span class="w-1 bg-emerald-400 rounded-full animate-pulse" style="height: 14px;"></span>
+                <span class="w-1 bg-amber-400 rounded-full animate-pulse" style="height: 22px; animation-delay: 0.2s;"></span>
+                <span class="w-1 bg-emerald-300 rounded-full animate-pulse" style="height: 16px; animation-delay: 0.1s;"></span>
+              </div>
+              <span class="text-[10px] text-emerald-300 font-bold mt-1">Microfone Ativo</span>
+            </div>
+          `;
+
+          mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         }
+      } catch (err) {
+        console.warn('MediaDevices getUserMedia:', err);
+        let msg = 'Permissão de câmera/microfone indisponível ou negada.';
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          msg = 'Permissão de câmera ou microfone negada no navegador. Permita o acesso para gravar seu vídeo real.';
+        } else if (err.name === 'NotFoundError') {
+          msg = 'Nenhum dispositivo de câmera ou microfone encontrado.';
+        }
+        showToast(`⚠️ ${msg}`);
+        renderVisualFallback(type);
+      }
+    }
+
+    // Libera tracks de câmera e microfone imediatamente
+    function stopMediaStream() {
+      if (mediaStream) {
+        try {
+          mediaStream.getTracks().forEach(track => track.stop());
+        } catch (e) {
+          console.warn('Erro ao parar tracks:', e);
+        }
+        mediaStream = null;
+      }
+    }
+
+    // Fallback visual limpo quando câmera não puder ser acessada
+    function renderVisualFallback(type) {
+      const preview = document.getElementById('record-preview-container');
+      if (!preview) return;
+
+      if (type === 'video') {
+        preview.innerHTML = `
+          <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-800 to-neutral-900 p-4 text-center">
+            <img src="${CONNECTIONS_DATA[0].avatar}" class="w-24 h-24 rounded-full object-cover border-4 border-emerald-500/80 shadow-xl">
+            <span class="text-[10px] text-white/90 font-bold mt-2 flex items-center justify-center gap-1">
+              <i data-lucide="camera" class="w-3 h-3 text-emerald-400"></i> Simulação de Câmera
+            </span>
+          </div>
+        `;
+      } else {
+        preview.innerHTML = `
+          <div class="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900 p-4 text-center">
+            <div class="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-2xl shadow-lg">
+              🎙️
+            </div>
+            <span class="text-[10px] text-emerald-300 font-bold mt-2">Simulação de Voz</span>
+          </div>
+        `;
       }
       lucide.createIcons();
     }
 
     function resetRecordState() {
       isRecordingNow = false;
-      userHasRecorded = false;
+      isPreviewingRecorded = false;
       recordRemainingSeconds = 15;
       clearInterval(recordTimerInterval);
+
       const timerText = document.getElementById('record-timer-text');
       const dot = document.getElementById('record-status-dot');
       const btnIcon = document.getElementById('record-btn-icon');
@@ -2311,12 +2461,21 @@
 
       if (timerText) timerText.innerText = '00:15';
       if (dot) dot.className = 'w-2 h-2 rounded-full bg-neutral-400';
-      if (btnIcon) btnIcon.className = 'w-4 h-4 rounded-full bg-white';
+      if (btnIcon) {
+        btnIcon.className = 'w-4 h-4 rounded-full bg-white';
+        btnIcon.innerHTML = '';
+      }
       if (hint) hint.innerText = 'Toque p/ gravar';
       if (recordCircle) recordCircle.style.strokeDashoffset = '295.3';
     }
 
     function toggleRecording() {
+      // Se estava na pré-visualização, o clique no botão serve para regravar
+      if (isPreviewingRecorded) {
+        retakeRecording();
+        return;
+      }
+
       if (!isRecordingNow) {
         startRecordingProcess();
       } else {
@@ -2324,7 +2483,52 @@
       }
     }
 
+    // Início da Gravação usando MediaRecorder
     function startRecordingProcess() {
+      recordedChunks = [];
+      recordedBlob = null;
+      recordedBlobUrl = null;
+      recordedBase64 = null;
+
+      // Seleciona opções de codec MIME suportadas pelo navegador
+      let options = {};
+      if (currentRecordType === 'video') {
+        if (typeof MediaRecorder !== 'undefined') {
+          if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+            options = { mimeType: 'video/webm;codecs=vp9,opus' };
+          } else if (MediaRecorder.isTypeSupported('video/webm')) {
+            options = { mimeType: 'video/webm' };
+          } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+            options = { mimeType: 'video/mp4' };
+          }
+        }
+      } else {
+        if (typeof MediaRecorder !== 'undefined') {
+          if (MediaRecorder.isTypeSupported('audio/webm')) {
+            options = { mimeType: 'audio/webm' };
+          } else if (MediaRecorder.isTypeSupported('audio/ogg')) {
+            options = { mimeType: 'audio/ogg' };
+          } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+            options = { mimeType: 'audio/mp4' };
+          }
+        }
+      }
+
+      try {
+        if (mediaStream && typeof MediaRecorder !== 'undefined') {
+          mediaRecorder = new MediaRecorder(mediaStream, options);
+          mediaRecorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) {
+              recordedChunks.push(e.data);
+            }
+          };
+          mediaRecorder.onstop = handleMediaRecorderStop;
+          mediaRecorder.start(250); // Coleta a cada 250ms
+        }
+      } catch (e) {
+        console.warn('MediaRecorder não pôde ser instanciado:', e);
+      }
+
       isRecordingNow = true;
       recordRemainingSeconds = 15;
       const dot = document.getElementById('record-status-dot');
@@ -2334,7 +2538,10 @@
       const CIRCLE_LEN = 295.3;
 
       if (dot) dot.className = 'w-2 h-2 rounded-full bg-red-500 animate-ping';
-      if (btnIcon) btnIcon.className = 'w-3.5 h-3.5 rounded-xs bg-white'; // Ícone quadrado de STOP
+      if (btnIcon) {
+        btnIcon.className = 'w-3.5 h-3.5 rounded-xs bg-white'; // Ícone quadrado STOP
+        btnIcon.innerHTML = '';
+      }
       if (hint) hint.innerText = 'Gravando... toque p/ parar';
 
       clearInterval(recordTimerInterval);
@@ -2358,37 +2565,143 @@
       }, 1000);
     }
 
+    // Parada da gravação
     function stopRecordingProcess() {
       clearInterval(recordTimerInterval);
-      if (isRecordingNow) {
-        isRecordingNow = false;
-        userHasRecorded = true;
-        const dot = document.getElementById('record-status-dot');
-        const btnIcon = document.getElementById('record-btn-icon');
-        const hint = document.getElementById('record-hint-text');
+      if (!isRecordingNow) return;
 
-        if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
-        if (btnIcon) btnIcon.className = 'w-4 h-4 rounded-full bg-white';
-        if (hint) hint.innerText = '✓ Gravado com sucesso!';
+      isRecordingNow = false;
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        try {
+          mediaRecorder.stop();
+        } catch (e) {
+          console.warn('Erro ao parar MediaRecorder:', e);
+        }
+      } else {
+        handleMediaRecorderStop();
       }
     }
 
+    // Tratamento dos chunks e transição para Pré-Visualização
+    function handleMediaRecorderStop() {
+      stopMediaStream();
+
+      let mimeType = currentRecordType === 'video' ? 'video/webm' : 'audio/webm';
+      if (recordedChunks.length > 0) {
+        recordedBlob = new Blob(recordedChunks, { type: recordedChunks[0].type || mimeType });
+        recordedBlobUrl = URL.createObjectURL(recordedBlob);
+
+        // Converte para Base64 para persistir no estado local
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          recordedBase64 = reader.result;
+        };
+        reader.readAsDataURL(recordedBlob);
+      }
+
+      showRecordingPreview();
+    }
+
+    // Pré-visualização do recado gravado em formato circular antes de enviar
+    function showRecordingPreview() {
+      isPreviewingRecorded = true;
+      const preview = document.getElementById('record-preview-container');
+      const dot = document.getElementById('record-status-dot');
+      const btnIcon = document.getElementById('record-btn-icon');
+      const hint = document.getElementById('record-hint-text');
+      const recordCircle = document.getElementById('record-circle-progress');
+
+      if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+      if (btnIcon) {
+        btnIcon.className = 'w-4 h-4 rounded-full bg-white flex items-center justify-center text-[10px] text-red-600 font-black';
+        btnIcon.innerHTML = '↺';
+      }
+      if (hint) hint.innerText = 'Toque para regravar';
+      if (recordCircle) recordCircle.style.strokeDashoffset = '0';
+
+      if (preview) {
+        if (currentRecordType === 'video' && recordedBlobUrl) {
+          preview.innerHTML = `
+            <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-black">
+              <video src="${recordedBlobUrl}" autoplay loop playsinline class="w-full h-full object-cover"></video>
+              <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end justify-center pb-6">
+                <span class="text-[9px] text-emerald-300 font-bold bg-black/60 px-2.5 py-0.5 rounded-full border border-emerald-500/30">Pré-visualização (Loop)</span>
+              </div>
+            </div>
+          `;
+        } else if (currentRecordType === 'audio' && recordedBlobUrl) {
+          preview.innerHTML = `
+            <div class="relative w-full h-full rounded-full overflow-hidden flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900 p-4">
+              <audio src="${recordedBlobUrl}" autoplay loop></audio>
+              <img src="${CONNECTIONS_DATA[0].avatar}" class="w-18 h-18 rounded-full object-cover border-2 border-emerald-400 shadow-md mb-2">
+              <div class="flex items-center gap-1.5 h-6">
+                <span class="w-1 bg-emerald-400 rounded-full animate-bounce" style="height: 18px;"></span>
+                <span class="w-1 bg-amber-400 rounded-full animate-bounce" style="height: 24px; animation-delay: 0.2s;"></span>
+                <span class="w-1 bg-emerald-300 rounded-full animate-bounce" style="height: 16px; animation-delay: 0.1s;"></span>
+              </div>
+              <span class="text-[9px] text-emerald-300 font-bold mt-1 bg-black/50 px-2 py-0.5 rounded-full">Prévia de Voz</span>
+            </div>
+          `;
+        } else {
+          preview.innerHTML = `
+            <div class="relative w-full h-full rounded-full overflow-hidden flex flex-col items-center justify-center bg-gradient-to-b from-neutral-800 to-neutral-900">
+              <img src="${CONNECTIONS_DATA[0].avatar}" class="w-24 h-24 rounded-full object-cover border-4 border-emerald-500 shadow-xl">
+              <span class="text-[10px] text-emerald-300 font-bold mt-2">✓ Pronto para publicar</span>
+            </div>
+          `;
+        }
+      }
+
+      showToast('✓ Gravação concluída! Confira a prévia antes de publicar.');
+    }
+
+    // Regravar recado
+    function retakeRecording() {
+      isPreviewingRecorded = false;
+      recordedChunks = [];
+      recordedBlob = null;
+      recordedBlobUrl = null;
+      recordedBase64 = null;
+      resetRecordState();
+      initMediaStream(currentRecordType);
+    }
+
+    // Publicar e Salvar no Estado Local (24h)
     function saveMyQuickNote() {
       const caption = document.getElementById('record-caption-input')?.value.trim() || 'Partilha de momento consciente na comunidade.';
-      
+      const finalMediaUrl = recordedBase64 || recordedBlobUrl || CONNECTIONS_DATA[0].avatar;
+
       const newNote = {
         type: currentRecordType,
         caption: caption,
+        mediaUrl: finalMediaUrl,
+        hasRealMedia: !!(recordedBase64 || recordedBlobUrl),
         createdAt: Date.now(),
-        expiresAt: Date.now() + (24 * 60 * 60 * 1000) // 24 horas a partir de agora
+        expiresAt: Date.now() + (24 * 60 * 60 * 1000) // 24 horas
       };
 
       try {
         localStorage.setItem('yby_user_quick_note', JSON.stringify(newNote));
         showToast('🎙️ Seu Recado Rápido está ativo e visível na Rede de Conexões por 24h!');
       } catch (e) {
-        console.error('Erro ao salvar no localStorage:', e);
+        console.warn('Armazenando versão compacta no localStorage:', e);
+        try {
+          const compactNote = { ...newNote, mediaUrl: '' };
+          localStorage.setItem('yby_user_quick_note', JSON.stringify(compactNote));
+          showToast('🎙️ Recado Rápido salvo e ativo por 24h!');
+        } catch (err2) {
+          console.error(err2);
+        }
       }
+
+      // Atualiza o estado da sessão imediatamente
+      CONNECTIONS_DATA[0].quickNote = {
+        type: currentRecordType,
+        timeAgo: 'Agora mesmo',
+        caption: caption,
+        duration: 15,
+        mediaUrl: finalMediaUrl
+      };
 
       closeQuickNoteRecorder();
       renderConnectionsBar();
