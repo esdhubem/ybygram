@@ -82,6 +82,41 @@
       scrollbar-width: none;
     }
 
+    /* Elementos Fixos de Navegação: Header Sticky e Footer Fixed */
+    .app-header-fixed {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 6px 25px -2px rgba(5, 30, 20, 0.65);
+    }
+
+    .app-footer-fixed {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      z-index: 1000;
+      background-color: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid #E2DDD2;
+      box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    #screen-container {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 96px; /* Espaço para o rodapé fixo nunca cobrir o conteúdo */
+    }
+
     /* Animação suave de transição */
     .tab-content {
       animation: fadeIn 0.2s ease-in-out;
@@ -97,9 +132,9 @@
   <!-- Container Mobile Centralizado (App Shell Mobile) -->
   <main class="w-full sm:max-w-[430px] h-[100dvh] sm:h-[890px] sm:max-h-[94vh] bg-cream sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden sm:border sm:border-cream-border relative">
     
-    <!-- ==================== CABEÇALHO SUPERIOR (Estilo Tecnológico com Gradiente Profundo e Brilho Neon) ==================== -->
-    <header class="text-white px-4 pt-3.5 pb-2.5 shrink-0 z-30 flex flex-col gap-2 shadow-[0_6px_25px_-2px_rgba(5,30,20,0.65)] border-b border-emerald-400/20 relative overflow-hidden"
-      style="background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%);">
+    <!-- ==================== CABEÇALHO SUPERIOR FIXO (Sticky Top Permanente com Opacidade e Desfoque) ==================== -->
+    <header class="app-header-fixed text-white px-4 pt-3.5 pb-2.5 shrink-0 flex flex-col gap-2 border-b border-emerald-400/20 relative overflow-hidden"
+      style="position: sticky; top: 0; z-index: 1000; width: 100%; background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 6px 25px -2px rgba(5,30,20,0.65);">
       
       <!-- Reflexo suave de luz ambiental no topo do cabeçalho -->
       <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-emerald-400/15 blur-2xl pointer-events-none"></div>
@@ -155,8 +190,9 @@
       </nav>
     </header>
 
-    <!-- ÁREA DE CONTEÚDO ROLÁVEL -->
-    <div id="screen-container" class="flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar bg-cream relative">
+    <!-- ÁREA DE CONTEÚDO ROLÁVEL COM ESPAÇAMENTO DE SEGURANÇA INFERIOR -->
+    <div id="screen-container" class="flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar bg-cream relative pb-24"
+      style="scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding-bottom: 96px;">
 
       <!-- ======================================================== -->
       <!-- ABA 1: FEED / COMUNIDADE                                  -->
@@ -1371,8 +1407,9 @@
 
     </div>
 
-    <!-- ==================== BARRA DE NAVEGAÇÃO INFERIOR COM ÍCONES COLORIDOS ==================== -->
-    <nav class="bg-white border-t border-cream-border px-3 py-1.5 shrink-0 flex items-center justify-around z-30 shadow-lg">
+    <!-- ==================== BARRA DE NAVEGAÇÃO INFERIOR FIXA (Fixed Bottom Permanente) ==================== -->
+    <nav class="app-footer-fixed px-3 py-2 flex items-center justify-around shadow-lg sm:rounded-b-3xl"
+      style="position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 1000; background-color: rgba(255, 255, 255, 0.98); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid #E2DDD2;">
       <!-- Menu / Políticas: Ícone de Hambúrguer (três linhas) -->
       <button onclick="openMenuPoliciesDrawer()" id="nav-btn-menu" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-emerald-700 font-medium text-[10px] transition" title="Menu, Políticas da Comunidade & Cupons">
         <div id="nav-icon-menu" class="p-1.5 rounded-2xl text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
