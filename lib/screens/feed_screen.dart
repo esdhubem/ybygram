@@ -507,29 +507,36 @@ class _FeedScreenState extends State<FeedScreen> {
             ],
           ),
         ),
-        title: Row(
-          children: [
-            const Text(
-              'YBY',
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-                letterSpacing: -0.5,
-                fontSize: 24,
-                shadows: [Shadow(color: Colors.black26, blurRadius: 4)],
+        title: GestureDetector(
+          onTap: () {
+            setState(() => _selectedSubTab = 0);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('📚 Página Principal de Saberes Comunitários')),
+            );
+          },
+          child: Row(
+            children: [
+              const Text(
+                'YBY',
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  letterSpacing: -0.5,
+                  fontSize: 24,
+                  shadows: [Shadow(color: Colors.black26, blurRadius: 4)],
+                ),
               ),
-            ),
-            const Text(
-              'gram',
-              style: TextStyle(
-                fontWeight: FontWeight.w300,
-                color: Color(0xFFFCD34D),
-                letterSpacing: -0.5,
-                fontSize: 24,
-                shadows: [Shadow(color: Color(0x80FCD34D), blurRadius: 8)],
+              const Text(
+                'gram',
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  color: Color(0xFFFCD34D),
+                  letterSpacing: -0.5,
+                  fontSize: 24,
+                  shadows: [Shadow(color: Color(0x80FCD34D), blurRadius: 8)],
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
+              const SizedBox(width: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
               decoration: BoxDecoration(
@@ -569,7 +576,8 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ],
         ),
-        actions: [
+      ),
+      actions: [
           // Botão Superior: Faça sua Postagem Lindo em Amarelo Dourado
           Container(
             margin: const EdgeInsets.symmetric(vertical: 8),
