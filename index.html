@@ -1001,6 +1001,88 @@
           </div>
         </div>
 
+        <!-- CONTADOR / MONITOR DE IMC CONSCIENTE (Índice de Massa Corporal) -->
+        <div class="bg-white p-4 rounded-2xl border border-cream-border shadow-xs space-y-3.5">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-10 h-10 rounded-xl bg-forest/10 border border-forest/20 flex items-center justify-center text-forest shrink-0">
+                <i data-lucide="scale" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-xs font-bold text-charcoal uppercase tracking-wider flex items-center gap-1.5">
+                  Índice de Massa Corporal (IMC)
+                </h3>
+                <p class="text-[11px] text-charcoal-soft">Calculadora de equilíbrio corporal e bem-estar</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="flex items-baseline justify-end gap-1">
+                <span class="text-[10px] font-bold text-neutral-400">IMC</span>
+                <span id="imc-value" class="text-lg font-black text-forest">23.0</span>
+              </div>
+              <span id="imc-badge" class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full border bg-emerald-100 text-emerald-800 border-emerald-300">
+                Peso Saudável
+              </span>
+            </div>
+          </div>
+
+          <!-- Seletores de Peso e Altura com botões rápidos -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <!-- Peso -->
+            <div class="bg-[#F8F6F0] p-2.5 rounded-xl border border-cream-border flex flex-col justify-between">
+              <div class="text-[10px] font-bold text-neutral-500 uppercase tracking-wide">Peso Corporal</div>
+              <div class="flex items-center justify-between mt-1.5">
+                <button onclick="adjustWeight(-0.5)" class="w-7 h-7 rounded-lg bg-white border border-[#D5D8D2] hover:bg-neutral-100 flex items-center justify-center font-bold text-charcoal active:scale-95 transition shadow-2xs">−</button>
+                <span id="imc-weight-val" class="text-xs font-black text-forest">68.0 kg</span>
+                <button onclick="adjustWeight(0.5)" class="w-7 h-7 rounded-lg bg-white border border-[#D5D8D2] hover:bg-neutral-100 flex items-center justify-center font-bold text-charcoal active:scale-95 transition shadow-2xs">+</button>
+              </div>
+            </div>
+
+            <!-- Altura -->
+            <div class="bg-[#F8F6F0] p-2.5 rounded-xl border border-cream-border flex flex-col justify-between">
+              <div class="text-[10px] font-bold text-neutral-500 uppercase tracking-wide">Estatura</div>
+              <div class="flex items-center justify-between mt-1.5">
+                <button onclick="adjustHeight(-1)" class="w-7 h-7 rounded-lg bg-white border border-[#D5D8D2] hover:bg-neutral-100 flex items-center justify-center font-bold text-charcoal active:scale-95 transition shadow-2xs">−</button>
+                <span id="imc-height-val" class="text-xs font-black text-forest">1.72 m</span>
+                <button onclick="adjustHeight(1)" class="w-7 h-7 rounded-lg bg-white border border-[#D5D8D2] hover:bg-neutral-100 flex items-center justify-center font-bold text-charcoal active:scale-95 transition shadow-2xs">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de Classificação Visual de IMC com Indicador Dinâmico -->
+          <div class="space-y-1">
+            <div class="relative w-full h-3 rounded-full overflow-hidden flex shadow-inner">
+              <div class="h-full bg-sky-400" style="width: 17.5%" title="Abaixo do peso (< 18.5)"></div>
+              <div class="h-full bg-emerald-500" style="width: 32%" title="Peso normal (18.5 - 24.9)"></div>
+              <div class="h-full bg-amber-400" style="width: 25%" title="Sobrepeso (25 - 29.9)"></div>
+              <div class="h-full bg-terracota" style="width: 25.5%" title="Obesidade (≥ 30)"></div>
+            </div>
+            
+            <!-- Marcador / Agulha Dinâmica -->
+            <div class="relative h-2 w-full">
+              <div id="imc-pointer" class="absolute -top-1 -ml-1 transition-all duration-300" style="left: 40%;">
+                <div class="w-2.5 h-2.5 bg-forest border-2 border-white rounded-full shadow-sm"></div>
+              </div>
+            </div>
+
+            <!-- Legenda da régua de IMC -->
+            <div class="flex justify-between text-[9px] text-neutral-400 font-semibold px-0.5">
+              <span>&lt; 18.5 Magro</span>
+              <span class="text-emerald-700 font-bold">18.5 - 24.9 Normal</span>
+              <span>25 - 29.9 Sobrepeso</span>
+              <span>≥ 30</span>
+            </div>
+          </div>
+
+          <!-- Dica Consciente Dinâmica -->
+          <div class="bg-forest-light/60 p-2.5 rounded-xl border border-forest/15 flex items-center gap-2">
+            <span class="text-sm">🌱</span>
+            <p id="imc-desc" class="text-[11px] text-forest font-semibold leading-tight">
+              Equilíbrio ideal! A alimentação consciente e caminhadas mantêm seu corpo em harmonia.
+            </p>
+          </div>
+        </div>
+
         <!-- Alimentação Comunitária & Contador de Calorias -->
         <div class="bg-white p-4 rounded-2xl border border-cream-border shadow-xs space-y-3">
           <div class="flex items-center justify-between">
@@ -1982,6 +2064,76 @@
 
     function redeemCoupon() {
       showToast(`Cupom "YBYSAUDE" gerado com seus ${healthPoints} pontos! Desconto aplicado.`);
+    }
+
+    // ----------------------------------------------------
+    // Monitor e Contador de IMC (Índice de Massa Corporal)
+    // ----------------------------------------------------
+    let userWeightKg = 68.0;
+    let userHeightCm = 172;
+
+    function updateImcDisplay() {
+      const heightM = userHeightCm / 100;
+      const imc = userWeightKg / (heightM * heightM);
+      const imcValEl = document.getElementById('imc-value');
+      const imcBadgeEl = document.getElementById('imc-badge');
+      const imcDescEl = document.getElementById('imc-desc');
+      const imcPointerEl = document.getElementById('imc-pointer');
+      const weightValEl = document.getElementById('imc-weight-val');
+      const heightValEl = document.getElementById('imc-height-val');
+
+      if (weightValEl) weightValEl.innerText = `${userWeightKg.toFixed(1)} kg`;
+      if (heightValEl) heightValEl.innerText = `${(userHeightCm / 100).toFixed(2)} m`;
+      if (imcValEl) imcValEl.innerText = imc.toFixed(1);
+
+      let status = 'Peso Saudável';
+      let statusColor = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+      let desc = 'Equilíbrio ideal! A alimentação consciente e caminhadas mantêm seu corpo em harmonia.';
+      
+      let percent = Math.min(Math.max(((imc - 15) / 20) * 100, 2), 98);
+      if (imcPointerEl) imcPointerEl.style.left = `${percent}%`;
+
+      if (imc < 18.5) {
+        status = 'Abaixo do Peso';
+        statusColor = 'bg-sky-100 text-sky-800 border-sky-300';
+        desc = 'Considere incluir alimentos mais nutritivos e calóricos da terra em suas refeições.';
+      } else if (imc <= 24.9) {
+        status = 'Peso Saudável';
+        statusColor = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+        desc = 'Equilíbrio ideal! A alimentação consciente e caminhadas mantêm seu corpo em harmonia.';
+      } else if (imc <= 29.9) {
+        status = 'Sobrepeso Leve';
+        statusColor = 'bg-amber-100 text-amber-800 border-amber-300';
+        desc = 'Atividades físicas diárias e redução de ultraprocessados ajudam a retornar à faixa ideal.';
+      } else {
+        status = 'Obesidade';
+        statusColor = 'bg-orange-100 text-orange-800 border-orange-300';
+        desc = 'Priorize alimentos integrais, mais hidratação e acompanhamento de saúde comunitária.';
+      }
+
+      if (imcBadgeEl) {
+        imcBadgeEl.innerText = status;
+        imcBadgeEl.className = `text-[10px] font-black uppercase px-2 py-0.5 rounded-full border ${statusColor}`;
+      }
+      if (imcDescEl) {
+        imcDescEl.innerText = desc;
+      }
+    }
+
+    function adjustWeight(delta) {
+      userWeightKg = Math.max(30, Math.min(250, +(userWeightKg + delta).toFixed(1)));
+      updateImcDisplay();
+      healthPoints += 2;
+      const hpEl = document.getElementById('health-points-display');
+      if (hpEl) hpEl.innerText = healthPoints;
+    }
+
+    function adjustHeight(delta) {
+      userHeightCm = Math.max(100, Math.min(230, userHeightCm + delta));
+      updateImcDisplay();
+      healthPoints += 2;
+      const hpEl = document.getElementById('health-points-display');
+      if (hpEl) hpEl.innerText = healthPoints;
     }
 
     // Interações de Posts e Saberes (Sementes de Gratidão & Fim da Vaidade)

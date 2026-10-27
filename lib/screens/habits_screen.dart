@@ -12,6 +12,8 @@ class HabitsScreen extends StatefulWidget {
 
 class _HabitsScreenState extends State<HabitsScreen> {
   final _foodController = TextEditingController();
+  double _userWeightKg = 68.0;
+  double _userHeightM = 1.72;
 
   @override
   void dispose() {
@@ -227,6 +229,9 @@ class _HabitsScreenState extends State<HabitsScreen> {
               ),
             ],
           ),
+          const SizedBox(height: 16),
+          // Monitor e Contador de IMC (Índice de Massa Corporal)
+          _buildImcCard(theme),
           const SizedBox(height: 24),
           // Seção de Alimentação e Calorias
           Row(
@@ -339,6 +344,344 @@ class _HabitsScreenState extends State<HabitsScreen> {
               ),
               onPressed: onTap,
               child: Text(buttonLabel, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImcCard(ThemeData theme) {
+    final double imc = _userWeightKg / (_userHeightM * _userHeightM);
+    
+    String imcCategory;
+    Color imcColor;
+    String imcTip;
+    double sliderPercent; // 0.0 a 1.0 para posicionar a agulha na régua (faixa de 15 a 35)
+
+    if (imc < 18.5) {
+      imcCategory = 'Abaixo do peso';
+      imcColor = Colors.lightBlue;
+      imcTip = 'Nutrição consciente: inclua carboidratos complexos da terra, castanhas e raízes nutritivas.';
+      sliderPercent = ((imc - 15) / 20).clamp(0.05, 0.22);
+    } else if (imc < 25.0) {
+      imcCategory = 'Peso Saudável';
+      imcColor = const Color(0xFF245C45);
+      imcTip = 'Equilíbrio exemplar! Mantenha a hidratação pura, sono reparador e caminhadas ativas.';
+      sliderPercent = 0.25 + ((imc - 18.5) / 6.5) * 0.25;
+    } else if (imc < 30.0) {
+      imcCategory = 'Sobrepeso Leve';
+      imcColor = const Color(0xFFD48B38);
+      imcTip = 'Dica da Terra: priorize refeições coloridas e aumente 15 min de caminhada diária.';
+      sliderPercent = 0.50 + ((imc - 25.0) / 5.0) * 0.25;
+    } else {
+      imcCategory = 'Obesidade';
+      imcColor = const Color(0xFFC85A32);
+      imcTip = 'Passo a passo consciente: reduza açúcares refinados e fortaleça sua rotina com apoio comunitário.';
+      sliderPercent = 0.75 + ((imc - 30.0) / 10.0).clamp(0.0, 0.22);
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.12)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Cabeçalho do Card de IMC
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF245C45).withOpacity(0.12),
+                      shape: BoxShape.circle,
+                    ],
+                    child: const Icon(Icons.monitor_weight_outlined, color: Color(0xFF245C45), size: 18),
+                  ),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'ÍNDICE DE MASSA CORPORAL (IMC)',
+                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 0.8),
+                      ),
+                      Text(
+                        'Monitore sua saúde e equilíbrio físico',
+                        style: theme.textTheme.bodySmall?.copyWith(fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: imcColor.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: imcColor.withOpacity(0.4)),
+                ),
+                child: Text(
+                  imcCategory,
+                  style: TextStyle(
+                    color: imcColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 11,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+
+          // Valor em Destaque do IMC
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Text(
+                  imc.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.w900,
+                    color: imcColor,
+                    letterSpacing: -1,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                const Text(
+                  'kg/m²',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+
+          // Régua Visual Colorida com Agulha Indicadora
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Row(
+                  children: [
+                    Expanded(child: Container(height: 8, color: Colors.lightBlue.shade300)),
+                    const SizedBox(width: 2),
+                    Expanded(child: Container(height: 8, color: const Color(0xFF245C45))),
+                    const SizedBox(width: 2),
+                    Expanded(child: Container(height: 8, color: const Color(0xFFD48B38))),
+                    const SizedBox(width: 2),
+                    Expanded(child: Container(height: 8, color: const Color(0xFFC85A32))),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: (MediaQuery.of(context).size.width - 64) * sliderPercent.clamp(0.02, 0.96),
+                top: -5,
+                child: Container(
+                  width: 14,
+                  height: 18,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: imcColor, width: 3),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 3,
+                        offset: const Offset(0, 1),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('< 18.5', style: TextStyle(fontSize: 9, color: Colors.grey)),
+              Text('18.5 - 24.9', style: TextStyle(fontSize: 9, color: Colors.grey, fontWeight: FontWeight.bold)),
+              Text('25 - 29.9', style: TextStyle(fontSize: 9, color: Colors.grey)),
+              Text('30+', style: TextStyle(fontSize: 9, color: Colors.grey)),
+            ],
+          ),
+          const SizedBox(height: 14),
+
+          // Controles de Peso e Altura com botões [-] e [+]
+          Row(
+            children: [
+              // Ajuste de Peso
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: theme.scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
+                  ),
+                  child: Column(
+                    children: [
+                      const Text('Peso (kg)', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${_userWeightKg.toStringAsFixed(1)} kg',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (_userWeightKg > 35) {
+                                setState(() => _userWeightKg -= 0.5);
+                              }
+                            },
+                            borderRadius: BorderRadius.circular(6),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: theme.cardColor,
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: theme.dividerColor.withOpacity(0.2)),
+                              ),
+                              child: const Icon(Icons.remove, size: 14),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          InkWell(
+                            onTap: () {
+                              if (_userWeightKg < 220) {
+                                setState(() => _userWeightKg += 0.5);
+                              }
+                            },
+                            borderRadius: BorderRadius.circular(6),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: theme.cardColor,
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: theme.dividerColor.withOpacity(0.2)),
+                              ),
+                              child: const Icon(Icons.add, size: 14),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              // Ajuste de Altura
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: theme.scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
+                  ),
+                  child: Column(
+                    children: [
+                      const Text('Altura (m)', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${_userHeightM.toStringAsFixed(2)} m',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              if (_userHeightM > 1.20) {
+                                setState(() => _userHeightM -= 0.01);
+                              }
+                            },
+                            borderRadius: BorderRadius.circular(6),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: theme.cardColor,
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: theme.dividerColor.withOpacity(0.2)),
+                              ),
+                              child: const Icon(Icons.remove, size: 14),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          InkWell(
+                            onTap: () {
+                              if (_userHeightM < 2.30) {
+                                setState(() => _userHeightM += 0.01);
+                              }
+                            },
+                            borderRadius: BorderRadius.circular(6),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: theme.cardColor,
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: theme.dividerColor.withOpacity(0.2)),
+                              ),
+                              child: const Icon(Icons.add, size: 14),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Caixa de Dica Consciente Comunitária
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: imcColor.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: imcColor.withOpacity(0.2)),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.eco_outlined, color: imcColor, size: 18),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    imcTip,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: theme.colorScheme.onSurface.withOpacity(0.85),
+                      height: 1.3,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
