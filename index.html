@@ -1473,8 +1473,8 @@
     <!-- ==================== BARRA DE NAVEGAÇÃO INFERIOR FIXA (Fixed Bottom Permanente) ==================== -->
     <nav class="app-footer-fixed px-3 py-2 flex items-center justify-around shadow-lg sm:rounded-b-3xl"
       style="position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 1000; background-color: rgba(255, 255, 255, 0.98); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid #E2DDD2;">
-      <!-- Menu / Políticas: Ícone de Hambúrguer (três linhas) -->
-      <button onclick="openMenuPoliciesDrawer()" id="nav-btn-menu" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-emerald-700 font-medium text-[10px] transition" title="Menu, Políticas da Comunidade & Cupons">
+      <!-- Menu / Políticas: Ícone de Hambúrguer (três linhas com ação de toggle) -->
+      <button onclick="toggleMenuPoliciesDrawer()" id="nav-btn-menu" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-emerald-700 font-medium text-[10px] transition" title="Menu, Políticas da Comunidade & Cupons">
         <div id="nav-icon-menu" class="p-1.5 rounded-2xl text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
           <i data-lucide="menu" class="w-5 h-5 text-emerald-700"></i>
         </div>
@@ -1511,8 +1511,8 @@
   <!-- ==================== MODAIS ==================== -->
 
   <!-- Modal/Drawer: Menu da Comunidade, Políticas & Resgate de Cupons Lomadee -->
-  <div id="modal-menu-policies" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-xs transition-all">
-    <div class="bg-cream w-full sm:max-w-[420px] rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[88vh] overflow-y-auto border-t sm:border border-cream-border shadow-2xl animate-in slide-in-from-bottom duration-200">
+  <div id="modal-menu-policies" onclick="if (event.target === this) closeMenuPoliciesDrawer()" class="fixed inset-0 bg-black/60 z-[1050] hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-xs transition-all">
+    <div onclick="event.stopPropagation()" class="bg-cream w-full sm:max-w-[420px] rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[88vh] overflow-y-auto border-t sm:border border-cream-border shadow-2xl animate-in slide-in-from-bottom duration-200">
       
       <!-- Cabeçalho do Menu -->
       <div class="flex items-center justify-between pb-3 border-b border-cream-border">
@@ -1527,6 +1527,26 @@
         </div>
         <button onclick="closeMenuPoliciesDrawer()" class="w-8 h-8 rounded-full bg-cream-border/50 hover:bg-cream-border text-charcoal flex items-center justify-center transition" title="Fechar menu">
           <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Atalhos Rápidos para Navegar Diretamente para Outras Páginas -->
+      <div class="bg-white p-2 rounded-2xl border border-cream-border flex items-center justify-between gap-1 shadow-2xs">
+        <button onclick="closeMenuPoliciesDrawer(); goToSaberesHome();" class="flex-1 py-1.5 px-1 rounded-xl hover:bg-emerald-50 text-[11px] font-bold text-emerald-800 flex flex-col items-center gap-0.5 transition active:scale-95" title="Ir para Saberes">
+          <span class="text-xs">📚</span>
+          <span class="text-[10px]">Saberes</span>
+        </button>
+        <button onclick="closeMenuPoliciesDrawer(); switchTab('classes');" class="flex-1 py-1.5 px-1 rounded-xl hover:bg-sky-50 text-[11px] font-bold text-sky-700 flex flex-col items-center gap-0.5 transition active:scale-95" title="Ir para Aulas">
+          <span class="text-xs">🎓</span>
+          <span class="text-[10px]">Aulas</span>
+        </button>
+        <button onclick="closeMenuPoliciesDrawer(); switchTab('habits');" class="flex-1 py-1.5 px-1 rounded-xl hover:bg-rose-50 text-[11px] font-bold text-rose-700 flex flex-col items-center gap-0.5 transition active:scale-95" title="Ir para Hábitos">
+          <span class="text-xs">💚</span>
+          <span class="text-[10px]">Hábitos</span>
+        </button>
+        <button onclick="closeMenuPoliciesDrawer(); switchTab('shop');" class="flex-1 py-1.5 px-1 rounded-xl hover:bg-amber-50 text-[11px] font-bold text-amber-700 flex flex-col items-center gap-0.5 transition active:scale-95" title="Ir para Loja">
+          <span class="text-xs">🏪</span>
+          <span class="text-[10px]">Loja</span>
         </button>
       </div>
 
@@ -1694,8 +1714,8 @@
   </div>
 
   <!-- Modal de Leitura de Políticas (Termos de Uso, Diretrizes e Privacidade) -->
-  <div id="modal-policy-reader" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs transition-all">
-    <div class="bg-cream w-full sm:max-w-[420px] rounded-3xl p-5 space-y-3.5 max-h-[85vh] overflow-y-auto border border-cream-border shadow-2xl flex flex-col">
+  <div id="modal-policy-reader" onclick="if (event.target === this) closePolicyModal()" class="fixed inset-0 bg-black/60 z-[1100] hidden flex items-center justify-center p-4 backdrop-blur-xs transition-all">
+    <div onclick="event.stopPropagation()" class="bg-cream w-full sm:max-w-[420px] rounded-3xl p-5 space-y-3.5 max-h-[85vh] overflow-y-auto border border-cream-border shadow-2xl flex flex-col">
       <div class="flex items-center justify-between pb-2 border-b border-cream-border">
         <div class="flex items-center gap-2">
           <div id="policy-reader-icon" class="w-8 h-8 rounded-xl bg-emerald-100 text-forest flex items-center justify-center">
@@ -2267,6 +2287,8 @@
     // NAVEGAÇÃO PRINCIPAL & PÁGINA INICIAL DE SABERES
     // ==========================================
     function goToSaberesHome() {
+      closeMenuPoliciesDrawer();
+      closePolicyModal();
       switchTab('feed');
       switchFeedSubTab('saberes');
       const scroller = document.getElementById('screen-container');
@@ -2288,6 +2310,16 @@
     function closeMenuPoliciesDrawer() {
       const modal = document.getElementById('modal-menu-policies');
       if (modal) modal.classList.add('hidden');
+    }
+
+    function toggleMenuPoliciesDrawer() {
+      const modal = document.getElementById('modal-menu-policies');
+      if (!modal) return;
+      if (modal.classList.contains('hidden')) {
+        openMenuPoliciesDrawer();
+      } else {
+        closeMenuPoliciesDrawer();
+      }
     }
 
     // Políticas detalhadas da comunidade
@@ -2360,6 +2392,8 @@
     }
 
     function switchTab(tabId) {
+      closeMenuPoliciesDrawer();
+      closePolicyModal();
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       const activeTab = document.getElementById(`tab-${tabId}`);
       if (tabId === 'profile') updateProfileHeaderQuickNoteStatus();
@@ -4475,7 +4509,10 @@
 
     // Utilitários de Modais e Toast
     function openModal(id) {
-      document.getElementById(id).classList.remove('hidden');
+      closeMenuPoliciesDrawer();
+      closePolicyModal();
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
       lucide.createIcons();
     }
     function closeModal(id) {
