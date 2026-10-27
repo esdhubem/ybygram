@@ -1779,20 +1779,21 @@
   </div>
 
 
-  <!-- Modal 0A: Player de Recado Rápido (BOLINHA CIRCULAR ESTILO WHATSAPP 1:1) -->
-  <div id="modal-quick-note-player" class="fixed inset-0 bg-black/75 z-[2000] hidden flex flex-col items-center justify-center p-4 backdrop-blur-md transition-all">
-    <!-- Botão Fechar Discreto -->
-    <button onclick="closeQuickNotePlayer()" class="absolute top-5 right-5 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-md transition cursor-pointer shadow-lg border border-white/20">
-      <i data-lucide="x" class="w-5 h-5"></i>
-    </button>
-
-    <div class="flex flex-col items-center gap-4 max-w-[340px] w-full">
+  <!-- Modal 0A: Player de Recado Rápido (BOLINHA CIRCULAR ESTILO WHATSAPP FLUTUANTE 1:1) -->
+  <div id="modal-quick-note-player" onclick="if(event.target === this) closeQuickNotePlayer()" class="fixed inset-0 bg-black/25 z-[2000] hidden flex flex-col items-center justify-center p-4 backdrop-blur-md transition-all">
+    
+    <div class="flex flex-col items-center gap-3 max-w-[340px] w-full relative" onclick="event.stopPropagation()">
       <!-- BOLINHA CENTRAL CIRCULAR DE VÍDEO (1:1 com borda elegante e barra de progresso circular) -->
-      <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full p-2 flex items-center justify-center shadow-[0_0_35px_rgba(0,0,0,0.6),0_0_20px_rgba(36,92,69,0.35)]">
+      <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full p-2 flex items-center justify-center shadow-[0_10px_35px_rgba(0,0,0,0.35),0_0_20px_rgba(36,92,69,0.25)]">
         
+        <!-- Botão Fechar integrado diretamente na borda superior direita da bolinha -->
+        <button onclick="closeQuickNotePlayer()" class="absolute -top-1 -right-1 z-40 w-9 h-9 rounded-full bg-white hover:bg-neutral-100 text-neutral-800 flex items-center justify-center shadow-lg border-2 border-white transition active:scale-90 cursor-pointer" title="Fechar Recado">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+
         <!-- SVG com Anel de Progresso Circular contínuo de 15 segundos em loop (WhatsApp style) -->
         <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none z-30" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="47" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" fill="transparent" />
+          <circle cx="50" cy="50" r="47" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" fill="transparent" />
           <circle id="quick-note-circle-progress" cx="50" cy="50" r="47" stroke="#34D399" stroke-width="3" stroke-linecap="round" fill="transparent" stroke-dasharray="295.3" stroke-dashoffset="295.3" class="transition-all duration-100" />
         </svg>
 
@@ -1810,19 +1811,27 @@
         </div>
       </div>
 
-      <!-- Interface Clean e Compacta: Legenda e Botões posicionados logo abaixo da bolinha -->
-      <div class="w-full bg-neutral-900/80 backdrop-blur-md p-3.5 rounded-2xl border border-white/15 text-center space-y-2.5 shadow-xl">
-        <p id="quick-note-player-caption" class="text-xs text-white/95 leading-relaxed font-medium line-clamp-3"></p>
-        
-        <div class="flex items-center justify-center gap-2 pt-1">
-          <button onclick="giveGratitudeToQuickNote()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
-            <span>🌱</span> Semear Gratidão
+      <!-- Linha Flutuante Limpa: Reação de OK / Curtida e Ações (Sem caixa preta ao redor) -->
+      <div class="flex flex-col items-center text-center gap-2 max-w-[300px] w-full">
+        <!-- Reação e Botão de Ver Saber -->
+        <div class="flex items-center justify-center gap-2">
+          <!-- Ícone discreto de OK / Gostei com contador público (👍 12) -->
+          <button id="quick-note-like-btn" onclick="toggleQuickNoteLike()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 font-bold text-xs shadow-lg border border-neutral-200 hover:border-emerald-500 active:scale-95 transition cursor-pointer" title="Confirmar recebimento do recado">
+            <span id="quick-note-like-icon" class="text-sm">👍</span>
+            <span id="quick-note-likes-count" class="font-extrabold text-neutral-800 text-xs">12</span>
           </button>
-          <button id="quick-note-view-post-btn" onclick="" class="px-3 py-2 bg-white/15 hover:bg-white/25 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 border border-white/10">
-            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Ver Saber
+
+          <!-- Botão Ver Saber / Publicação do autor -->
+          <button id="quick-note-view-post-btn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-[#245C45] font-bold text-xs shadow-lg border border-neutral-200 hover:border-[#245C45] active:scale-95 transition cursor-pointer" title="Ver Saber compartilhado no feed">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            <span>Ver Saber</span>
           </button>
         </div>
+
+        <!-- Legenda em cápsula clean e translúcida (sem caixa preta pesada) -->
+        <p id="quick-note-player-caption" class="text-[11px] text-neutral-800 font-medium bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-neutral-200/90 max-w-[280px] text-center truncate"></p>
       </div>
+
     </div>
   </div>
 
@@ -2618,6 +2627,8 @@
           timeAgo: 'Há 2h',
           caption: '🌿 Bom dia comunidade da terra! O extrato de guaçatonga e espinheira fresca já foi coado no orvalho da manhã. Muita saúde a todos!',
           duration: 15,
+          likes: 18,
+          userLiked: false,
           mediaUrl: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500&fit=crop'
         }
       },
@@ -2632,6 +2643,8 @@
           timeAgo: 'Há 4h',
           caption: '🪵 Salve amigos! Selecionamos taquaras maduras na lua minguante. Quem quiser aprender o ponto de corte, chega na oficina às 16h!',
           duration: 12,
+          likes: 24,
+          userLiked: false,
           mediaUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop'
         }
       },
@@ -2654,7 +2667,6 @@
     ];
 
     // Verifica se há recado gravado pelo usuário ativo nas últimas 24h
-    // Verifica se há recado gravado pelo usuário ativo nas últimas 24h
     function loadUserQuickNote() {
       try {
         const stored = localStorage.getItem('yby_user_quick_note');
@@ -2668,6 +2680,8 @@
               timeAgo: `Expira em ${hoursLeft}h`,
               caption: note.caption || 'Recado de Silviane para a comunidade!',
               duration: 15,
+              likes: typeof note.likes === 'number' ? note.likes : 12,
+              userLiked: !!note.userLiked,
               mediaUrl: note.mediaUrl || CONNECTIONS_DATA[0].avatar
             };
           } else {
@@ -2755,10 +2769,65 @@
     let quickNoteTimerInterval = null;
     let quickNoteCurrentSeconds = 0;
     const QUICK_NOTE_DURATION = 15; // 15 segundos
+    let currentPlayingQuickNoteConnId = null; // ID da conexão cujo recado está em exibição
+
+    function updateQuickNoteLikeUI(quickNote) {
+      const likeBtn = document.getElementById('quick-note-like-btn');
+      const likeCountEl = document.getElementById('quick-note-likes-count');
+      const likeIconEl = document.getElementById('quick-note-like-icon');
+      
+      const likes = typeof quickNote.likes === 'number' ? quickNote.likes : 12;
+      const isLiked = !!quickNote.userLiked;
+
+      if (likeCountEl) likeCountEl.innerText = likes;
+      if (likeIconEl) likeIconEl.innerText = isLiked ? '👍' : '👍';
+
+      if (likeBtn) {
+        if (isLiked) {
+          likeBtn.className = "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-600 text-white font-extrabold text-xs shadow-lg border-2 border-emerald-400 active:scale-95 transition cursor-pointer";
+        } else {
+          likeBtn.className = "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 font-bold text-xs shadow-lg border border-neutral-200 hover:border-emerald-500 active:scale-95 transition cursor-pointer";
+        }
+      }
+    }
+
+    function toggleQuickNoteLike() {
+      const conn = CONNECTIONS_DATA.find(c => c.id === currentPlayingQuickNoteConnId);
+      if (!conn || !conn.quickNote) return;
+
+      if (typeof conn.quickNote.likes !== 'number') conn.quickNote.likes = 12;
+
+      if (conn.quickNote.userLiked) {
+        conn.quickNote.likes = Math.max(0, conn.quickNote.likes - 1);
+        conn.quickNote.userLiked = false;
+        showToast('Confirmação de recebimento desfeita.');
+      } else {
+        conn.quickNote.likes = conn.quickNote.likes + 1;
+        conn.quickNote.userLiked = true;
+        showToast('👍 Recebimento comunitário confirmado com sucesso!');
+      }
+
+      updateQuickNoteLikeUI(conn.quickNote);
+
+      // Persiste caso seja o recado do usuário ativo
+      if (conn.isCurrentUser) {
+        try {
+          const stored = localStorage.getItem('yby_user_quick_note');
+          if (stored) {
+            const noteObj = JSON.parse(stored);
+            noteObj.likes = conn.quickNote.likes;
+            noteObj.userLiked = conn.quickNote.userLiked;
+            localStorage.setItem('yby_user_quick_note', JSON.stringify(noteObj));
+          }
+        } catch (e) {}
+      }
+    }
 
     function openQuickNotePlayer(connId) {
       const conn = CONNECTIONS_DATA.find(c => c.id === connId);
       if (!conn || !conn.quickNote) return;
+
+      currentPlayingQuickNoteConnId = connId;
 
       const modal = document.getElementById('modal-quick-note-player');
       const authorEl = document.getElementById('quick-note-player-author');
@@ -2767,7 +2836,13 @@
       const viewPostBtn = document.getElementById('quick-note-view-post-btn');
 
       if (authorEl) authorEl.innerText = conn.fullName || conn.author;
-      if (captionEl) captionEl.innerText = conn.quickNote.caption || 'Sem legenda informada.';
+      if (captionEl) {
+        captionEl.innerText = conn.quickNote.caption || 'Sem legenda informada.';
+        captionEl.title = conn.quickNote.caption || '';
+      }
+
+      // Atualiza o contador e reação de OK / Gostei
+      updateQuickNoteLikeUI(conn.quickNote);
 
       // Configura botão de ir para o saber/publicação no feed
       if (viewPostBtn) {

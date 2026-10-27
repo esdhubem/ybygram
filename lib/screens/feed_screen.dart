@@ -803,227 +803,299 @@ class _FeedScreenState extends State<FeedScreen> {
     if (story.quickNote == null) return;
     final note = story.quickNote!;
 
+    int likesCount = 12;
+    bool isLiked = false;
+
     showDialog(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.75),
+      barrierColor: Colors.black.withOpacity(0.30),
       builder: (ctx) {
-        return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Center(
-            child: Material(
-              color: Colors.transparent,
-              child: Container(
-                width: 320,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Botão Fechar no topo direito
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: InkWell(
-                        onTap: () => Navigator.pop(ctx),
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.18),
-                            border: Border.all(color: Colors.white24),
-                          ),
-                          child: const Icon(Icons.close, color: Colors.white, size: 18),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-
-                    // CÍRCULO / BOLINHA CENTRAL 1:1 (ESTILO WHATSAPP)
-                    Stack(
-                      alignment: Alignment.center,
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+              child: Center(
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    width: 320,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Anel de Progresso Circular de 15s em loop
-                        const SizedBox(
-                          width: 250,
-                          height: 250,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 3.5,
-                            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF34D399)),
-                            backgroundColor: Colors.white24,
-                          ),
-                        ),
-
-                        // Bolinha de Vídeo / Áudio com borda elegante #245C45
-                        Container(
-                          width: 236,
-                          height: 236,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: const Color(0xFF245C45), width: 4),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFF245C45).withOpacity(0.4),
-                                blurRadius: 20,
-                                spreadRadius: 2,
+                        // CÍRCULO / BOLINHA CENTRAL 1:1 FLUTUANTE
+                        Stack(
+                          alignment: Alignment.center,
+                          clipBehavior: Clip.none,
+                          children: [
+                            // Anel de Progresso Circular de 15s em loop
+                            const SizedBox(
+                              width: 250,
+                              height: 250,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3.5,
+                                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF34D399)),
+                                backgroundColor: Colors.white24,
                               ),
-                            ],
-                          ),
-                          child: ClipOval(
-                            child: Stack(
-                              children: [
-                                Positioned.fill(
-                                  child: note.isVideo
-                                      ? Image.network(
-                                          story.avatarUrl,
-                                          fit: BoxFit.cover,
-                                          color: Colors.black.withOpacity(0.2),
-                                          colorBlendMode: BlendMode.darken,
-                                        )
-                                      : Container(
-                                          decoration: const BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: [Color(0xFF0F172A), Color(0xFF064E3B), Color(0xFF022C22)],
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: 36,
-                                                  backgroundImage: NetworkImage(story.avatarUrl),
+                            ),
+
+                            // Bolinha de Vídeo / Áudio com borda elegante #245C45
+                            Container(
+                              width: 236,
+                              height: 236,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: const Color(0xFF245C45), width: 4),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.35),
+                                    blurRadius: 25,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: ClipOval(
+                                child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      child: note.isVideo
+                                          ? Image.network(
+                                              story.avatarUrl,
+                                              fit: BoxFit.cover,
+                                              color: Colors.black.withOpacity(0.2),
+                                              colorBlendMode: BlendMode.darken,
+                                            )
+                                          : Container(
+                                              decoration: const BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [Color(0xFF0F172A), Color(0xFF064E3B), Color(0xFF022C22)],
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
                                                 ),
-                                                const SizedBox(height: 10),
-                                                const Icon(Icons.graphic_eq, color: Color(0xFF34D399), size: 36),
-                                              ],
+                                              ),
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: 36,
+                                                      backgroundImage: NetworkImage(story.avatarUrl),
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    const Icon(Icons.graphic_eq, color: Color(0xFF34D399), size: 36),
+                                                  ],
+                                                ),
+                                              ),
                                             ),
+                                    ),
+                                    // Indicador Play central discreto no vídeo
+                                    if (note.isVideo)
+                                      Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white.withOpacity(0.25),
+                                            border: Border.all(color: Colors.white30),
+                                          ),
+                                          child: const Icon(Icons.play_arrow, color: Colors.white, size: 28),
+                                        ),
+                                      ),
+                                    // Tag discreta de autor no topo da bolinha
+                                    Positioned(
+                                      top: 12,
+                                      left: 0,
+                                      right: 0,
+                                      child: Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                          decoration: BoxDecoration(
+                                            color: Colors.black.withOpacity(0.65),
+                                            borderRadius: BorderRadius.circular(12),
+                                            border: Border.all(color: Colors.white24),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                story.authorName,
+                                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11),
+                                              ),
+                                              const SizedBox(width: 4),
+                                              const Text(
+                                                '• 15s',
+                                                style: TextStyle(color: Color(0xFF34D399), fontWeight: FontWeight.bold, fontSize: 10),
+                                              ),
+                                            ],
                                           ),
                                         ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                // Indicador Play central discreto no vídeo
-                                if (note.isVideo)
-                                  Center(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white.withOpacity(0.25),
-                                        border: Border.all(color: Colors.white30),
+                              ),
+                            ),
+
+                            // Botão Fechar (X) colado diretamente na borda superior direita da bolinha
+                            Positioned(
+                              top: -2,
+                              right: -2,
+                              child: InkWell(
+                                onTap: () => Navigator.pop(ctx),
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  padding: const EdgeInsets.all(7),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.white, width: 2),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
                                       ),
-                                      child: const Icon(Icons.play_arrow, color: Colors.white, size: 28),
-                                    ),
+                                    ],
                                   ),
-                                // Tag discreta de autor no topo da bolinha
-                                Positioned(
-                                  top: 12,
-                                  left: 0,
-                                  right: 0,
-                                  child: Center(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.65),
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(color: Colors.white24),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            story.authorName,
-                                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11),
-                                          ),
-                                          const SizedBox(width: 4),
-                                          const Text(
-                                            '• 15s',
-                                            style: TextStyle(color: Color(0xFF34D399), fontWeight: FontWeight.bold, fontSize: 10),
-                                          ),
-                                        ],
+                                  child: const Icon(Icons.close, color: Colors.black87, size: 16),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        // AÇÕES LIMPAS E FLUTUANTES (SEM CAIXA PRETA PESADA)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Botão de Reação OK / Curtida com Contador Comunitário
+                            InkWell(
+                              onTap: () {
+                                setDialogState(() {
+                                  isLiked = !isLiked;
+                                  likesCount += isLiked ? 1 : -1;
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(isLiked 
+                                      ? '👍 Recebimento comunitário confirmado!' 
+                                      : 'Confirmação desfeita.'),
+                                    duration: const Duration(seconds: 1),
+                                  ),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(20),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                                decoration: BoxDecoration(
+                                  color: isLiked ? const Color(0xFF059669) : Colors.white.withOpacity(0.95),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: isLiked ? const Color(0xFF34D399) : Colors.black12,
+                                    width: isLiked ? 1.5 : 1,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.15),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text('👍', style: TextStyle(fontSize: 14)),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      '$likesCount',
+                                      style: TextStyle(
+                                        color: isLiked ? Colors.white : Colors.black87,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
                                       ),
                                     ),
-                                  ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+
+                            // Botão Ver Saber Flutuante
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(ctx);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Abrindo saberes de ${story.authorName}...')),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.95),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: Colors.black12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.15),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.article_outlined, size: 14, color: Color(0xFF245C45)),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Ver Saber',
+                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF245C45)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        if (note.text.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          // Legenda em cápsula clean e translúcida
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.92),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
                                 ),
                               ],
                             ),
+                            child: Text(
+                              note.text,
+                              style: const TextStyle(color: Colors.black87, fontSize: 11, fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
+                        ],
                       ],
                     ),
-
-                    const SizedBox(height: 16),
-
-                    // CONTROLES COMPACTOS E MINIMALISTAS LOGO ABAIXO DA BOLINHA
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF171717).withOpacity(0.85),
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: Colors.white12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            blurRadius: 15,
-                            offset: const Offset(0, 4),
-                          )
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            note.text,
-                            style: const TextStyle(color: Colors.white, fontSize: 12, height: 1.3),
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF059669),
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(vertical: 8),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                    elevation: 0,
-                                  ),
-                                  icon: const Text('🌱', style: TextStyle(fontSize: 12)),
-                                  label: const Text('Semear Gratidão', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
-                                  onPressed: () {
-                                    Navigator.pop(ctx);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('🌱 Semente de gratidão enviada a ${story.authorName}!')),
-                                    );
-                                  },
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              OutlinedButton.icon(
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  side: BorderSide(color: Colors.white.withOpacity(0.2)),
-                                  backgroundColor: Colors.white.withOpacity(0.08),
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                ),
-                                icon: const Icon(Icons.article_outlined, size: 14),
-                                label: const Text('Ver Saber', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
-                                onPressed: () {
-                                  Navigator.pop(ctx);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Abrindo saberes de ${story.authorName}...')),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
                   ],
                 ),
               ),
