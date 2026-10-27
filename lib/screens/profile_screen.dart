@@ -78,7 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: const BoxDecoration(
-                                  color: Color(0xFFC85A32),
+                                  color: Color(0xFF51DE06),
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Icon(Icons.verified, size: 16, color: Colors.white),

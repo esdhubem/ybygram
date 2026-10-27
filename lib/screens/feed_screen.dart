@@ -613,28 +613,56 @@ class _FeedScreenState extends State<FeedScreen> {
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const ProfileScreen()),
             ),
-            child: Container(
-              margin: const EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFEF4444), width: 2),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFEF4444).withOpacity(0.7),
-                    blurRadius: 14,
-                    spreadRadius: 2,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFFEF4444), width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFFEF4444).withOpacity(0.7),
+                        blurRadius: 14,
+                        spreadRadius: 2,
+                      ),
+                      BoxShadow(
+                        color: const Color(0xFFDC2626).withOpacity(0.45),
+                        blurRadius: 22,
+                        spreadRadius: 4,
+                      ),
+                    ],
                   ),
-                  BoxShadow(
-                    color: const Color(0xFFDC2626).withOpacity(0.45),
-                    blurRadius: 22,
-                    spreadRadius: 4,
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(supabase.currentUser.avatarUrl),
                   ),
-                ],
-              ),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(supabase.currentUser.avatarUrl),
-              ),
+                ),
+                Positioned(
+                  bottom: -1,
+                  right: 8,
+                  child: Container(
+                    width: 14,
+                    height: 14,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF51DE06),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 3,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.check, size: 9, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(width: 4),
