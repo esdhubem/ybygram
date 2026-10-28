@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Gradiente de Fundo Profundo Turquesa-Obsidiana -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#021411" />
+      <stop offset="50%" stop-color="#052c24" />
+      <stop offset="100%" stop-color="#021814" />
+    </linearGradient>
+
+    <!-- Gradiente Ondas Turquesa Luminoso -->
+    <linearGradient id="turqWave" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f5b4" />
+      <stop offset="50%" stop-color="#00c99a" />
+      <stop offset="100%" stop-color="#006b52" />
+    </linearGradient>
+
+    <!-- Gradiente Ouro Líquido -->
+    <linearGradient id="goldGleam" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="40%" stop-color="#f59e0b" />
+      <stop offset="70%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+
+    <!-- Brilho Glow -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Fundo com cantos arredondados Squircle (estilo Play Store / Android Adaptive Icon) -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+  <!-- Borda Sutil Turquesa & Ouro -->
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="url(#turqWave)" stroke-width="4" stroke-opacity="0.4" />
+
+  <!-- Ondas Orgânicas Fluidas de Seda Turquesa e Ouro no Fundo -->
+  <path d="M 0 340 Q 120 220 256 300 T 512 260 L 512 512 L 0 512 Z" fill="#04261f" opacity="0.8" />
+  <path d="M 0 380 Q 140 290 280 370 T 512 340 L 512 512 L 0 512 Z" fill="url(#turqWave)" opacity="0.35" />
+  <path d="M 0 440 Q 180 370 320 430 T 512 400 L 512 512 L 0 512 Z" fill="url(#goldGleam)" opacity="0.45" />
+
+  <!-- Símbolo Central Soberano: Folha Dupla / Chevron Alado da Terra -->
+  <g transform="translate(136, 120)">
+    <!-- Asa / Folha Superior em Turquesa Neon -->
+    <path d="M 120 10 L 220 80 Q 240 95 220 110 L 130 170 Q 110 185 95 170 L 15 110 Q -5 95 15 80 Z" 
+          fill="url(#turqWave)" filter="url(#glow)" />
+    
+    <!-- Asa / Folha Inferior em Ouro Metálico Líquido -->
+    <path d="M 120 90 L 220 160 Q 240 175 220 190 L 130 250 Q 110 265 95 250 L 15 190 Q -5 175 15 160 Z" 
+          fill="url(#goldGleam)" />
+
+    <!-- Semente / Núcleo Central de Gratidão -->
+    <circle cx="120" cy="130" r="22" fill="#ffffff" opacity="0.95" />
+    <circle cx="120" cy="130" r="14" fill="#052c24" />
+    <circle cx="120" cy="130" r="6" fill="#00f5b4" />
+  </g>
+
+  <!-- Tipografia do Ícone -->
+  <text x="256" y="445" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="44" 
+        font-weight="900" 
+        text-anchor="middle" 
+        fill="#ffffff" 
+        letter-spacing="2">
+    YBY<tspan fill="#f59e0b">gram</tspan>
+  </text>
+</svg>

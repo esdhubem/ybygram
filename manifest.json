@@ -1,0 +1,53 @@
+{
+  "id": "/ybygram",
+  "name": "YBYgram • Rede Soberana",
+  "short_name": "YBYgram",
+  "description": "YBYgram • Rede Soberana | Algoritmos Amigáveis: Fluxo Cronológico de Oportunidade",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#031412",
+  "theme_color": "#072e27",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["social", "education", "lifestyle", "news"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Faça sua Postagem",
+      "short_name": "Postar",
+      "description": "Partilhe um saber, semente ou relato na comunidade",
+      "url": "./index.html?action=post",
+      "icons": [{ "src": "icons/icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Descobrir Aleatório",
+      "short_name": "Descobrir",
+      "description": "Embaralhar conteúdos atemporais via Fisher-Yates",
+      "url": "./index.html?feed=random",
+      "icons": [{ "src": "icons/icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Saberes da Terra",
+      "short_name": "Saberes",
+      "description": "Acesse os saberes agroecológicos e tradicionais",
+      "url": "./index.html?tab=saberes",
+      "icons": [{ "src": "icons/icon.svg", "sizes": "96x96" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

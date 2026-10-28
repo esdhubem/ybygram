@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'dart:math';
 import '../services/mock_supabase_service.dart';
 import '../models/product.dart';
 import '../models/post.dart';
@@ -677,82 +678,157 @@ class _FeedScreenState extends State<FeedScreen> {
           const SizedBox(width: 4),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: Container(
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              children: List.generate(_subTabs.length, (index) {
-                final isSelected = _selectedSubTab == index;
-
-                // Cores secundárias distintas para cada categoria quando inativa (estilo abas de caderno)
-                final inactiveColor = switch (index) {
-                  0 => const Color(0xFF245C45).withOpacity(0.40),
-                  1 => const Color(0xFF804928).withOpacity(0.40),
-                  2 => const Color(0xFF204A6E).withOpacity(0.40),
-                  _ => const Color(0xFF5B21B6).withOpacity(0.40),
-                };
-
-                const inactiveTextColor = Colors.white;
-
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2),
-                    child: InkWell(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                      onTap: () => setState(() => _selectedSubTab = index),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          // Regra de seleção: Laranja de destaque (#C85A32) na aba ativa
-                          color: isSelected ? const Color(0xFFC85A32) : inactiveColor,
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                          border: Border(
-                            top: BorderSide(
-                              color: isSelected ? const Color(0xFFFFA07A) : Colors.white12,
-                              width: isSelected ? 2 : 1,
-                            ),
-                            left: const BorderSide(color: Colors.white12, width: 1),
-                            right: const BorderSide(color: Colors.white12, width: 1),
-                          ),
-                          boxShadow: isSelected
-                              ? [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    blurRadius: 4,
-                                    offset: const Offset(0, -2),
-                                  ),
-                                ]
-                              : null,
-                        ),
-                        child: Text(
-                          _subTabs[index].$1,
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : inactiveTextColor,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                            fontSize: 11,
-                          ),
+          preferredSize: const Size.fromHeight(66),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Faixa Limpa de Algoritmos Amigáveis (apenas texto leve, sem fundo amarelo pesado)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
+                child: Row(
+                  children: const [
+                    Icon(Icons.balance, size: 13, color: Color(0xFFFCD34D)),
+                    SizedBox(width: 5),
+                    Text(
+                      '🌱 ALGORITMOS AMIGÁVEIS:',
+                      style: TextStyle(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.3,
+                        color: Color(0xFFFCD34D),
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        'Fluxo cronológico de oportunidades para todos',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFFD1FAE5),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }),
-            ),
+                    SizedBox(width: 6),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.schedule, size: 11, color: Color(0xFFFCD34D)),
+                        SizedBox(width: 3),
+                        Text(
+                          'Recentes 1º',
+                          style: TextStyle(
+                            fontSize: 9.5,
+                            color: Color(0xFFFCD34D),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Barra de Seleção de Categorias (Abas de Caderno)
+              Container(
+                height: 42,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  children: List.generate(_subTabs.length, (index) {
+                    final isSelected = _selectedSubTab == index;
+
+                    // Cores secundárias distintas para cada categoria quando inativa (estilo abas de caderno)
+                    final inactiveColor = switch (index) {
+                      0 => const Color(0xFF245C45).withOpacity(0.40),
+                      1 => const Color(0xFF804928).withOpacity(0.40),
+                      2 => const Color(0xFF204A6E).withOpacity(0.40),
+                      _ => const Color(0xFF5B21B6).withOpacity(0.40),
+                    };
+
+                    const inactiveTextColor = Colors.white;
+
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
+                        child: InkWell(
+                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                          onTap: () => setState(() => _selectedSubTab = index),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              // Regra de seleção: Laranja de destaque (#C85A32) na aba ativa
+                              color: isSelected ? const Color(0xFFC85A32) : inactiveColor,
+                              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                              border: Border(
+                                top: BorderSide(
+                                  color: isSelected ? const Color(0xFFFFA07A) : Colors.white12,
+                                  width: isSelected ? 2 : 1,
+                                ),
+                                left: const BorderSide(color: Colors.white12, width: 1),
+                                right: const BorderSide(color: Colors.white12, width: 1),
+                              ),
+                              boxShadow: isSelected
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, -2),
+                                      ),
+                                    ]
+                                  : null,
+                            ),
+                            child: Text(
+                              _subTabs[index].$1,
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: isSelected ? Colors.white : inactiveTextColor,
+                                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ],
           ),
         ),
       ),
-      body: switch (_selectedSubTab) {
-        0 => _buildSaberesFeed(supabase),
-        1 => _buildVideosCurtosFeed(supabase),
-        2 => _buildVideosLongosFeed(supabase),
-        _ => _buildMusicaFeed(supabase),
-      },
+      body: Column(
+        children: [
+          // Rede de Conexões Persistente em Todas as 4 Abas
+          StoriesBar(
+            stories: supabase.stories,
+            onQuickNoteTap: _showQuickNotePlayerDialog,
+            onRecordTap: _showRecordQuickNoteDialog,
+            onStoryTap: (story) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('📍 Visualizando última partilha de ${story.authorName}'),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
+          const Divider(height: 1),
+          Expanded(
+            child: switch (_selectedSubTab) {
+              0 => _buildSaberesFeed(supabase),
+              1 => _buildVideosCurtosFeed(supabase),
+              2 => _buildVideosLongosFeed(supabase),
+              _ => _buildMusicaFeed(supabase),
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -938,8 +1014,8 @@ class _FeedScreenState extends State<FeedScreen> {
 
                             // Botão Fechar (X) colado diretamente na borda superior direita da bolinha
                             Positioned(
-                              top: -2,
-                              right: -2,
+                              top: 10,
+                              right: 10,
                               child: InkWell(
                                 onTap: () => Navigator.pop(ctx),
                                 borderRadius: BorderRadius.circular(20),
@@ -1395,109 +1471,8 @@ class _FeedScreenState extends State<FeedScreen> {
       onRefresh: () async => setState(() {}),
       child: ListView(
         children: [
-          // Pessoas que Sigo
-          StoriesBar(
-            stories: supabase.stories,
-            onQuickNoteTap: _showQuickNotePlayerDialog,
-            onRecordTap: _showRecordQuickNoteDialog,
-            onStoryTap: (story) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('📍 Visualizando última partilha de ${story.authorName}'),
-                  duration: const Duration(seconds: 2),
-                ),
-              );
-            },
-          ),
-          const Divider(height: 1),
-          // Card de Oportunidades Cronológico: "Algoritmos Amigáveis" (Gradiente Dourado Radiante e Efeito Vidro)
-          Container(
-            margin: const EdgeInsets.fromLTRB(14, 10, 14, 6),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFFFFF2A8), Color(0xFFF6CF4C), Color(0xFFD49312)],
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-              ),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFFFF1A8), width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFFD49312).withOpacity(0.35),
-                  blurRadius: 18,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.50),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.white.withOpacity(0.80)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(Icons.balance, size: 20, color: Color(0xFF0A291C)),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
-                        margin: const EdgeInsets.only(bottom: 3),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.55),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white.withOpacity(0.75)),
-                        ),
-                        child: const Text(
-                          '🌱 ALGORITMOS AMIGÁVEIS',
-                          style: TextStyle(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 0.5,
-                            color: Color(0xFF0A291C),
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        'Fluxo cronológico de oportunidades para todos',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF0A291C),
-                          letterSpacing: -0.2,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      const Row(
-                        children: [
-                          Icon(Icons.schedule, size: 12, color: Color(0xFF0A291C)),
-                          SizedBox(width: 4),
-                          Text(
-                            'Recentes primeiro',
-                            style: TextStyle(fontSize: 11, color: Color(0xFF144933), fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Motor de Pesquisa da Aba Saberes (Posicionado exatamente onde a seta indica: entre Algoritmos Amigáveis e Partilha)
+          const SizedBox(height: 6),
+          // Motor de Pesquisa da Aba Saberes
           _buildSearchField(
             controller: _saberesSearchController,
             hintText: 'Pesquisar publicações, saberes ou autores...',
@@ -1597,68 +1572,6 @@ class _FeedScreenState extends State<FeedScreen> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
-        // Card Explicativo: Vídeos Curtos (No mesmo estilo do card de Música)
-        Container(
-          margin: const EdgeInsets.fromLTRB(14, 4, 14, 10),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF6E3012), Color(0xFF3A1506)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFF59E0B).withOpacity(0.3)),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF59E0B).withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        'PÍLULAS VERTICAIS SOBERANAS',
-                        style: TextStyle(
-                          color: Color(0xFFFDE68A),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 9,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Vídeos Curtos & Práticas da Terra',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-                    ),
-                    const SizedBox(height: 2),
-                    const Text(
-                      'Saberes Práticos e Momentos da Comunidade.',
-                      style: TextStyle(color: Colors.white70, fontSize: 11),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF59E0B).withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: const Color(0xFFF59E0B).withOpacity(0.3)),
-                ),
-                alignment: Alignment.center,
-                child: const Text('🎬', style: TextStyle(fontSize: 20)),
-              ),
-            ],
-          ),
-        ),
         // Motor de Pesquisa da Aba Vídeos Curtos
         _buildSearchField(
           controller: _curtosSearchController,
@@ -1698,10 +1611,23 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  // ABA 3: Vídeos Longos (Estilo YouTube com Motor de Pesquisa e Player Dedicado)
+  // 2. EMBARALHAMENTO JUSTO FISHER-YATES (AULAS E VÍDEOS LONGOS)
+  List<T> _shuffleFisherYates<T>(List<T> array) {
+    final copia = List<T>.from(array);
+    final random = Random();
+    for (int i = copia.length - 1; i > 0; i--) {
+      final j = random.nextInt(i + 1);
+      final temp = copia[i];
+      copia[i] = copia[j];
+      copia[j] = temp;
+    }
+    return copia;
+  }
+
+  // ABA 3: Vídeos Longos (Estilo YouTube com Embaralhamento Justo Fisher-Yates)
   Widget _buildVideosLongosFeed(MockSupabaseService supabase) {
     final query = _videoSearchController.text.trim().toLowerCase();
-    final filteredVideos = supabase.longVideos.where((v) {
+    final rawVideos = supabase.longVideos.where((v) {
       final matchesTopic = _selectedVideoTopic == 'Todos' ||
           v.category.toLowerCase() == _selectedVideoTopic.toLowerCase();
       final matchesQuery = query.isEmpty ||
@@ -1711,72 +1637,12 @@ class _FeedScreenState extends State<FeedScreen> {
           v.platform.toLowerCase().contains(query);
       return matchesTopic && matchesQuery;
     }).toList();
+    // Aplica Fisher-Yates para dar chances iguais de descoberta a aulas atemporais
+    final filteredVideos = _shuffleFisherYates(rawVideos);
 
     return ListView(
       padding: const EdgeInsets.all(14),
       children: [
-        // Card Explicativo: Vídeos Longos (No mesmo estilo lindo do card de Música)
-        Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF0D3455), Color(0xFF081F33)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFF38BDF8).withOpacity(0.3)),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF38BDF8).withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        'ACERVO AUDIOVISUAL LIVRE',
-                        style: TextStyle(
-                          color: Color(0xFFBAE6FD),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 9,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Aulas, Vivências & Documentários',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-                    ),
-                    const SizedBox(height: 2),
-                    const Text(
-                      'Encontros gravados, registros tradicionais e aulas completas com player direto.',
-                      style: TextStyle(color: Colors.white70, fontSize: 11),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF38BDF8).withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: const Color(0xFF38BDF8).withOpacity(0.3)),
-                ),
-                alignment: Alignment.center,
-                child: const Text('🖥️', style: TextStyle(fontSize: 20)),
-              ),
-            ],
-          ),
-        ),
         // 1. Motor de Pesquisa de Assunto
         Container(
           margin: const EdgeInsets.only(bottom: 12),
@@ -2146,40 +2012,7 @@ class _FeedScreenState extends State<FeedScreen> {
     return ListView(
       padding: const EdgeInsets.all(14),
       children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF5B21B6), Color(0xFF311042)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: const Row(
-            children: [
-              Text('🎵', style: TextStyle(fontSize: 24)),
-              SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Paisagens Sonoras & Cantos Tradicionais',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      'Áudios autorais, sons da mata e cantos ancestrais livres de algoritmos comerciais.',
-                      style: TextStyle(color: Colors.white70, fontSize: 11),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        // Motor de Pesquisa da Aba Música (Posicionado logo abaixo do card roxo conforme indicado pela seta)
+        // Motor de Pesquisa da Aba Música
         _buildSearchField(
           controller: _musicaSearchController,
           hintText: 'Pesquisar cantos, paisagens sonoras ou artistas...',

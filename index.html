@@ -3,8 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>YBYgram — Comunicação Livre, Educação e Saberes Comunitários</title>
-  <meta name="description" content="YBYgram: plataforma social, educacional e de comércio comunitário voltada para soberania digital e contexto brasileiro.">
+  <title>YBYgram • Rede Soberana | Algoritmos Amigáveis: Fluxo Cronológico de Oportunidade</title>
+  <meta name="description" content="YBYgram • Rede Soberana | Algoritmos Amigáveis: Fluxo Cronológico de Oportunidade e Descoberta Justa com Fisher-Yates">
+  
+  <!-- PWA Manifest & Suporte Play Store TWA / Mobile -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#072e27">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="YBYgram">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
   
   <!-- Fontes Google Plus Jakarta Sans & Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -82,13 +92,20 @@
       scrollbar-width: none;
     }
 
-    /* Elementos Fixos de Navegação: Header Sticky e Footer Fixed */
+    :root {
+      --app-header-height: 120px;
+    }
+
+    /* Elementos Fixos de Navegação: Header Fixed e Footer Fixed */
     .app-header-fixed {
-      position: sticky;
+      position: fixed;
       top: 0;
       left: 0;
+      right: 0;
       width: 100%;
-      z-index: 1000;
+      max-width: 430px;
+      margin: 0 auto;
+      z-index: 9999;
       background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -152,6 +169,8 @@
     #screen-container {
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
+      padding-top: 120px; /* Compensação exata da altura do cabeçalho superior fixo */
+      padding-top: var(--app-header-height, 120px);
       padding-bottom: 96px; /* Espaço para o rodapé fixo nunca cobrir o conteúdo */
     }
 
@@ -170,9 +189,218 @@
   <!-- Container Mobile Centralizado (App Shell Mobile) -->
   <main class="w-full sm:max-w-[430px] h-[100dvh] sm:h-[890px] sm:max-h-[94vh] bg-cream sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden sm:border sm:border-cream-border relative">
     
-    <!-- ==================== CABEÇALHO SUPERIOR FIXO (Sticky Top Permanente com Opacidade e Desfoque) ==================== -->
-    <header class="app-header-fixed text-white px-4 pt-3.5 pb-2.5 shrink-0 flex flex-col gap-2 border-b border-emerald-400/20 relative overflow-hidden"
-      style="position: sticky; top: 0; z-index: 1000; width: 100%; background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 6px 25px -2px rgba(5,30,20,0.65);">
+    <!-- ==================== TELA DE BOAS-VINDAS PWA (PLAY STORE STYLE • ONDAS TURQUESA-DOURADO) ==================== -->
+    <div id="welcome-screen" class="absolute inset-0 z-[10001] bg-[#021411] flex flex-col justify-between overflow-hidden transition-all duration-700 select-none">
+      
+      <!-- Fundo de Ondas Orgânicas Fluidas em Seda Turquesa e Ouro Líquido Inspirado na Arte Dola AI -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <svg class="w-full h-full object-cover" viewBox="0 0 430 890" preserveAspectRatio="none">
+          <defs>
+            <radialGradient id="welcomeTurqGlow" cx="20%" cy="30%" r="55%">
+              <stop offset="0%" stop-color="#00f5b4" stop-opacity="0.38"/>
+              <stop offset="50%" stop-color="#059669" stop-opacity="0.14"/>
+              <stop offset="100%" stop-color="#021411" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="welcomeGoldGlow" cx="85%" cy="65%" r="55%">
+              <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.35"/>
+              <stop offset="50%" stop-color="#d97706" stop-opacity="0.14"/>
+              <stop offset="100%" stop-color="#021411" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="waveTurqGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00f5b4"/>
+              <stop offset="40%" stop-color="#00c49f"/>
+              <stop offset="75%" stop-color="#0d9488"/>
+              <stop offset="100%" stop-color="#022c22"/>
+            </linearGradient>
+            <linearGradient id="waveGoldGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#b45309"/>
+              <stop offset="35%" stop-color="#f59e0b"/>
+              <stop offset="70%" stop-color="#fef08a"/>
+              <stop offset="100%" stop-color="#fcd34d"/>
+            </linearGradient>
+            <linearGradient id="waveDeepSilky" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#053026"/>
+              <stop offset="100%" stop-color="#01130f"/>
+            </linearGradient>
+            <filter id="turqFilterGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="16" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+            <filter id="goldFilterGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="18" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+          </defs>
+
+          <!-- Fundos com Brilho Atmosférico -->
+          <rect width="430" height="890" fill="#021411"/>
+          <rect width="430" height="890" fill="url(#welcomeTurqGlow)"/>
+          <rect width="430" height="890" fill="url(#welcomeGoldGlow)"/>
+
+          <!-- Onda de Fundo Verde Floresta Profunda -->
+          <path d="M-40,240 C90,140 220,380 480,220 L480,890 L-40,890 Z" fill="url(#waveDeepSilky)" opacity="0.95"/>
+
+          <!-- Fita Ondulada Luminosa Turquesa Fluida (Superior) -->
+          <path d="M-60,330 C90,200 230,490 490,340 C380,520 180,310 -60,430 Z" 
+                fill="url(#waveTurqGradient)" opacity="0.6" filter="url(#turqFilterGlow)"/>
+
+          <!-- Fita Ondulada em Ouro Líquido com Brilho Dourado (Central) -->
+          <path d="M-40,540 C120,410 260,660 480,490 C360,680 140,480 -40,650 Z" 
+                fill="url(#waveGoldGradient)" opacity="0.8" filter="url(#goldFilterGlow)"/>
+
+          <!-- Segunda Camada Ouro Refinada -->
+          <path d="M-20,580 C130,480 270,690 460,560 C380,710 160,540 -20,680 Z" 
+                fill="#ffd15c" opacity="0.25"/>
+
+          <!-- Onda Inferior Turquesa Envolvente -->
+          <path d="M-30,730 C120,640 290,790 480,680 L480,890 L-30,890 Z" 
+                fill="url(#waveTurqGradient)" opacity="0.45"/>
+        </svg>
+
+        <!-- Partículas de Estrelas / Brilhos Flutuantes -->
+        <div class="absolute top-[18%] right-[10%] text-amber-300 text-sm animate-pulse opacity-90 pointer-events-none">✦</div>
+        <div class="absolute top-[34%] left-[8%] text-emerald-300 text-xs animate-pulse opacity-80 pointer-events-none" style="animation-delay: 1s;">✦</div>
+        <div class="absolute top-[68%] right-[14%] text-amber-200 text-xs animate-pulse opacity-75 pointer-events-none" style="animation-delay: 1.5s;">✨</div>
+        <div class="absolute top-[82%] left-[12%] text-emerald-400 text-sm animate-pulse opacity-85 pointer-events-none" style="animation-delay: 0.5s;">✦</div>
+      </div>
+
+      <!-- 1. Topo Mockup Smartphone (Status Bar: 9:41, Wi-Fi, Bateria) -->
+      <div class="relative z-10 pt-2 px-6 flex items-center justify-between text-white/80 text-xs font-semibold">
+        <span>9:41</span>
+        <div class="flex items-center gap-2">
+          <i data-lucide="signal" class="w-3.5 h-3.5"></i>
+          <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+          <div class="flex items-center gap-0.5 border border-white/60 rounded px-1 py-0.5">
+            <div class="w-3.5 h-1.5 bg-emerald-400 rounded-2xs"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Cabeçalho Minimalista da Tela de Boas-Vindas com Logotipo e Busca -->
+      <div class="relative z-10 px-6 pt-3 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <!-- Ícone Folha Alada Turquesa & Ouro -->
+          <div class="w-8 h-8 rounded-xl bg-emerald-950/80 border border-emerald-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(0,245,180,0.4)] backdrop-blur-md">
+            <svg viewBox="0 0 24 24" class="w-5 h-5">
+              <path d="M12 2L20 8Q22 9.5 20 11L13 16Q11 17 9.5 16L3 11Q1 9.5 3 8Z" fill="#00f5b4"/>
+              <path d="M12 9L20 15Q22 16.5 20 18L13 23Q11 24 9.5 23L3 18Q1 16.5 3 15Z" fill="#fbbf24"/>
+            </svg>
+          </div>
+          <div class="flex items-baseline">
+            <span class="text-xl font-extrabold text-white tracking-tight">YBY</span>
+            <span class="text-xl font-light text-amber-400 tracking-tight ml-0.5">gram</span>
+          </div>
+        </div>
+
+        <button onclick="showToast('🔍 Pesquisa comunitária disponível no feed após entrada.')" 
+          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white/90 transition active:scale-95" title="Pesquisar">
+          <i data-lucide="search" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- 3. Corpo Central de Apresentação Soberana (Visual de Play Store / Boas-Vindas) -->
+      <div class="relative z-10 px-6 py-4 flex-1 flex flex-col justify-center">
+        <!-- Título Principal com Destaque Soberano -->
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-400/40 text-[10px] font-bold text-emerald-300 shadow-[0_0_12px_rgba(0,245,180,0.3)] backdrop-blur-md mb-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>PROTÓTIPO PWA • PLAY STORE READY</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
+            YBYgram <span class="text-amber-400">•</span> Rede Soberana
+          </h1>
+          <h2 class="text-base sm:text-lg font-extrabold bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent leading-snug">
+            Algoritmos Amigáveis: Fluxo Cronológico de Oportunidade
+          </h2>
+        </div>
+
+        <!-- Descrição Épica Comunitária -->
+        <p class="text-xs text-emerald-100/80 leading-relaxed mt-3 max-w-[95%]">
+          Sem vigilância algorítmica ou retenção por dopamina comercial. Uma plataforma viva de saberes da terra, 
+          onde todo relato tem visibilidade justa no tempo certo e aulas atemporais são descobertas por mérito com Fisher-Yates.
+        </p>
+
+        <!-- Pílula de Ação Principal Dourada (Estilo "Faça sua Postagem / Entrar") -->
+        <div class="mt-6 flex flex-col gap-3">
+          <button onclick="quickEnterFeed('Silviane Terra')" 
+            class="w-full py-3.5 px-6 rounded-2xl font-black text-sm text-[#0a281b] flex items-center justify-center gap-2 transition active:scale-98 shadow-[0_8px_30px_rgba(246,207,76,0.45)] hover:shadow-[0_10px_35px_rgba(246,207,76,0.6)] hover:brightness-105"
+            style="background: linear-gradient(135deg, #FFE58F 0%, #F6CF4C 50%, #D49312 100%);">
+            <span>✨ Faça sua Postagem / Entrar no Feed</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-[#0a281b]"></i>
+          </button>
+
+          <!-- Botões Criar Conta e Entrar (Mock Login) -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <button onclick="openMockAuthModal('signup')" 
+              class="py-2.5 px-3 rounded-xl font-bold text-xs text-white bg-white/10 hover:bg-white/15 border border-white/20 backdrop-blur-md transition flex items-center justify-center gap-1.5 active:scale-95 shadow-sm">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Criar Conta</span>
+            </button>
+            <button onclick="openMockAuthModal('login')" 
+              class="py-2.5 px-3 rounded-xl font-bold text-xs text-amber-200 bg-amber-950/40 hover:bg-amber-950/60 border border-amber-400/40 backdrop-blur-md transition flex items-center justify-center gap-1.5 active:scale-95 shadow-sm">
+              <i data-lucide="log-in" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Entrar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Pílula Interativa: Recentes vs Descobrir Aleatório (Fisher-Yates) -->
+        <div class="mt-5 p-2 rounded-2xl bg-black/50 border border-emerald-400/25 backdrop-blur-lg shadow-xl flex items-center justify-between">
+          <div class="flex items-center gap-2 pl-2">
+            <div class="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-300">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            </div>
+            <div>
+              <div class="text-[11px] font-black text-amber-300 flex items-center gap-1">
+                <span>Recentes 🕒</span>
+              </div>
+              <div class="text-[9.5px] text-white/70">
+                Descobrir Aleatório ✨ (Fisher-Yates)
+              </div>
+            </div>
+          </div>
+          <button onclick="quickEnterFeed('Silviane Terra', 'random')" 
+            class="px-3 py-1.5 rounded-xl bg-amber-400 text-[#072418] font-black text-[10px] flex items-center gap-1 hover:brightness-110 active:scale-95 transition shadow-md">
+            <span>Explorar</span>
+            <i data-lucide="sparkles" class="w-3 h-3"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 5. Abas de Navegação Inferiores em Formato de Pílulas Estilo Imagem Dola AI -->
+      <div class="relative z-10 px-6 pb-6 pt-2">
+        <div class="flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-black/60 border border-white/10 backdrop-blur-xl shadow-2xl">
+          <button onclick="quickEnterFeed('Silviane Terra', 'saberes')" 
+            class="flex-1 py-2 px-1 rounded-xl bg-gradient-to-r from-amber-200 to-amber-300 text-[#072418] font-black text-[11px] text-center shadow-md transition active:scale-95">
+            Saberes
+          </button>
+          <button onclick="quickEnterFeed('Silviane Terra', 'videos-curtos')" 
+            class="flex-1 py-2 px-1 rounded-xl text-white/80 hover:text-white font-bold text-[11px] text-center transition active:scale-95">
+            Curtos
+          </button>
+          <button onclick="quickEnterFeed('Silviane Terra', 'videos-longos')" 
+            class="flex-1 py-2 px-1 rounded-xl text-white/80 hover:text-white font-bold text-[11px] text-center transition active:scale-95">
+            Longos
+          </button>
+          <button onclick="quickEnterFeed('Silviane Terra', 'musica')" 
+            class="flex-1 py-2 px-1 rounded-xl text-white/80 hover:text-white font-bold text-[11px] text-center transition active:scale-95">
+            Música
+          </button>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 mt-3 text-[9px] text-white/40 tracking-wider uppercase font-semibold">
+          <span>YBYgram PWA</span>
+          <span>•</span>
+          <span>Play Store Ready</span>
+          <span>•</span>
+          <span>Soberania Digital</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== CABEÇALHO SUPERIOR FIXO (Fixed Top Permanente com Opacidade e Desfoque) ==================== -->
+    <header class="app-header-fixed text-white px-4 pt-3.5 pb-2.5 shrink-0 flex flex-col gap-1.5 border-b border-emerald-400/20 sm:rounded-t-3xl overflow-hidden"
+      style="position: fixed; top: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 9999; background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 6px 25px -2px rgba(5,30,20,0.65);">
       
       <!-- Reflexo suave de luz ambiental no topo do cabeçalho -->
       <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-emerald-400/15 blur-2xl pointer-events-none"></div>
@@ -182,25 +410,61 @@
         <div class="flex items-center gap-1 cursor-pointer transition active:scale-95 hover:opacity-90" onclick="goToSaberesHome()" title="Ir para a Página Principal de Saberes">
           <span class="text-xl font-extrabold tracking-tight text-white drop-shadow-sm">YBY</span>
           <span class="text-xl font-light tracking-tight text-amber-300 drop-shadow-[0_0_8px_rgba(252,211,77,0.5)]">gram</span>
-          <span class="ml-2 text-[9px] bg-emerald-950/70 text-white px-2 py-0.5 rounded-full font-bold border border-emerald-400/60 shadow-[0_0_10px_rgba(52,211,153,0.35)] backdrop-blur-md flex items-center gap-1">
+          <span class="ml-1.5 text-[8.5px] bg-emerald-950/70 text-white px-2 py-0.5 rounded-full font-bold border border-emerald-400/60 shadow-[0_0_10px_rgba(52,211,153,0.35)] backdrop-blur-md flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]"></span>
             Rede Soberana
           </span>
         </div>
 
-        <!-- Ações do Topo: Botão Faça sua Postagem Lindo em Amarelo Dourado + Avatar do Usuário -->
-        <div class="flex items-center gap-2.5">
+        <!-- Ações do Topo: Botão Boas-Vindas PWA + Botão Faça sua Postagem + Avatar do Usuário -->
+        <div class="flex items-center gap-2">
+          <!-- Botão para reabrir a Tela de Boas-Vindas PWA -->
+          <button onclick="openWelcomeScreen()" 
+            class="px-2 py-1.5 rounded-xl bg-emerald-950/75 hover:bg-emerald-900 border border-emerald-400/40 text-amber-300 text-[10.5px] font-black flex items-center gap-1 shadow-xs transition active:scale-95" 
+            title="Ver Tela de Boas-Vindas PWA (Play Store)">
+            <span>🌟</span>
+            <span class="hidden sm:inline">Início PWA</span>
+          </button>
           <button onclick="openModal('modal-new-video-link')" 
-            class="flex items-center px-4 py-2 rounded-xl font-black text-[12px] sm:text-xs text-[#0a281b] transition whitespace-nowrap active:scale-95 border border-[#FFF2A8] shadow-[0_0_15px_rgba(246,207,76,0.55),inset_0_1px_1px_rgba(255,255,255,0.8)] hover:shadow-[0_0_22px_rgba(246,207,76,0.75)] hover:brightness-105" 
+            class="flex items-center px-3.5 py-1.5 rounded-xl font-black text-[11.5px] sm:text-xs text-[#0a281b] transition whitespace-nowrap active:scale-95 border border-[#FFF2A8] shadow-[0_0_15px_rgba(246,207,76,0.55),inset_0_1px_1px_rgba(255,255,255,0.8)] hover:shadow-[0_0_22px_rgba(246,207,76,0.75)] hover:brightness-105" 
             style="background: linear-gradient(135deg, #FFE27A 0%, #F6CF4C 50%, #E3A316 100%);"
             title="Faça sua Postagem">
             <span class="tracking-tight">Faça sua Postagem</span>
           </button>
           <button onclick="switchTab('profile')" class="relative flex items-center justify-center p-0.5 rounded-full" title="Meu Perfil">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face" alt="Perfil" class="w-10 h-10 rounded-full object-cover border-2 border-red-500 shadow-[0_0_14px_rgba(239,68,68,0.85),0_0_24px_rgba(220,38,38,0.55)] ring-2 ring-red-400/70">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face" alt="Perfil" class="w-9 h-9 rounded-full object-cover border-2 border-red-500 shadow-[0_0_14px_rgba(239,68,68,0.85),0_0_24px_rgba(220,38,38,0.55)] ring-2 ring-red-400/70">
             <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 border border-white rounded-full flex items-center justify-center text-[8px] text-white font-bold shadow-xs" style="background-color: #51de06;">✓</span>
           </button>
         </div>
+      </div>
+
+      <!-- 3. FAIXA DE FLUXO CRONOLÓGICO: "ALGORITMOS AMIGÁVEIS" -->
+      <div id="header-algoritmos-info" class="flex items-center justify-between px-2 py-0.5 text-white/90 relative z-10">
+        <div class="flex items-center gap-1.5 min-w-0">
+          <span class="text-xs">⚖️</span>
+          <span class="text-[9.5px] font-black uppercase tracking-wider text-amber-300">
+            🌱 ALGORITMOS AMIGÁVEIS:
+          </span>
+          <span class="text-[10px] font-medium text-emerald-100/90 truncate">
+            Fluxo cronológico de oportunidades para todos
+          </span>
+        </div>
+        <div class="flex items-center gap-1 text-[9.5px] font-bold text-amber-300/90 shrink-0 ml-2">
+          <i data-lucide="clock" class="w-2.5 h-2.5 text-amber-300"></i>
+          <span>Recentes 1º</span>
+        </div>
+      </div>
+
+      <!-- SELETOR INTERATIVO DO FEED: RECENTES (CRONOLÓGICO) vs DESCOBRIR ALEATÓRIO (FISHER-YATES) -->
+      <div id="feed-mode-selector-pill" class="flex items-center justify-between p-1 rounded-xl bg-black/45 border border-white/15 backdrop-blur-md shadow-inner text-white text-[10px] -mt-0.5">
+        <button id="btn-mode-recentes" onclick="setFeedOrderingMode('recentes')" 
+          class="flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 bg-white/20 text-white shadow-xs">
+          <span>🕒 Recentes (1º)</span>
+        </button>
+        <button id="btn-mode-fisher-yates" onclick="setFeedOrderingMode('fisher-yates')" 
+          class="flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-amber-200/80 hover:text-white">
+          <span>✨ Descobrir Aleatório (Fisher-Yates)</span>
+        </button>
       </div>
 
       <!-- BARRA DE SELEÇÃO DE FEED: 4 ABAS TEMÁTICAS EM FORMATO DE CADERNO (100% VISÍVEIS) -->
@@ -228,60 +492,36 @@
       </nav>
     </header>
 
-    <!-- ÁREA DE CONTEÚDO ROLÁVEL COM ESPAÇAMENTO DE SEGURANÇA INFERIOR -->
+    <!-- ÁREA DE CONTEÚDO ROLÁVEL COM COMPENSAÇÃO DE CABEÇALHO SUPERIOR E RODAPÉ INFERIOR -->
     <div id="screen-container" class="flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar bg-cream relative pb-24"
-      style="scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding-bottom: 96px;">
+      style="scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding-top: 120px; padding-bottom: 96px;">
 
       <!-- ======================================================== -->
       <!-- ABA 1: FEED / COMUNIDADE                                  -->
       <!-- ======================================================== -->
       <section id="tab-feed" class="tab-content">
 
+        <!-- 2. SEÇÃO REDE DE CONEXÕES COM RECADO RÁPIDO (Compartilhada e Fixa no Topo de Todas as Abas: Saberes, Curtos, Longos e Música) -->
+        <div id="connections-bar-section" class="bg-white border-b border-cream-border py-2.5 px-3.5 shadow-xs sticky top-0 z-20">
+          <div class="flex items-center justify-between mb-2 px-1">
+            <span class="text-[11px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1.5">
+              <i data-lucide="users" class="w-3.5 h-3.5 text-forest"></i>
+              Rede de Conexões
+            </span>
+            <button onclick="openQuickNoteRecorder()" class="text-[10px] font-bold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition shadow-2xs active:scale-95" title="Gravar Recado Rápido de até 15 segundos (sem custo de servidor, expira em 24h)">
+              <i data-lucide="video" class="w-3 h-3 text-emerald-700"></i>
+              <span>+ Recado Rápido</span>
+            </button>
+          </div>
+          <!-- Lista horizontal de avatares com preview em vídeo loop quando houver recado ativo -->
+          <div id="connections-bar-container" class="flex gap-3 overflow-x-auto hide-scrollbar py-1">
+            <!-- Renderizado dinamicamente via renderConnectionsBar() -->
+          </div>
+        </div>
+
         <!-- SUB-ABA 1.1: SABERES GERAIS (FEED CRONOLÓGICO) -->
-        <div id="subtab-saberes" class="space-y-3 pb-6">
+        <div id="subtab-saberes" class="space-y-3 pb-6 pt-3">
           
-          <!-- 2. SEÇÃO REDE DE CONEXÕES COM RECADO RÁPIDO (Quick Note / Video Status) -->
-          <div class="bg-white border-b border-cream-border py-2.5 px-3.5 shadow-xs">
-            <div class="flex items-center justify-between mb-2 px-1">
-              <span class="text-[11px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1.5">
-                <i data-lucide="users" class="w-3.5 h-3.5 text-forest"></i>
-                Rede de Conexões
-              </span>
-              <button onclick="openQuickNoteRecorder()" class="text-[10px] font-bold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition shadow-2xs active:scale-95" title="Gravar Recado Rápido de até 15 segundos (sem custo de servidor, expira em 24h)">
-                <i data-lucide="video" class="w-3 h-3 text-emerald-700"></i>
-                <span>+ Recado Rápido</span>
-              </button>
-            </div>
-            <!-- Lista horizontal de avatares com borda viva quando houver recado ativo -->
-            <div id="connections-bar-container" class="flex gap-3 overflow-x-auto hide-scrollbar py-1">
-              <!-- Renderizado dinamicamente via renderConnectionsBar() -->
-            </div>
-          </div>
-
-          <!-- 3. CARD DE FLUXO CRONOLÓGICO: "Algoritmos Amigáveis" (Estilo Lindo com Gradiente Dourado, Profundidade e Efeito Vidro) -->
-          <div class="mx-3.5 p-3.5 rounded-2xl shadow-[0_10px_25px_-4px_rgba(217,119,6,0.35),0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_2px_rgba(255,255,255,0.85)] border border-[#FFF1A8] flex items-center gap-3 relative overflow-hidden"
-            style="background: radial-gradient(130% 120% at 85% 15%, #FFF2A8 0%, #F6CF4C 45%, #D49312 100%);">
-            
-            <!-- Efeito de iluminação suave ambiente no canto -->
-            <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/25 blur-xl pointer-events-none"></div>
-
-            <div class="w-10 h-10 rounded-xl bg-white/45 backdrop-blur-md border border-white/80 shadow-[0_2px_8px_rgba(0,0,0,0.06)] flex items-center justify-center shrink-0 relative z-10">
-              <i data-lucide="scale" class="w-5 h-5 text-[#0A291C]"></i>
-            </div>
-            <div class="flex-1 relative z-10">
-              <span class="inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-wider text-[#0A291C] bg-white/55 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/75 shadow-[0_0_8px_rgba(255,255,255,0.4)] mb-1">
-                <span>🌱</span> ALGORITMOS AMIGÁVEIS
-              </span>
-              <h3 class="text-xs font-black text-[#0A291C] tracking-tight leading-snug">
-                Fluxo cronológico de oportunidades para todos
-              </h3>
-              <p class="text-[11px] text-[#144933] font-bold mt-0.5 flex items-center gap-1.5">
-                <i data-lucide="clock" class="w-3 h-3 text-[#0A291C]"></i>
-                Recentes primeiro
-              </p>
-            </div>
-          </div>
-
           <!-- Motor de Pesquisa em Saberes -->
           <div class="mx-3.5 relative flex items-center">
             <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
@@ -440,18 +680,6 @@
         <!-- SUB-ABA 1.2: VÍDEOS CURTOS (9:16) INCORPORADOS COM SELO DE ORIGEM -->
         <div id="subtab-videos-curtos" class="hidden p-3.5 space-y-4 pb-6">
           
-          <!-- Card Explicativo: Vídeos Curtos (No mesmo estilo lindo do card de Música) -->
-          <div class="bg-gradient-to-r from-[#6e3012] to-[#3a1506] p-4 rounded-2xl border border-amber-500/30 text-white shadow-sm flex items-center justify-between">
-            <div>
-              <span class="text-[9px] bg-amber-400/25 text-amber-200 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Pílulas Verticais Soberanas</span>
-              <h3 class="text-xs font-black text-white mt-1">Vídeos Curtos & Práticas da Terra</h3>
-              <p class="text-[11px] text-amber-100/80 mt-0.5">Saberes Práticos e Momentos da Comunidade.</p>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-200 flex items-center justify-center text-xl shrink-0 border border-amber-400/30">
-              🎬
-            </div>
-          </div>
-          
           <!-- Motor de Pesquisa em Vídeos Curtos -->
           <div class="relative flex items-center">
             <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
@@ -598,18 +826,6 @@
         <!-- SUB-ABA 1.3: VÍDEOS LONGOS (ESTILO CURSA COM CARROSSEIS POR CATEGORIA, PÁGINA VER MAIS E PLAYER YOUTUBE) -->
         <div id="subtab-videos-longos" class="hidden p-3.5 space-y-4 pb-12">
           
-          <!-- Card Explicativo: Vídeos Longos (No mesmo estilo lindo do card de Música) -->
-          <div class="bg-gradient-to-r from-[#0d3455] to-[#081f33] p-4 rounded-2xl border border-sky-500/30 text-white shadow-sm flex items-center justify-between">
-            <div>
-              <span class="text-[9px] bg-sky-400/25 text-sky-200 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Acervo Audiovisual Livre</span>
-              <h3 class="text-xs font-black text-white mt-1">Aulas, Vivências & Documentários</h3>
-              <p class="text-[11px] text-sky-100/80 mt-0.5">Encontros gravados, registros tradicionais e aulas completas em estilo Cursa.</p>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-200 flex items-center justify-center text-xl shrink-0 border border-sky-400/30">
-              🖥️
-            </div>
-          </div>
-          
           <!-- 1. Motor de Pesquisa de Assuntos -->
           <div class="space-y-2">
             <div class="relative flex items-center">
@@ -704,17 +920,6 @@
 
         <!-- SUB-ABA 1.4: MÚSICA & PAISAGENS SONORAS AUTORAIS -->
         <div id="subtab-musica" class="hidden p-3.5 space-y-4 pb-6">
-          <div class="bg-gradient-to-r from-purple-900 to-indigo-950 p-4 rounded-2xl border border-purple-500/30 text-white shadow-sm flex items-center justify-between">
-            <div>
-              <span class="text-[9px] bg-purple-400/30 text-purple-200 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Acervo Sonoro Comunitário</span>
-              <h3 class="text-xs font-black text-white mt-1">Paisagens Sonoras & Cantos Tradicionais</h3>
-              <p class="text-[11px] text-purple-200/80 mt-0.5">Músicas autorais, sons da floresta e cantos de reza sem algoritmos comerciais.</p>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-200 flex items-center justify-center text-xl shrink-0 border border-purple-400/30">
-              🎵
-            </div>
-          </div>
-
           <!-- Motor de Pesquisa em Música & Áudios -->
           <div class="relative flex items-center">
             <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
@@ -1779,15 +1984,29 @@
   </div>
 
 
-  <!-- Modal 0A: Player de Recado Rápido (BOLINHA CIRCULAR ESTILO WHATSAPP FLUTUANTE 1:1) -->
-  <div id="modal-quick-note-player" onclick="if(event.target === this) closeQuickNotePlayer()" class="fixed inset-0 bg-black/25 z-[2000] hidden flex flex-col items-center justify-center p-4 backdrop-blur-md transition-all">
+  <!-- Modal 0A: Player de Recado Rápido (BOLINHA CIRCULAR ESTILO WHATSAPP FLUTUANTE 1:1 COM AUTO-PLAY E NAVEGAÇÃO) -->
+  <div id="modal-quick-note-player" onclick="if(event.target === this) closeQuickNotePlayer()" class="fixed inset-0 bg-black/20 z-[2000] hidden flex flex-col items-center justify-center p-4 backdrop-blur-sm transition-all">
     
-    <div class="flex flex-col items-center gap-3 max-w-[340px] w-full relative" onclick="event.stopPropagation()">
+    <div class="flex flex-col items-center gap-3 max-w-[360px] w-full relative" onclick="event.stopPropagation()">
       <!-- BOLINHA CENTRAL CIRCULAR DE VÍDEO (1:1 com borda elegante e barra de progresso circular) -->
-      <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full p-2 flex items-center justify-center shadow-[0_10px_35px_rgba(0,0,0,0.35),0_0_20px_rgba(36,92,69,0.25)]">
+      <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full p-2 flex items-center justify-center shadow-[0_10px_35px_rgba(0,0,0,0.30),0_0_20px_rgba(36,92,69,0.20)]">
         
-        <!-- Botão Fechar integrado diretamente na borda superior direita da bolinha -->
-        <button onclick="closeQuickNotePlayer()" class="absolute -top-1 -right-1 z-40 w-9 h-9 rounded-full bg-white hover:bg-neutral-100 text-neutral-800 flex items-center justify-center shadow-lg border-2 border-white transition active:scale-90 cursor-pointer" title="Fechar Recado">
+        <!-- Seta de Navegação Manual: Recado Anterior -->
+        <button onclick="playPrevQuickNote()" 
+          class="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-40 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-neutral-800 flex items-center justify-center shadow-xl border border-white transition active:scale-90 hover:scale-105 cursor-pointer backdrop-blur-md" 
+          title="Recado anterior">
+          <i data-lucide="chevron-left" class="w-5 h-5 text-neutral-800"></i>
+        </button>
+
+        <!-- Seta de Navegação Manual: Próximo Recado -->
+        <button onclick="playNextQuickNote()" 
+          class="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-40 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-neutral-800 flex items-center justify-center shadow-xl border border-white transition active:scale-90 hover:scale-105 cursor-pointer backdrop-blur-md" 
+          title="Próximo recado">
+          <i data-lucide="chevron-right" class="w-5 h-5 text-neutral-800"></i>
+        </button>
+
+        <!-- Botão Fechar integrado diretamente na borda superior direita da bolinha circular -->
+        <button onclick="closeQuickNotePlayer()" class="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-40 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white hover:bg-neutral-100 text-neutral-800 flex items-center justify-center shadow-lg border-2 border-white transition active:scale-90 hover:scale-105 cursor-pointer" title="Fechar Recado">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
 
@@ -1812,24 +2031,24 @@
       </div>
 
       <!-- Linha Flutuante Limpa: Reação de OK / Curtida e Ações (Sem caixa preta ao redor) -->
-      <div class="flex flex-col items-center text-center gap-2 max-w-[300px] w-full">
+      <div class="flex flex-col items-center text-center gap-2 max-w-[320px] w-full z-40">
         <!-- Reação e Botão de Ver Saber -->
         <div class="flex items-center justify-center gap-2">
           <!-- Ícone discreto de OK / Gostei com contador público (👍 12) -->
-          <button id="quick-note-like-btn" onclick="toggleQuickNoteLike()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 font-bold text-xs shadow-lg border border-neutral-200 hover:border-emerald-500 active:scale-95 transition cursor-pointer" title="Confirmar recebimento do recado">
+          <button id="quick-note-like-btn" onclick="toggleQuickNoteLike()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 font-bold text-xs shadow-lg border border-neutral-200 hover:border-emerald-500 active:scale-95 transition cursor-pointer backdrop-blur-md" title="Confirmar recebimento / curtir recado">
             <span id="quick-note-like-icon" class="text-sm">👍</span>
             <span id="quick-note-likes-count" class="font-extrabold text-neutral-800 text-xs">12</span>
           </button>
 
           <!-- Botão Ver Saber / Publicação do autor -->
-          <button id="quick-note-view-post-btn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-[#245C45] font-bold text-xs shadow-lg border border-neutral-200 hover:border-[#245C45] active:scale-95 transition cursor-pointer" title="Ver Saber compartilhado no feed">
-            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+          <button id="quick-note-view-post-btn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-[#245C45] font-bold text-xs shadow-lg border border-neutral-200 hover:border-[#245C45] active:scale-95 transition cursor-pointer backdrop-blur-md" title="Ver Saber compartilhado no feed">
+            <i data-lucide="file-text" class="w-3.5 h-3.5 text-forest"></i>
             <span>Ver Saber</span>
           </button>
         </div>
 
         <!-- Legenda em cápsula clean e translúcida (sem caixa preta pesada) -->
-        <p id="quick-note-player-caption" class="text-[11px] text-neutral-800 font-medium bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-neutral-200/90 max-w-[280px] text-center truncate"></p>
+        <p id="quick-note-player-caption" class="text-[11px] text-neutral-800 font-medium bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-neutral-200/90 max-w-[280px] text-center truncate"></p>
       </div>
 
     </div>
@@ -2303,6 +2522,169 @@
     </div>
   </div>
 
+  <!-- ==================== MODAL DE AUTENTICAÇÃO MOCK (LOGIN / CRIAR CONTA) ==================== -->
+  <div id="modal-mock-auth" onclick="if (event.target === this) closeMockAuthModal()" class="fixed inset-0 bg-black/75 z-[10005] hidden flex items-center justify-center p-3 sm:p-4 backdrop-blur-md transition-all">
+    <div onclick="event.stopPropagation()" class="bg-[#051c17] text-white w-full sm:max-w-[420px] rounded-3xl p-5 space-y-4 max-h-[90vh] overflow-y-auto border border-emerald-400/30 shadow-2xl flex flex-col relative">
+      
+      <!-- Fundo sutil de gradiente turquesa e dourado interno -->
+      <div class="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-emerald-400/15 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-16 -left-16 w-44 h-44 rounded-full bg-amber-400/15 blur-3xl pointer-events-none"></div>
+
+      <!-- Cabeçalho do Modal -->
+      <div class="flex items-center justify-between pb-3 border-b border-emerald-500/20 relative z-10">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-500 to-amber-400 p-0.5 shadow-md flex items-center justify-center">
+            <div class="w-full h-full bg-[#031511] rounded-[14px] flex items-center justify-center">
+              <svg viewBox="0 0 24 24" class="w-5 h-5">
+                <path d="M12 2L20 8Q22 9.5 20 11L13 16Q11 17 9.5 16L3 11Q1 9.5 3 8Z" fill="#00f5b4"/>
+                <path d="M12 9L20 15Q22 16.5 20 18L13 23Q11 24 9.5 23L3 18Q1 16.5 3 15Z" fill="#fbbf24"/>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <h3 id="mock-auth-title" class="text-sm font-black text-white flex items-center gap-1.5">
+              <span>Acesso Soberano</span>
+              <span class="text-[9px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-400/40">Mock PWA</span>
+            </h3>
+            <p id="mock-auth-desc" class="text-[10px] text-emerald-200/70">Rede social viva sem vigilância nem intermediários</p>
+          </div>
+        </div>
+        <button onclick="closeMockAuthModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition active:scale-95" title="Fechar">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Abas de Alternância: Entrar vs Criar Conta -->
+      <div class="flex rounded-2xl bg-black/40 p-1 border border-white/10 text-xs font-bold relative z-10">
+        <button id="auth-tab-btn-login" onclick="switchMockAuthTab('login')" class="flex-1 py-2 rounded-xl text-center transition bg-gradient-to-r from-amber-300 to-amber-400 text-[#072418] shadow-sm">
+          Entrar
+        </button>
+        <button id="auth-tab-btn-signup" onclick="switchMockAuthTab('signup')" class="flex-1 py-2 rounded-xl text-center transition text-white/80 hover:text-white">
+          Criar Conta
+        </button>
+      </div>
+
+      <!-- Acesso Rápido em 1-Clique: Escolha de Perfis Comunitários Mock -->
+      <div class="space-y-2 relative z-10">
+        <div class="flex items-center justify-between text-[11px] font-bold text-amber-300">
+          <span class="flex items-center gap-1">
+            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+            Entrada Instantânea (1-Clique)
+          </span>
+          <span class="text-[9.5px] text-emerald-300/80">Selecione para testar:</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <!-- Silviane Terra -->
+          <button type="button" onclick="selectMockProfile('Silviane Terra', 'Educadora Popular', '@silviane_saberes', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150')" 
+            class="p-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-emerald-400/30 flex items-center gap-2 text-left transition active:scale-95 group">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150" class="w-8 h-8 rounded-full object-cover border border-emerald-400">
+            <div class="min-w-0 flex-1">
+              <div class="text-[11px] font-bold text-white truncate group-hover:text-amber-300">Silviane Terra</div>
+              <div class="text-[9px] text-emerald-300/70 truncate">Criadora Principal</div>
+            </div>
+          </button>
+
+          <!-- Dona Benvinda -->
+          <button type="button" onclick="selectMockProfile('Dona Benvinda', 'Mestre Erveira', '@benvinda_ervas', 'https://images.unsplash.com/photo-1548142813-c348350df52b?w=150')" 
+            class="p-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-emerald-400/30 flex items-center gap-2 text-left transition active:scale-95 group">
+            <img src="https://images.unsplash.com/photo-1548142813-c348350df52b?w=150" class="w-8 h-8 rounded-full object-cover border border-emerald-400">
+            <div class="min-w-0 flex-1">
+              <div class="text-[11px] font-bold text-white truncate group-hover:text-amber-300">Dona Benvinda</div>
+              <div class="text-[9px] text-emerald-300/70 truncate">Ervas & Saberes</div>
+            </div>
+          </button>
+
+          <!-- Mestre Tiago -->
+          <button type="button" onclick="selectMockProfile('Mestre Tiago', 'Agrofloresta', '@tiago_agrofloresta', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150')" 
+            class="p-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-emerald-400/30 flex items-center gap-2 text-left transition active:scale-95 group">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-8 h-8 rounded-full object-cover border border-emerald-400">
+            <div class="min-w-0 flex-1">
+              <div class="text-[11px] font-bold text-white truncate group-hover:text-amber-300">Mestre Tiago</div>
+              <div class="text-[9px] text-emerald-300/70 truncate">Agrofloresta</div>
+            </div>
+          </button>
+
+          <!-- Visitante Soberano -->
+          <button type="button" onclick="selectMockProfile('Visitante Livre', 'Explorador', '@visitante_livre', 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150')" 
+            class="p-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-emerald-400/30 flex items-center gap-2 text-left transition active:scale-95 group">
+            <div class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-xs border border-emerald-400">
+              🌱
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="text-[11px] font-bold text-white truncate group-hover:text-amber-300">Visitante</div>
+              <div class="text-[9px] text-emerald-300/70 truncate">Acesso Convidado</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Divisor com Texto "ou use seus dados mock" -->
+      <div class="flex items-center gap-2 relative z-10 py-1">
+        <div class="flex-1 h-px bg-white/10"></div>
+        <span class="text-[9px] uppercase tracking-wider text-white/50 font-bold">ou preencha os campos</span>
+        <div class="flex-1 h-px bg-white/10"></div>
+      </div>
+
+      <!-- Formulário Mock -->
+      <form id="mock-auth-form" onsubmit="handleMockAuthSubmit(event)" class="space-y-3 relative z-10 text-xs">
+        
+        <!-- Campo Nome Completo (Apenas no Cadastro) -->
+        <div id="mock-auth-field-name" class="space-y-1 hidden">
+          <label class="block text-[11px] font-bold text-emerald-200">Seu Nome / Coletivo</label>
+          <div class="relative flex items-center">
+            <i data-lucide="user" class="w-4 h-4 text-emerald-400 absolute left-3 pointer-events-none"></i>
+            <input type="text" id="mock-input-name" placeholder="Ex: Silviane Terra" 
+              class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-black/40 border border-white/15 text-white placeholder:text-white/40 outline-none focus:border-amber-400 transition text-xs">
+          </div>
+        </div>
+
+        <!-- Campo Email / Identificador Soberano -->
+        <div class="space-y-1">
+          <label class="block text-[11px] font-bold text-emerald-200">E-mail ou Chave Soberana</label>
+          <div class="relative flex items-center">
+            <i data-lucide="mail" class="w-4 h-4 text-emerald-400 absolute left-3 pointer-events-none"></i>
+            <input type="email" id="mock-input-email" required value="silviane@ybygram.org" placeholder="seu-email@exemplo.org" 
+              class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-black/40 border border-white/15 text-white placeholder:text-white/40 outline-none focus:border-amber-400 transition text-xs">
+          </div>
+        </div>
+
+        <!-- Campo Senha -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="block text-[11px] font-bold text-emerald-200">Senha de Acesso Local</label>
+            <span class="text-[9px] text-amber-300 font-semibold">Criptografia Local</span>
+          </div>
+          <div class="relative flex items-center">
+            <i data-lucide="lock" class="w-4 h-4 text-emerald-400 absolute left-3 pointer-events-none"></i>
+            <input type="password" id="mock-input-password" required value="••••••••" placeholder="Senha segura" 
+              class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-black/40 border border-white/15 text-white placeholder:text-white/40 outline-none focus:border-amber-400 transition text-xs">
+          </div>
+        </div>
+
+        <!-- Termo de Aceite Soberano -->
+        <label class="flex items-start gap-2 pt-1 text-[10px] text-emerald-100/80 cursor-pointer">
+          <input type="checkbox" id="mock-auth-terms" checked class="mt-0.5 rounded text-emerald-500 focus:ring-0">
+          <span>Concordo com os <strong>Termos Soberanos</strong> do YBYgram: sem anúncios predatórios, privacidade absoluta e respeito à Mãe Terra.</span>
+        </label>
+
+        <!-- Botão de Ação do Formulário -->
+        <button type="submit" id="mock-auth-submit-btn" 
+          class="w-full py-3 rounded-2xl font-black text-xs text-[#0a281b] flex items-center justify-center gap-2 transition active:scale-95 shadow-[0_4px_20px_rgba(246,207,76,0.35)] hover:brightness-105"
+          style="background: linear-gradient(135deg, #FFE58F 0%, #F6CF4C 50%, #D49312 100%);">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span id="mock-auth-submit-label">Entrar no Feed YBYgram</span>
+        </button>
+      </form>
+
+      <!-- Rodapé do Modal -->
+      <div class="text-center pt-1 border-t border-white/10 text-[9px] text-emerald-200/50">
+        Ambiente de Demonstração PWA • Nenhum dado sensível é trafegado para a nuvem
+      </div>
+
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div id="toast" class="fixed bottom-16 sm:bottom-8 left-1/2 -translate-x-1/2 bg-forest-dark text-white px-4 py-2 rounded-full text-xs font-bold shadow-xl z-[2100] hidden transition-all"></div>
 
@@ -2393,6 +2775,9 @@
       renderFeedProducts();
       renderFeedBooks();
       renderConnectionsBar();
+      if (typeof initProceduralQuickNoteVideos === 'function') {
+        initProceduralQuickNoteVideos();
+      }
     });
 
     // Navegação Principal de Abas Inferiores
@@ -2598,6 +2983,9 @@
       if (subTabName === 'videos-longos' && typeof renderLongVideosCarousels === 'function') {
         renderLongVideosCarousels();
       }
+      if (subTabName === 'videos-curtos' && typeof renderShortVideos === 'function') {
+        renderShortVideos(SHORT_VIDEOS);
+      }
 
       document.getElementById('screen-container').scrollTop = 0;
       lucide.createIcons();
@@ -2605,6 +2993,7 @@
 
     // ==========================================
     // RECADOS RÁPIDOS (QUICK NOTE / VIDEO STATUS)
+    // 1. FEED DE RECADOS: ORDENAÇÃO ESTRITAMENTE CRONOLÓGICA DECRESCENTE
     // ==========================================
     let CONNECTIONS_DATA = [
       {
@@ -2614,7 +3003,7 @@
         avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face',
         isCurrentUser: true,
         postTarget: 'Silviane Terra',
-        quickNote: null // Carregado do localStorage se ativo
+        quickNote: null // Carregado do localStorage se gravado pelo usuário
       },
       {
         id: 'benvinda',
@@ -2625,11 +3014,12 @@
         quickNote: {
           type: 'video',
           timeAgo: 'Há 2h',
+          createdAt: Date.now() - (2 * 3600 * 1000), // Mais recente (2h atrás)
           caption: '🌿 Bom dia comunidade da terra! O extrato de guaçatonga e espinheira fresca já foi coado no orvalho da manhã. Muita saúde a todos!',
           duration: 15,
           likes: 18,
           userLiked: false,
-          mediaUrl: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500&fit=crop'
+          mediaUrl: ''
         }
       },
       {
@@ -2639,13 +3029,14 @@
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop',
         postTarget: 'Mestre Tiago',
         quickNote: {
-          type: 'audio',
+          type: 'video',
           timeAgo: 'Há 4h',
+          createdAt: Date.now() - (4 * 3600 * 1000), // 4h atrás
           caption: '🪵 Salve amigos! Selecionamos taquaras maduras na lua minguante. Quem quiser aprender o ponto de corte, chega na oficina às 16h!',
-          duration: 12,
+          duration: 15,
           likes: 24,
           userLiked: false,
-          mediaUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop'
+          mediaUrl: ''
         }
       },
       {
@@ -2654,7 +3045,16 @@
         fullName: 'Aldeia Yvy Porã',
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop',
         postTarget: 'Aldeia Yvy Porã',
-        quickNote: null // Sem recado ativo -> clique direciona para publicação no feed
+        quickNote: {
+          type: 'video',
+          timeAgo: 'Há 5h',
+          createdAt: Date.now() - (5 * 3600 * 1000), // 5h atrás
+          caption: '🌽 Celebração da colheita do milho guarani e cantos de agradecimento na Aldeia Yvy Porã!',
+          duration: 15,
+          likes: 35,
+          userLiked: false,
+          mediaUrl: ''
+        }
       },
       {
         id: 'biojoias',
@@ -2665,6 +3065,154 @@
         quickNote: null // Sem recado ativo -> clique direciona para publicação no feed
       }
     ];
+
+    // Geração assíncrona de vídeos compactos em loop para preview instantâneo nas bolinhas
+    function createProceduralQuickNoteVideo(cfg) {
+      return new Promise((resolve) => {
+        try {
+          if (typeof window === 'undefined' || typeof document === 'undefined') {
+            resolve(null);
+            return;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = 120;
+          canvas.height = 120;
+          const ctx = canvas.getContext('2d');
+          if (!canvas.captureStream || typeof MediaRecorder === 'undefined') {
+            resolve(null);
+            return;
+          }
+
+          let mimeType = 'video/webm';
+          if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
+            mimeType = 'video/webm;codecs=vp9';
+          } else if (MediaRecorder.isTypeSupported('video/webm')) {
+            mimeType = 'video/webm';
+          } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+            mimeType = 'video/mp4';
+          } else {
+            resolve(null);
+            return;
+          }
+
+          const stream = canvas.captureStream(20);
+          const recorder = new MediaRecorder(stream, { mimeType });
+          const chunks = [];
+          recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
+
+          let frame = 0;
+          const maxFrames = 24; // 1.2s em 20fps -> leve (<15KB)
+          recorder.start();
+
+          const timer = setInterval(() => {
+            frame++;
+            // Fundo circular com gradiente suave dinâmico
+            const grad = ctx.createRadialGradient(60, 60, 5, 60, 60, 60);
+            grad.addColorStop(0, cfg.c1 || '#164e63');
+            grad.addColorStop(1, cfg.c2 || '#082f49');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 120, 120);
+
+            // Anéis concêntricos pulsantes de energia orgânica
+            const pulse = Math.sin(frame * 0.28) * 6;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.28)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(60, 60, 36 + pulse, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Emoji representativo flutuante
+            ctx.font = '32px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            const bounceY = Math.sin(frame * 0.32) * 4;
+            ctx.fillText(cfg.emoji || '🌿', 60, 52 + bounceY);
+
+            // Rótulo discreto do saber tradicional
+            ctx.fillStyle = 'rgba(255,255,255,0.92)';
+            ctx.font = 'bold 9px sans-serif';
+            ctx.fillText(cfg.text || 'Saber Vivo', 60, 88);
+
+            if (frame >= maxFrames) {
+              clearInterval(timer);
+              try { recorder.stop(); } catch (err) { resolve(null); }
+            }
+          }, 50);
+
+          recorder.onstop = () => {
+            try {
+              const blob = new Blob(chunks, { type: mimeType });
+              const blobUrl = URL.createObjectURL(blob);
+              resolve(blobUrl);
+            } catch (err) {
+              resolve(null);
+            }
+          };
+
+          recorder.onerror = () => resolve(null);
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }
+
+    // Inicializa previews de vídeo nas bolinhas de forma assíncrona
+    function initProceduralQuickNoteVideos() {
+      const videoConfigs = [
+        { id: 'benvinda', c1: '#1b4332', c2: '#081c15', emoji: '🌿', text: 'Ervas Vivas' },
+        { id: 'tiago', c1: '#78350f', c2: '#451a03', emoji: '🪵', text: 'Taquara Madura' },
+        { id: 'aldeia', c1: '#9a3412', c2: '#431407', emoji: '🌽', text: 'Milho Sagrado' }
+      ];
+
+      videoConfigs.forEach(cfg => {
+        const conn = CONNECTIONS_DATA.find(c => c.id === cfg.id);
+        if (!conn || !conn.quickNote || conn.quickNote.mediaUrl) return;
+
+        createProceduralQuickNoteVideo(cfg).then(blobUrl => {
+          if (blobUrl) {
+            conn.quickNote.mediaUrl = blobUrl;
+            // Atualiza dinamicamente a bolinha no DOM se já existir
+            const slot = document.getElementById(`bubble-slot-${cfg.id}`);
+            if (slot) {
+              slot.innerHTML = `
+                <video src="${blobUrl}" 
+                       autoplay loop muted playsinline 
+                       preload="metadata"
+                       class="w-full h-full rounded-full object-cover pointer-events-none" 
+                       style="aspect-ratio: 1/1;"></video>
+              `;
+            }
+          }
+        });
+      });
+    }
+
+    // Som harmônico ambiente ao abrir recados
+    function playQuickNoteChime(id) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        const freqs = { benvinda: 392, tiago: 440, aldeia: 523.25, user_you: 493.88 };
+        const freq = freqs[id] || 440;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(freq * 1.5, ctx.currentTime + 0.3);
+
+        gain.gain.setValueAtTime(0.06, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.9);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 0.9);
+      } catch (e) {}
+    }
 
     // Verifica se há recado gravado pelo usuário ativo nas últimas 24h
     function loadUserQuickNote() {
@@ -2678,6 +3226,7 @@
             CONNECTIONS_DATA[0].quickNote = {
               type: note.type || 'video',
               timeAgo: `Expira em ${hoursLeft}h`,
+              createdAt: note.createdAt || (note.expiresAt ? note.expiresAt - (24 * 3600 * 1000) : now),
               caption: note.caption || 'Recado de Silviane para a comunidade!',
               duration: 15,
               likes: typeof note.likes === 'number' ? note.likes : 12,
@@ -2694,21 +3243,36 @@
       }
     }
 
-    // Renderiza a Barra Horizontal da Rede de Conexões
+    // Renderiza a Barra Horizontal da Rede de Conexões (Recados Rápidos em Ordem Cronológica Decrescente)
     function renderConnectionsBar() {
       loadUserQuickNote();
       const container = document.getElementById('connections-bar-container');
       if (!container) return;
 
-      container.innerHTML = CONNECTIONS_DATA.map(conn => {
+      // 1. RECADOS RÁPIDOS: ORDENAÇÃO ESTRITAMENTE CRONOLÓGICA DECRESCENTE (mais recente primeiro)
+      // Mantém "Você" no slot 0 para ação direta de gravar/ver
+      const userItem = CONNECTIONS_DATA.find(c => c.isCurrentUser) || CONNECTIONS_DATA[0];
+      const otherConnections = CONNECTIONS_DATA.filter(c => !c.isCurrentUser);
+
+      // Conexões com recado ativo ordenadas do mais recente para o mais antigo
+      const withActiveNotes = otherConnections
+        .filter(c => c.quickNote !== null)
+        .sort((a, b) => (b.quickNote.createdAt || 0) - (a.quickNote.createdAt || 0));
+
+      const withoutNotes = otherConnections.filter(c => c.quickNote === null);
+
+      const orderedList = [userItem, ...withActiveNotes, ...withoutNotes];
+
+      container.innerHTML = orderedList.map(conn => {
         const hasQuickNote = !!conn.quickNote;
+        const isVideoNote = hasQuickNote && conn.quickNote.type === 'video';
         
         let borderClass = '';
         let badgeIcon = '';
 
         if (hasQuickNote) {
           borderClass = 'p-[3px] bg-gradient-to-tr from-emerald-500 via-amber-400 to-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.7)] animate-pulse';
-          badgeIcon = conn.quickNote.type === 'video' 
+          badgeIcon = isVideoNote 
             ? '<span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-emerald-600 border border-white rounded-full flex items-center justify-center text-[8px] text-white font-black shadow-xs">🎬</span>'
             : '<span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-emerald-600 border border-white rounded-full flex items-center justify-center text-[8px] text-white font-black shadow-xs">🎙️</span>';
         } else if (conn.isCurrentUser) {
@@ -2720,15 +3284,39 @@
 
         const titleHint = conn.isCurrentUser
           ? (hasQuickNote ? 'Seu Recado Rápido está ativo! Clique para ver ou editar' : 'Clique para gravar seu Recado Rápido (até 15s)')
-          : (hasQuickNote ? `Ver Recado Rápido de ${conn.author}` : `Ver última partilha de ${conn.author} no feed`);
+          : (hasQuickNote ? `Assistir Recado Rápido em vídeo de ${conn.author} (${conn.quickNote.timeAgo})` : `Ver última partilha de ${conn.author} no feed`);
+
+        // Renderiza vídeo circular na bolinha quando houver recado ativo, com fallback assíncrono
+        let mediaInsideCircle = '';
+        if (isVideoNote) {
+          if (conn.quickNote.mediaUrl) {
+            mediaInsideCircle = `
+              <video src="${conn.quickNote.mediaUrl}" 
+                     autoplay loop muted playsinline 
+                     preload="metadata"
+                     class="w-full h-full rounded-full object-cover pointer-events-none" 
+                     style="aspect-ratio: 1/1;"></video>
+            `;
+          } else {
+            mediaInsideCircle = `
+              <div id="bubble-slot-${conn.id}" class="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                <img src="${conn.avatar}" alt="${conn.author}" class="w-full h-full rounded-full object-cover bg-neutral-100">
+              </div>
+            `;
+          }
+        } else {
+          mediaInsideCircle = `
+            <img src="${conn.avatar}" alt="${conn.author}" class="w-full h-full rounded-full object-cover bg-neutral-100">
+          `;
+        }
 
         return `
           <div onclick="handleConnectionClick('${conn.id}')" 
                class="flex flex-col items-center gap-1 shrink-0 cursor-pointer group" 
                title="${titleHint}">
             <div class="relative">
-              <div class="w-14 h-14 rounded-full ${borderClass} group-hover:scale-105 transition-all duration-300">
-                <img src="${conn.avatar}" alt="${conn.author}" class="w-full h-full rounded-full object-cover bg-neutral-100">
+              <div class="w-14 h-14 rounded-full ${borderClass} group-hover:scale-105 transition-all duration-300 overflow-hidden relative flex items-center justify-center bg-black">
+                ${mediaInsideCircle}
               </div>
               ${badgeIcon}
             </div>
@@ -2753,7 +3341,7 @@
         return;
       }
 
-      // Se o autor tiver um Recado Rápido ativo: abre o Player de Status estilo WhatsApp
+      // Se o autor tiver um Recado Rápido ativo: abre o Player de Status estilo WhatsApp com auto-play
       if (conn.quickNote) {
         openQuickNotePlayer(conn.id);
         return;
@@ -2764,12 +3352,54 @@
     }
 
     // ==========================================
-    // PLAYER DE RECADO RÁPIDO (15 SEGUNDOS EM LOOP)
+    // PLAYER DE RECADO RÁPIDO (SEQUÊNCIA AUTOMÁTICA & NAVEGAÇÃO)
     // ==========================================
     let quickNoteTimerInterval = null;
-    let quickNoteCurrentSeconds = 0;
-    const QUICK_NOTE_DURATION = 15; // 15 segundos
-    let currentPlayingQuickNoteConnId = null; // ID da conexão cujo recado está em exibição
+    const QUICK_NOTE_DURATION = 15; // 15 segundos padrão
+    let currentPlayingQuickNoteConnId = null; // ID da conexão em reprodução ativa
+
+    // 1. FEED DE RECADOS: Retorna a lista estritamente ordenada em ordem cronológica decrescente (o mais recente primeiro)
+    function getActiveQuickNotesList() {
+      return [...CONNECTIONS_DATA]
+        .filter(c => c.quickNote !== null)
+        .sort((a, b) => {
+          const tA = a.quickNote?.createdAt || (a.isCurrentUser ? Date.now() : 0);
+          const tB = b.quickNote?.createdAt || (b.isCurrentUser ? Date.now() : 0);
+          return tB - tA; // Decrescente: o conteúdo mais recente aparece sempre primeiro
+        });
+    }
+
+    // 1. SEQUÊNCIA AUTOMÁTICA: Avança para o próximo recado da lista
+    function playNextQuickNote() {
+      const activeList = getActiveQuickNotesList();
+      if (activeList.length === 0) {
+        closeQuickNotePlayer();
+        return;
+      }
+
+      const currentIndex = activeList.findIndex(c => c.id === currentPlayingQuickNoteConnId);
+      if (currentIndex === -1) {
+        openQuickNotePlayer(activeList[0].id);
+        return;
+      }
+
+      // Avança para a próxima pessoa; ao chegar na última, retorna ao início em loop comunitário suave
+      const nextIndex = (currentIndex + 1) % activeList.length;
+      openQuickNotePlayer(activeList[nextIndex].id);
+    }
+
+    // 2. FLUIDEZ NA NAVEGAÇÃO: Volta para o recado anterior
+    function playPrevQuickNote() {
+      const activeList = getActiveQuickNotesList();
+      if (activeList.length === 0) {
+        closeQuickNotePlayer();
+        return;
+      }
+
+      const currentIndex = activeList.findIndex(c => c.id === currentPlayingQuickNoteConnId);
+      const prevIndex = (currentIndex - 1 + activeList.length) % activeList.length;
+      openQuickNotePlayer(activeList[prevIndex].id);
+    }
 
     function updateQuickNoteLikeUI(quickNote) {
       const likeBtn = document.getElementById('quick-note-like-btn');
@@ -2780,13 +3410,13 @@
       const isLiked = !!quickNote.userLiked;
 
       if (likeCountEl) likeCountEl.innerText = likes;
-      if (likeIconEl) likeIconEl.innerText = isLiked ? '👍' : '👍';
+      if (likeIconEl) likeIconEl.innerText = '👍';
 
       if (likeBtn) {
         if (isLiked) {
-          likeBtn.className = "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-600 text-white font-extrabold text-xs shadow-lg border-2 border-emerald-400 active:scale-95 transition cursor-pointer";
+          likeBtn.className = "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-600 text-white font-extrabold text-xs shadow-lg border-2 border-emerald-400 active:scale-95 transition cursor-pointer backdrop-blur-md";
         } else {
-          likeBtn.className = "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 font-bold text-xs shadow-lg border border-neutral-200 hover:border-emerald-500 active:scale-95 transition cursor-pointer";
+          likeBtn.className = "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 font-bold text-xs shadow-lg border border-neutral-200 hover:border-emerald-500 active:scale-95 transition cursor-pointer backdrop-blur-md";
         }
       }
     }
@@ -2827,6 +3457,13 @@
       const conn = CONNECTIONS_DATA.find(c => c.id === connId);
       if (!conn || !conn.quickNote) return;
 
+      // Pausa e limpa mídias em reprodução anterior
+      clearInterval(quickNoteTimerInterval);
+      const prevVideo = document.getElementById('quick-note-active-video');
+      const prevAudio = document.getElementById('quick-note-active-audio');
+      if (prevVideo) { prevVideo.pause(); prevVideo.src = ''; }
+      if (prevAudio) { prevAudio.pause(); prevAudio.src = ''; }
+
       currentPlayingQuickNoteConnId = connId;
 
       const modal = document.getElementById('modal-quick-note-player');
@@ -2841,10 +3478,10 @@
         captionEl.title = conn.quickNote.caption || '';
       }
 
-      // Atualiza o contador e reação de OK / Gostei
+      // Atualiza o contador público de OK / Curtida
       updateQuickNoteLikeUI(conn.quickNote);
 
-      // Configura botão de ir para o saber/publicação no feed
+      // Botão de ir para a partilha no feed
       if (viewPostBtn) {
         viewPostBtn.onclick = () => {
           closeQuickNotePlayer();
@@ -2852,44 +3489,41 @@
         };
       }
 
-      // Conteúdo multimídia estritamente circular 1:1 (estilo WhatsApp)
+      // Renderização da mídia circular 1:1
       if (mediaContainer) {
         if (conn.quickNote.type === 'video') {
           const mediaUrl = conn.quickNote.mediaUrl || '';
-          const isRealVideo = mediaUrl.startsWith('blob:') || 
-                              mediaUrl.startsWith('data:video') || 
-                              mediaUrl.endsWith('.mp4') || 
-                              mediaUrl.endsWith('.webm');
+          mediaContainer.innerHTML = `
+            <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-black">
+              <video id="quick-note-active-video" 
+                     src="${mediaUrl}" 
+                     autoplay playsinline 
+                     class="w-full h-full object-cover"></video>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30 pointer-events-none"></div>
+            </div>
+          `;
 
-          if (isRealVideo) {
-            mediaContainer.innerHTML = `
-              <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-black">
-                <video id="quick-note-active-video" src="${mediaUrl}" autoplay loop playsinline class="w-full h-full object-cover"></video>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30 pointer-events-none"></div>
-              </div>
-            `;
-          } else {
-            mediaContainer.innerHTML = `
-              <div class="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
-                <img src="${mediaUrl || conn.avatar}" class="w-full h-full object-cover brightness-95 animate-pulse" style="animation-duration: 4s;">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30"></div>
-                <!-- Indicador sutil de reprodução -->
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-lg">
-                    <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5"></i>
-                  </div>
-                </div>
-              </div>
-            `;
+          const videoEl = document.getElementById('quick-note-active-video');
+          if (videoEl) {
+            videoEl.muted = false;
+            videoEl.play().catch(() => {
+              // Fallback se o navegador restringir áudio antes do primeiro clique do usuário
+              videoEl.muted = true;
+              videoEl.play();
+            });
+
+            // Ao terminar o vídeo de forma natural, avança automaticamente
+            videoEl.onended = () => {
+              clearInterval(quickNoteTimerInterval);
+              playNextQuickNote();
+            };
           }
         } else {
-          // Visualizador circular de nota de voz com áudio real se disponível
+          // Visualizador circular de nota de voz com áudio
           const mediaUrl = conn.quickNote.mediaUrl || '';
-          const isRealAudio = mediaUrl.startsWith('blob:') || mediaUrl.startsWith('data:audio');
-
           mediaContainer.innerHTML = `
             <div class="relative w-full h-full rounded-full overflow-hidden flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 via-emerald-950 to-neutral-900 p-4">
-              ${isRealAudio ? `<audio id="quick-note-active-audio" src="${mediaUrl}" autoplay loop></audio>` : ''}
+              ${mediaUrl ? `<audio id="quick-note-active-audio" src="${mediaUrl}" autoplay></audio>` : ''}
               <img src="${conn.avatar}" class="w-20 h-20 rounded-full object-cover border-2 border-emerald-400 shadow-md mb-2">
               <div class="flex items-center gap-1.5 h-8">
                 <span class="w-1 bg-emerald-400 rounded-full animate-bounce" style="height: 24px; animation-delay: 0.1s;"></span>
@@ -2901,13 +3535,24 @@
               </div>
             </div>
           `;
+
+          const audioEl = document.getElementById('quick-note-active-audio');
+          if (audioEl) {
+            audioEl.onended = () => {
+              clearInterval(quickNoteTimerInterval);
+              playNextQuickNote();
+            };
+          }
         }
       }
+
+      // Efeito sonoro harmônico de presença comunitária
+      playQuickNoteChime(conn.id);
 
       modal.classList.remove('hidden');
       lucide.createIcons();
 
-      // Inicia anel de progresso circular contínuo de 15 segundos em loop (WhatsApp style)
+      // Inicia anel de progresso circular contínuo de 15 segundos
       startQuickNoteProgressBar();
     }
 
@@ -2915,29 +3560,33 @@
       clearInterval(quickNoteTimerInterval);
       const circle = document.getElementById('quick-note-circle-progress');
       const CIRCLE_LEN = 295.3;
-      if (circle) circle.style.strokeDashoffset = CIRCLE_LEN;
+      if (circle) {
+        circle.style.transition = 'none';
+        circle.style.strokeDashoffset = CIRCLE_LEN;
+      }
+
+      const conn = CONNECTIONS_DATA.find(c => c.id === currentPlayingQuickNoteConnId);
+      const duration = (conn && conn.quickNote && conn.quickNote.duration) ? conn.quickNote.duration : QUICK_NOTE_DURATION;
 
       const stepMs = 100;
-      const totalSteps = (QUICK_NOTE_DURATION * 1000) / stepMs;
+      const totalSteps = (duration * 1000) / stepMs;
       let currentStep = 0;
+
+      setTimeout(() => {
+        if (circle) circle.style.transition = 'stroke-dashoffset 100ms linear';
+      }, 40);
 
       quickNoteTimerInterval = setInterval(() => {
         currentStep++;
         const progress = currentStep / totalSteps;
         if (circle) {
-          circle.style.strokeDashoffset = (CIRCLE_LEN * (1 - progress)).toFixed(1);
+          circle.style.strokeDashoffset = (CIRCLE_LEN * (1 - Math.min(1, progress))).toFixed(1);
         }
 
-        // Ao completar 15 segundos, reinicia suavemente em loop contínuo
+        // Ao completar a duração (15s): AUTO-PLAY NEXT (avança automaticamente para o próximo criador)
         if (currentStep >= totalSteps) {
-          currentStep = 0;
-          if (circle) {
-            circle.style.transition = 'none';
-            circle.style.strokeDashoffset = CIRCLE_LEN;
-            setTimeout(() => {
-              circle.style.transition = 'stroke-dashoffset 100ms linear';
-            }, 50);
-          }
+          clearInterval(quickNoteTimerInterval);
+          playNextQuickNote();
         }
       }, stepMs);
     }
@@ -3386,10 +4035,11 @@
         }
       }
 
-      // Atualiza o estado da sessão imediatamente
+      // Atualiza o estado da sessão imediatamente com timestamp atual (cronológico decrescente)
       CONNECTIONS_DATA[0].quickNote = {
         type: currentRecordType,
         timeAgo: 'Agora mesmo',
+        createdAt: newNote.createdAt,
         caption: caption,
         duration: 15,
         mediaUrl: finalMediaUrl
@@ -3875,61 +4525,22 @@
       ];
       const randomThumb = sampleThumbs[Math.floor(Math.random() * sampleThumbs.length)];
 
-      // 1. DIRECIONAMENTO PARA ABA: VÍDEOS CURTOS (9:16)
+      // 1. DIRECIONAMENTO PARA ABA: VÍDEOS CURTOS (9:16) — ORDEM CRONOLÓGICA DECRESCENTE
       if (format === 'curto') {
-        const container = document.getElementById('video-reels-list');
-        const videoCard = document.createElement('div');
-        videoCard.className = 'relative bg-black rounded-2xl overflow-hidden shadow-lg h-[460px] border border-neutral-800 flex flex-col justify-between p-4';
-        videoCard.innerHTML = `
-          <img src="${randomThumb}" class="absolute inset-0 w-full h-full object-cover opacity-75">
-          <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
-          
-          <div class="relative z-10 flex items-center justify-between">
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <span class="${badgeBg} border text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1 shadow-xs">
-                <i data-lucide="play" class="w-3 h-3 fill-current"></i> ${platform.toUpperCase()}
-              </span>
-              <span class="text-[9px] text-white/90 bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/20 flex items-center gap-1">
-                <i data-lucide="external-link" class="w-2.5 h-2.5 text-emerald-300"></i> Rede de Origem
-              </span>
-            </div>
-            <div class="flex items-center gap-1">
-              <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo"><i data-lucide="eye-off" class="w-4 h-4"></i></button>
-              <button onclick="openReportModal('Vídeo Curto', '${title.replace(/'/g, "\\'")}')" class="text-white/70 hover:text-red-400 p-1" title="Reportar"><i data-lucide="shield-alert" class="w-4 h-4"></i></button>
-              <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar"><i data-lucide="bookmark" class="w-5 h-5"></i></button>
-            </div>
-          </div>
-
-          <button onclick="playVideoSimulation('${title.replace(/'/g, "\\'")}')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-forest/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 transition shadow-2xl">
-            <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
-          </button>
-
-          <div class="relative z-10 flex items-end justify-between">
-            <div class="space-y-1.5 max-w-[78%]">
-              <div class="flex items-center gap-2">
-                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-7 h-7 rounded-full border border-white">
-                <span class="text-xs font-bold text-white">${author}</span>
-              </div>
-              <p class="text-xs text-white/90 leading-snug line-clamp-2">${title}</p>
-            </div>
-
-            <div class="flex flex-col items-center gap-3">
-              <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
-                <span class="text-xl">🌱</span>
-                <span class="text-[9px] font-bold">Semear</span>
-              </button>
-              <button onclick="showToast('Roda de Partilha aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
-                <i data-lucide="message-square" class="w-5 h-5"></i>
-                <span class="text-[9px] font-bold">Partilha</span>
-              </button>
-              <button onclick="showToast('Link copiado!')" class="flex flex-col items-center text-white gap-0.5">
-                <i data-lucide="share-2" class="w-5 h-5"></i>
-                <span class="text-[10px] font-bold">Partilhar</span>
-              </button>
-            </div>
-          </div>
-        `;
-        container.prepend(videoCard);
+        const newShortVideo = {
+          id: 'sv_' + Date.now(),
+          title: title,
+          author: author,
+          avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop',
+          platform: platform,
+          platformBadge: platform.toUpperCase(),
+          thumb: randomThumb,
+          createdAt: Date.now(),
+          timeAgo: 'Agora mesmo'
+        };
+        // Adiciona no topo da lista (o mais recente aparece sempre primeiro)
+        SHORT_VIDEOS.unshift(newShortVideo);
+        renderShortVideos(SHORT_VIDEOS);
         switchTab('feed');
         switchFeedSubTab('videos-curtos');
       }
@@ -4009,6 +4620,198 @@
 
       showToast(`✨ Publicação incorporada com sucesso na aba correta com selo da rede de origem (${platform})!`);
       lucide.createIcons();
+    }
+
+    // =============================================================
+    // 1. FEED DE VÍDEOS CURTOS: ORDENAÇÃO ESTRITAMENTE CRONOLÓGICA DECRESCENTE
+    // =============================================================
+    let SHORT_VIDEOS = [
+      {
+        id: 'sv_1',
+        title: 'Como identificar a Erva-Baleeira autêntica na Mata Atlântica e o preparo do óleo essencial anti-inflamatório.',
+        author: 'Mestre Tiago',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop',
+        platform: 'Odysee Livre',
+        platformBadge: 'ODYSEE LIVRE',
+        thumb: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=600&fit=crop',
+        createdAt: Date.now() - (1 * 3600 * 1000), // Mais recente (1h atrás)
+        timeAgo: 'Há 1h'
+      },
+      {
+        id: 'sv_2',
+        title: 'Trançado ancestral com taquara verde para cestarias e balaios sustentáveis.',
+        author: 'Artesanato Guarani',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop',
+        platform: 'YouTube Shorts',
+        platformBadge: 'YT SHORTS',
+        thumb: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&fit=crop',
+        createdAt: Date.now() - (3 * 3600 * 1000), // 3h atrás
+        timeAgo: 'Há 3h'
+      },
+      {
+        id: 'sv_3',
+        title: 'Captura de microorganismos da floresta (EM) e preparo de Bokashi fermentado caseiro.',
+        author: 'Sítio Raiz Viva',
+        avatar: 'https://images.unsplash.com/photo-1594824813590-7f2824905a8b?w=80&h=80&fit=crop',
+        platform: 'PeerTube',
+        platformBadge: 'PEERTUBE',
+        thumb: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?w=600&fit=crop',
+        createdAt: Date.now() - (6 * 3600 * 1000), // 6h atrás
+        timeAgo: 'Há 6h'
+      }
+    ];
+
+    function renderShortVideos(list) {
+      const container = document.getElementById('video-reels-list');
+      if (!container) return;
+
+      const sourceList = list || SHORT_VIDEOS;
+      // Garante ordenação estritamente cronológica decrescente (o mais recente sempre no topo)
+      const sortedVideos = [...sourceList].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+      if (sortedVideos.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center bg-white rounded-2xl border border-cream-border">
+            <span class="text-3xl">🎬</span>
+            <p class="text-xs font-bold text-charcoal mt-2">Nenhum vídeo curto encontrado</p>
+            <p class="text-[10px] text-neutral-400 mt-0.5">Tente pesquisar por outro termo ou criador.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = sortedVideos.map(v => {
+        let badgeStyle = 'bg-black/70 text-emerald-300 border border-emerald-400/40';
+        if (v.platform.toLowerCase().includes('youtube') || v.platformBadge.includes('YT')) {
+          badgeStyle = 'bg-red-950/80 text-red-300 border border-red-500/40';
+        } else if (v.platform.toLowerCase().includes('peertube')) {
+          badgeStyle = 'bg-orange-950/80 text-orange-300 border border-orange-500/40';
+        }
+
+        return `
+          <div class="relative bg-black rounded-2xl overflow-hidden shadow-lg h-[460px] border border-neutral-800 flex flex-col justify-between p-4 group">
+            <img src="${v.thumb}" class="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:scale-102 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+            
+            <!-- Topo: Selo Discreto de Origem e Ações Éticas -->
+            <div class="relative z-10 flex items-center justify-between">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="${badgeStyle} text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1 shadow-xs">
+                  <i data-lucide="play" class="w-3 h-3 fill-current"></i> ${v.platformBadge}
+                </span>
+                <span class="text-[9px] text-white/80 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1" title="Conteúdo externo hospedado na rede de origem">
+                  <i data-lucide="external-link" class="w-2.5 h-2.5 text-emerald-300"></i> Rede de Origem
+                </span>
+                <span class="text-[9px] text-amber-200/90 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md border border-white/10 font-bold">
+                  🕒 ${v.timeAgo || 'Recente'}
+                </span>
+              </div>
+              <div class="flex items-center gap-1">
+                <button onclick="hidePost(this.closest('.relative.bg-black'))" class="text-white/70 hover:text-amber-300 p-1" title="Ocultar vídeo do feed">
+                  <i data-lucide="eye-off" class="w-4 h-4"></i>
+                </button>
+                <button onclick="openReportModal('Vídeo Curto', '${v.title.replace(/'/g, "\\'")}')" class="text-white/70 hover:text-red-400 p-1" title="Reportar violação ética">
+                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                </button>
+                <button onclick="saveSeed(this)" class="text-white hover:text-amber-300 p-1" title="Guardar no acervo privado">
+                  <i data-lucide="bookmark" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Botão Play Central -->
+            <button onclick="playVideoSimulation('${v.title.replace(/'/g, "\\'")}')" class="relative z-10 mx-auto w-16 h-16 rounded-full bg-forest/80 border-2 border-white/60 flex items-center justify-center text-white hover:scale-110 active:scale-95 transition shadow-2xl">
+              <i data-lucide="play" class="w-8 h-8 fill-white ml-1"></i>
+            </button>
+
+            <!-- Rodapé: Legenda e Ações Sem Vaidade -->
+            <div class="relative z-10 flex items-end justify-between">
+              <div class="space-y-1.5 max-w-[78%]">
+                <div class="flex items-center gap-2">
+                  <img src="${v.avatar}" class="w-7 h-7 rounded-full border border-white object-cover">
+                  <span class="text-xs font-bold text-white">${v.author}</span>
+                </div>
+                <p class="text-xs text-white/90 leading-snug line-clamp-2">
+                  ${v.title}
+                </p>
+              </div>
+
+              <!-- Ações laterais (Sementes de Gratidão e Partilha sem Contadores Públicos) -->
+              <div class="flex flex-col items-center gap-3">
+                <button onclick="toggleVideoGratitude(this)" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                  <span class="text-xl">🌱</span>
+                  <span class="text-[9px] font-bold">Semear</span>
+                </button>
+                <button onclick="showToast('Roda de Partilha de saberes aberta!')" class="flex flex-col items-center text-white gap-0.5 hover:text-emerald-300 transition">
+                  <i data-lucide="message-square" class="w-5 h-5"></i>
+                  <span class="text-[9px] font-bold">Partilha</span>
+                </button>
+                <button onclick="showToast('Link do vídeo copiado!')" class="flex flex-col items-center text-white gap-0.5">
+                  <i data-lucide="share-2" class="w-5 h-5"></i>
+                  <span class="text-[9px] font-bold">Partilhar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function filterCurtosVideos() {
+      const input = document.getElementById('curtos-search-input');
+      const clearBtn = document.getElementById('clear-curtos-search-btn');
+      const query = input ? input.value.trim().toLowerCase() : '';
+      if (clearBtn) {
+        if (query) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+
+      const filtered = SHORT_VIDEOS.filter(v => {
+        if (!query) return true;
+        return v.title.toLowerCase().includes(query) ||
+               v.author.toLowerCase().includes(query) ||
+               v.platform.toLowerCase().includes(query);
+      });
+
+      renderShortVideos(filtered);
+    }
+
+    function clearCurtosSearch() {
+      const input = document.getElementById('curtos-search-input');
+      const clearBtn = document.getElementById('clear-curtos-search-btn');
+      if (input) input.value = '';
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderShortVideos(SHORT_VIDEOS);
+    }
+
+    // =============================================================
+    // 2. EMBARALHAMENTO JUSTO FISHER-YATES (AULAS E VÍDEOS LONGOS)
+    // =============================================================
+    function shuffleFisherYates(array) {
+      const copia = [...array];
+      for (let i = copia.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copia[i], copia[j]] = [copia[j], copia[i]];
+      }
+      return copia;
+    }
+
+    // 3. PERFORMANCE E FLUIDEZ: Embaralhamento assíncrono durante a inicialização
+    // Garante que o processamento ocorra de forma assíncrona, mantendo a rolagem fluida e leve
+    function shuffleFisherYatesAsync(array) {
+      return new Promise((resolve) => {
+        if (typeof requestAnimationFrame === 'function') {
+          requestAnimationFrame(() => {
+            resolve(shuffleFisherYates(array));
+          });
+        } else {
+          setTimeout(() => {
+            resolve(shuffleFisherYates(array));
+          }, 0);
+        }
+      });
     }
 
     // =============================================================
@@ -4408,17 +5211,20 @@
     let currentOpenCategory = null;
     let currentPlayingVideoId = null;
 
-    // Renderiza a visualização principal em estilo Cursa: Seções temáticas com Carrossel Horizontal
-    function renderLongVideosCarousels() {
+    // 2 & 3. Renderiza a visualização principal em estilo Cursa com Embaralhamento Justo Fisher-Yates Assíncrono
+    async function renderLongVideosCarousels() {
       const container = document.getElementById('longos-carousels-container');
       if (!container) return;
 
       const categories = Object.keys(CATEGORIES_METADATA);
       
-      container.innerHTML = categories.map(catKey => {
+      const sections = await Promise.all(categories.map(async catKey => {
         const meta = CATEGORIES_METADATA[catKey];
-        const videos = LONG_VIDEOS.filter(v => v.subject === catKey);
-        if (!videos.length) return '';
+        const approvedVideos = LONG_VIDEOS.filter(v => v.subject === catKey);
+        if (!approvedVideos.length) return '';
+
+        // Embaralhamento justo Fisher-Yates assíncrono para que aulas atemporais tenham chances iguais de descoberta
+        const videos = await shuffleFisherYatesAsync(approvedVideos);
 
         const carouselCardsHtml = videos.map(v => {
           let badgeColor = 'bg-red-600';
@@ -4497,13 +5303,14 @@
             </div>
           </div>
         `;
-      }).join('');
+      }));
 
+      container.innerHTML = sections.join('');
       lucide.createIcons();
     }
 
     // Abre a página/grade dedicada de uma categoria específica (ao clicar em "+ Ver mais")
-    function openCategoryFullView(catKey) {
+    async function openCategoryFullView(catKey) {
       currentOpenCategory = catKey;
       const meta = CATEGORIES_METADATA[catKey] || {
         name: catKey,
@@ -4524,7 +5331,9 @@
       const descEl = document.getElementById('category-detail-desc');
       const badgeEl = document.getElementById('category-detail-badge');
 
-      const videos = LONG_VIDEOS.filter(v => v.subject === catKey);
+      const approvedVideos = LONG_VIDEOS.filter(v => v.subject === catKey);
+      // Embaralhamento justo Fisher-Yates assíncrono para dar oportunidades iguais de descoberta
+      const videos = await shuffleFisherYatesAsync(approvedVideos);
 
       if (titleEl) titleEl.innerHTML = `<span>${meta.icon}</span> ${meta.name}`;
       if (descEl) descEl.innerText = meta.desc;
@@ -4897,12 +5706,9 @@
       const countEl = document.getElementById('player-modal-rec-count');
       if (!recContainer) return;
 
-      const currentVideo = LONG_VIDEOS.find(v => v.id === currentId);
-      const currentSubject = currentVideo?.subject;
-
-      // Recomenda primeiro vídeos da mesma categoria, depois de outras categorias
-      const sameCategory = LONG_VIDEOS.filter(v => v.id !== currentId && v.subject === currentSubject);
-      const otherCategories = LONG_VIDEOS.filter(v => v.id !== currentId && v.subject !== currentSubject);
+      // Recomenda com embaralhamento justo Fisher-Yates para dar chances iguais de descoberta a aulas atemporais
+      const sameCategory = shuffleFisherYates(LONG_VIDEOS.filter(v => v.id !== currentId && v.subject === currentSubject));
+      const otherCategories = shuffleFisherYates(LONG_VIDEOS.filter(v => v.id !== currentId && v.subject !== currentSubject));
       const recommendations = [...sameCategory, ...otherCategories].slice(0, 6);
 
       if (countEl) countEl.innerText = `${recommendations.length} sugestões`;
@@ -5214,9 +6020,217 @@
       updateProfileHeaderQuickNoteStatus();
     }, 500);
 
-    // Inicialização da grade de vídeos longos estilo YouTube
-    if (typeof renderLongVideos === 'function') {
-      renderLongVideos(LONG_VIDEOS);
+    // Inicialização do feed de vídeos curtos (estritamente cronológico decrescente)
+    if (typeof renderShortVideos === 'function') {
+      renderShortVideos(SHORT_VIDEOS);
+    }
+
+    // Inicialização do feed de vídeos longos e aulas (embaralhamento justo Fisher-Yates assíncrono)
+    if (typeof renderLongVideosCarousels === 'function') {
+      renderLongVideosCarousels();
+    }
+
+    // Sincronização dinâmica da altura do cabeçalho fixo para compensação de padding-top milimétrica
+    function syncAppHeaderHeight() {
+      const header = document.querySelector('.app-header-fixed');
+      const scroller = document.getElementById('screen-container');
+      if (header && scroller) {
+        const h = header.offsetHeight;
+        if (h > 0) {
+          scroller.style.paddingTop = `${h}px`;
+          document.documentElement.style.setProperty('--app-header-height', `${h}px`);
+        }
+      }
+    }
+    syncAppHeaderHeight();
+    window.addEventListener('resize', syncAppHeaderHeight);
+    window.addEventListener('load', syncAppHeaderHeight);
+
+    // =========================================================================
+    // LÓGICA DO PROTÓTIPO PWA YBYgram • BOAS-VINDAS & MOCK AUTH
+    // =========================================================================
+
+    let currentFeedOrderingMode = 'recentes'; // 'recentes' | 'fisher-yates'
+
+    // Entrada suave no feed a partir da tela de boas-vindas
+    function quickEnterFeed(userName, targetTab) {
+      const welcome = document.getElementById('welcome-screen');
+      if (welcome) {
+        welcome.style.opacity = '0';
+        welcome.style.transform = 'scale(0.97)';
+        setTimeout(() => {
+          welcome.style.display = 'none';
+        }, 400);
+      }
+
+      const activeUser = userName || 'Silviane Terra';
+      try {
+        localStorage.setItem('yby_pwa_logged_in', 'true');
+        localStorage.setItem('yby_pwa_user', activeUser);
+      } catch (e) {}
+
+      // Navegação para a aba desejada
+      if (targetTab === 'random') {
+        setFeedOrderingMode('fisher-yates');
+        if (typeof goToSaberesHome === 'function') goToSaberesHome();
+      } else if (targetTab === 'saberes') {
+        if (typeof goToSaberesHome === 'function') goToSaberesHome();
+      } else if (targetTab === 'videos-curtos') {
+        if (typeof switchFeedSubTab === 'function') switchFeedSubTab('videos-curtos');
+      } else if (targetTab === 'videos-longos') {
+        if (typeof switchFeedSubTab === 'function') switchFeedSubTab('videos-longos');
+      } else if (targetTab === 'musica') {
+        if (typeof switchFeedSubTab === 'function') switchFeedSubTab('musica');
+      } else {
+        if (typeof goToSaberesHome === 'function') goToSaberesHome();
+      }
+
+      setTimeout(syncAppHeaderHeight, 100);
+      showToast(`🌿 Bem-vinda(o) à Rede Soberana YBYgram, ${activeUser}!`);
+    }
+
+    // Abertura e fechamento da Tela de Boas-Vindas PWA
+    function openWelcomeScreen() {
+      const welcome = document.getElementById('welcome-screen');
+      if (welcome) {
+        welcome.style.display = 'flex';
+        setTimeout(() => {
+          welcome.style.opacity = '1';
+          welcome.style.transform = 'scale(1)';
+        }, 10);
+      }
+      showToast('🌟 Tela de Boas-Vindas PWA (Play Store)');
+    }
+
+    function closeWelcomeScreen() {
+      const welcome = document.getElementById('welcome-screen');
+      if (welcome) {
+        welcome.style.display = 'none';
+      }
+    }
+
+    // Modal de Autenticação Mock (Login / Criar Conta)
+    function openMockAuthModal(mode) {
+      const modal = document.getElementById('modal-mock-auth');
+      if (modal) {
+        modal.classList.remove('hidden');
+        switchMockAuthTab(mode || 'login');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeMockAuthModal() {
+      const modal = document.getElementById('modal-mock-auth');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function switchMockAuthTab(tab) {
+      const btnLogin = document.getElementById('auth-tab-btn-login');
+      const btnSignup = document.getElementById('auth-tab-btn-signup');
+      const nameField = document.getElementById('mock-auth-field-name');
+      const title = document.getElementById('mock-auth-title');
+      const submitLabel = document.getElementById('mock-auth-submit-label');
+
+      if (tab === 'signup') {
+        if (btnLogin) btnLogin.className = 'flex-1 py-2 rounded-xl text-center transition text-white/80 hover:text-white';
+        if (btnSignup) btnSignup.className = 'flex-1 py-2 rounded-xl text-center transition bg-gradient-to-r from-amber-300 to-amber-400 text-[#072418] shadow-sm';
+        if (nameField) nameField.classList.remove('hidden');
+        if (title) title.innerHTML = '<span>Criar Conta Soberana</span> <span class="text-[9px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-400/40">Mock PWA</span>';
+        if (submitLabel) submitLabel.textContent = 'Criar Conta & Acessar Feed';
+      } else {
+        if (btnLogin) btnLogin.className = 'flex-1 py-2 rounded-xl text-center transition bg-gradient-to-r from-amber-300 to-amber-400 text-[#072418] shadow-sm';
+        if (btnSignup) btnSignup.className = 'flex-1 py-2 rounded-xl text-center transition text-white/80 hover:text-white';
+        if (nameField) nameField.classList.add('hidden');
+        if (title) title.innerHTML = '<span>Acesso Soberano</span> <span class="text-[9px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-400/40">Mock PWA</span>';
+        if (submitLabel) submitLabel.textContent = 'Entrar no Feed YBYgram';
+      }
+    }
+
+    function selectMockProfile(name, role, handle, avatar) {
+      closeMockAuthModal();
+      quickEnterFeed(name);
+    }
+
+    function handleMockAuthSubmit(event) {
+      if (event) event.preventDefault();
+      const nameInput = document.getElementById('mock-input-name');
+      const emailInput = document.getElementById('mock-input-email');
+      let userName = 'Silviane Terra';
+
+      if (nameInput && nameInput.value.trim()) {
+        userName = nameInput.value.trim();
+      } else if (emailInput && emailInput.value.trim()) {
+        userName = emailInput.value.split('@')[0];
+      }
+
+      closeMockAuthModal();
+      quickEnterFeed(userName);
+    }
+
+    // =========================================================================
+    // SELETOR DINÂMICO DE ORDENAÇÃO: CRONOLÓGICO vs FISHER-YATES
+    // =========================================================================
+
+    function setFeedOrderingMode(mode) {
+      currentFeedOrderingMode = mode;
+      const btnRecentes = document.getElementById('btn-mode-recentes');
+      const btnRandom = document.getElementById('btn-mode-fisher-yates');
+
+      if (mode === 'fisher-yates') {
+        if (btnRecentes) btnRecentes.className = 'flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-amber-200/80 hover:text-white';
+        if (btnRandom) btnRandom.className = 'flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 bg-amber-400 text-[#072418] shadow-sm';
+
+        // Aplica o algoritmo de embaralhamento justo Fisher-Yates
+        if (typeof POSTS_DATA !== 'undefined' && Array.isArray(POSTS_DATA)) {
+          const shuffledPosts = shuffleFisherYates(POSTS_DATA);
+          if (typeof renderSaberesFeedList === 'function') {
+            renderSaberesFeedList(shuffledPosts);
+          }
+        }
+        if (typeof renderLongVideosCarousels === 'function') {
+          renderLongVideosCarousels();
+        }
+        if (typeof SHORT_VIDEOS !== 'undefined' && Array.isArray(SHORT_VIDEOS)) {
+          const shuffledShorts = shuffleFisherYates(SHORT_VIDEOS);
+          if (typeof renderShortVideos === 'function') {
+            renderShortVideos(shuffledShorts);
+          }
+        }
+
+        showToast('✨ Descobrir Aleatório: Embaralhado com Fisher-Yates para oportunidade justa!');
+      } else {
+        if (btnRecentes) btnRecentes.className = 'flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 bg-white/20 text-white shadow-xs';
+        if (btnRandom) btnRandom.className = 'flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-amber-200/80 hover:text-white';
+
+        // Restaura a ordenação cronológica decrescente
+        if (typeof POSTS_DATA !== 'undefined' && Array.isArray(POSTS_DATA)) {
+          if (typeof renderSaberesFeedList === 'function') {
+            renderSaberesFeedList(POSTS_DATA);
+          }
+        }
+        if (typeof SHORT_VIDEOS !== 'undefined' && Array.isArray(SHORT_VIDEOS)) {
+          if (typeof renderShortVideos === 'function') {
+            renderShortVideos(SHORT_VIDEOS);
+          }
+        }
+
+        showToast('🕒 Fluxo Cronológico: Conteúdos mais recentes no topo');
+      }
+    }
+
+    // =========================================================================
+    // REGISTRO DO SERVICE WORKER (PWA OFFLINE-READY)
+    // =========================================================================
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((registration) => {
+            console.log('[PWA YBYgram] Service Worker registrado com sucesso:', registration.scope);
+          })
+          .catch((err) => {
+            console.warn('[PWA YBYgram] Registro do Service Worker falhou (esperado se não servido via HTTPS/localhost):', err);
+          });
+      });
     }
   </script>
 </body>
