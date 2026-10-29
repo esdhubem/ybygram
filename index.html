@@ -905,23 +905,8 @@
 
         </div>
 
-        <!-- SUB-ABA 1.4: MÚSICA & PAISAGENS SONORAS AUTORAIS -->
-        <div id="subtab-musica" class="hidden p-3.5 space-y-4 pb-6">
-          <!-- Motor de Pesquisa em Música & Áudios -->
-          <div class="relative flex items-center">
-            <i data-lucide="search" class="w-4 h-4 text-emerald-400 absolute left-3.5 pointer-events-none"></i>
-            <input 
-              type="text" 
-              id="musica-search-input" 
-              oninput="filterMusicaTracks()" 
-              placeholder="Pesquisar cantos, paisagens sonoras ou artistas..." 
-              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-black/40 border border-emerald-500/30 text-xs text-white outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
-            >
-            <button id="clear-musica-search-btn" onclick="clearMusicaSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-200 hidden">
-              <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
-          </div>
-
+        <!-- SUB-ABA 1.4: MÚSICA & PAISAGENS SONORAS AUTORAIS (INTERFACE ESTILO SOUNDCLOUD) -->
+        <div id="subtab-musica" class="hidden p-3.5 space-y-5 pb-8 relative">
           <!-- Abas de Ordenação e Postagem (Estilo Sub-Abas Superiores) -->
           <div class="flex items-center justify-around border-b border-white/10">
             <button onclick="setFeedOrderingMode('recentes')" 
@@ -941,80 +926,270 @@
             </button>
           </div>
 
-          <!-- Lista de Áudios / Paisagens Sonoras -->
-          <div id="music-audio-list" class="space-y-3">
-            
-            <!-- Faixa 1 -->
-            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl p-3.5 shadow-xs flex flex-col gap-2.5">
-              <div class="flex items-center gap-3">
-                <div class="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-cream-border">
-                  <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?w=150" class="w-full h-full object-cover">
-                  <button onclick="toggleAudioPlayback(this, 'Chuva na Floresta de Neblina e Cantos de Pássaros')" class="absolute inset-0 bg-black/40 flex items-center justify-center text-white hover:bg-black/60 transition">
-                    <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5 play-icon"></i>
-                  </button>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-1.5 mb-0.5">
-                    <span class="bg-orange-100 text-orange-800 text-[9px] font-bold px-1.5 py-0.5 rounded border border-orange-200 flex items-center gap-1">
-                      <i data-lucide="music" class="w-2.5 h-2.5"></i> SOUNDCLOUD
-                    </span>
-                    <span class="text-[10px] text-charcoal-soft font-mono">08:42</span>
-                  </div>
-                  <h4 class="text-xs font-bold text-charcoal truncate">Chuva na Floresta de Neblina e Cantos de Pássaros</h4>
-                  <p class="text-[11px] text-forest font-semibold mt-0.5">Guardiões da Mata Atlântica</p>
-                </div>
-              </div>
-
-              <!-- Barra de Áudio Estilizada -->
-              <div class="flex items-center gap-2 pt-1 border-t border-[#d5d8d2] text-[10px] text-charcoal-soft">
-                <span class="font-mono">0:00</span>
-                <div class="flex-1 bg-white h-2 rounded-full overflow-hidden border border-[#d5d8d2]">
-                  <div class="bg-purple-600 h-full w-1/4 rounded-full"></div>
-                </div>
-                <span class="font-mono">08:42</span>
-                <button onclick="toggleGratitude(this)" class="ml-2 flex items-center gap-1 text-forest hover:font-bold">
-                  <span>🌱</span>
-                  <span class="text-[10px] font-bold">Semear</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Faixa 2 -->
-            <div class="bg-[#eaece8] border border-[#d5d8d2] rounded-2xl p-3.5 shadow-xs flex flex-col gap-2.5">
-              <div class="flex items-center gap-3">
-                <div class="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-cream-border">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-full h-full object-cover">
-                  <button onclick="toggleAudioPlayback(this, 'Canto Ancestral do Amanhecer: Nheengatu')" class="absolute inset-0 bg-black/40 flex items-center justify-center text-white hover:bg-black/60 transition">
-                    <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5 play-icon"></i>
-                  </button>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-1.5 mb-0.5">
-                    <span class="bg-purple-100 text-purple-800 text-[9px] font-bold px-1.5 py-0.5 rounded border border-purple-200 flex items-center gap-1">
-                      <i data-lucide="radio" class="w-2.5 h-2.5"></i> ÁUDIO AUTORAL
-                    </span>
-                    <span class="text-[10px] text-charcoal-soft font-mono">05:15</span>
-                  </div>
-                  <h4 class="text-xs font-bold text-charcoal truncate">Canto Ancestral do Amanhecer: Nheengatu e Flauta Nativa</h4>
-                  <p class="text-[11px] text-forest font-semibold mt-0.5">Coletivo Raízes Vivas</p>
-                </div>
-              </div>
-
-              <!-- Barra de Áudio Estilizada -->
-              <div class="flex items-center gap-2 pt-1 border-t border-[#d5d8d2] text-[10px] text-charcoal-soft">
-                <span class="font-mono">0:00</span>
-                <div class="flex-1 bg-white h-2 rounded-full overflow-hidden border border-[#d5d8d2]">
-                  <div class="bg-purple-600 h-full w-0 rounded-full"></div>
-                </div>
-                <span class="font-mono">05:15</span>
-                <button onclick="toggleGratitude(this)" class="ml-2 flex items-center gap-1 text-forest hover:font-bold">
-                  <span>🌱</span>
-                  <span class="text-[10px] font-bold">Semear</span>
-                </button>
-              </div>
-            </div>
-
+          <!-- Motor de Pesquisa em Música & Áudios -->
+          <div class="relative flex items-center">
+            <i data-lucide="search" class="w-4 h-4 text-emerald-400 absolute left-3.5 pointer-events-none"></i>
+            <input 
+              type="text" 
+              id="musica-search-input" 
+              oninput="filterMusicaTracks()" 
+              placeholder="Pesquisar cantos, paisagens sonoras ou artistas..." 
+              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-black/40 border border-emerald-500/30 text-xs text-white outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+            >
+            <button id="clear-musica-search-btn" onclick="clearMusicaSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-200 hidden">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
           </div>
+
+          <!-- SEÇÃO 1 SOUNDCLOUD: Mais do que você gosta -->
+          <div id="sc-section-liked" class="space-y-2.5">
+            <h3 class="text-[17px] font-extrabold text-white tracking-tight">Mais do que você gosta</h3>
+            <div id="sc-liked-carousel" class="flex gap-3.5 overflow-x-auto hide-scrollbar pb-1">
+              
+              <!-- Card 1 -->
+              <div onclick="playSoundCloudItem('Cantos da Aldeia & Floresta Viva', 'Clarice Nejar, Guardiões da Mata')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
+                <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
+                  <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&h=400&fit=crop" alt="Cantos da Aldeia" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                  <span class="absolute top-2 left-2 text-[9px] font-serif font-bold text-amber-200 bg-black/60 px-1.5 py-0.5 rounded backdrop-blur-xs border border-amber-300/30">Cantos da Aldeia</span>
+                </div>
+                <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
+                  Clarice Nejar, Guardiões da Mata, Bond...
+                </p>
+              </div>
+
+              <!-- Card 2 -->
+              <div onclick="playSoundCloudItem('Flecha Sonora & Sopro da Mata', 'Mira Jempe, Nagual ~ Eyal, Munay Runa')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
+                <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
+                  <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?w=400&h=400&fit=crop" alt="Flecha Sonora" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                </div>
+                <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
+                  Mira Jempe, Nagual ~ Eyal, Munay Runa, Mak...
+                </p>
+              </div>
+
+              <!-- Card 3 -->
+              <div onclick="playSoundCloudItem('Rezo das Águas & Cacau Sagrado', 'Coletivo Raízes Vivas, Lu Maria')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
+                <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
+                  <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=400&fit=crop" alt="Cacau Sagrado" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                </div>
+                <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
+                  Coletivo Raízes Vivas, Lu Maria, Pífano...
+                </p>
+              </div>
+
+              <!-- Card 4 -->
+              <div onclick="playSoundCloudItem('Sinfonia da Mata Atlântica', 'Mestre Tiago, Tambores da Terra')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
+                <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
+                  <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=400&h=400&fit=crop" alt="Sinfonia da Mata" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+                <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
+                  Mestre Tiago, Tambores da Terra, Saberes...
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SEÇÃO 2 SOUNDCLOUD: Mixado para Silviane -->
+          <div id="sc-section-mixed" class="space-y-2.5">
+            <h3 class="text-[17px] font-extrabold text-white tracking-tight">Mixado para Silviane</h3>
+            <div id="sc-mixed-carousel" class="flex gap-3.5 overflow-x-auto hide-scrollbar pb-1">
+              
+              <!-- MIX 1 -->
+              <div onclick="playSoundCloudItem('Mix 1 • Cantos de Cura & Floresta', 'Mira Jempe, Mariana Cortesão, Stefanie')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
+                <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
+                  <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=400&fit=crop" alt="Mix 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute bottom-2 inset-x-2 bg-[#c4b5fd] text-neutral-950 font-black text-xs px-2.5 py-1 rounded-md tracking-tight uppercase shadow-md">
+                    MIX 1
+                  </div>
+                </div>
+                <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
+                  Mira Jempe, Mariana Cortesão, Stefanie Ma...
+                </p>
+              </div>
+
+              <!-- MIX 2 -->
+              <div onclick="playSoundCloudItem('Mix 2 • Fogueira Sagrada & Violão', 'Renata Reluz, Jean Francês, Raízes')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
+                <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
+                  <img src="https://images.unsplash.com/photo-1475738972911-5b44ce984c42?w=400&h=400&fit=crop" alt="Mix 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute bottom-2 inset-x-2 bg-[#60a5fa] text-neutral-950 font-black text-xs px-2.5 py-1 rounded-md tracking-tight uppercase shadow-md">
+                    MIX 2
+                  </div>
+                </div>
+                <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
+                  Renata Reluz, Jean Francês, Coletivo Raíz...
+                </p>
+              </div>
+
+              <!-- MIX 3 -->
+              <div onclick="playSoundCloudItem('Mix 3 • Frequências da Terra & Nheengatu', 'MCabZ, Stefani, Mahina, Nina')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
+                <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
+                  <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=400&h=400&fit=crop" alt="Mix 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute bottom-2 inset-x-2 bg-[#f5f5f4] text-neutral-950 font-black text-xs px-2.5 py-1 rounded-md tracking-tight uppercase shadow-md">
+                    MIX 3
+                  </div>
+                </div>
+                <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
+                  MCabZ, Stefani, Mahina, Nina, Guardiões...
+                </p>
+              </div>
+
+              <!-- MIX 4 -->
+              <div onclick="playSoundCloudItem('Mix 4 • Paisagens Sonoras de Neblina', 'Guardiões da Mata Atlântica')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
+                <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
+                  <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400&h=400&fit=crop" alt="Mix 4" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <div class="absolute bottom-2 inset-x-2 bg-[#6ee7b7] text-neutral-950 font-black text-xs px-2.5 py-1 rounded-md tracking-tight uppercase shadow-md">
+                    MIX 4
+                  </div>
+                </div>
+                <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
+                  Guardiões da Mata Atlântica, Vozes Livres...
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SEÇÃO 3 SOUNDCLOUD: ESCOLHA DO DIA / Especialmente para você -->
+          <div class="space-y-2.5">
+            <div>
+              <span class="text-[10px] uppercase tracking-widest text-neutral-400 font-bold block">ESCOLHA DO DIA</span>
+              <h3 class="text-[17px] font-extrabold text-white tracking-tight flex items-center gap-1.5 mt-0.5">
+                <span>Especialmente para você</span>
+                <span>🔥</span>
+              </h3>
+            </div>
+
+            <!-- Lista de Faixas Estilo SoundCloud (Onde novas postagens também entram) -->
+            <div id="music-audio-list" class="space-y-3">
+              
+              <!-- Faixa 1 (Estilo SoundCloud com Waveform) -->
+              <div class="sc-searchable-card bg-[#05241d] border border-emerald-500/25 rounded-2xl p-3 shadow-md flex flex-col gap-2.5">
+                <div class="flex items-center gap-3">
+                  <div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-white/15">
+                    <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?w=150" class="w-full h-full object-cover">
+                    <button onclick="toggleAudioPlayback(this, 'Chuva na Floresta de Neblina e Cantos de Pássaros', 'Guardiões da Mata Atlântica')" class="absolute inset-0 bg-black/45 flex items-center justify-center text-white hover:bg-black/65 transition">
+                      <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5 play-icon"></i>
+                    </button>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5 mb-0.5">
+                      <span class="bg-orange-500/20 text-orange-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-orange-400/30 flex items-center gap-1">
+                        <i data-lucide="cloud" class="w-2.5 h-2.5"></i> SOUNDCLOUD
+                      </span>
+                      <span class="text-[10px] text-neutral-400 font-mono">08:42</span>
+                    </div>
+                    <h4 class="text-xs font-bold text-white truncate">Chuva na Floresta de Neblina e Cantos de Pássaros</h4>
+                    <p class="text-[11px] text-emerald-300 font-semibold mt-0.5">Guardiões da Mata Atlântica</p>
+                  </div>
+                </div>
+
+                <!-- Waveform estilo SoundCloud -->
+                <div class="flex items-center gap-2 pt-1 border-t border-white/10 text-[10px] text-neutral-400">
+                  <span class="font-mono text-[9px]">0:00</span>
+                  <div class="flex-1 flex items-end gap-[2px] h-5 px-1 cursor-pointer" onclick="playSoundCloudItem('Chuva na Floresta de Neblina e Cantos de Pássaros', 'Guardiões da Mata Atlântica')">
+                    <span class="flex-1 bg-orange-400 h-2 rounded-xs"></span>
+                    <span class="flex-1 bg-orange-400 h-3.5 rounded-xs"></span>
+                    <span class="flex-1 bg-orange-400 h-5 rounded-xs"></span>
+                    <span class="flex-1 bg-orange-400 h-3 rounded-xs"></span>
+                    <span class="flex-1 bg-orange-400 h-4 rounded-xs"></span>
+                    <span class="flex-1 bg-orange-400 h-2.5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-4 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-3 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-4.5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-2 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-3.5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-2.5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-4 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-3 rounded-xs"></span>
+                  </div>
+                  <span class="font-mono text-[9px]">08:42</span>
+                  <button onclick="toggleGratitude(this)" class="ml-1 flex items-center gap-1 text-emerald-300 hover:text-amber-300 transition">
+                    <span>🌱</span>
+                    <span class="text-[10px] font-bold">Semear</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Faixa 2 (Estilo SoundCloud com Waveform) -->
+              <div class="sc-searchable-card bg-[#05241d] border border-emerald-500/25 rounded-2xl p-3 shadow-md flex flex-col gap-2.5">
+                <div class="flex items-center gap-3">
+                  <div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-white/15">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-full h-full object-cover">
+                    <button onclick="toggleAudioPlayback(this, 'Canto Ancestral do Amanhecer: Nheengatu', 'Coletivo Raízes Vivas')" class="absolute inset-0 bg-black/45 flex items-center justify-center text-white hover:bg-black/65 transition">
+                      <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5 play-icon"></i>
+                    </button>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5 mb-0.5">
+                      <span class="bg-purple-500/20 text-purple-300 text-[9px] font-bold px-1.5 py-0.5 rounded border border-purple-400/30 flex items-center gap-1">
+                        <i data-lucide="radio" class="w-2.5 h-2.5"></i> ÁUDIO AUTORAL
+                      </span>
+                      <span class="text-[10px] text-neutral-400 font-mono">05:15</span>
+                    </div>
+                    <h4 class="text-xs font-bold text-white truncate">Canto Ancestral do Amanhecer: Nheengatu e Flauta Nativa</h4>
+                    <p class="text-[11px] text-emerald-300 font-semibold mt-0.5">Coletivo Raízes Vivas</p>
+                  </div>
+                </div>
+
+                <!-- Waveform estilo SoundCloud -->
+                <div class="flex items-center gap-2 pt-1 border-t border-white/10 text-[10px] text-neutral-400">
+                  <span class="font-mono text-[9px]">0:00</span>
+                  <div class="flex-1 flex items-end gap-[2px] h-5 px-1 cursor-pointer" onclick="playSoundCloudItem('Canto Ancestral do Amanhecer: Nheengatu', 'Coletivo Raízes Vivas')">
+                    <span class="flex-1 bg-amber-400 h-3 rounded-xs"></span>
+                    <span class="flex-1 bg-amber-400 h-4.5 rounded-xs"></span>
+                    <span class="flex-1 bg-amber-400 h-2.5 rounded-xs"></span>
+                    <span class="flex-1 bg-amber-400 h-5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-3.5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-2 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-4 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-2.5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-4 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-3 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-4.5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-2 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-3.5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-5 rounded-xs"></span>
+                    <span class="flex-1 bg-white/25 h-2.5 rounded-xs"></span>
+                  </div>
+                  <span class="font-mono text-[9px]">05:15</span>
+                  <button onclick="toggleGratitude(this)" class="ml-1 flex items-center gap-1 text-emerald-300 hover:text-amber-300 transition">
+                    <span>🌱</span>
+                    <span class="text-[10px] font-bold">Semear</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PÍLULA PLAYER FLUTUANTE ESTILO SOUNDCLOUD (Idêntica à referência) -->
+          <div id="sc-mini-player" class="sticky bottom-1 z-30 mt-2 rounded-full bg-[#181d1b]/95 backdrop-blur-xl border border-white/20 px-3 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.85)] flex items-center justify-between gap-3">
+            <button id="sc-mini-play-btn" onclick="toggleSoundCloudMiniPlayer()" class="w-10 h-10 rounded-full bg-white hover:bg-neutral-200 text-neutral-950 flex items-center justify-center shrink-0 shadow-md transition active:scale-90">
+              <i id="sc-mini-play-icon" data-lucide="play" class="w-5 h-5 fill-neutral-950 ml-0.5"></i>
+            </button>
+
+            <div class="flex-1 min-w-0 cursor-pointer" onclick="toggleSoundCloudMiniPlayer()">
+              <h4 id="sc-mini-title" class="text-xs font-extrabold text-white truncate">Maha Mantra (Cantos da Terra...)</h4>
+              <p id="sc-mini-artist" class="text-[11px] text-neutral-300 uppercase tracking-wide truncate mt-0.5">GOVINDA SKY • RAÍZES VIVAS</p>
+            </div>
+
+            <div class="flex items-center gap-3 pr-2 shrink-0 text-white/90">
+              <button onclick="showToast('🤝 Conectado ao artista na Rede Soberana!')" class="hover:text-emerald-300 transition active:scale-90" title="Conectar ao artista">
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+              </button>
+              <button onclick="toggleSoundCloudMiniHeart(this)" class="hover:text-rose-400 transition active:scale-90" title="Semear Gratidão / Favoritar">
+                <i data-lucide="heart" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
         </div>
 
       </section>
@@ -5814,17 +5989,83 @@
       }
     }
 
-    // Controle de Reprodução de Áudio na aba Música
-    function toggleAudioPlayback(btn, trackTitle) {
-      const icon = btn.querySelector('.play-icon') || btn.querySelector('svg');
+    // Controle de Reprodução de Áudio na aba Música (Estilo SoundCloud)
+    let scMiniPlaying = false;
+
+    function playSoundCloudItem(title, artist) {
+      const titleEl = document.getElementById('sc-mini-title');
+      const artistEl = document.getElementById('sc-mini-artist');
+      const btn = document.getElementById('sc-mini-play-btn');
+      if (titleEl && title) titleEl.textContent = title;
+      if (artistEl && artist) artistEl.textContent = artist.toUpperCase();
+      scMiniPlaying = true;
+      if (btn) {
+        btn.innerHTML = '<i data-lucide="pause" class="w-5 h-5 fill-neutral-950"></i>';
+        if (window.lucide) lucide.createIcons();
+      }
+      showToast(`▶️ Tocando agora: ${title}`);
+    }
+
+    function toggleSoundCloudMiniPlayer() {
+      const btn = document.getElementById('sc-mini-play-btn');
+      const title = document.getElementById('sc-mini-title')?.textContent || 'Áudio YBYgram';
+      scMiniPlaying = !scMiniPlaying;
+      if (btn) {
+        btn.innerHTML = scMiniPlaying
+          ? '<i data-lucide="pause" class="w-5 h-5 fill-neutral-950"></i>'
+          : '<i data-lucide="play" class="w-5 h-5 fill-neutral-950 ml-0.5"></i>';
+        if (window.lucide) lucide.createIcons();
+      }
+      showToast(scMiniPlaying ? `▶️ Reproduzindo: ${title}` : `⏸️ Pausado: ${title}`);
+    }
+
+    function toggleSoundCloudMiniHeart(btn) {
+      const liked = btn.getAttribute('data-liked') === 'true';
+      if (liked) {
+        btn.setAttribute('data-liked', 'false');
+        btn.classList.remove('text-rose-400');
+      } else {
+        btn.setAttribute('data-liked', 'true');
+        btn.classList.add('text-rose-400');
+        showToast('🌱 Semente de Gratidão enviada para esta faixa!');
+      }
+    }
+
+    function toggleAudioPlayback(btn, trackTitle, trackArtist) {
       const isPlaying = btn.getAttribute('data-playing') === 'true';
       if (isPlaying) {
         btn.setAttribute('data-playing', 'false');
+        scMiniPlaying = false;
+        const miniBtn = document.getElementById('sc-mini-play-btn');
+        if (miniBtn) {
+          miniBtn.innerHTML = '<i data-lucide="play" class="w-5 h-5 fill-neutral-950 ml-0.5"></i>';
+          if (window.lucide) lucide.createIcons();
+        }
         showToast(`⏸️ Áudio pausado: ${trackTitle}`);
       } else {
         btn.setAttribute('data-playing', 'true');
-        showToast(`▶️ Reproduzindo no player sonoro: ${trackTitle}`);
+        playSoundCloudItem(trackTitle, trackArtist || 'Artista Soberano');
       }
+    }
+
+    function filterMusicaTracks() {
+      const input = document.getElementById('musica-search-input');
+      const clearBtn = document.getElementById('clear-musica-search-btn');
+      const q = (input?.value || '').trim().toLowerCase();
+      if (clearBtn) {
+        if (q) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      document.querySelectorAll('#subtab-musica .sc-searchable-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = (!q || text.includes(q)) ? '' : 'none';
+      });
+    }
+
+    function clearMusicaSearch() {
+      const input = document.getElementById('musica-search-input');
+      if (input) input.value = '';
+      filterMusicaTracks();
     }
 
     // Compatibilidade com chamadas legadas
@@ -6202,6 +6443,13 @@
             renderShortVideos(shuffledShorts);
           }
         }
+        ['sc-liked-carousel', 'sc-mixed-carousel', 'music-audio-list'].forEach(cid => {
+          const el = document.getElementById(cid);
+          if (el && el.children.length > 1) {
+            const arr = shuffleFisherYates(Array.from(el.children));
+            arr.forEach(child => el.appendChild(child));
+          }
+        });
 
         showToast('✨ Descobrir Aleatório: Embaralhado com Fisher-Yates para oportunidade justa!');
       } else {
