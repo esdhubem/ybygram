@@ -13,8 +13,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="YBYgram">
-  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="icon" type="image/png" href="assets/logo-arara.png">
+  <link rel="apple-touch-icon" href="assets/logo-arara.png">
   
   <!-- Fontes Google Plus Jakarta Sans & Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -336,12 +336,7 @@
 
         <div class="flex items-center justify-between pt-1">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-xl bg-emerald-950/80 border border-emerald-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(0,245,180,0.3)] backdrop-blur-md">
-              <svg viewBox="0 0 24 24" class="w-5 h-5">
-                <path d="M12 2L20 8Q22 9.5 20 11L13 16Q11 17 9.5 16L3 11Q1 9.5 3 8Z" fill="#00f5b4"/>
-                <path d="M12 9L20 15Q22 16.5 20 18L13 23Q11 24 9.5 23L3 18Q1 16.5 3 15Z" fill="#fbbf24"/>
-              </svg>
-            </div>
+            <img src="assets/logo-arara.png" alt="Logo YBYgram" class="w-11 h-11 object-contain drop-shadow-[0_2px_10px_rgba(251,191,36,0.45)]">
             <div class="flex items-baseline">
               <span class="text-xl font-extrabold text-white tracking-tight">YBY</span>
               <span class="text-xl font-light text-amber-400 tracking-tight ml-0.5">gram</span>
@@ -407,8 +402,12 @@
       <!-- Barra de Navegação Principal: Marca e Ações -->
       <div class="flex items-center justify-between px-1 pt-0.5 relative z-10">
         <!-- Logotipo YBYgram -->
-        <div class="flex items-center gap-1.5 cursor-pointer transition active:scale-95" onclick="goToSaberesHome()" title="Ir para a Página Principal de Saberes">
-          <span class="text-base sm:text-lg font-black tracking-tight text-white drop-shadow-sm">YBYgram</span>
+        <div class="flex items-center gap-2 cursor-pointer transition active:scale-95" onclick="goToSaberesHome()" title="Ir para a Página Principal de Saberes">
+          <img src="assets/logo-arara.png" alt="Logo YBYgram" class="w-9 h-9 object-contain drop-shadow-[0_2px_8px_rgba(251,191,36,0.4)]">
+          <div class="flex items-baseline">
+            <span class="text-base sm:text-lg font-black tracking-tight text-white drop-shadow-sm">YBY</span>
+            <span class="text-base sm:text-lg font-light tracking-tight text-amber-400 ml-0.5">gram</span>
+          </div>
         </div>
 
         <!-- Ações: Avatar -->
@@ -2586,14 +2585,7 @@
       <!-- Cabeçalho do Modal -->
       <div class="flex items-center justify-between pb-3 border-b border-emerald-500/20 relative z-10">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-500 to-amber-400 p-0.5 shadow-md flex items-center justify-center">
-            <div class="w-full h-full bg-[#031511] rounded-[14px] flex items-center justify-center">
-              <svg viewBox="0 0 24 24" class="w-5 h-5">
-                <path d="M12 2L20 8Q22 9.5 20 11L13 16Q11 17 9.5 16L3 11Q1 9.5 3 8Z" fill="#00f5b4"/>
-                <path d="M12 9L20 15Q22 16.5 20 18L13 23Q11 24 9.5 23L3 18Q1 16.5 3 15Z" fill="#fbbf24"/>
-              </svg>
-            </div>
-          </div>
+          <img src="assets/logo-arara.png" alt="Logo YBYgram" class="w-10 h-10 object-contain drop-shadow-[0_2px_8px_rgba(251,191,36,0.4)]">
           <div>
             <h3 id="mock-auth-title" class="text-sm font-black text-white flex items-center gap-1.5">
               <span>Acesso Soberano</span>

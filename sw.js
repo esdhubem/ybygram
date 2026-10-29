@@ -1,10 +1,11 @@
 // Service Worker - YBYgram PWA • Rede Soberana
-const CACHE_NAME = 'ybygram-cache-v9';
+const CACHE_NAME = 'ybygram-cache-v10';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
   './icons/icon.svg',
+  './assets/logo-arara.png',
   './assets/arara-original.jpg',
   './assets/login-araras.jpg'
 ];

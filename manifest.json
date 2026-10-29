@@ -14,15 +14,15 @@
   "categories": ["social", "education", "lifestyle", "news"],
   "icons": [
     {
-      "src": "icons/icon.svg",
+      "src": "assets/logo-arara.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon.svg",
+      "src": "assets/logo-arara.png",
       "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ],
