@@ -649,8 +649,8 @@
             </button>
           </div>
 
-          <!-- Abas de Ordenação e Postagem (Estilo Sub-Abas Superiores) -->
-          <div class="flex items-center justify-around border-b border-white/10">
+          <!-- Abas de Ordenação e Botão + Postagem Rápida -->
+          <div class="flex items-center justify-between border-b border-white/10 px-1">
             <button onclick="setFeedOrderingMode('recentes')" 
               class="btn-mode-recentes pb-2 px-2 text-xs font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap">
               Recentes
@@ -661,10 +661,11 @@
               Descobrir Aleatório
             </button>
 
-            <button onclick="openModal('modal-new-video-link')" 
-              class="pb-2 px-2 text-xs font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 whitespace-nowrap"
-              title="Faça sua Postagem">
-              Faça sua Postagem
+            <button onclick="openModal('modal-new-video-link'); if (typeof selectPostFormat === 'function') selectPostFormat('curto');" 
+              class="mb-1.5 text-[10px] font-extrabold text-emerald-950 bg-gradient-to-r from-emerald-200 via-teal-200 to-amber-200 hover:brightness-105 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition shadow-xs active:scale-95 whitespace-nowrap"
+              title="Criar Postagem Rápida">
+              <i data-lucide="plus-circle" class="w-3 h-3 text-emerald-800"></i>
+              <span>+ Postagem Rápida</span>
             </button>
           </div>
 
@@ -831,8 +832,8 @@
               </div>
             </div>
 
-            <!-- Abas de Ordenação e Postagem (Estilo Sub-Abas Superiores) -->
-            <div class="flex items-center justify-around border-b border-white/10 pt-0.5">
+            <!-- Abas de Ordenação e Botão + Postagem Rápida -->
+            <div class="flex items-center justify-between border-b border-white/10 pt-0.5 px-1">
               <button onclick="setFeedOrderingMode('recentes')" 
                 class="btn-mode-recentes pb-2 px-2 text-xs font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap">
                 Recentes
@@ -843,10 +844,11 @@
                 Descobrir Aleatório
               </button>
 
-              <button onclick="openModal('modal-new-video-link')" 
-                class="pb-2 px-2 text-xs font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 whitespace-nowrap"
-                title="Faça sua Postagem">
-                Faça sua Postagem
+              <button onclick="openModal('modal-new-video-link'); if (typeof selectPostFormat === 'function') selectPostFormat('longo');" 
+                class="mb-1.5 text-[10px] font-extrabold text-emerald-950 bg-gradient-to-r from-emerald-200 via-teal-200 to-amber-200 hover:brightness-105 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition shadow-xs active:scale-95 whitespace-nowrap"
+                title="Criar Postagem Rápida">
+                <i data-lucide="plus-circle" class="w-3 h-3 text-emerald-800"></i>
+                <span>+ Postagem Rápida</span>
               </button>
             </div>
 
@@ -909,8 +911,8 @@
 
         <!-- SUB-ABA 1.4: MÚSICA & PAISAGENS SONORAS AUTORAIS (INTERFACE ESTILO SOUNDCLOUD) -->
         <div id="subtab-musica" class="hidden p-3.5 space-y-5 pb-8 relative">
-          <!-- Abas de Ordenação e Postagem (Estilo Sub-Abas Superiores) -->
-          <div class="flex items-center justify-around border-b border-white/10">
+          <!-- Abas de Ordenação e Botão + Postagem Rápida -->
+          <div class="flex items-center justify-between border-b border-white/10 px-1">
             <button onclick="setFeedOrderingMode('recentes')" 
               class="btn-mode-recentes pb-2 px-2 text-xs font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap">
               Recentes
@@ -921,10 +923,11 @@
               Descobrir Aleatório
             </button>
 
-            <button onclick="openModal('modal-new-video-link')" 
-              class="pb-2 px-2 text-xs font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 whitespace-nowrap"
-              title="Faça sua Postagem">
-              Faça sua Postagem
+            <button onclick="openModal('modal-new-video-link'); if (typeof selectPostFormat === 'function') selectPostFormat('musica');" 
+              class="mb-1.5 text-[10px] font-extrabold text-emerald-950 bg-gradient-to-r from-emerald-200 via-teal-200 to-amber-200 hover:brightness-105 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition shadow-xs active:scale-95 whitespace-nowrap"
+              title="Criar Postagem Rápida">
+              <i data-lucide="plus-circle" class="w-3 h-3 text-emerald-800"></i>
+              <span>+ Postagem Rápida</span>
             </button>
           </div>
 
@@ -963,7 +966,7 @@
               <!-- Card 2 -->
               <div onclick="playSoundCloudItem('Flecha Sonora & Sopro da Mata', 'Mira Jempe, Nagual ~ Eyal, Munay Runa')" class="sc-searchable-card w-36 shrink-0 cursor-pointer group active:scale-95 transition">
                 <div class="relative w-36 h-36 rounded-md overflow-hidden bg-neutral-900 border border-white/10 shadow-md">
-                  <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?w=400&h=400&fit=crop" alt="Flecha Sonora" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                  <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=400&h=400&fit=crop" alt="Flecha Sonora" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                   <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                 </div>
                 <p class="text-[11px] text-neutral-300/90 mt-1.5 leading-snug line-clamp-2 font-medium">
@@ -1072,7 +1075,7 @@
               <div class="sc-searchable-card bg-[#05241d] border border-emerald-500/25 rounded-2xl p-3 shadow-md flex flex-col gap-2.5">
                 <div class="flex items-center gap-3">
                   <div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 border border-white/15">
-                    <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?w=150" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=150" class="w-full h-full object-cover">
                     <button onclick="toggleAudioPlayback(this, 'Chuva na Floresta de Neblina e Cantos de Pássaros', 'Guardiões da Mata Atlântica')" class="absolute inset-0 bg-black/45 flex items-center justify-center text-white hover:bg-black/65 transition">
                       <i data-lucide="play" class="w-6 h-6 fill-white ml-0.5 play-icon"></i>
                     </button>
