@@ -2614,11 +2614,22 @@
 
       <textarea id="new-text-content" rows="4" placeholder="Escreva seu relato, sabedoria tradicional ou reflexão sobre autonomia..." class="w-full p-3 rounded-xl bg-cream border-none outline-none text-xs focus:ring-1 focus:ring-forest resize-none"></textarea>
 
-      <div class="space-y-1">
+      <div class="space-y-1.5">
         <label class="block text-xs font-bold text-charcoal flex items-center gap-1">
-          <i data-lucide="image" class="w-3.5 h-3.5 text-forest"></i> Foto (Link / URL da imagem):
+          <i data-lucide="upload" class="w-3.5 h-3.5 text-forest"></i> Enviar Foto do Dispositivo (Opcional):
         </label>
-        <input type="url" id="new-text-image" placeholder="Cole o link da foto (opcional)" class="w-full p-2.5 rounded-xl bg-cream border border-cream-border text-xs outline-none focus:ring-1 focus:ring-forest">
+        <input type="file" id="new-text-image-file" accept="image/*" onchange="handleTextPostImageUpload(this)" class="hidden">
+        <button type="button" onclick="document.getElementById('new-text-image-file').click()" class="w-full p-3 rounded-xl bg-cream hover:bg-white/10 border border-dashed border-emerald-400/40 text-xs text-charcoal flex items-center justify-center gap-2 transition active:scale-98 cursor-pointer">
+          <i data-lucide="image-plus" class="w-4 h-4 text-emerald-400"></i>
+          <span id="new-text-image-label" class="font-semibold text-emerald-200">Selecionar foto da galeria ou câmera...</span>
+        </button>
+        <!-- Preview da imagem selecionada -->
+        <div id="new-text-image-preview-wrap" class="hidden relative rounded-xl overflow-hidden border border-emerald-500/30 mt-1.5">
+          <img id="new-text-image-preview" src="" alt="Preview" class="w-full h-36 object-cover">
+          <button type="button" onclick="clearTextPostImageUpload()" class="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center shadow-md transition" title="Remover foto">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
       </div>
 
       <div class="space-y-1">
@@ -6075,14 +6086,46 @@
       submitExternalLinkPost();
     }
 
-    // 2. Publicar Texto e Imagem no Feed de Saberes (Ordenação Cronológica)
+    // 2. Publicar Texto e Imagem (Upload Local) no Feed de Saberes (Ordenação Cronológica)
+    let uploadedTextPostImageDataUrl = '';
+
+    function handleTextPostImageUpload(input) {
+      const file = input?.files?.[0];
+      if (!file) return;
+      const label = document.getElementById('new-text-image-label');
+      const previewWrap = document.getElementById('new-text-image-preview-wrap');
+      const previewImg = document.getElementById('new-text-image-preview');
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        uploadedTextPostImageDataUrl = e.target.result;
+        if (previewImg) previewImg.src = uploadedTextPostImageDataUrl;
+        if (previewWrap) previewWrap.classList.remove('hidden');
+        if (label) label.textContent = file.name.length > 28 ? file.name.slice(0, 25) + '...' : file.name;
+        if (window.lucide) lucide.createIcons();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearTextPostImageUpload() {
+      uploadedTextPostImageDataUrl = '';
+      const fileInput = document.getElementById('new-text-image-file');
+      const label = document.getElementById('new-text-image-label');
+      const previewWrap = document.getElementById('new-text-image-preview-wrap');
+      const previewImg = document.getElementById('new-text-image-preview');
+      if (fileInput) fileInput.value = '';
+      if (previewImg) previewImg.src = '';
+      if (previewWrap) previewWrap.classList.add('hidden');
+      if (label) label.textContent = 'Selecionar foto da galeria ou câmera...';
+    }
+
     function submitNewTextPost() {
       const text = document.getElementById('new-text-content').value.trim();
-      const imageUrl = document.getElementById('new-text-image').value.trim();
+      const imageUrl = uploadedTextPostImageDataUrl;
       const tag = document.getElementById('new-text-tag').value.trim() || 'Saberes';
 
-      if (!text) {
-        showToast('Por favor, escreva seu relato ou reflexão.');
+      if (!text && !imageUrl) {
+        showToast('Por favor, escreva seu relato ou selecione uma foto.');
         return;
       }
 
@@ -6102,7 +6145,7 @@
             <button onclick="openReportModal('Post Comunitário', 'Silviane Terra')" class="text-charcoal-soft hover:text-red-500 p-1" title="Reportar violação ética"><i data-lucide="shield-alert" class="w-4 h-4"></i></button>
           </div>
         </div>
-        <p class="text-xs text-charcoal leading-relaxed mb-3">${text}</p>
+        ${text ? `<p class="text-xs text-charcoal leading-relaxed mb-3">${text}</p>` : ''}
         ${imageUrl ? `
           <div class="rounded-xl overflow-hidden mb-3 border border-cream-border">
             <img src="${imageUrl}" class="w-full h-48 object-cover" onerror="this.style.display='none'">
@@ -6126,7 +6169,7 @@
 
       container.prepend(newArticle);
       document.getElementById('new-text-content').value = '';
-      document.getElementById('new-text-image').value = '';
+      clearTextPostImageUpload();
       document.getElementById('new-text-tag').value = '';
       closeModal('modal-new-text-post');
 
