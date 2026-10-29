@@ -1,5 +1,5 @@
 // Service Worker - YBYgram PWA • Rede Soberana
-const CACHE_NAME = 'ybygram-cache-v10';
+const CACHE_NAME = 'ybygram-cache-v11';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -43,8 +43,14 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
-  // Não intercepta chamadas de mídia de terceiros
-  if (url.origin.includes('odysee.com') || url.origin.includes('youtube.com') || url.origin.includes('unsplash.com')) {
+  // Não intercepta chamadas de mídia de terceiros ou streaming de vídeo (.mp4 / Range)
+  if (
+    event.request.headers.get('range') ||
+    url.pathname.endsWith('.mp4') ||
+    url.origin.includes('odysee.com') ||
+    url.origin.includes('youtube.com') ||
+    url.origin.includes('unsplash.com')
+  ) {
     return;
   }
 
