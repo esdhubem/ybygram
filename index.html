@@ -1958,8 +1958,8 @@
   <!-- ==================== MODAIS ==================== -->
 
   <!-- Modal/Drawer: Menu da Comunidade, Políticas & Resgate de Cupons Lomadee -->
-  <div id="modal-menu-policies" onclick="if (event.target === this) closeMenuPoliciesDrawer()" class="fixed inset-0 bg-black/60 z-[2000] hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-xs transition-all">
-    <div onclick="event.stopPropagation()" class="bg-cream w-full sm:max-w-[420px] rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[88vh] overflow-y-auto border-t sm:border border-cream-border shadow-2xl animate-in slide-in-from-bottom duration-200">
+  <div id="modal-menu-policies" onclick="if (event.target === this) closeMenuPoliciesDrawer()" class="fixed inset-0 bg-black/60 z-[2000] hidden flex items-end sm:items-center justify-center pt-[74px] pb-[84px] px-0 sm:px-4 backdrop-blur-xs transition-all">
+    <div onclick="event.stopPropagation()" class="bg-cream w-full sm:max-w-[420px] rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-full overflow-y-auto border-t sm:border border-cream-border shadow-2xl animate-in slide-in-from-bottom duration-200">
       
       <!-- Cabeçalho do Menu -->
       <div class="flex items-center justify-between pb-3 border-b border-cream-border">
@@ -1976,33 +1976,6 @@
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
-
-      <!-- Atalhos Rápidos para Navegar Diretamente para Outras Páginas -->
-      <div class="bg-white p-2 rounded-2xl border border-cream-border flex items-center justify-between gap-1 shadow-2xs">
-        <button onclick="closeMenuPoliciesDrawer(); goToSaberesHome();" class="flex-1 py-1.5 px-1 rounded-xl hover:bg-emerald-50 text-[11px] font-bold text-emerald-800 flex flex-col items-center gap-0.5 transition active:scale-95" title="Ir para Saberes">
-          <span class="text-xs">📚</span>
-          <span class="text-[10px]">Saberes</span>
-        </button>
-        <button onclick="closeMenuPoliciesDrawer(); switchTab('classes');" class="flex-1 py-1.5 px-1 rounded-xl hover:bg-sky-50 text-[11px] font-bold text-sky-700 flex flex-col items-center gap-0.5 transition active:scale-95" title="Ir para Aulas">
-          <span class="text-xs">🎓</span>
-          <span class="text-[10px]">Aulas</span>
-        </button>
-        <button onclick="closeMenuPoliciesDrawer(); switchTab('habits');" class="flex-1 py-1.5 px-1 rounded-xl hover:bg-rose-50 text-[11px] font-bold text-rose-700 flex flex-col items-center gap-0.5 transition active:scale-95" title="Ir para Hábitos">
-          <span class="text-xs">💚</span>
-          <span class="text-[10px]">Hábitos</span>
-        </button>
-        <button onclick="closeMenuPoliciesDrawer(); switchTab('shop');" class="flex-1 py-1.5 px-1 rounded-xl hover:bg-amber-50 text-[11px] font-bold text-amber-700 flex flex-col items-center gap-0.5 transition active:scale-95" title="Ir para Loja">
-          <span class="text-xs">🏪</span>
-          <span class="text-[10px]">Loja</span>
-        </button>
-      </div>
-
-      <!-- Opção de reabrir a Apresentação PWA / Trocar Conta -->
-      <button onclick="closeMenuPoliciesDrawer(); openWelcomeScreen();" 
-        class="w-full py-2 px-3 rounded-xl bg-black/40 hover:bg-black/60 border border-emerald-400/30 text-amber-300 text-xs font-bold flex items-center justify-center gap-2 transition active:scale-95 shadow-xs">
-        <span>🌟</span>
-        <span>Ver Tela de Boas-Vindas PWA (Play Store Prototype)</span>
-      </button>
 
       <!-- SEÇÃO 1: Políticas e Diretrizes da Comunidade -->
       <div class="space-y-2">
