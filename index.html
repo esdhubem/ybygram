@@ -652,13 +652,15 @@
           <!-- Abas de Ordenação e Botão + Postagem Rápida -->
           <div class="flex items-center justify-between border-b border-white/10 px-1">
             <button onclick="setFeedOrderingMode('recentes')" 
-              class="btn-mode-recentes pb-2 px-2 text-xs font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap">
-              Recentes
+              class="btn-mode-recentes pb-2 px-1.5 text-[11px] uppercase tracking-wider font-extrabold text-emerald-300 border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#00f5b4]"></span>
+              <span>Recentes</span>
             </button>
 
             <button onclick="setFeedOrderingMode('fisher-yates')" 
-              class="btn-mode-fisher-yates pb-2 px-2 text-xs font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 whitespace-nowrap">
-              Descobrir Aleatório
+              class="btn-mode-fisher-yates pb-2 px-1.5 text-[11px] uppercase tracking-wider font-extrabold text-emerald-300/60 hover:text-emerald-300 border-b-2 border-transparent transition active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#00f5b4]"></span>
+              <span>Descobrir Aleatório</span>
             </button>
 
             <button onclick="openModal('modal-new-video-link'); if (typeof selectPostFormat === 'function') selectPostFormat('curto');" 
@@ -835,13 +837,15 @@
             <!-- Abas de Ordenação e Botão + Postagem Rápida -->
             <div class="flex items-center justify-between border-b border-white/10 pt-0.5 px-1">
               <button onclick="setFeedOrderingMode('recentes')" 
-                class="btn-mode-recentes pb-2 px-2 text-xs font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap">
-                Recentes
+                class="btn-mode-recentes pb-2 px-1.5 text-[11px] uppercase tracking-wider font-extrabold text-emerald-300 border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#00f5b4]"></span>
+                <span>Recentes</span>
               </button>
 
               <button onclick="setFeedOrderingMode('fisher-yates')" 
-                class="btn-mode-fisher-yates pb-2 px-2 text-xs font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 whitespace-nowrap">
-                Descobrir Aleatório
+                class="btn-mode-fisher-yates pb-2 px-1.5 text-[11px] uppercase tracking-wider font-extrabold text-emerald-300/60 hover:text-emerald-300 border-b-2 border-transparent transition active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#00f5b4]"></span>
+                <span>Descobrir Aleatório</span>
               </button>
 
               <button onclick="openModal('modal-new-video-link'); if (typeof selectPostFormat === 'function') selectPostFormat('longo');" 
@@ -914,13 +918,15 @@
           <!-- Abas de Ordenação e Botão + Postagem Rápida -->
           <div class="flex items-center justify-between border-b border-white/10 px-1">
             <button onclick="setFeedOrderingMode('recentes')" 
-              class="btn-mode-recentes pb-2 px-2 text-xs font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap">
-              Recentes
+              class="btn-mode-recentes pb-2 px-1.5 text-[11px] uppercase tracking-wider font-extrabold text-emerald-300 border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#00f5b4]"></span>
+              <span>Recentes</span>
             </button>
 
             <button onclick="setFeedOrderingMode('fisher-yates')" 
-              class="btn-mode-fisher-yates pb-2 px-2 text-xs font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 whitespace-nowrap">
-              Descobrir Aleatório
+              class="btn-mode-fisher-yates pb-2 px-1.5 text-[11px] uppercase tracking-wider font-extrabold text-emerald-300/60 hover:text-emerald-300 border-b-2 border-transparent transition active:scale-95 whitespace-nowrap flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#00f5b4]"></span>
+              <span>Descobrir Aleatório</span>
             </button>
 
             <button onclick="openModal('modal-new-video-link'); if (typeof selectPostFormat === 'function') selectPostFormat('musica');" 
@@ -6468,8 +6474,8 @@
       currentFeedOrderingMode = mode;
       const btnsRecentes = document.querySelectorAll('.btn-mode-recentes, #btn-mode-recentes');
       const btnsRandom = document.querySelectorAll('.btn-mode-fisher-yates, #btn-mode-fisher-yates');
-      const activeClass = 'pb-2 px-2 text-xs font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap';
-      const inactiveClass = 'pb-2 px-2 text-xs font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 whitespace-nowrap';
+      const activeClass = 'pb-2 px-1.5 text-[11px] uppercase tracking-wider font-extrabold text-emerald-300 border-b-2 border-amber-400 transition active:scale-95 whitespace-nowrap flex items-center gap-1.5';
+      const inactiveClass = 'pb-2 px-1.5 text-[11px] uppercase tracking-wider font-extrabold text-emerald-300/60 hover:text-emerald-300 border-b-2 border-transparent transition active:scale-95 whitespace-nowrap flex items-center gap-1.5';
 
       if (mode === 'fisher-yates') {
         btnsRecentes.forEach(btn => btn.className = 'btn-mode-recentes ' + inactiveClass);
