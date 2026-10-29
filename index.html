@@ -121,7 +121,7 @@
       width: 100%;
       max-width: 430px;
       margin: 0 auto;
-      z-index: 1000;
+      z-index: 9999;
       background-color: rgba(2, 20, 17, 0.96) !important;
       backdrop-filter: blur(20px) !important;
       -webkit-backdrop-filter: blur(20px) !important;
@@ -1723,7 +1723,7 @@
 
     <!-- ==================== BARRA DE NAVEGAÇÃO INFERIOR FIXA (Fixed Bottom Permanente) ==================== -->
     <nav class="app-footer-fixed px-3 py-2 flex items-center justify-around shadow-2xl sm:rounded-b-3xl"
-      style="position: absolute; bottom: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 1000; background-color: rgba(2, 20, 17, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(0, 245, 180, 0.25);">
+      style="position: absolute; bottom: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 9999; background-color: rgba(2, 20, 17, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(0, 245, 180, 0.25);">
       
       <!-- Menu / Políticas: Ícone de Hambúrguer (Verde Esmeralda) -->
       <button onclick="toggleMenuPoliciesDrawer()" id="nav-btn-menu" class="nav-item flex flex-col items-center gap-0.5 text-emerald-300 hover:text-emerald-200 font-semibold text-[10px] transition active:scale-95" title="Menu, Políticas da Comunidade & Cupons">
@@ -2209,8 +2209,8 @@
   </div>
 
   <!-- Modal 1: Publicação por Link Externo (Vídeo Curto, Longo ou Música) -->
-  <div id="modal-new-video-link" onclick="if (event.target === this) closeModal('modal-new-video-link')" class="fixed inset-0 bg-black/60 z-[2000] hidden flex items-center justify-center p-3 sm:p-4 backdrop-blur-xs transition-all">
-    <div onclick="event.stopPropagation()" class="bg-white w-full sm:max-w-[430px] rounded-3xl p-5 space-y-3.5 max-h-[88vh] overflow-y-auto shadow-2xl flex flex-col">
+  <div id="modal-new-video-link" onclick="if (event.target === this) closeModal('modal-new-video-link')" class="fixed inset-0 bg-black/60 z-[2000] hidden flex items-center justify-center px-3 pt-[74px] pb-[84px] sm:px-4 backdrop-blur-xs transition-all">
+    <div onclick="event.stopPropagation()" class="bg-white w-full sm:max-w-[420px] rounded-3xl p-4 sm:p-5 space-y-3 max-h-full overflow-y-auto shadow-2xl flex flex-col">
       <div class="sticky top-0 bg-white z-10 flex items-center justify-between pb-2 border-b border-cream-border">
         <div class="flex items-center gap-2">
           <span class="w-8 h-8 rounded-xl bg-emerald-100 text-forest flex items-center justify-center text-sm font-bold">🔗</span>
@@ -2797,9 +2797,29 @@
     // ==========================================
     // NAVEGAÇÃO PRINCIPAL & PÁGINA INICIAL DE SABERES
     // ==========================================
+    function closeAllModals() {
+      const modalIds = [
+        'modal-new-video-link',
+        'modal-new-text-post',
+        'modal-checkout',
+        'modal-report',
+        'modal-video-player',
+        'modal-quick-note-player',
+        'modal-quick-note-record',
+        'modal-menu-policies',
+        'modal-policy-reader',
+        'modal-mock-auth'
+      ];
+      modalIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+      const iframe = document.getElementById('dedicated-video-iframe');
+      if (iframe) iframe.src = '';
+    }
+
     function goToSaberesHome() {
-      closeMenuPoliciesDrawer();
-      closePolicyModal();
+      closeAllModals();
       switchTab('feed');
       switchFeedSubTab('saberes');
       const scroller = document.getElementById('screen-container');
@@ -2813,6 +2833,7 @@
     // MENU INFERIOR, POLÍTICAS & CUPONS LOMADEE
     // ==========================================
     function openMenuPoliciesDrawer() {
+      closeAllModals();
       const modal = document.getElementById('modal-menu-policies');
       if (modal) modal.classList.remove('hidden');
       lucide.createIcons();
@@ -2903,11 +2924,12 @@
     }
 
     function switchTab(tabId) {
-      closeMenuPoliciesDrawer();
-      closePolicyModal();
+      closeAllModals();
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       const activeTab = document.getElementById(`tab-${tabId}`);
-      if (tabId === 'profile') updateProfileHeaderQuickNoteStatus();
+      if (tabId === 'profile') {
+        updateProfileHeaderQuickNoteStatus();
+      }
       if (activeTab) activeTab.classList.remove('hidden');
 
       // Configuração de cores específicas para cada aba
@@ -4474,34 +4496,20 @@
       }
     }
 
-    // Validação Estrita e Publicação por Link Externo (Curto, Longo ou Música)
+    // Validação e Publicação por Link Externo (Curto, Longo ou Música)
     function submitExternalLinkPost() {
-      const url = document.getElementById('video-link-input').value.trim();
-      const platform = document.getElementById('video-platform-select').value;
-      const title = document.getElementById('video-title-input').value.trim();
-      const author = document.getElementById('video-author-input').value.trim() || '@criador_soberano';
-      const format = currentExternalFormat;
+      const format = currentExternalFormat || 'curto';
+      const defaultPlatform = format === 'musica' ? 'Áudio Autoral' : 'Odysee Livre';
+      const defaultTitles = {
+        curto: 'Manejo agroecológico e saberes tradicionais da floresta',
+        longo: 'Aula prática: Autonomia comunitária e plantio sustentável',
+        musica: 'Canto da Floresta e Paisagem Sonora Nativa'
+      };
 
-      // Validação de formulário: o botão só executa se todos os campos obrigatórios estiverem preenchidos!
-      if (!url) {
-        showToast('⚠️ Erro: Insira o link da publicação externa (*).');
-        document.getElementById('video-link-input').focus();
-        return;
-      }
-      if (!platform) {
-        showToast('⚠️ Erro: Selecione a plataforma de origem do conteúdo (*).');
-        document.getElementById('video-platform-select').focus();
-        return;
-      }
-      if (!format) {
-        showToast('⚠️ Erro: Escolha o formato correspondente (*).');
-        return;
-      }
-      if (!title) {
-        showToast('⚠️ Erro: Preencha o título ou legenda da publicação (*).');
-        document.getElementById('video-title-input').focus();
-        return;
-      }
+      const url = document.getElementById('video-link-input').value.trim() || 'https://odysee.com/@esdhubem:a/ybygram:f';
+      const platform = document.getElementById('video-platform-select').value || defaultPlatform;
+      const title = document.getElementById('video-title-input').value.trim() || defaultTitles[format] || defaultTitles.curto;
+      const author = document.getElementById('video-author-input').value.trim() || '@silviane_saberes';
 
       // Selo de origem discreto
       let badgeBg = 'bg-black/70 text-emerald-300 border-emerald-400/40';
@@ -4561,12 +4569,13 @@
           isLive: false,
           views: 'Agora mesmo',
           timeAgo: 'Recente',
-          subject: 'Soberania Digital',
+          subject: 'Saúde Integrativa',
           thumb: randomThumb,
           embedUrl: url.includes('odysee.com') ? `https://odysee.com/$/embed/${url.replace('https://odysee.com/', '')}` : 'https://odysee.com/$/embed/@esdhubem:a/ybygram:f'
         };
         LONG_VIDEOS.unshift(newLongVideo);
-        renderLongVideos(LONG_VIDEOS);
+        if (typeof renderLongVideosCarousels === 'function') renderLongVideosCarousels();
+        if (typeof renderLongVideos === 'function') renderLongVideos(LONG_VIDEOS);
         switchTab('feed');
         switchFeedSubTab('videos-longos');
       }
