@@ -43,7 +43,14 @@ const server = http.createServer((req, res) => {
       });
       fs.createReadStream(filePath).pipe(res);
     } else {
-      // Fallback para index.html (SPA)
+      const ext = path.extname(filePath).toLowerCase();
+      // Se for um arquivo estático (imagem, script, estilo) inexistente, retorna 404 para não poluir o cache do SW
+      if (ext && ext !== '.html') {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('Not found');
+        return;
+      }
+      // Fallback para index.html apenas para rotas de navegação (SPA)
       res.writeHead(200, {
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'no-cache, no-store, must-revalidate'

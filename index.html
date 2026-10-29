@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>YBYgram • Rede Soberana | Algoritmos Amigáveis: Fluxo Cronológico de Oportunidade</title>
-  <meta name="description" content="YBYgram • Rede Soberana | Algoritmos Amigáveis: Fluxo Cronológico de Oportunidade e Descoberta Justa com Fisher-Yates">
+  <title>YBYgram • Rede Soberana | Fluxo Cronológico e Aleatório: Oportunidade para Todos</title>
+  <meta name="description" content="YBYgram • Rede Soberana | Fluxo Cronológico e Aleatório: Oportunidade para Todos e Descoberta Justa com Fisher-Yates">
   
   <!-- PWA Manifest & Suporte Play Store TWA / Mobile -->
   <link rel="manifest" href="manifest.json">
@@ -66,8 +66,8 @@
 
   <style>
     body {
-      background-color: #EDE8DE;
-      color: #1D2D24;
+      background-color: #010c0a;
+      color: #e6f7f2;
       font-family: 'Plus Jakarta Sans', sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
@@ -80,7 +80,7 @@
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: #C2BBB0;
+      background: rgba(0, 245, 180, 0.25);
       border-radius: 999px;
     }
 
@@ -98,7 +98,7 @@
 
     /* Elementos Fixos de Navegação: Header Fixed e Footer Fixed */
     .app-header-fixed {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
@@ -106,10 +106,41 @@
       max-width: 430px;
       margin: 0 auto;
       z-index: 9999;
-      background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 6px 25px -2px rgba(5, 30, 20, 0.65);
+      background: #021411;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 8px 30px -4px rgba(2, 20, 17, 0.85), 0 1px 0 rgba(0, 245, 180, 0.35);
+    }
+
+    /* Barra Fixa Inferior no estilo Dark Ondas Turquesa-Dourado */
+    .app-footer-fixed {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      z-index: 1000;
+      background-color: rgba(2, 20, 17, 0.96) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border-top: 1.5px solid rgba(0, 245, 180, 0.35) !important;
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.65) !important;
+    }
+
+    /* Container de Telas do App Shell */
+    #screen-container {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-top: 120px;
+      padding-top: var(--app-header-height, 120px);
+      padding-bottom: 96px;
+      background-color: #021411 !important;
+      background-image: 
+        radial-gradient(at 0% 15%, rgba(0, 245, 180, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 40%, rgba(251, 191, 36, 0.07) 0px, transparent 50%),
+        radial-gradient(at 10% 80%, rgba(0, 245, 180, 0.06) 0px, transparent 50%) !important;
     }
 
     /* Mini Abas de Caderno (Chips de Natureza) */
@@ -125,19 +156,19 @@
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
       user-select: none;
-      border-top: 2.5px solid #E2DDD2;
-      border-left: 1px solid rgba(0, 0, 0, 0.08);
-      border-right: 1px solid rgba(0, 0, 0, 0.08);
-      border-bottom: 1.5px solid rgba(0, 0, 0, 0.12);
-      background: linear-gradient(180deg, #FFFFFF 0%, #FBF9F4 100%);
-      color: #1D2D24;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border-top: 2.5px solid rgba(0, 245, 180, 0.3);
+      border-left: 1px solid rgba(0, 245, 180, 0.15);
+      border-right: 1px solid rgba(0, 245, 180, 0.15);
+      border-bottom: 1.5px solid rgba(0, 0, 0, 0.3);
+      background: #05241d;
+      color: #f0fdf4;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
     .notebook-chip:hover {
-      background: #F4EFE6;
-      border-top-color: #C85A32;
+      background: #07352a;
+      border-top-color: #fbbf24;
       transform: translateY(-1px);
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
     }
     .notebook-chip.active {
       background: linear-gradient(180deg, #D4633B 0%, #C85A32 100%) !important;
@@ -146,32 +177,122 @@
       border-left-color: #EA580C !important;
       border-right-color: #EA580C !important;
       border-bottom-color: #9A3412 !important;
-      box-shadow: 0 4px 10px rgba(200, 90, 50, 0.38) !important;
+      box-shadow: 0 4px 12px rgba(200, 90, 50, 0.45) !important;
       transform: translateY(-2px);
     }
 
-    .app-footer-fixed {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      max-width: 430px;
-      margin: 0 auto;
-      z-index: 1000;
-      background-color: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-top: 1px solid #E2DDD2;
-      box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.1);
+    /* ======================================================== */
+    /* TEMA COMPLETO ONDAS TURQUESA-DOURADO: ADAPTAÇÃO GLOBAL   */
+    /* ======================================================== */
+    .bg-cream {
+      background-color: #021411 !important;
+    }
+    .bg-white {
+      background-color: #05241d !important;
+      color: #f0fdf4 !important;
+      border-color: rgba(0, 245, 180, 0.22) !important;
+    }
+    .bg-\[\#eaece8\], .bg-\[\#EAECE8\], .post-card {
+      background-color: #05241d !important;
+      border-color: rgba(0, 245, 180, 0.25) !important;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4) !important;
+    }
+    .border-cream-border, .border-\[\#d5d8d2\], .border-\[\#D5D8D2\] {
+      border-color: rgba(0, 245, 180, 0.2) !important;
     }
 
-    #screen-container {
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      padding-top: 120px; /* Compensação exata da altura do cabeçalho superior fixo */
-      padding-top: var(--app-header-height, 120px);
-      padding-bottom: 96px; /* Espaço para o rodapé fixo nunca cobrir o conteúdo */
+    /* Tipografia de Alta Legibilidade no Tema Escuro Soberano */
+    .text-charcoal {
+      color: #f0fdf4 !important;
+    }
+    .text-charcoal-soft {
+      color: #9fe0cd !important;
+    }
+    .text-forest {
+      color: #34d399 !important;
+    }
+    .bg-forest-light {
+      background-color: rgba(6, 78, 59, 0.5) !important;
+      color: #a7f3d0 !important;
+      border-color: rgba(0, 245, 180, 0.3) !important;
+    }
+    .bg-forest-light\/60 {
+      background-color: rgba(6, 78, 59, 0.4) !important;
+    }
+
+    /* Inputs e Caixas de Busca */
+    input[type="text"], input[type="email"], input[type="password"], textarea {
+      background-color: #031c16 !important;
+      color: #ffffff !important;
+      border-color: rgba(0, 245, 180, 0.25) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: rgba(209, 250, 229, 0.45) !important;
+    }
+
+    /* Caixa de Partilha e Botões Internos */
+    .bg-\[\#EAECE8\] button.bg-white {
+      background-color: #031c16 !important;
+      color: rgba(240, 253, 244, 0.8) !important;
+      border-color: rgba(0, 245, 180, 0.25) !important;
+    }
+
+    /* Barra "Rede de Conexões" */
+    #connections-bar-section {
+      background-color: rgba(3, 29, 23, 0.95) !important;
+      border-color: rgba(0, 245, 180, 0.25) !important;
+    }
+
+    /* Cartões de Hábitos, IMC e Métricas no Tema Escuro */
+    .bg-\[\#F8F6F0\], .bg-\[\#f8f6f0\] {
+      background-color: #031c16 !important;
+      border-color: rgba(0, 245, 180, 0.2) !important;
+      color: #f0fdf4 !important;
+    }
+    .bg-blue-50 {
+      background-color: rgba(30, 58, 138, 0.35) !important;
+      color: #93c5fd !important;
+      border-color: rgba(96, 165, 250, 0.3) !important;
+    }
+    .bg-indigo-50 {
+      background-color: rgba(49, 46, 129, 0.35) !important;
+      color: #c7d2fe !important;
+      border-color: rgba(129, 140, 248, 0.3) !important;
+    }
+    .bg-amber-50 {
+      background-color: rgba(120, 53, 15, 0.35) !important;
+      color: #fde68a !important;
+      border-color: rgba(251, 191, 36, 0.3) !important;
+    }
+    .bg-emerald-50, .bg-emerald-100 {
+      background-color: rgba(6, 78, 59, 0.5) !important;
+      color: #6ee7b7 !important;
+      border-color: rgba(0, 245, 180, 0.35) !important;
+    }
+    .bg-rose-50 {
+      background-color: rgba(136, 19, 55, 0.35) !important;
+      color: #fecdd3 !important;
+      border-color: rgba(244, 63, 94, 0.3) !important;
+    }
+    .bg-neutral-100 {
+      background-color: #062b22 !important;
+      color: #e2e8f0 !important;
+      border-color: rgba(0, 245, 180, 0.2) !important;
+    }
+
+    /* Comentários e Rodas de Partilha */
+    .bg-white\/60, .bg-white\/70, .bg-white\/80 {
+      background-color: rgba(3, 28, 22, 0.75) !important;
+      border-color: rgba(0, 245, 180, 0.2) !important;
+      color: #f0fdf4 !important;
+    }
+
+    /* Modais e Drawers */
+    #modal-menu-policies > div, #modal-checkout > div, #modal-new-video-link > div, #modal-policy-reader > div, #modal-report > div {
+      background-color: #031c16 !important;
+      border: 1.5px solid rgba(0, 245, 180, 0.3) !important;
+      color: #f0fdf4 !important;
+      box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 245, 180, 0.15) !important;
     }
 
     /* Animação suave de transição */
@@ -182,334 +303,186 @@
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Bloqueia extensões de navegadores de injetarem botões flutuantes (como AliExpress / Google Lens) sobre o banner */
+    .hero-banner-img {
+      pointer-events: none !important;
+      -webkit-user-drag: none !important;
+      user-select: none !important;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center sm:p-4 select-none">
+<body class="min-h-screen flex flex-col items-center justify-center sm:p-4 select-none bg-[#111413] relative">
 
-  <!-- Container Mobile Centralizado (App Shell Mobile) -->
-  <main class="w-full sm:max-w-[430px] h-[100dvh] sm:h-[890px] sm:max-h-[94vh] bg-cream sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden sm:border sm:border-cream-border relative">
+  <!-- Container Mobile Centralizado (Smartphone Shell Estilo Dola AI com Borda e Sombra Realista) -->
+  <main class="w-full sm:max-w-[430px] h-[100dvh] sm:h-[890px] sm:max-h-[94vh] bg-[#021411] sm:rounded-[40px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden sm:border-[3px] sm:border-neutral-800/80 ring-1 ring-white/10 relative">
     
-    <!-- ==================== TELA DE BOAS-VINDAS PWA (PLAY STORE STYLE • ONDAS TURQUESA-DOURADO) ==================== -->
+    <!-- ==================== TELA DE LOGIN / BOAS-VINDAS ==================== -->
     <div id="welcome-screen" class="absolute inset-0 z-[10001] bg-[#021411] flex flex-col justify-between overflow-hidden transition-all duration-700 select-none">
       
-      <!-- Fundo de Ondas Orgânicas Fluidas em Seda Turquesa e Ouro Líquido Inspirado na Arte Dola AI -->
-      <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <svg class="w-full h-full object-cover" viewBox="0 0 430 890" preserveAspectRatio="none">
-          <defs>
-            <radialGradient id="welcomeTurqGlow" cx="20%" cy="30%" r="55%">
-              <stop offset="0%" stop-color="#00f5b4" stop-opacity="0.38"/>
-              <stop offset="50%" stop-color="#059669" stop-opacity="0.14"/>
-              <stop offset="100%" stop-color="#021411" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="welcomeGoldGlow" cx="85%" cy="65%" r="55%">
-              <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.35"/>
-              <stop offset="50%" stop-color="#d97706" stop-opacity="0.14"/>
-              <stop offset="100%" stop-color="#021411" stop-opacity="0"/>
-            </radialGradient>
-            <linearGradient id="waveTurqGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#00f5b4"/>
-              <stop offset="40%" stop-color="#00c49f"/>
-              <stop offset="75%" stop-color="#0d9488"/>
-              <stop offset="100%" stop-color="#022c22"/>
-            </linearGradient>
-            <linearGradient id="waveGoldGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#b45309"/>
-              <stop offset="35%" stop-color="#f59e0b"/>
-              <stop offset="70%" stop-color="#fef08a"/>
-              <stop offset="100%" stop-color="#fcd34d"/>
-            </linearGradient>
-            <linearGradient id="waveDeepSilky" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#053026"/>
-              <stop offset="100%" stop-color="#01130f"/>
-            </linearGradient>
-            <filter id="turqFilterGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="16" result="blur"/>
-              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-            </filter>
-            <filter id="goldFilterGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="18" result="blur"/>
-              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-            </filter>
-          </defs>
+      <!-- 1. Topo: Barra de Status + Cabeçalho com Logotipo -->
+      <div class="relative z-20 pt-2 px-5 pb-2 bg-gradient-to-b from-[#021411] via-[#021411]/85 to-transparent">
+        <div class="flex items-center justify-between text-white/80 text-[11px] font-semibold pb-2">
+          <span class="tracking-tight font-bold">9:41</span>
+          <div class="w-20 h-3.5 bg-black/80 rounded-full border border-white/10 mx-auto flex items-center justify-center">
+            <div class="w-2 h-2 rounded-full bg-emerald-500/40"></div>
+          </div>
+          <div class="flex items-center gap-1.5 text-white/90">
+            <i data-lucide="signal" class="w-3 h-3"></i>
+            <i data-lucide="wifi" class="w-3 h-3"></i>
+            <i data-lucide="battery" class="w-3.5 h-3.5 text-emerald-400"></i>
+          </div>
+        </div>
 
-          <!-- Fundos com Brilho Atmosférico -->
-          <rect width="430" height="890" fill="#021411"/>
-          <rect width="430" height="890" fill="url(#welcomeTurqGlow)"/>
-          <rect width="430" height="890" fill="url(#welcomeGoldGlow)"/>
-
-          <!-- Onda de Fundo Verde Floresta Profunda -->
-          <path d="M-40,240 C90,140 220,380 480,220 L480,890 L-40,890 Z" fill="url(#waveDeepSilky)" opacity="0.95"/>
-
-          <!-- Fita Ondulada Luminosa Turquesa Fluida (Superior) -->
-          <path d="M-60,330 C90,200 230,490 490,340 C380,520 180,310 -60,430 Z" 
-                fill="url(#waveTurqGradient)" opacity="0.6" filter="url(#turqFilterGlow)"/>
-
-          <!-- Fita Ondulada em Ouro Líquido com Brilho Dourado (Central) -->
-          <path d="M-40,540 C120,410 260,660 480,490 C360,680 140,480 -40,650 Z" 
-                fill="url(#waveGoldGradient)" opacity="0.8" filter="url(#goldFilterGlow)"/>
-
-          <!-- Segunda Camada Ouro Refinada -->
-          <path d="M-20,580 C130,480 270,690 460,560 C380,710 160,540 -20,680 Z" 
-                fill="#ffd15c" opacity="0.25"/>
-
-          <!-- Onda Inferior Turquesa Envolvente -->
-          <path d="M-30,730 C120,640 290,790 480,680 L480,890 L-30,890 Z" 
-                fill="url(#waveTurqGradient)" opacity="0.45"/>
-        </svg>
-
-        <!-- Partículas de Estrelas / Brilhos Flutuantes -->
-        <div class="absolute top-[18%] right-[10%] text-amber-300 text-sm animate-pulse opacity-90 pointer-events-none">✦</div>
-        <div class="absolute top-[34%] left-[8%] text-emerald-300 text-xs animate-pulse opacity-80 pointer-events-none" style="animation-delay: 1s;">✦</div>
-        <div class="absolute top-[68%] right-[14%] text-amber-200 text-xs animate-pulse opacity-75 pointer-events-none" style="animation-delay: 1.5s;">✨</div>
-        <div class="absolute top-[82%] left-[12%] text-emerald-400 text-sm animate-pulse opacity-85 pointer-events-none" style="animation-delay: 0.5s;">✦</div>
-      </div>
-
-      <!-- 1. Topo Mockup Smartphone (Status Bar: 9:41, Wi-Fi, Bateria) -->
-      <div class="relative z-10 pt-2 px-6 flex items-center justify-between text-white/80 text-xs font-semibold">
-        <span>9:41</span>
-        <div class="flex items-center gap-2">
-          <i data-lucide="signal" class="w-3.5 h-3.5"></i>
-          <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
-          <div class="flex items-center gap-0.5 border border-white/60 rounded px-1 py-0.5">
-            <div class="w-3.5 h-1.5 bg-emerald-400 rounded-2xs"></div>
+        <div class="flex items-center justify-between pt-1">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-emerald-950/80 border border-emerald-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(0,245,180,0.3)] backdrop-blur-md">
+              <svg viewBox="0 0 24 24" class="w-5 h-5">
+                <path d="M12 2L20 8Q22 9.5 20 11L13 16Q11 17 9.5 16L3 11Q1 9.5 3 8Z" fill="#00f5b4"/>
+                <path d="M12 9L20 15Q22 16.5 20 18L13 23Q11 24 9.5 23L3 18Q1 16.5 3 15Z" fill="#fbbf24"/>
+              </svg>
+            </div>
+            <div class="flex items-baseline">
+              <span class="text-xl font-extrabold text-white tracking-tight">YBY</span>
+              <span class="text-xl font-light text-amber-400 tracking-tight ml-0.5">gram</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 2. Cabeçalho Minimalista da Tela de Boas-Vindas com Logotipo e Busca -->
-      <div class="relative z-10 px-6 pt-3 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <!-- Ícone Folha Alada Turquesa & Ouro -->
-          <div class="w-8 h-8 rounded-xl bg-emerald-950/80 border border-emerald-400/50 flex items-center justify-center shadow-[0_0_15px_rgba(0,245,180,0.4)] backdrop-blur-md">
-            <svg viewBox="0 0 24 24" class="w-5 h-5">
-              <path d="M12 2L20 8Q22 9.5 20 11L13 16Q11 17 9.5 16L3 11Q1 9.5 3 8Z" fill="#00f5b4"/>
-              <path d="M12 9L20 15Q22 16.5 20 18L13 23Q11 24 9.5 23L3 18Q1 16.5 3 15Z" fill="#fbbf24"/>
-            </svg>
-          </div>
-          <div class="flex items-baseline">
-            <span class="text-xl font-extrabold text-white tracking-tight">YBY</span>
-            <span class="text-xl font-light text-amber-400 tracking-tight ml-0.5">gram</span>
-          </div>
-        </div>
-
-        <button onclick="showToast('🔍 Pesquisa comunitária disponível no feed após entrada.')" 
-          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md flex items-center justify-center text-white/90 transition active:scale-95" title="Pesquisar">
-          <i data-lucide="search" class="w-4 h-4"></i>
-        </button>
+      <!-- 2. Imagem Principal das Duas Araras na Floresta -->
+      <div class="relative flex-1 w-full overflow-hidden -mt-4">
+        <img src="assets/login-araras.jpg" alt="Bem Vindo(a) ao YBYgram" class="w-full h-full object-cover object-center pointer-events-none select-none">
+        <!-- Degradê suave no topo e na base para integrar com o fundo escuro -->
+        <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#021411] via-[#021411]/40 to-transparent pointer-events-none"></div>
+        <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#021411] via-[#021411]/85 to-transparent pointer-events-none"></div>
       </div>
 
-      <!-- 3. Corpo Central de Apresentação Soberana (Visual de Play Store / Boas-Vindas) -->
-      <div class="relative z-10 px-6 py-4 flex-1 flex flex-col justify-center">
-        <!-- Título Principal com Destaque Soberano -->
-        <div class="space-y-1">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-400/40 text-[10px] font-bold text-emerald-300 shadow-[0_0_12px_rgba(0,245,180,0.3)] backdrop-blur-md mb-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>PROTÓTIPO PWA • PLAY STORE READY</span>
-          </div>
-          <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
-            YBYgram <span class="text-amber-400">•</span> Rede Soberana
+      <!-- 3. Bloco de Texto e Botões de Login / Criar Conta -->
+      <div class="relative z-20 px-6 pb-10 pt-2 bg-[#021411] text-center space-y-6">
+        <div class="space-y-1.5">
+          <h1 class="text-2xl sm:text-[26px] font-black text-white tracking-tight leading-tight">
+            Bem Vindo(a) ao YBYgram
           </h1>
-          <h2 class="text-base sm:text-lg font-extrabold bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent leading-snug">
-            Algoritmos Amigáveis: Fluxo Cronológico de Oportunidade
+          <h2 class="text-sm sm:text-base font-bold bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 bg-clip-text text-transparent">
+            Ecosistema que conecta redes e saberes
           </h2>
         </div>
 
-        <!-- Descrição Épica Comunitária -->
-        <p class="text-xs text-emerald-100/80 leading-relaxed mt-3 max-w-[95%]">
-          Sem vigilância algorítmica ou retenção por dopamina comercial. Uma plataforma viva de saberes da terra, 
-          onde todo relato tem visibilidade justa no tempo certo e aulas atemporais são descobertas por mérito com Fisher-Yates.
-        </p>
-
-        <!-- Pílula de Ação Principal Dourada (Estilo "Faça sua Postagem / Entrar") -->
-        <div class="mt-6 flex flex-col gap-3">
-          <button onclick="quickEnterFeed('Silviane Terra')" 
-            class="w-full py-3.5 px-6 rounded-2xl font-black text-sm text-[#0a281b] flex items-center justify-center gap-2 transition active:scale-98 shadow-[0_8px_30px_rgba(246,207,76,0.45)] hover:shadow-[0_10px_35px_rgba(246,207,76,0.6)] hover:brightness-105"
-            style="background: linear-gradient(135deg, #FFE58F 0%, #F6CF4C 50%, #D49312 100%);">
-            <span>✨ Faça sua Postagem / Entrar no Feed</span>
-            <i data-lucide="arrow-right" class="w-4 h-4 text-[#0a281b]"></i>
+        <!-- Botões Criar Conta e Entrar -->
+        <div class="grid grid-cols-2 gap-3 pt-1">
+          <button onclick="openMockAuthModal('signup')" 
+            class="py-3 px-4 rounded-xl font-bold text-xs sm:text-sm text-white bg-white/10 hover:bg-white/15 border border-white/25 backdrop-blur-md transition flex items-center justify-center gap-2 active:scale-95 shadow-md">
+            <i data-lucide="user-plus" class="w-4 h-4 text-emerald-400"></i>
+            <span>Criar Conta</span>
           </button>
-
-          <!-- Botões Criar Conta e Entrar (Mock Login) -->
-          <div class="grid grid-cols-2 gap-2.5">
-            <button onclick="openMockAuthModal('signup')" 
-              class="py-2.5 px-3 rounded-xl font-bold text-xs text-white bg-white/10 hover:bg-white/15 border border-white/20 backdrop-blur-md transition flex items-center justify-center gap-1.5 active:scale-95 shadow-sm">
-              <i data-lucide="user-plus" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>Criar Conta</span>
-            </button>
-            <button onclick="openMockAuthModal('login')" 
-              class="py-2.5 px-3 rounded-xl font-bold text-xs text-amber-200 bg-amber-950/40 hover:bg-amber-950/60 border border-amber-400/40 backdrop-blur-md transition flex items-center justify-center gap-1.5 active:scale-95 shadow-sm">
-              <i data-lucide="log-in" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>Entrar</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 4. Pílula Interativa: Recentes vs Descobrir Aleatório (Fisher-Yates) -->
-        <div class="mt-5 p-2 rounded-2xl bg-black/50 border border-emerald-400/25 backdrop-blur-lg shadow-xl flex items-center justify-between">
-          <div class="flex items-center gap-2 pl-2">
-            <div class="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-300">
-              <i data-lucide="check" class="w-3.5 h-3.5"></i>
-            </div>
-            <div>
-              <div class="text-[11px] font-black text-amber-300 flex items-center gap-1">
-                <span>Recentes 🕒</span>
-              </div>
-              <div class="text-[9.5px] text-white/70">
-                Descobrir Aleatório ✨ (Fisher-Yates)
-              </div>
-            </div>
-          </div>
-          <button onclick="quickEnterFeed('Silviane Terra', 'random')" 
-            class="px-3 py-1.5 rounded-xl bg-amber-400 text-[#072418] font-black text-[10px] flex items-center gap-1 hover:brightness-110 active:scale-95 transition shadow-md">
-            <span>Explorar</span>
-            <i data-lucide="sparkles" class="w-3 h-3"></i>
+          <button onclick="openMockAuthModal('login')" 
+            class="py-3 px-4 rounded-xl font-bold text-xs sm:text-sm text-[#072418] transition flex items-center justify-center gap-2 active:scale-95 shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:brightness-105"
+            style="background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 60%, #d97706 100%);">
+            <i data-lucide="log-in" class="w-4 h-4 text-[#072418]"></i>
+            <span>Entrar</span>
           </button>
-        </div>
-      </div>
-
-      <!-- 5. Abas de Navegação Inferiores em Formato de Pílulas Estilo Imagem Dola AI -->
-      <div class="relative z-10 px-6 pb-6 pt-2">
-        <div class="flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-black/60 border border-white/10 backdrop-blur-xl shadow-2xl">
-          <button onclick="quickEnterFeed('Silviane Terra', 'saberes')" 
-            class="flex-1 py-2 px-1 rounded-xl bg-gradient-to-r from-amber-200 to-amber-300 text-[#072418] font-black text-[11px] text-center shadow-md transition active:scale-95">
-            Saberes
-          </button>
-          <button onclick="quickEnterFeed('Silviane Terra', 'videos-curtos')" 
-            class="flex-1 py-2 px-1 rounded-xl text-white/80 hover:text-white font-bold text-[11px] text-center transition active:scale-95">
-            Curtos
-          </button>
-          <button onclick="quickEnterFeed('Silviane Terra', 'videos-longos')" 
-            class="flex-1 py-2 px-1 rounded-xl text-white/80 hover:text-white font-bold text-[11px] text-center transition active:scale-95">
-            Longos
-          </button>
-          <button onclick="quickEnterFeed('Silviane Terra', 'musica')" 
-            class="flex-1 py-2 px-1 rounded-xl text-white/80 hover:text-white font-bold text-[11px] text-center transition active:scale-95">
-            Música
-          </button>
-        </div>
-
-        <div class="flex items-center justify-center gap-2 mt-3 text-[9px] text-white/40 tracking-wider uppercase font-semibold">
-          <span>YBYgram PWA</span>
-          <span>•</span>
-          <span>Play Store Ready</span>
-          <span>•</span>
-          <span>Soberania Digital</span>
         </div>
       </div>
     </div>
 
-    <!-- ==================== CABEÇALHO SUPERIOR FIXO (Fixed Top Permanente com Opacidade e Desfoque) ==================== -->
-    <header class="app-header-fixed text-white px-4 pt-3.5 pb-2.5 shrink-0 flex flex-col gap-1.5 border-b border-emerald-400/20 sm:rounded-t-3xl overflow-hidden"
-      style="position: fixed; top: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 9999; background: radial-gradient(135% 120% at 85% 10%, #1d6e4b 0%, #12442e 45%, #082417 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 6px 25px -2px rgba(5,30,20,0.65);">
+    <!-- ==================== CABEÇALHO SUPERIOR FIXO (ESTILO DOLA AI MINIMALISTA E SOBERANO) ==================== -->
+    <header class="app-header-fixed text-white px-3.5 pt-1.5 pb-2 shrink-0 flex flex-col gap-1 border-b border-emerald-400/20 sm:rounded-t-3xl overflow-hidden"
+      style="position: absolute; top: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 9999; background: rgba(2, 20, 17, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 4px 20px -2px rgba(2, 20, 17, 0.9);">
       
-      <!-- Reflexo suave de luz ambiental no topo do cabeçalho -->
-      <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-emerald-400/15 blur-2xl pointer-events-none"></div>
+      <!-- Barra de Status do Sistema (9:41, Ilha Dinâmica e Ícones) -->
+      <div class="flex items-center justify-between text-white/80 text-[11px] font-semibold px-2 pt-0.5 select-none">
+        <span class="tracking-tight font-bold">9:41</span>
+        <!-- Notch / Dynamic Island sutil -->
+        <div class="w-20 h-3.5 bg-black/80 rounded-full border border-white/10 mx-auto flex items-center justify-center">
+          <div class="w-2 h-2 rounded-full bg-emerald-500/40"></div>
+        </div>
+        <div class="flex items-center gap-1.5 text-white/90">
+          <i data-lucide="signal" class="w-3 h-3"></i>
+          <i data-lucide="wifi" class="w-3 h-3"></i>
+          <i data-lucide="battery" class="w-3.5 h-3.5 text-emerald-400"></i>
+        </div>
+      </div>
 
-      <div class="flex items-center justify-between relative z-10">
-        <!-- Logotipo elegante em texto "YBYgram" -->
-        <div class="flex items-center gap-1 cursor-pointer transition active:scale-95 hover:opacity-90" onclick="goToSaberesHome()" title="Ir para a Página Principal de Saberes">
-          <span class="text-xl font-extrabold tracking-tight text-white drop-shadow-sm">YBY</span>
-          <span class="text-xl font-light tracking-tight text-amber-300 drop-shadow-[0_0_8px_rgba(252,211,77,0.5)]">gram</span>
-          <span class="ml-1.5 text-[8.5px] bg-emerald-950/70 text-white px-2 py-0.5 rounded-full font-bold border border-emerald-400/60 shadow-[0_0_10px_rgba(52,211,153,0.35)] backdrop-blur-md flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]"></span>
-            Rede Soberana
-          </span>
+      <!-- Barra de Navegação Principal: Marca e Ações -->
+      <div class="flex items-center justify-between px-1 pt-0.5 relative z-10">
+        <!-- Logotipo YBYgram -->
+        <div class="flex items-center gap-1.5 cursor-pointer transition active:scale-95" onclick="goToSaberesHome()" title="Ir para a Página Principal de Saberes">
+          <span class="text-base sm:text-lg font-black tracking-tight text-white drop-shadow-sm">YBYgram</span>
         </div>
 
-        <!-- Ações do Topo: Botão Boas-Vindas PWA + Botão Faça sua Postagem + Avatar do Usuário -->
+        <!-- Ações: Avatar -->
         <div class="flex items-center gap-2">
-          <!-- Botão para reabrir a Tela de Boas-Vindas PWA -->
-          <button onclick="openWelcomeScreen()" 
-            class="px-2 py-1.5 rounded-xl bg-emerald-950/75 hover:bg-emerald-900 border border-emerald-400/40 text-amber-300 text-[10.5px] font-black flex items-center gap-1 shadow-xs transition active:scale-95" 
-            title="Ver Tela de Boas-Vindas PWA (Play Store)">
-            <span>🌟</span>
-            <span class="hidden sm:inline">Início PWA</span>
-          </button>
-          <button onclick="openModal('modal-new-video-link')" 
-            class="flex items-center px-3.5 py-1.5 rounded-xl font-black text-[11.5px] sm:text-xs text-[#0a281b] transition whitespace-nowrap active:scale-95 border border-[#FFF2A8] shadow-[0_0_15px_rgba(246,207,76,0.55),inset_0_1px_1px_rgba(255,255,255,0.8)] hover:shadow-[0_0_22px_rgba(246,207,76,0.75)] hover:brightness-105" 
-            style="background: linear-gradient(135deg, #FFE27A 0%, #F6CF4C 50%, #E3A316 100%);"
-            title="Faça sua Postagem">
-            <span class="tracking-tight">Faça sua Postagem</span>
-          </button>
-          <button onclick="switchTab('profile')" class="relative flex items-center justify-center p-0.5 rounded-full" title="Meu Perfil">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face" alt="Perfil" class="w-9 h-9 rounded-full object-cover border-2 border-red-500 shadow-[0_0_14px_rgba(239,68,68,0.85),0_0_24px_rgba(220,38,38,0.55)] ring-2 ring-red-400/70">
-            <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 border border-white rounded-full flex items-center justify-center text-[8px] text-white font-bold shadow-xs" style="background-color: #51de06;">✓</span>
+          <!-- Avatar do Perfil -->
+          <button onclick="switchTab('profile')" class="relative flex items-center justify-center p-0.5 rounded-full transition active:scale-95" title="Meu Perfil">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face" alt="Perfil" class="w-7 h-7 rounded-full object-cover border border-amber-300/80 shadow-[0_0_8px_rgba(251,191,36,0.3)]">
+            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border border-black"></span>
           </button>
         </div>
       </div>
-
-      <!-- 3. FAIXA DE FLUXO CRONOLÓGICO: "ALGORITMOS AMIGÁVEIS" -->
-      <div id="header-algoritmos-info" class="flex items-center justify-between px-2 py-0.5 text-white/90 relative z-10">
-        <div class="flex items-center gap-1.5 min-w-0">
-          <span class="text-xs">⚖️</span>
-          <span class="text-[9.5px] font-black uppercase tracking-wider text-amber-300">
-            🌱 ALGORITMOS AMIGÁVEIS:
-          </span>
-          <span class="text-[10px] font-medium text-emerald-100/90 truncate">
-            Fluxo cronológico de oportunidades para todos
-          </span>
-        </div>
-        <div class="flex items-center gap-1 text-[9.5px] font-bold text-amber-300/90 shrink-0 ml-2">
-          <i data-lucide="clock" class="w-2.5 h-2.5 text-amber-300"></i>
-          <span>Recentes 1º</span>
-        </div>
-      </div>
-
-      <!-- SELETOR INTERATIVO DO FEED: RECENTES (CRONOLÓGICO) vs DESCOBRIR ALEATÓRIO (FISHER-YATES) -->
-      <div id="feed-mode-selector-pill" class="flex items-center justify-between p-1 rounded-xl bg-black/45 border border-white/15 backdrop-blur-md shadow-inner text-white text-[10px] -mt-0.5">
-        <button id="btn-mode-recentes" onclick="setFeedOrderingMode('recentes')" 
-          class="flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 bg-white/20 text-white shadow-xs">
-          <span>🕒 Recentes (1º)</span>
-        </button>
-        <button id="btn-mode-fisher-yates" onclick="setFeedOrderingMode('fisher-yates')" 
-          class="flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-amber-200/80 hover:text-white">
-          <span>✨ Descobrir Aleatório (Fisher-Yates)</span>
-        </button>
-      </div>
-
-      <!-- BARRA DE SELEÇÃO DE FEED: 4 ABAS TEMÁTICAS EM FORMATO DE CADERNO (100% VISÍVEIS) -->
-      <nav id="feed-subtabs-nav" class="grid grid-cols-4 gap-1 pt-2 px-0.5 border-b border-black/15 w-full">
-        <!-- Aba 1: Saberes (Ativa por padrão em Laranja #C85A32) -->
-        <button id="subtab-btn-saberes" onclick="goToSaberesHome()" 
-          class="subtab-btn active px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white">
-          <span class="truncate">📚 Saberes</span>
-        </button>
-        <!-- Aba 2: Vídeos Curtos -->
-        <button id="subtab-btn-videos-curtos" onclick="switchFeedSubTab('videos-curtos')" 
-          class="subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#804928]/70 text-white hover:bg-[#804928]">
-          <span class="truncate">🎬 Curtos</span>
-        </button>
-        <!-- Aba 3: Vídeos Longos -->
-        <button id="subtab-btn-videos-longos" onclick="switchFeedSubTab('videos-longos')" 
-          class="subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#204A6E]/70 text-white hover:bg-[#204A6E]">
-          <span class="truncate">🖥️ Longos</span>
-        </button>
-        <!-- Aba 4: Música -->
-        <button id="subtab-btn-musica" onclick="switchFeedSubTab('musica')" 
-          class="subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#5B21B6]/70 text-white hover:bg-[#5B21B6]">
-          <span class="truncate">🎵 Música</span>
-        </button>
-      </nav>
     </header>
 
     <!-- ÁREA DE CONTEÚDO ROLÁVEL COM COMPENSAÇÃO DE CABEÇALHO SUPERIOR E RODAPÉ INFERIOR -->
-    <div id="screen-container" class="flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar bg-cream relative pb-24"
-      style="scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding-top: 120px; padding-bottom: 96px;">
+    <div id="screen-container" class="flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar bg-[#021411] text-white relative pb-24"
+      style="scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding-top: 60px; padding-bottom: 84px;">
 
       <!-- ======================================================== -->
       <!-- ABA 1: FEED / COMUNIDADE                                  -->
       <!-- ======================================================== -->
       <section id="tab-feed" class="tab-content">
 
-        <!-- 2. SEÇÃO REDE DE CONEXÕES COM RECADO RÁPIDO (Compartilhada e Fixa no Topo de Todas as Abas: Saberes, Curtos, Longos e Música) -->
-        <div id="connections-bar-section" class="bg-white border-b border-cream-border py-2.5 px-3.5 shadow-xs sticky top-0 z-20">
+        <!-- ==================== HERO PORTAL DA FLORESTA SAGRADA & ARARA ANCESTRAL (ESTILO DOLA AI) ==================== -->
+        <div class="relative w-full overflow-hidden text-center bg-[#021411]">
+          <!-- Imagem da Floresta Sagrada com a Arara Ancestral e Luz Radiante -->
+          <div class="relative w-full h-72 sm:h-84 overflow-hidden">
+            <img src="assets/arara-original.jpg" alt="Arara Ancestral e Portal Sagrado YBYgram" class="hero-banner-img w-full h-full object-cover object-[center_35%] pointer-events-none select-none scale-105 transition-transform duration-1000">
+            <!-- Degradê suave no topo -->
+            <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#021411]/90 via-[#021411]/40 to-transparent pointer-events-none"></div>
+            <!-- Degradê profundo na base fundindo com o fundo obsidian -->
+            <div class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#021411] via-[#021411]/85 to-transparent pointer-events-none"></div>
+          </div>
+
+          <!-- Bloco Central: Título "Fluxo Cronológico e Aleatório" + Subtítulo "Oportunidade para Todos" -->
+          <div class="relative z-10 -mt-16 px-4 pb-2">
+            <h1 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+              Fluxo Cronológico e Aleatório
+            </h1>
+            <p class="text-xs sm:text-sm font-medium text-emerald-200/90 tracking-wide mt-1 drop-shadow-md">
+              Oportunidade para Todos
+            </p>
+
+            <!-- Navegação de Sub-Abas Limpa com Sublinhado Dourado (Estilo Dola AI) -->
+            <nav id="feed-subtabs-nav" class="flex items-center justify-around mt-4 border-b border-white/10 max-w-sm mx-auto">
+              <button id="subtab-btn-saberes" onclick="switchFeedSubTab('saberes')" 
+                class="subtab-btn active pb-2 px-3 text-sm font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95">
+                Saberes
+              </button>
+              <button id="subtab-btn-videos-curtos" onclick="switchFeedSubTab('videos-curtos')" 
+                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95">
+                Curtos
+              </button>
+              <button id="subtab-btn-videos-longos" onclick="switchFeedSubTab('videos-longos')" 
+                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95">
+                Longos
+              </button>
+              <button id="subtab-btn-musica" onclick="switchFeedSubTab('musica')" 
+                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95">
+                Música
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        <!-- 2. SEÇÃO REDE DE CONEXÕES COM RECADO RÁPIDO -->
+        <div id="connections-bar-section" class="bg-[#021411] border-b border-emerald-500/20 py-2.5 px-3.5 shadow-xs relative">
           <div class="flex items-center justify-between mb-2 px-1">
-            <span class="text-[11px] uppercase tracking-wider font-extrabold text-forest flex items-center gap-1.5">
-              <i data-lucide="users" class="w-3.5 h-3.5 text-forest"></i>
+            <span class="text-[11px] uppercase tracking-wider font-extrabold text-emerald-300 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#00f5b4]"></span>
+              <i data-lucide="users" class="w-3.5 h-3.5 text-emerald-400"></i>
               Rede de Conexões
             </span>
-            <button onclick="openQuickNoteRecorder()" class="text-[10px] font-bold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition shadow-2xs active:scale-95" title="Gravar Recado Rápido de até 15 segundos (sem custo de servidor, expira em 24h)">
-              <i data-lucide="video" class="w-3 h-3 text-emerald-700"></i>
+            <button onclick="openQuickNoteRecorder()" class="text-[10px] font-extrabold text-emerald-950 bg-gradient-to-r from-emerald-200 via-teal-200 to-amber-200 hover:brightness-105 border border-emerald-300 px-2.5 py-0.5 rounded-full flex items-center gap-1 transition shadow-xs active:scale-95" title="Gravar Recado Rápido de até 15 segundos">
+              <i data-lucide="video" class="w-3 h-3 text-emerald-800"></i>
               <span>+ Recado Rápido</span>
             </button>
           </div>
@@ -524,31 +497,31 @@
           
           <!-- Motor de Pesquisa em Saberes -->
           <div class="mx-3.5 relative flex items-center">
-            <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
+            <i data-lucide="search" class="w-4 h-4 text-emerald-400 absolute left-3.5 pointer-events-none"></i>
             <input 
               type="text" 
               id="saberes-search-input" 
               oninput="filterSaberesPosts()" 
               placeholder="Pesquisar publicações, saberes ou autores..." 
-              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white border border-[#d5d8d2] text-xs outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-black/40 border border-emerald-500/30 text-xs text-white outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
             >
-            <button id="clear-saberes-search-btn" onclick="clearSaberesSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
+            <button id="clear-saberes-search-btn" onclick="clearSaberesSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-200 hidden">
               <i data-lucide="x" class="w-4 h-4"></i>
             </button>
           </div>
 
-          <!-- 4. CAIXA DE TEXTO E PARTILHA (Container cinza #EAECE8 com campo interno branco para destaque) -->
-          <div class="mx-3.5 bg-[#EAECE8] p-3 rounded-2xl border border-[#D5D8D2] shadow-xs flex items-center gap-2.5">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-8 h-8 rounded-full object-cover border border-[#D5D8D2]">
-            <button onclick="openModal('modal-new-text-post')" class="flex-1 bg-white text-left px-3.5 py-2.5 rounded-xl text-xs text-charcoal border border-[#D5D8D2] hover:bg-neutral-50 shadow-xs transition font-medium">
+          <!-- 4. CAIXA DE TEXTO E PARTILHA -->
+          <div class="mx-3.5 bg-black/40 p-3 rounded-2xl border border-emerald-500/25 shadow-xs flex items-center gap-2.5 backdrop-blur-md">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop" class="w-8 h-8 rounded-full object-cover border border-amber-400/40">
+            <button onclick="openModal('modal-new-text-post')" class="flex-1 bg-white/10 text-left px-3.5 py-2.5 rounded-xl text-xs text-emerald-100/90 border border-white/10 hover:bg-white/15 shadow-xs transition font-medium">
               Escreva seu texto, reflexão ou partilha com foto...
             </button>
-            <button onclick="openModal('modal-new-text-post')" class="text-forest hover:text-forest-dark p-1.5 rounded-lg hover:bg-white/70 transition" title="Adicionar Imagem">
+            <button onclick="openModal('modal-new-text-post')" class="text-amber-300 hover:text-amber-200 p-1.5 rounded-lg hover:bg-white/10 transition" title="Adicionar Imagem">
               <i data-lucide="image" class="w-4 h-4"></i>
             </button>
           </div>
 
-          <!-- Posts Dinâmicos (Ordenação Cronológica - Fundo #eaece8) -->
+          <!-- Posts Dinâmicos (Ordenação Cronológica) -->
           <div id="posts-feed-container" class="space-y-3.5 px-3.5">
             
             <!-- Post 1 (Dona Benvinda Ervas - Fundo #eaece8) -->
@@ -682,16 +655,40 @@
           
           <!-- Motor de Pesquisa em Vídeos Curtos -->
           <div class="relative flex items-center">
-            <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
+            <i data-lucide="search" class="w-4 h-4 text-emerald-400 absolute left-3.5 pointer-events-none"></i>
             <input 
               type="text" 
               id="curtos-search-input" 
               oninput="filterCurtosVideos()" 
               placeholder="Pesquisar vídeos curtos ou criadores..." 
-              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white border border-[#d5d8d2] text-xs outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-black/40 border border-emerald-500/30 text-xs text-white outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
             >
-            <button id="clear-curtos-search-btn" onclick="clearCurtosSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
+            <button id="clear-curtos-search-btn" onclick="clearCurtosSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-200 hidden">
               <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Barra de 3 Botões: Recentes, Descobrir Aleatório e Faça sua Postagem -->
+          <div class="flex items-center justify-between gap-1.5">
+            <button onclick="setFeedOrderingMode('recentes')" 
+              class="btn-mode-recentes flex-1 py-1.5 px-2.5 rounded-full font-bold text-[11px] text-[#072418] transition flex items-center justify-center gap-1 shadow-[0_0_14px_rgba(245,158,11,0.45)] active:scale-95 bg-[#f59e0b] whitespace-nowrap">
+              <span class="text-xs font-black">›</span>
+              <span>Recentes</span>
+              <span class="text-[10px]">🛡️</span>
+            </button>
+
+            <button onclick="setFeedOrderingMode('fisher-yates')" 
+              class="btn-mode-fisher-yates flex-1 py-1.5 px-2.5 rounded-full font-medium text-[11px] text-white/90 bg-black/50 hover:bg-black/70 border border-white/25 backdrop-blur-md transition flex items-center justify-center gap-1 active:scale-95 whitespace-nowrap">
+              <span class="text-[9px] text-emerald-400">○</span>
+              <span>Descobrir Aleatório</span>
+              <span class="text-[9px] text-white/70">︾</span>
+            </button>
+
+            <button onclick="openModal('modal-new-video-link')" 
+              class="flex-1 flex items-center justify-center px-2.5 py-1.5 rounded-full font-bold text-[11px] text-[#072418] transition active:scale-95 shadow-[0_0_14px_rgba(245,158,11,0.5)] hover:brightness-105 whitespace-nowrap" 
+              style="background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 60%, #d97706 100%);"
+              title="Faça sua Postagem">
+              <span>Faça sua Postagem</span>
             </button>
           </div>
 
@@ -829,16 +826,40 @@
           <!-- 1. Motor de Pesquisa de Assuntos -->
           <div class="space-y-2">
             <div class="relative flex items-center">
-              <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
+              <i data-lucide="search" class="w-4 h-4 text-emerald-400 absolute left-3.5 pointer-events-none"></i>
               <input 
                 type="text" 
                 id="video-search-input" 
                 oninput="filterLongVideos()" 
                 placeholder="Pesquisar vídeos, aulas ou assuntos..." 
-                class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white border border-[#d5d8d2] text-xs outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+                class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-black/40 border border-emerald-500/30 text-xs text-white outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
               >
-              <button id="clear-video-search-btn" onclick="clearVideoSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
+              <button id="clear-video-search-btn" onclick="clearVideoSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-200 hidden">
                 <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- Barra de 3 Botões: Recentes, Descobrir Aleatório e Faça sua Postagem -->
+            <div class="flex items-center justify-between gap-1.5 pt-1">
+              <button onclick="setFeedOrderingMode('recentes')" 
+                class="btn-mode-recentes flex-1 py-1.5 px-2.5 rounded-full font-bold text-[11px] text-[#072418] transition flex items-center justify-center gap-1 shadow-[0_0_14px_rgba(245,158,11,0.45)] active:scale-95 bg-[#f59e0b] whitespace-nowrap">
+                <span class="text-xs font-black">›</span>
+                <span>Recentes</span>
+                <span class="text-[10px]">🛡️</span>
+              </button>
+
+              <button onclick="setFeedOrderingMode('fisher-yates')" 
+                class="btn-mode-fisher-yates flex-1 py-1.5 px-2.5 rounded-full font-medium text-[11px] text-white/90 bg-black/50 hover:bg-black/70 border border-white/25 backdrop-blur-md transition flex items-center justify-center gap-1 active:scale-95 whitespace-nowrap">
+                <span class="text-[9px] text-emerald-400">○</span>
+                <span>Descobrir Aleatório</span>
+                <span class="text-[9px] text-white/70">︾</span>
+              </button>
+
+              <button onclick="openModal('modal-new-video-link')" 
+                class="flex-1 flex items-center justify-center px-2.5 py-1.5 rounded-full font-bold text-[11px] text-[#072418] transition active:scale-95 shadow-[0_0_14px_rgba(245,158,11,0.5)] hover:brightness-105 whitespace-nowrap" 
+                style="background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 60%, #d97706 100%);"
+                title="Faça sua Postagem">
+                <span>Faça sua Postagem</span>
               </button>
             </div>
 
@@ -922,16 +943,40 @@
         <div id="subtab-musica" class="hidden p-3.5 space-y-4 pb-6">
           <!-- Motor de Pesquisa em Música & Áudios -->
           <div class="relative flex items-center">
-            <i data-lucide="search" class="w-4 h-4 text-forest absolute left-3.5 pointer-events-none"></i>
+            <i data-lucide="search" class="w-4 h-4 text-emerald-400 absolute left-3.5 pointer-events-none"></i>
             <input 
               type="text" 
               id="musica-search-input" 
               oninput="filterMusicaTracks()" 
               placeholder="Pesquisar cantos, paisagens sonoras ou artistas..." 
-              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white border border-[#d5d8d2] text-xs outline-none focus:ring-2 focus:ring-forest focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
+              class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-black/40 border border-emerald-500/30 text-xs text-white outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition shadow-xs placeholder:text-neutral-400"
             >
-            <button id="clear-musica-search-btn" onclick="clearMusicaSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-700 hidden">
+            <button id="clear-musica-search-btn" onclick="clearMusicaSearch()" class="absolute right-3 text-neutral-400 hover:text-neutral-200 hidden">
               <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Barra de 3 Botões: Recentes, Descobrir Aleatório e Faça sua Postagem -->
+          <div class="flex items-center justify-between gap-1.5">
+            <button onclick="setFeedOrderingMode('recentes')" 
+              class="btn-mode-recentes flex-1 py-1.5 px-2.5 rounded-full font-bold text-[11px] text-[#072418] transition flex items-center justify-center gap-1 shadow-[0_0_14px_rgba(245,158,11,0.45)] active:scale-95 bg-[#f59e0b] whitespace-nowrap">
+              <span class="text-xs font-black">›</span>
+              <span>Recentes</span>
+              <span class="text-[10px]">🛡️</span>
+            </button>
+
+            <button onclick="setFeedOrderingMode('fisher-yates')" 
+              class="btn-mode-fisher-yates flex-1 py-1.5 px-2.5 rounded-full font-medium text-[11px] text-white/90 bg-black/50 hover:bg-black/70 border border-white/25 backdrop-blur-md transition flex items-center justify-center gap-1 active:scale-95 whitespace-nowrap">
+              <span class="text-[9px] text-emerald-400">○</span>
+              <span>Descobrir Aleatório</span>
+              <span class="text-[9px] text-white/70">︾</span>
+            </button>
+
+            <button onclick="openModal('modal-new-video-link')" 
+              class="flex-1 flex items-center justify-center px-2.5 py-1.5 rounded-full font-bold text-[11px] text-[#072418] transition active:scale-95 shadow-[0_0_14px_rgba(245,158,11,0.5)] hover:brightness-105 whitespace-nowrap" 
+              style="background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 60%, #d97706 100%);"
+              title="Faça sua Postagem">
+              <span>Faça sua Postagem</span>
             </button>
           </div>
 
@@ -1710,36 +1755,37 @@
     </div>
 
     <!-- ==================== BARRA DE NAVEGAÇÃO INFERIOR FIXA (Fixed Bottom Permanente) ==================== -->
-    <nav class="app-footer-fixed px-3 py-2 flex items-center justify-around shadow-lg sm:rounded-b-3xl"
-      style="position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 1000; background-color: rgba(255, 255, 255, 0.98); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid #E2DDD2;">
-      <!-- Menu / Políticas: Ícone de Hambúrguer (três linhas com ação de toggle) -->
-      <button onclick="toggleMenuPoliciesDrawer()" id="nav-btn-menu" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-emerald-700 font-medium text-[10px] transition" title="Menu, Políticas da Comunidade & Cupons">
-        <div id="nav-icon-menu" class="p-1.5 rounded-2xl text-emerald-700 hover:bg-emerald-50 transition-all duration-200">
-          <i data-lucide="menu" class="w-5 h-5 text-emerald-700"></i>
+    <nav class="app-footer-fixed px-3 py-2 flex items-center justify-around shadow-2xl sm:rounded-b-3xl"
+      style="position: absolute; bottom: 0; left: 0; right: 0; width: 100%; max-width: 430px; margin: 0 auto; z-index: 1000; background-color: rgba(2, 20, 17, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(0, 245, 180, 0.25);">
+      
+      <!-- Menu / Políticas: Ícone de Hambúrguer (Verde Esmeralda) -->
+      <button onclick="toggleMenuPoliciesDrawer()" id="nav-btn-menu" class="nav-item flex flex-col items-center gap-0.5 text-emerald-300 hover:text-emerald-200 font-semibold text-[10px] transition active:scale-95" title="Menu, Políticas da Comunidade & Cupons">
+        <div id="nav-icon-menu" class="p-1.5 rounded-2xl bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition-all duration-200">
+          <i data-lucide="menu" class="w-5 h-5 text-emerald-400"></i>
         </div>
         <span>Menu</span>
       </button>
 
-      <!-- Aulas: Azul Céu / Intelectual -->
-      <button onclick="switchTab('classes')" id="nav-btn-classes" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-sky-600 font-medium text-[10px] transition">
-        <div id="nav-icon-classes" class="p-1.5 rounded-2xl text-sky-500 hover:bg-sky-50 transition-all duration-200">
-          <i data-lucide="graduation-cap" class="w-5 h-5 text-sky-500"></i>
+      <!-- Aulas / Cursos: Azul Céu -->
+      <button onclick="switchTab('classes')" id="nav-btn-classes" class="nav-item flex flex-col items-center gap-0.5 text-sky-300 hover:text-sky-200 font-semibold text-[10px] transition active:scale-95" title="Aulas & Cursos">
+        <div id="nav-icon-classes" class="p-1.5 rounded-2xl bg-sky-500/15 text-sky-400 hover:bg-sky-500/25 transition-all duration-200">
+          <i data-lucide="graduation-cap" class="w-5 h-5 text-sky-400"></i>
         </div>
         <span>Aulas</span>
       </button>
 
       <!-- Hábitos: Rosa / Carmesim Saúde -->
-      <button onclick="switchTab('habits')" id="nav-btn-habits" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-rose-600 font-medium text-[10px] transition">
-        <div id="nav-icon-habits" class="p-1.5 rounded-2xl text-rose-500 hover:bg-rose-50 transition-all duration-200">
-          <i data-lucide="heart" class="w-5 h-5 text-rose-500"></i>
+      <button onclick="switchTab('habits')" id="nav-btn-habits" class="nav-item flex flex-col items-center gap-0.5 text-rose-300 hover:text-rose-200 font-semibold text-[10px] transition active:scale-95" title="Hábitos & Saúde">
+        <div id="nav-icon-habits" class="p-1.5 rounded-2xl bg-rose-500/15 text-rose-400 hover:bg-rose-500/25 transition-all duration-200">
+          <i data-lucide="heart" class="w-5 h-5 text-rose-400"></i>
         </div>
         <span>Hábitos</span>
       </button>
 
-      <!-- Loja: Laranja Âmbar / Terracota Comercial -->
-      <button onclick="switchTab('shop')" id="nav-btn-shop" class="nav-item flex flex-col items-center gap-0.5 text-neutral-600 hover:text-amber-600 font-medium text-[10px] transition">
-        <div id="nav-icon-shop" class="p-1.5 rounded-2xl text-amber-500 hover:bg-amber-50 transition-all duration-200">
-          <i data-lucide="store" class="w-5 h-5 text-amber-500"></i>
+      <!-- Loja: Laranja Âmbar / Dourado -->
+      <button onclick="switchTab('shop')" id="nav-btn-shop" class="nav-item flex flex-col items-center gap-0.5 text-amber-300 hover:text-amber-200 font-semibold text-[10px] transition active:scale-95" title="Loja Comunitária">
+        <div id="nav-icon-shop" class="p-1.5 rounded-2xl bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 transition-all duration-200">
+          <i data-lucide="store" class="w-5 h-5 text-amber-400"></i>
         </div>
         <span>Loja</span>
       </button>
@@ -1788,6 +1834,13 @@
           <span class="text-[10px]">Loja</span>
         </button>
       </div>
+
+      <!-- Opção de reabrir a Apresentação PWA / Trocar Conta -->
+      <button onclick="closeMenuPoliciesDrawer(); openWelcomeScreen();" 
+        class="w-full py-2 px-3 rounded-xl bg-black/40 hover:bg-black/60 border border-emerald-400/30 text-amber-300 text-xs font-bold flex items-center justify-center gap-2 transition active:scale-95 shadow-xs">
+        <span>🌟</span>
+        <span>Ver Tela de Boas-Vindas PWA (Play Store Prototype)</span>
+      </button>
 
       <!-- SEÇÃO 1: Políticas e Diretrizes da Comunidade -->
       <div class="space-y-2">
@@ -2899,23 +2952,22 @@
 
       // Configuração de cores específicas para cada aba
       const tabConfigs = {
-        feed: { bg: 'bg-emerald-100', text: 'text-emerald-700' },
-        classes: { bg: 'bg-sky-100', text: 'text-sky-700' },
-        habits: { bg: 'bg-rose-100', text: 'text-rose-700' },
-        shop: { bg: 'bg-amber-100', text: 'text-amber-700' }
+        classes: { bg: 'bg-sky-500/30', text: 'text-sky-300' },
+        habits: { bg: 'bg-rose-500/30', text: 'text-rose-300' },
+        shop: { bg: 'bg-amber-500/30', text: 'text-amber-300' }
       };
 
       // Reseta todos os botões mantendo seus ícones coloridos
-      const allTabs = ['feed', 'classes', 'habits', 'shop'];
+      const allTabs = ['classes', 'habits', 'shop'];
       allTabs.forEach(id => {
         const btn = document.getElementById(`nav-btn-${id}`);
         const iconContainer = document.getElementById(`nav-icon-${id}`);
         if (btn) {
-          btn.classList.remove('font-bold', 'text-emerald-700', 'text-sky-700', 'text-rose-700', 'text-amber-700');
-          btn.classList.add('font-medium', 'text-neutral-600');
+          btn.classList.remove('font-extrabold', 'scale-105');
+          btn.classList.add('font-semibold');
         }
         if (iconContainer) {
-          iconContainer.classList.remove('bg-emerald-100', 'bg-sky-100', 'bg-rose-100', 'bg-amber-100', 'shadow-xs', 'scale-105');
+          iconContainer.classList.remove('bg-sky-500/30', 'bg-rose-500/30', 'bg-amber-500/30', 'shadow-sm', 'scale-105', 'ring-1', 'ring-white/20');
         }
       });
 
@@ -2923,61 +2975,48 @@
       const currentNavBtn = document.getElementById(`nav-btn-${tabId}`);
       const currentIconContainer = document.getElementById(`nav-icon-${tabId}`);
       if (currentNavBtn && tabConfigs[tabId]) {
-        currentNavBtn.classList.remove('font-medium', 'text-neutral-600');
-        currentNavBtn.classList.add('font-bold', tabConfigs[tabId].text);
+        currentNavBtn.classList.remove('font-semibold');
+        currentNavBtn.classList.add('font-extrabold', 'scale-105');
       }
       if (currentIconContainer && tabConfigs[tabId]) {
-        currentIconContainer.classList.add(tabConfigs[tabId].bg, 'shadow-xs', 'scale-105');
+        currentIconContainer.classList.add(tabConfigs[tabId].bg, 'shadow-sm', 'scale-105', 'ring-1', 'ring-white/20');
       }
 
       // Esconde ou exibe barra de sub-abas do feed no cabeçalho
       const feedSubtabs = document.getElementById('feed-subtabs-nav');
-      if (tabId === 'feed') {
-        feedSubtabs.classList.remove('hidden');
-      } else {
-        feedSubtabs.classList.add('hidden');
+      if (feedSubtabs) {
+        if (tabId === 'feed') {
+          feedSubtabs.classList.remove('hidden');
+        } else {
+          feedSubtabs.classList.add('hidden');
+        }
       }
 
       document.getElementById('screen-container').scrollTop = 0;
       lucide.createIcons();
     }
 
-    // 1. Sub-abas do Feed em formato de Abas de Caderno (Laranja na Ativa e cores distintas nas inativas)
+    // 1. Sub-abas do Feed no Estilo Dola AI com Sublinhado Dourado
     function switchFeedSubTab(subTabName) {
       // Oculta todas as 4 abas temáticas
       const tabs = ['saberes', 'videos-curtos', 'videos-longos', 'musica'];
       tabs.forEach(tab => {
         const el = document.getElementById(`subtab-${tab}`);
         if (el) el.classList.add('hidden');
+        const btn = document.getElementById(`subtab-btn-${tab}`);
+        if (btn) {
+          btn.className = 'subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95';
+        }
       });
 
       // Exibe a aba selecionada
       const target = document.getElementById(`subtab-${subTabName}`);
       if (target) target.classList.remove('hidden');
 
-      // Reseta todas as 4 abas para seus estilos de divisória de caderno com cores distintas
-      const saberesBtn = document.getElementById('subtab-btn-saberes');
-      const curtosBtn = document.getElementById('subtab-btn-videos-curtos');
-      const longosBtn = document.getElementById('subtab-btn-videos-longos');
-      const musicaBtn = document.getElementById('subtab-btn-musica');
-
-      if (saberesBtn) {
-        saberesBtn.className = 'subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#245C45]/70 text-white hover:bg-[#245C45]';
-      }
-      if (curtosBtn) {
-        curtosBtn.className = 'subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#804928]/70 text-white hover:bg-[#804928]';
-      }
-      if (longosBtn) {
-        longosBtn.className = 'subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#204A6E]/70 text-white hover:bg-[#204A6E]';
-      }
-      if (musicaBtn) {
-        musicaBtn.className = 'subtab-btn px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 border-t border-x border-white/10 bg-[#5B21B6]/70 text-white hover:bg-[#5B21B6]';
-      }
-
-      // Aplica obrigatoriamente a cor Laranja (#C85A32) de destaque na aba ativa
+      // Aplica o sublinhado dourado (#F59E0B) na aba ativa
       const activeBtn = document.getElementById(`subtab-btn-${subTabName}`);
       if (activeBtn) {
-        activeBtn.className = 'subtab-btn active px-1 py-2 rounded-t-xl text-[11px] sm:text-xs font-bold transition flex items-center justify-center gap-1 shadow-md border-t-2 border-x border-orange-400/40 bg-[#C85A32] text-white -translate-y-0.5';
+        activeBtn.className = 'subtab-btn active pb-2 px-3 text-sm font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95';
       }
 
       if (subTabName === 'videos-longos' && typeof renderLongVideosCarousels === 'function') {
@@ -2987,8 +3026,12 @@
         renderShortVideos(SHORT_VIDEOS);
       }
 
-      document.getElementById('screen-container').scrollTop = 0;
       lucide.createIcons();
+    }
+
+    // Ação interativa ao clicar nos 4 Cards Místicos
+    function filterOrHighlightCard(cardName) {
+      showToast('✨ ' + cardName + ': Conectando com a sabedoria ancestral da rede!');
     }
 
     // ==========================================
@@ -6173,12 +6216,14 @@
 
     function setFeedOrderingMode(mode) {
       currentFeedOrderingMode = mode;
-      const btnRecentes = document.getElementById('btn-mode-recentes');
-      const btnRandom = document.getElementById('btn-mode-fisher-yates');
+      const btnsRecentes = document.querySelectorAll('.btn-mode-recentes, #btn-mode-recentes');
+      const btnsRandom = document.querySelectorAll('.btn-mode-fisher-yates, #btn-mode-fisher-yates');
+      const activeClass = 'flex-1 py-1.5 px-2.5 rounded-full font-bold text-[11px] text-[#072418] transition flex items-center justify-center gap-1 shadow-[0_0_14px_rgba(245,158,11,0.45)] active:scale-95 bg-[#f59e0b] whitespace-nowrap';
+      const inactiveClass = 'flex-1 py-1.5 px-2.5 rounded-full font-medium text-[11px] text-white/90 bg-black/50 hover:bg-black/70 border border-white/25 backdrop-blur-md transition flex items-center justify-center gap-1 active:scale-95 whitespace-nowrap';
 
       if (mode === 'fisher-yates') {
-        if (btnRecentes) btnRecentes.className = 'flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-amber-200/80 hover:text-white';
-        if (btnRandom) btnRandom.className = 'flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 bg-amber-400 text-[#072418] shadow-sm';
+        btnsRecentes.forEach(btn => btn.className = 'btn-mode-recentes ' + inactiveClass);
+        btnsRandom.forEach(btn => btn.className = 'btn-mode-fisher-yates ' + activeClass);
 
         // Aplica o algoritmo de embaralhamento justo Fisher-Yates
         if (typeof POSTS_DATA !== 'undefined' && Array.isArray(POSTS_DATA)) {
@@ -6199,8 +6244,8 @@
 
         showToast('✨ Descobrir Aleatório: Embaralhado com Fisher-Yates para oportunidade justa!');
       } else {
-        if (btnRecentes) btnRecentes.className = 'flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 bg-white/20 text-white shadow-xs';
-        if (btnRandom) btnRandom.className = 'flex-1 py-1 px-2 rounded-lg font-bold transition flex items-center justify-center gap-1.5 text-amber-200/80 hover:text-white';
+        btnsRecentes.forEach(btn => btn.className = 'btn-mode-recentes ' + activeClass);
+        btnsRandom.forEach(btn => btn.className = 'btn-mode-fisher-yates ' + inactiveClass);
 
         // Restaura a ordenação cronológica decrescente
         if (typeof POSTS_DATA !== 'undefined' && Array.isArray(POSTS_DATA)) {
@@ -6223,13 +6268,22 @@
     // =========================================================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
           .then((registration) => {
+            registration.update();
             console.log('[PWA YBYgram] Service Worker registrado com sucesso:', registration.scope);
           })
           .catch((err) => {
             console.warn('[PWA YBYgram] Registro do Service Worker falhou (esperado se não servido via HTTPS/localhost):', err);
           });
+
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
       });
     }
   </script>
