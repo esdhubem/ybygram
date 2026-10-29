@@ -438,21 +438,13 @@
               class="hero-banner-img w-full h-full object-cover object-center pointer-events-none select-none"></video>
             <!-- Degradê suave no topo -->
             <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#021411]/90 via-[#021411]/40 to-transparent pointer-events-none"></div>
-            <!-- Degradê profundo na base fundindo com o fundo obsidian -->
-            <div class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#021411] via-[#021411]/85 to-transparent pointer-events-none"></div>
+            <!-- Degradê suave na base fundindo com o fundo obsidian -->
+            <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#021411] via-[#021411]/60 to-transparent pointer-events-none"></div>
           </div>
 
-          <!-- Bloco Central: Título "Fluxo Cronológico e Aleatório" + Subtítulo "Oportunidade para Todos" -->
-          <div class="relative z-10 -mt-16 px-4 pb-2">
-            <h1 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-              Fluxo Cronológico e Aleatório
-            </h1>
-            <p class="text-xs sm:text-sm font-medium text-emerald-200/90 tracking-wide mt-1 drop-shadow-md">
-              Oportunidade para Todos
-            </p>
-
-            <!-- Navegação de Sub-Abas Limpa com Sublinhado Dourado (Estilo Dola AI) -->
-            <nav id="feed-subtabs-nav" class="flex items-center justify-around mt-4 border-b border-white/10 max-w-sm mx-auto">
+          <!-- Navegação de Sub-Abas Limpa com Sublinhado Dourado (Estilo Dola AI) -->
+          <div class="relative z-10 px-4 pt-1 pb-2">
+            <nav id="feed-subtabs-nav" class="flex items-center justify-around border-b border-white/10 max-w-sm mx-auto">
               <button id="subtab-btn-saberes" onclick="switchFeedSubTab('saberes')" 
                 class="subtab-btn active pb-2 px-3 text-sm font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95">
                 Saberes
