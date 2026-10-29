@@ -1,5 +1,5 @@
 // Service Worker - YBYgram PWA • Rede Soberana
-const CACHE_NAME = 'ybygram-cache-v27';
+const CACHE_NAME = 'ybygram-cache-v28';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -16,7 +16,13 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[YBYgram SW] Pré-armazenando shell da aplicação');
-      return cache.addAll(ASSETS_TO_CACHE);
+      return Promise.all(
+        ASSETS_TO_CACHE.map((url) =>
+          fetch(new Request(url, { cache: 'reload' })).then((res) => {
+            if (res.ok) return cache.put(url, res);
+          })
+        )
+      );
     })
   );
 });
