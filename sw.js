@@ -1,5 +1,5 @@
 // Service Worker - YBYgram PWA • Rede Soberana
-const CACHE_NAME = 'ybygram-cache-v15';
+const CACHE_NAME = 'ybygram-cache-v16';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
