@@ -539,21 +539,25 @@
               <div class="rounded-xl overflow-hidden mb-3 border border-[#d5d8d2]">
                 <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&fit=crop" alt="Ervas" class="w-full h-48 object-cover">
               </div>
-              <div class="flex items-center justify-between pt-2 border-t border-[#d5d8d2] text-xs text-charcoal-soft">
-                <!-- Semente de Gratidão (Substituto de Curtidas - Sem Contadores Públicos) -->
-                <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-forest transition">
-                  <span class="text-sm">🌱</span>
-                  <span class="gratitude-label text-[11px] font-bold text-forest">Semear Gratidão</span>
-                </button>
-                <!-- Roda de Partilha (Substituto de Comentários) -->
-                <button onclick="toggleComments('comments-post-1')" class="flex items-center gap-1.5 hover:text-forest transition">
-                  <i data-lucide="message-square" class="w-4 h-4 text-forest"></i>
-                  <span class="text-[11px] font-semibold">Roda de Partilha</span>
-                </button>
-                <!-- Salvamento Invisível / Privado no Acervo -->
-                <button onclick="saveSeed(this)" class="flex items-center gap-1.5 hover:text-forest transition">
-                  <i data-lucide="bookmark" class="w-4 h-4"></i>
-                  <span class="save-label text-[11px] font-semibold">Guardar no Acervo</span>
+              <div class="flex items-center justify-between pt-2.5 border-t border-emerald-500/20 text-white/90">
+                <!-- Ações Estilo Instagram: Curtir (Coração), Comentar (Balão), Compartilhar (Aviãozinho) -->
+                <div class="flex items-center gap-4 text-xs">
+                  <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-rose-400 transition active:scale-90" title="Curtir">
+                    <i data-lucide="heart" class="w-5 h-5 transition-transform duration-150"></i>
+                    <span class="gratitude-count text-xs font-semibold" data-raw="2400">2,4 mil</span>
+                  </button>
+                  <button onclick="toggleComments('comments-post-1')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Comentários">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    <span class="text-xs font-semibold">38</span>
+                  </button>
+                  <button onclick="sharePost('Dona Benvinda Ervas', 'Receita tradicional de infusão de Guandú e Carqueja')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Compartilhar">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span class="text-xs font-semibold">15</span>
+                  </button>
+                </div>
+                <!-- Salvar no Acervo (Marcador Estilo Instagram) -->
+                <button onclick="saveSeed(this)" class="save-btn hover:text-amber-300 transition active:scale-90 p-1" title="Guardar no Acervo">
+                  <i data-lucide="bookmark" class="w-5 h-5"></i>
                 </button>
               </div>
 
@@ -598,21 +602,25 @@
               <div class="rounded-xl overflow-hidden mb-3 border border-[#d5d8d2]">
                 <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=800&fit=crop" alt="Mutirão" class="w-full h-48 object-cover">
               </div>
-              <div class="flex items-center justify-between pt-2 border-t border-[#d5d8d2] text-xs text-charcoal-soft">
-                <!-- Semente de Gratidão -->
-                <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-forest transition">
-                  <span class="text-sm">🌱</span>
-                  <span class="gratitude-label text-[11px] font-bold text-forest">Semear Gratidão</span>
-                </button>
-                <!-- Roda de Partilha -->
-                <button onclick="toggleComments('comments-post-2')" class="flex items-center gap-1.5 hover:text-forest transition">
-                  <i data-lucide="message-square" class="w-4 h-4 text-forest"></i>
-                  <span class="text-[11px] font-semibold">Roda de Partilha</span>
-                </button>
-                <!-- Salvamento Invisível / Privado no Acervo -->
-                <button onclick="saveSeed(this)" class="flex items-center gap-1.5 hover:text-forest transition">
-                  <i data-lucide="bookmark" class="w-4 h-4"></i>
-                  <span class="save-label text-[11px] font-semibold">Guardar no Acervo</span>
+              <div class="flex items-center justify-between pt-2.5 border-t border-emerald-500/20 text-white/90">
+                <!-- Ações Estilo Instagram: Curtir (Coração), Comentar (Balão), Compartilhar (Aviãozinho) -->
+                <div class="flex items-center gap-4 text-xs">
+                  <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-rose-400 transition active:scale-90" title="Curtir">
+                    <i data-lucide="heart" class="w-5 h-5 transition-transform duration-150"></i>
+                    <span class="gratitude-count text-xs font-semibold" data-raw="5720">5,7 mil</span>
+                  </button>
+                  <button onclick="toggleComments('comments-post-2')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Comentários">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    <span class="text-xs font-semibold">64</span>
+                  </button>
+                  <button onclick="sharePost('Aldeia Yvy Porã', 'Mutirão do plantio de mandioca e milho guarani')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Compartilhar">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span class="text-xs font-semibold">28</span>
+                  </button>
+                </div>
+                <!-- Salvar no Acervo (Marcador Estilo Instagram) -->
+                <button onclick="saveSeed(this)" class="save-btn hover:text-amber-300 transition active:scale-90 p-1" title="Guardar no Acervo">
+                  <i data-lucide="bookmark" class="w-5 h-5"></i>
                 </button>
               </div>
 
@@ -4546,19 +4554,67 @@
       if (hpEl) hpEl.innerText = healthPoints;
     }
 
-    // Interações de Posts e Saberes (Sementes de Gratidão & Fim da Vaidade)
+    // Interações de Posts e Saberes (Estilo Instagram + Acervo Privado)
     function toggleGratitude(btn) {
       const label = btn.querySelector('.gratitude-label') || btn.querySelector('span:last-child');
-      btn.classList.toggle('text-forest');
-      btn.classList.toggle('font-bold');
-      if (label) {
+      const countEl = btn.querySelector('.gratitude-count');
+      const icon = btn.querySelector('i[data-lucide="heart"], svg');
+
+      if (icon) {
+        const isLiked = icon.classList.contains('fill-rose-500');
+        if (isLiked) {
+          icon.classList.remove('fill-rose-500', 'text-rose-500');
+          if (countEl) {
+            let num = parseInt(countEl.getAttribute('data-raw') || countEl.innerText.replace(/\D/g, '')) || 0;
+            num = Math.max(0, num - 1);
+            countEl.setAttribute('data-raw', num);
+            countEl.innerText = formatCountNumber(num);
+          }
+          showToast('Curtida removida.');
+        } else {
+          icon.classList.add('fill-rose-500', 'text-rose-500');
+          icon.classList.add('scale-125');
+          setTimeout(() => icon.classList.remove('scale-125'), 180);
+          if (countEl) {
+            let num = parseInt(countEl.getAttribute('data-raw') || countEl.innerText.replace(/\D/g, '')) || 0;
+            num = num + 1;
+            countEl.setAttribute('data-raw', num);
+            countEl.innerText = formatCountNumber(num);
+          }
+          showToast('❤️ Você curtiu esta publicação!');
+        }
+      }
+
+      if (label && label.innerText && (label.innerText.includes('Gratidão') || label.innerText.includes('Semear'))) {
         if (label.innerText.includes('Semeada')) {
           label.innerText = 'Semear Gratidão';
           showToast('Semente de gratidão recolhida.');
         } else {
           label.innerText = 'Gratidão Semeada 🌱';
-          showToast('🌱 Semente de gratidão enviada de forma privada ao autor!');
+          showToast('🌱 Semente de gratidão enviada!');
         }
+      }
+    }
+
+    function formatCountNumber(num) {
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace('.', ',') + ' mil';
+      }
+      return num.toString();
+    }
+
+    function sharePost(author, text) {
+      if (navigator.share) {
+        navigator.share({
+          title: `YBYgram • ${author || 'Comunidade'}`,
+          text: text || 'Confira esta publicação no YBYgram',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(window.location.href);
+        }
+        showToast('✈️ Link da publicação copiado para compartilhar!');
       }
     }
 
@@ -4615,10 +4671,15 @@
         if (imgEl && imgEl.src) img = imgEl.src;
       }
 
-      if (label && label.innerText.includes('Salvo')) {
-        label.innerText = 'Guardar no Acervo';
+      const icon = btn.querySelector('i[data-lucide="bookmark"], svg');
+      const isAlreadySaved = icon ? icon.classList.contains('fill-amber-400') : (label && label.innerText.includes('Salvo'));
+
+      if (isAlreadySaved) {
+        if (icon) icon.classList.remove('fill-amber-400', 'text-amber-400');
+        if (label) label.innerText = 'Guardar no Acervo';
         showToast('Removido do acervo.');
       } else {
+        if (icon) icon.classList.add('fill-amber-400', 'text-amber-400');
         if (label) label.innerText = 'Salvo no Acervo 🔒';
         if (list) {
           const item = document.createElement('div');
@@ -6174,18 +6235,23 @@
             <img src="${imageUrl}" class="w-full h-48 object-cover" onerror="this.style.display='none'">
           </div>
         ` : ''}
-        <div class="flex items-center justify-between pt-2 border-t border-cream-border text-xs text-charcoal-soft">
-          <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-forest transition">
-            <span class="text-sm">🌱</span>
-            <span class="gratitude-label text-[11px] font-bold text-forest">Semear Gratidão</span>
-          </button>
-          <button onclick="showToast('Roda de Partilha aberta!')" class="flex items-center gap-1.5 hover:text-forest transition">
-            <i data-lucide="message-square" class="w-4 h-4 text-forest"></i>
-            <span class="text-[11px] font-semibold">Roda de Partilha</span>
-          </button>
-          <button onclick="saveSeed(this)" class="flex items-center gap-1.5 hover:text-forest transition">
-            <i data-lucide="bookmark" class="w-4 h-4"></i>
-            <span class="save-label text-[11px] font-semibold">Guardar no Acervo</span>
+        <div class="flex items-center justify-between pt-2.5 border-t border-emerald-500/20 text-white/90">
+          <div class="flex items-center gap-4 text-xs">
+            <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-rose-400 transition active:scale-90" title="Curtir">
+              <i data-lucide="heart" class="w-5 h-5 transition-transform duration-150"></i>
+              <span class="gratitude-count text-xs font-semibold" data-raw="1">1</span>
+            </button>
+            <button onclick="showToast('Roda de Comentários aberta!')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Comentários">
+              <i data-lucide="message-circle" class="w-5 h-5"></i>
+              <span class="text-xs font-semibold">0</span>
+            </button>
+            <button onclick="sharePost('Silviane Terra', '${(text || '').replace(/'/g, "\\'")}')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Compartilhar">
+              <i data-lucide="send" class="w-5 h-5"></i>
+              <span class="text-xs font-semibold">0</span>
+            </button>
+          </div>
+          <button onclick="saveSeed(this)" class="save-btn hover:text-amber-300 transition active:scale-90 p-1" title="Guardar no Acervo">
+            <i data-lucide="bookmark" class="w-5 h-5"></i>
           </button>
         </div>
       `;
@@ -6545,7 +6611,7 @@
     // =========================================================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=28', { updateViaCache: 'none' })
+        navigator.serviceWorker.register('./sw.js?v=29', { updateViaCache: 'none' })
           .then((registration) => {
             registration.update();
             console.log('[PWA YBYgram] Service Worker registrado com sucesso:', registration.scope);
