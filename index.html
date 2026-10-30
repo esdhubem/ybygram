@@ -441,23 +441,33 @@
           </div>
 
           <!-- Navegação de Sub-Abas Limpa com Sublinhado Dourado (Estilo Dola AI) -->
-          <div class="relative z-10 px-4 pt-1 pb-2">
-            <nav id="feed-subtabs-nav" class="flex items-center justify-around border-b border-white/10 max-w-sm mx-auto">
+          <div class="relative z-10 px-2 pt-1 pb-1">
+            <nav id="feed-subtabs-nav" class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar border-b border-white/10 px-2 py-0.5 select-none scroll-smooth whitespace-nowrap">
               <button id="subtab-btn-saberes" onclick="switchFeedSubTab('saberes')" 
-                class="subtab-btn active pb-2 px-3 text-sm font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95">
+                class="subtab-btn active pb-2 px-3 text-sm font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 shrink-0">
                 Saberes
               </button>
               <button id="subtab-btn-videos-curtos" onclick="switchFeedSubTab('videos-curtos')" 
-                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95">
+                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 shrink-0">
                 Curtos
               </button>
               <button id="subtab-btn-videos-longos" onclick="switchFeedSubTab('videos-longos')" 
-                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95">
+                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 shrink-0">
                 Longos
               </button>
               <button id="subtab-btn-musica" onclick="switchFeedSubTab('musica')" 
-                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95">
+                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 shrink-0">
                 Música
+              </button>
+              <button id="subtab-btn-astros" onclick="switchFeedSubTab('astros')" 
+                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 shrink-0 flex items-center gap-1.5">
+                <span class="text-amber-400">🪐</span>
+                <span>Astros</span>
+              </button>
+              <button id="subtab-btn-noticias" onclick="switchFeedSubTab('noticias')" 
+                class="subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 shrink-0 flex items-center gap-1.5">
+                <span class="text-emerald-400">📰</span>
+                <span>Notícias</span>
               </button>
             </nav>
           </div>
@@ -1203,6 +1213,345 @@
               </button>
             </div>
           </div>
+
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- SUB-ABA 1.5: ASTROS & CICLOS CELESTES DO YBYVERSO        -->
+        <!-- ======================================================== -->
+        <div id="subtab-astros" class="hidden p-3.5 space-y-4 pb-8 relative">
+          
+          <!-- Cabeçalho Cósmico Minimalista -->
+          <div class="bg-gradient-to-br from-[#05261f] to-[#021411] border border-emerald-400/30 rounded-2xl p-4 shadow-xl relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="flex items-center justify-between relative z-10 mb-2">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_#f59e0b] animate-pulse"></span>
+                <span class="text-[11px] uppercase tracking-wider font-extrabold text-amber-300">Ciclos Celestes & Planetário</span>
+              </div>
+              <span id="celestial-status-badge" class="text-[9px] bg-emerald-950/80 text-emerald-300 border border-emerald-400/40 px-2 py-0.5 rounded-full font-bold">
+                Tempo Real
+              </span>
+            </div>
+
+            <h2 class="text-base font-black text-white tracking-tight relative z-10 flex items-center gap-1.5">
+              <span>Trânsitos Celestes e Lunações</span>
+            </h2>
+            <p class="text-xs text-neutral-300 relative z-10 mt-0.5 leading-relaxed">
+              Consulte a pulsação da Lua e a dança dos planetas para orientar o plantio, colheita de ervas medicinais e ritos da comunidade Yby.
+            </p>
+
+            <!-- Barra de Controles Temporais (Navegador de Dias) -->
+            <div class="flex items-center justify-between gap-1.5 mt-3 pt-3 border-t border-emerald-500/20 relative z-10">
+              <button onclick="stepCelestialDay(-1)" class="px-2.5 py-1.5 rounded-xl bg-black/40 hover:bg-black/60 border border-emerald-500/30 text-white/90 text-xs font-bold transition active:scale-95 flex items-center gap-1">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                <span>Ontem</span>
+              </button>
+              
+              <div id="celestial-date-display" class="text-center px-2 py-1 rounded-xl bg-black/50 border border-amber-400/30 text-amber-300 text-xs font-bold font-mono">
+                Carregando data...
+              </div>
+
+              <button onclick="stepCelestialDay(1)" class="px-2.5 py-1.5 rounded-xl bg-black/40 hover:bg-black/60 border border-emerald-500/30 text-white/90 text-xs font-bold transition active:scale-95 flex items-center gap-1">
+                <span>Amanhã</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+              </button>
+
+              <button onclick="resetCelestialToday()" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 text-xs font-black transition active:scale-95 shadow-sm" title="Voltar para Hoje">
+                Hoje
+              </button>
+            </div>
+          </div>
+
+          <!-- Planetário Interativo (Canvas 2D com Órbitas Planetárias) -->
+          <div class="bg-[#031511] border border-emerald-400/25 rounded-2xl p-3 shadow-lg relative overflow-hidden">
+            <div class="flex items-center justify-between mb-2 px-1">
+              <div class="flex items-center gap-1.5 text-xs font-extrabold text-emerald-300">
+                <i data-lucide="orbit" class="w-4 h-4 text-amber-400"></i>
+                <span>Simulador Orbital em Movimento</span>
+              </div>
+              <div class="flex items-center gap-1 text-[10px] text-neutral-400">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>Toque para inspecionar</span>
+              </div>
+            </div>
+
+            <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#02120e] border border-emerald-500/15">
+              <canvas id="celestial-orbit-canvas" class="w-full h-full block cursor-pointer"></canvas>
+              
+              <!-- Selos discretos dos astros na lateral -->
+              <div class="absolute bottom-2 left-2 pointer-events-none flex flex-wrap gap-1 text-[9px] font-mono text-white/60">
+                <span class="bg-black/60 px-1.5 py-0.5 rounded border border-white/10">☉ Sol</span>
+                <span class="bg-black/60 px-1.5 py-0.5 rounded border border-white/10">🜨 Terra</span>
+                <span class="bg-black/60 px-1.5 py-0.5 rounded border border-white/10">☾ Lua</span>
+                <span class="bg-black/60 px-1.5 py-0.5 rounded border border-white/10">♂ Marte</span>
+                <span class="bg-black/60 px-1.5 py-0.5 rounded border border-white/10">♃ Júpiter</span>
+              </div>
+
+              <!-- Velocidade da Animação -->
+              <button onclick="toggleCelestialAnimation()" id="btn-toggle-orbit-anim" class="absolute top-2 right-2 px-2 py-1 rounded-lg bg-black/70 hover:bg-black text-[10px] font-bold text-amber-300 border border-amber-400/30 flex items-center gap-1 transition active:scale-95 shadow-sm">
+                <i data-lucide="play" class="w-3 h-3 fill-amber-300"></i>
+                <span id="btn-toggle-orbit-anim-text">Pausar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card da Lunação & Trânsito Atual com Detalhes da Iluminação -->
+          <div id="moon-phase-card" class="bg-[#05241d] border border-emerald-400/30 rounded-2xl p-4 shadow-lg space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div id="moon-visual-render" class="w-12 h-12 rounded-full bg-gradient-to-r from-amber-100 to-neutral-800 border-2 border-amber-200/50 shadow-[0_0_15px_rgba(251,191,36,0.25)] flex items-center justify-center shrink-0">
+                  <span id="moon-phase-emoji" class="text-2xl">🌗</span>
+                </div>
+                <div>
+                  <h3 id="moon-phase-name" class="text-sm font-black text-white flex items-center gap-1.5">
+                    Carregando fase lunar...
+                  </h3>
+                  <p id="moon-illumination-text" class="text-xs text-amber-300 font-semibold font-mono">
+                    Iluminação: calculando...
+                  </p>
+                </div>
+              </div>
+
+              <div class="text-right">
+                <span class="text-[10px] text-neutral-400 block uppercase">Trânsito Zodiacal</span>
+                <span id="moon-zodiac-text" class="text-xs font-black text-emerald-300">Câncer ♋</span>
+              </div>
+            </div>
+
+            <!-- Diretrizes de Saberes Agroecológicos para a Fase -->
+            <div class="bg-black/40 p-3 rounded-xl border border-emerald-500/20 space-y-2">
+              <div class="flex items-center gap-1.5 text-xs font-black text-amber-300">
+                <i data-lucide="sprout" class="w-4 h-4 text-emerald-400"></i>
+                <span>Saberes Tradicionais da Terra para este Ciclo:</span>
+              </div>
+              <p id="moon-guidance-text" class="text-xs text-neutral-200 leading-relaxed">
+                Carregando diretrizes ancestrais da comunidade...
+              </p>
+            </div>
+
+            <!-- 4 Guias Rápidos de Ação Comunitária -->
+            <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
+              <div class="p-2.5 rounded-xl bg-[#031511] border border-white/5 space-y-1">
+                <span class="text-emerald-300 font-bold flex items-center gap-1">🌱 O que Plantar</span>
+                <p id="guide-planting-text" class="text-neutral-300 text-[10px] leading-snug">Mandioca, gengibre, batata-doce e raízes medicinais.</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-[#031511] border border-white/5 space-y-1">
+                <span class="text-teal-300 font-bold flex items-center gap-1">🌿 Colheita Fitoterápica</span>
+                <p id="guide-herbs-text" class="text-neutral-300 text-[10px] leading-snug">Cascas e raízes medicinais. Evitar colheita de folhas tenras.</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-[#031511] border border-white/5 space-y-1">
+                <span class="text-amber-300 font-bold flex items-center gap-1">✂️ Podas & Solo</span>
+                <p id="guide-pruning-text" class="text-neutral-300 text-[10px] leading-snug">Excelente para poda de limpeza e contenção de galhos secos.</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-[#031511] border border-white/5 space-y-1">
+                <span class="text-sky-300 font-bold flex items-center gap-1">🌊 Marés & Seiva</span>
+                <p id="guide-sap-text" class="text-neutral-300 text-[10px] leading-snug">Seiva concentrada nas raízes com marés mortas mais tranquilas.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Régua das 4 Fases Lunares deste Mês (Toque para Simular) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between px-1">
+              <span class="text-xs font-black uppercase tracking-wider text-emerald-300">As Quatro Estações da Lua</span>
+              <span class="text-[10px] text-neutral-400">Toque em uma fase</span>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2">
+              <button onclick="setCelestialPhasePreset('nova')" class="p-2.5 rounded-xl bg-[#05241d] hover:bg-emerald-950 border border-emerald-500/20 text-center transition active:scale-95 flex flex-col items-center gap-1">
+                <span class="text-xl">🌑</span>
+                <span class="text-[10px] font-bold text-white">Nova</span>
+                <span class="text-[9px] text-emerald-400/80">Raízes</span>
+              </button>
+              <button onclick="setCelestialPhasePreset('crescente')" class="p-2.5 rounded-xl bg-[#05241d] hover:bg-emerald-950 border border-emerald-500/20 text-center transition active:scale-95 flex flex-col items-center gap-1">
+                <span class="text-xl">🌓</span>
+                <span class="text-[10px] font-bold text-white">Crescente</span>
+                <span class="text-[9px] text-emerald-400/80">Folhagens</span>
+              </button>
+              <button onclick="setCelestialPhasePreset('cheia')" class="p-2.5 rounded-xl bg-[#05241d] hover:bg-emerald-950 border border-emerald-500/20 text-center transition active:scale-95 flex flex-col items-center gap-1">
+                <span class="text-xl">🌕</span>
+                <span class="text-[10px] font-bold text-white">Cheia</span>
+                <span class="text-[9px] text-amber-400/80">Seiva Alta</span>
+              </button>
+              <button onclick="setCelestialPhasePreset('minguante')" class="p-2.5 rounded-xl bg-[#05241d] hover:bg-emerald-950 border border-emerald-500/20 text-center transition active:scale-95 flex flex-col items-center gap-1">
+                <span class="text-xl">🌗</span>
+                <span class="text-[10px] font-bold text-white">Minguante</span>
+                <span class="text-[9px] text-teal-400/80">Podas</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- SUB-ABA 1.6: NOTÍCIAS & INFORMATIVO COMUNITÁRIO DA TERRA -->
+        <!-- ======================================================== -->
+        <div id="subtab-noticias" class="hidden p-3.5 space-y-4 pb-8 relative">
+          
+          <!-- Cabeçalho Informativo -->
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[11px] uppercase tracking-wider font-extrabold text-emerald-300 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#00f5b4]"></span>
+              <i data-lucide="newspaper" class="w-3.5 h-3.5 text-emerald-400"></i>
+              Jornal da Terra & Comunidade
+            </span>
+            <span class="text-[9px] bg-emerald-950 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full font-bold">
+              Notícias Livres
+            </span>
+          </div>
+
+          <!-- Filtros de Categorias de Notícias -->
+          <div class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar pb-1 text-[11px] font-bold">
+            <button onclick="filterNoticiasCategory('todas')" class="btn-noticia-filter active px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 shadow-xs shrink-0 transition active:scale-95">
+              Todas
+            </button>
+            <button onclick="filterNoticiasCategory('agroecologia')" class="btn-noticia-filter px-3 py-1.5 rounded-xl bg-[#05241d] border border-emerald-500/30 text-white/80 hover:text-white shrink-0 transition active:scale-95">
+              🌾 Agroecologia
+            </button>
+            <button onclick="filterNoticiasCategory('redes')" class="btn-noticia-filter px-3 py-1.5 rounded-xl bg-[#05241d] border border-emerald-500/30 text-white/80 hover:text-white shrink-0 transition active:scale-95">
+              📡 Redes Livres
+            </button>
+            <button onclick="filterNoticiasCategory('abelhas')" class="btn-noticia-filter px-3 py-1.5 rounded-xl bg-[#05241d] border border-emerald-500/30 text-white/80 hover:text-white shrink-0 transition active:scale-95">
+              🍯 Abelhas Nativas
+            </button>
+            <button onclick="filterNoticiasCategory('cultura')" class="btn-noticia-filter px-3 py-1.5 rounded-xl bg-[#05241d] border border-emerald-500/30 text-white/80 hover:text-white shrink-0 transition active:scale-95">
+              ✊ Território & Cultura
+            </button>
+          </div>
+
+          <!-- Destaque Principal (Manchete da Semana) -->
+          <article class="noticia-card bg-[#05241d] border border-emerald-400/30 rounded-2xl overflow-hidden shadow-lg transition-all" data-category="agroecologia">
+            <div class="relative w-full h-44 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&fit=crop" alt="Feira Agroecológica" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#05241d] via-[#05241d]/30 to-transparent"></div>
+              <span class="absolute top-3 left-3 bg-emerald-900/90 text-emerald-200 border border-emerald-400/40 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wide">
+                DESTAQUE DA SEMANA
+              </span>
+              <span class="absolute top-3 right-3 bg-black/60 text-white/90 text-[10px] px-2 py-0.5 rounded-md font-mono">
+                Há 2 horas
+              </span>
+            </div>
+
+            <div class="p-4 space-y-2.5">
+              <div class="flex items-center gap-2 text-[10px] text-amber-300 font-bold">
+                <span>🌾 Agroecologia Viva</span>
+                <span>•</span>
+                <span>4 min de leitura</span>
+              </div>
+              <h3 class="text-sm font-black text-white leading-snug">
+                Rede YBY inaugura primeiro circuito de distribuição de sementes crioulas sem atravessadores
+              </h3>
+              <p class="text-xs text-neutral-300 leading-relaxed line-clamp-3">
+                Mais de 40 famílias guardiãs conectaram suas colheitas diretamente a feiras comunitárias locais, garantindo soberania alimentar e preços justos de ponta a ponta.
+              </p>
+
+              <!-- Barra de Ações Estilo Instagram -->
+              <div class="flex items-center justify-between pt-2.5 border-t border-emerald-500/20 text-white/90">
+                <div class="flex items-center gap-4 text-xs">
+                  <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-rose-400 transition active:scale-90" title="Curtir">
+                    <i data-lucide="heart" class="w-5 h-5 transition-transform duration-150"></i>
+                    <span class="gratitude-count text-xs font-semibold" data-raw="1420">1,4 mil</span>
+                  </button>
+                  <button onclick="showToast('💬 Comentários da notícia abertos!')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Comentários">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    <span class="text-xs font-semibold">52</span>
+                  </button>
+                  <button onclick="sharePost('Notícias YBY', 'Circuito de Sementes Crioulas sem Atravessadores')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Compartilhar">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span class="text-xs font-semibold">89</span>
+                  </button>
+                </div>
+                <button onclick="saveSeed(this)" class="save-btn hover:text-amber-300 transition active:scale-90 p-1" title="Guardar no Acervo">
+                  <i data-lucide="bookmark" class="w-5 h-5"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Notícia 2: Redes Livres & Energia Solar -->
+          <article class="noticia-card bg-[#05241d] border border-emerald-400/30 rounded-2xl p-4 shadow-lg space-y-2.5 transition-all" data-category="redes">
+            <div class="flex items-center justify-between text-[10px]">
+              <span class="text-emerald-300 font-bold uppercase tracking-wider">📡 Redes Autônomas</span>
+              <span class="text-neutral-400 font-mono">Hoje, às 11:20</span>
+            </div>
+            
+            <div class="flex gap-3">
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xs font-black text-white leading-tight mb-1">
+                  Aldeias instalam microestações solares com rádio comunitária em rede mesh offline
+                </h4>
+                <p class="text-[11px] text-neutral-300 line-clamp-2 leading-relaxed">
+                  Com baterias recicladas e antenas de baixo custo, três povoados vizinhos comunicam previsões de chuva e alertas ambientais sem sinal de operadoras comerciais.
+                </p>
+              </div>
+              <img src="https://images.unsplash.com/photo-1508873696983-2df5293cb325?w=200&fit=crop" class="w-20 h-20 rounded-xl object-cover border border-emerald-500/20 shrink-0">
+            </div>
+
+            <!-- Barra de Ações Estilo Instagram -->
+            <div class="flex items-center justify-between pt-2 border-t border-emerald-500/20 text-white/90">
+              <div class="flex items-center gap-4 text-xs">
+                <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-rose-400 transition active:scale-90" title="Curtir">
+                  <i data-lucide="heart" class="w-5 h-5 transition-transform duration-150"></i>
+                  <span class="gratitude-count text-xs font-semibold" data-raw="930">930</span>
+                </button>
+                <button onclick="showToast('💬 Comentários abertos!')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Comentários">
+                  <i data-lucide="message-circle" class="w-5 h-5"></i>
+                  <span class="text-xs font-semibold">31</span>
+                </button>
+                <button onclick="sharePost('Redes Livres', 'Microestações solares com rede mesh')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Compartilhar">
+                  <i data-lucide="send" class="w-5 h-5"></i>
+                  <span class="text-xs font-semibold">44</span>
+                </button>
+              </div>
+              <button onclick="saveSeed(this)" class="save-btn hover:text-amber-300 transition active:scale-90 p-1" title="Guardar no Acervo">
+                <i data-lucide="bookmark" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </article>
+
+          <!-- Notícia 3: Abelhas Nativas & Meliponicultura -->
+          <article class="noticia-card bg-[#05241d] border border-emerald-400/30 rounded-2xl p-4 shadow-lg space-y-2.5 transition-all" data-category="abelhas">
+            <div class="flex items-center justify-between text-[10px]">
+              <span class="text-amber-300 font-bold uppercase tracking-wider">🍯 Meliponicultura</span>
+              <span class="text-neutral-400 font-mono">Ontem</span>
+            </div>
+            
+            <div class="flex gap-3">
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xs font-black text-white leading-tight mb-1">
+                  Mutirão comunitário resgata 18 enxames de abelhas Jataí e Mandaçaia em área de desmatamento
+                </h4>
+                <p class="text-[11px] text-neutral-300 line-clamp-2 leading-relaxed">
+                  Os ninhos foram transferidos com segurança para caixas racionais modelo INPA no meliponário comunitário da Escola dos Saberes.
+                </p>
+              </div>
+              <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=200&fit=crop" class="w-20 h-20 rounded-xl object-cover border border-emerald-500/20 shrink-0">
+            </div>
+
+            <!-- Barra de Ações Estilo Instagram -->
+            <div class="flex items-center justify-between pt-2 border-t border-emerald-500/20 text-white/90">
+              <div class="flex items-center gap-4 text-xs">
+                <button onclick="toggleGratitude(this)" class="gratitude-btn flex items-center gap-1.5 hover:text-rose-400 transition active:scale-90" title="Curtir">
+                  <i data-lucide="heart" class="w-5 h-5 transition-transform duration-150"></i>
+                  <span class="gratitude-count text-xs font-semibold" data-raw="2100">2,1 mil</span>
+                </button>
+                <button onclick="showToast('💬 Comentários abertos!')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Comentários">
+                  <i data-lucide="message-circle" class="w-5 h-5"></i>
+                  <span class="text-xs font-semibold">78</span>
+                </button>
+                <button onclick="sharePost('Meliponicultura', 'Mutirão resgata enxames de abelhas nativas')" class="flex items-center gap-1.5 hover:text-emerald-300 transition active:scale-90" title="Compartilhar">
+                  <i data-lucide="send" class="w-5 h-5"></i>
+                  <span class="text-xs font-semibold">112</span>
+                </button>
+              </div>
+              <button onclick="saveSeed(this)" class="save-btn hover:text-amber-300 transition active:scale-90 p-1" title="Guardar no Acervo">
+                <i data-lucide="bookmark" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </article>
 
         </div>
 
@@ -3171,16 +3520,16 @@
       lucide.createIcons();
     }
 
-    // 1. Sub-abas do Feed no Estilo Dola AI com Sublinhado Dourado
+    // 1. Sub-abas do Feed no Estilo Dola AI com Sublinhado Dourado e Rolagem Horizontal
     function switchFeedSubTab(subTabName) {
-      // Oculta todas as 4 abas temáticas
-      const tabs = ['saberes', 'videos-curtos', 'videos-longos', 'musica'];
+      // Oculta todas as 6 sub-abas temáticas
+      const tabs = ['saberes', 'videos-curtos', 'videos-longos', 'musica', 'astros', 'noticias'];
       tabs.forEach(tab => {
         const el = document.getElementById(`subtab-${tab}`);
         if (el) el.classList.add('hidden');
         const btn = document.getElementById(`subtab-btn-${tab}`);
         if (btn) {
-          btn.className = 'subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95';
+          btn.className = 'subtab-btn pb-2 px-3 text-sm font-medium text-white/60 hover:text-white border-b-2 border-transparent transition active:scale-95 shrink-0 flex items-center gap-1.5';
         }
       });
 
@@ -3188,10 +3537,13 @@
       const target = document.getElementById(`subtab-${subTabName}`);
       if (target) target.classList.remove('hidden');
 
-      // Aplica o sublinhado dourado (#F59E0B) na aba ativa
+      // Aplica o sublinhado dourado (#F59E0B) na aba ativa e auto-rola a barra horizontal
       const activeBtn = document.getElementById(`subtab-btn-${subTabName}`);
       if (activeBtn) {
-        activeBtn.className = 'subtab-btn active pb-2 px-3 text-sm font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95';
+        activeBtn.className = 'subtab-btn active pb-2 px-3 text-sm font-extrabold text-white border-b-2 border-amber-400 transition active:scale-95 shrink-0 flex items-center gap-1.5';
+        try {
+          activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        } catch(e) {}
       }
 
       if (subTabName === 'videos-longos' && typeof renderLongVideosCarousels === 'function') {
@@ -3199,6 +3551,9 @@
       }
       if (subTabName === 'videos-curtos' && typeof renderShortVideos === 'function') {
         renderShortVideos(SHORT_VIDEOS);
+      }
+      if (subTabName === 'astros' && typeof initCelestialWidget === 'function') {
+        initCelestialWidget();
       }
 
       lucide.createIcons();
@@ -6632,12 +6987,372 @@
       document.removeEventListener('touchstart', onFirstTouch);
     }, { passive: true, once: true });
 
+
+    // =========================================================================
+    // MÓDULO CELESTIAL & PLANETÁRIO DO YBYVERSO (LUNAÇÃO & TRÂNSITOS)
+    // =========================================================================
+    let celestialCurrentDate = new Date();
+    let celestialAnimRunning = true;
+    let celestialAnimId = null;
+    let celestialOrbitAngle = 0;
+
+    const ZODIAC_SIGNS = [
+      { name: 'Áries ♈', element: 'Fogo', trait: 'Força germinativa e vigor de raízes' },
+      { name: 'Touro ♉', element: 'Terra', trait: 'Adubação, enraizamento e sustentação' },
+      { name: 'Gêmeos ♊', element: 'Ar', trait: 'Polinização, floração e sementes leves' },
+      { name: 'Câncer ♋', element: 'Água', trait: 'Irrigação profunda e folhas suculentas' },
+      { name: 'Leão ♌', element: 'Fogo', trait: 'Amadurecimento solar e colheita de frutos' },
+      { name: 'Virgem ♍', element: 'Terra', trait: 'Manejo fitossanitário e solo equilibrado' },
+      { name: 'Libra ♎', element: 'Ar', trait: 'Harmonia floral e beleza etnobotânica' },
+      { name: 'Escorpião ♏', element: 'Água', trait: 'Potência de cascas medicinais e regeneração' },
+      { name: 'Sagitário ♐', element: 'Fogo', trait: 'Expansão de copas e sementes florestais' },
+      { name: 'Capricórnio ♑', element: 'Terra', trait: 'Tubérculos duros, carqueja e podas de tronco' },
+      { name: 'Aquário ♒', element: 'Ar', trait: 'Aeração da terra e podas leves' },
+      { name: 'Peixes ♓', element: 'Água', trait: 'Germinação de brejo e caldos nutritivos' }
+    ];
+
+    function calculateMoonPhase(date) {
+      // Ciclo Sinódico Lunar médio: 29.53058867 dias
+      // Época de referência conhecida: Lua Nova em 6 Jan 2000 às 18:14 UTC
+      const ref = new Date(Date.UTC(2000, 0, 6, 18, 14, 0));
+      const diffMs = date.getTime() - ref.getTime();
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
+      const synodic = 29.53058867;
+      let phaseRatio = (diffDays % synodic) / synodic;
+      if (phaseRatio < 0) phaseRatio += 1;
+
+      // Cálculo de iluminação aproximada (0 a 100%)
+      const illumination = Math.round((0.5 * (1 - Math.cos(2 * Math.PI * phaseRatio))) * 100);
+
+      let phaseKey = 'nova';
+      let name = 'Lua Nova';
+      let emoji = '🌑';
+      let guidance = 'Repouso da seiva nas raízes. Momento ideal para preparar a terra, semear raízes profundas e planejar os plantios da estação.';
+      let planting = 'Mandioca, cenoura, rabanete e sementes de dormência.';
+      let herbs = 'Raízes medicinais (gengibre, açafrão-da-terra). Evitar colheita de folhas tenras.';
+      let pruning = 'Poda de contenção e retirada de partes danificadas.';
+      let sap = 'Seiva concentrada no subsolo e na base dos caules.';
+
+      if (phaseRatio >= 0.03 && phaseRatio < 0.22) {
+        phaseKey = 'crescente_concava';
+        name = 'Lua Crescente Jovem';
+        emoji = '🌒';
+        guidance = 'A seiva inicia a subida em direção aos caules e brotos. Energia ascendente impulsionando novos crescimentos.';
+        planting = 'Tomate, quiabo, feijão e milho.';
+        herbs = 'Ervas de crescimento rápido e infusões frescas.';
+        pruning = 'Não recomendado podar intensamente agora.';
+        sap = 'Seiva fluindo em direção às pontas dos ramos.';
+      } else if (phaseRatio >= 0.22 && phaseRatio < 0.28) {
+        phaseKey = 'crescente';
+        name = 'Quarto Crescente';
+        emoji = '🌓';
+        guidance = 'Equilíbrio e impulso de vitalidade para todo cultivo que dá frutos acima do solo. Excelente absorção de água.';
+        planting = 'Hortaliças de folha (alface, couve, rúcula, espinafre).';
+        herbs = 'Alecrim, hortelã, guaco e melissa.';
+        pruning = 'Desbaste de ramos secundários para dar força ao ramo principal.';
+        sap = 'Forte circulação nos ramos superiores.';
+      } else if (phaseRatio >= 0.28 && phaseRatio < 0.47) {
+        phaseKey = 'crescente_convexa';
+        name = 'Lua Gibosa Crescente';
+        emoji = '🌔';
+        guidance = 'Expansão luminosa. Aceleração da fotossíntese e fortalecimento das defesas naturais da comunidade de plantas.';
+        planting = 'Frutíferas e leguminosas em geral.';
+        herbs = 'Flores comestíveis e folhas aromáticas.';
+        pruning = 'Evitar podas drásticas.';
+        sap = 'Seiva muito ativa na copa das plantas.';
+      } else if (phaseRatio >= 0.47 && phaseRatio < 0.53) {
+        phaseKey = 'cheia';
+        name = 'Lua Cheia Ancestral';
+        emoji = '🌕';
+        guidance = 'Plenitude de luminosidade noturna. Seiva no ápice das folhas e frutos. Momento ideal para ritos, colheita medicinal de alta potência e celebração coletiva.';
+        planting = 'Plantio de flores, plantas sagradas e transplante cuidadoso.';
+        herbs = 'Colheita estelar de carqueja, guandú e erva-baleeira para óleos e garrafadas.';
+        pruning = 'Não podar; as plantas perdem seiva preciosa.';
+        sap = 'Seiva em saturação máxima no topo das copas e frutos.';
+      } else if (phaseRatio >= 0.53 && phaseRatio < 0.72) {
+        phaseKey = 'disseminadora';
+        name = 'Lua Gibosa Minguante';
+        emoji = '🌖';
+        guidance = 'Início do recolhimento de energia. A terra volta a respirar para dentro, momento perfeito para compostagem e adubação foliar orgânica.';
+        planting = 'Legumes e plantas de ciclo intermediário.';
+        herbs = 'Secagem natural de folhas colhidas na cheia.';
+        pruning = 'Limpeza de folhas amareladas.';
+        sap = 'Início do fluxo descendente da seiva.';
+      } else if (phaseRatio >= 0.72 && phaseRatio < 0.78) {
+        phaseKey = 'minguante';
+        name = 'Quarto Minguante';
+        emoji = '🌗';
+        guidance = 'Seiva descendo em ritmo firme para o caule baixo e raízes. Fase mais segura do ciclo para cortes, podas de árvores e colheita de madeiras.';
+        planting = 'Mandioca brava e mansa, batata-doce e cará.';
+        herbs = 'Cascas cicatrizantes e resinas medicinais.';
+        pruning = 'Podas ornamentais e fitossanitárias mais fortes.';
+        sap = 'Seiva abrigada no tronco grosso e sistema radicular.';
+      } else if (phaseRatio >= 0.78 && phaseRatio < 0.97) {
+        phaseKey = 'balsamica';
+        name = 'Lua Balsâmica / Minguante Fina';
+        emoji = '🌘';
+        guidance = 'Período de repouso, purificação e renovação do solo com biofertilizantes fermentados da Escola dos Saberes.';
+        planting = 'Preparo de canteiros e cobertura morta com palhada.';
+        herbs = 'Tinturas de raízes e descanso do curandeiro.';
+        pruning = 'Controle biológico suave de formigas e pragas.';
+        sap = 'Seiva em tranquilidade biológica.';
+      }
+
+      // Constelação zodiacal aproximada
+      const zodiacIdx = Math.floor(((date.getMonth() * 30 + date.getDate() + Math.round(phaseRatio * 12)) % 360) / 30);
+      const zodiac = ZODIAC_SIGNS[zodiacIdx] || ZODIAC_SIGNS[3];
+
+      return {
+        ratio: phaseRatio,
+        name,
+        emoji,
+        illumination,
+        guidance,
+        planting,
+        herbs,
+        pruning,
+        sap,
+        zodiac
+      };
+    }
+
+    function updateCelestialDisplay() {
+      const data = calculateMoonPhase(celestialCurrentDate);
+      
+      const dateEl = document.getElementById('celestial-date-display');
+      if (dateEl) {
+        const options = { day: '2-digit', month: 'short', year: 'numeric' };
+        dateEl.innerText = celestialCurrentDate.toLocaleDateString('pt-BR', options).toUpperCase();
+      }
+
+      const nameEl = document.getElementById('moon-phase-name');
+      if (nameEl) nameEl.innerText = data.name;
+
+      const emojiEl = document.getElementById('moon-phase-emoji');
+      if (emojiEl) emojiEl.innerText = data.emoji;
+
+      const illumEl = document.getElementById('moon-illumination-text');
+      if (illumEl) illumEl.innerText = `Iluminação: ${data.illumination}% • Ciclo Dia ${Math.round(data.ratio * 29.5)}/30`;
+
+      const zodiacEl = document.getElementById('moon-zodiac-text');
+      if (zodiacEl) zodiacEl.innerText = `${data.zodiac.name} • ${data.zodiac.element}`;
+
+      const guidanceEl = document.getElementById('moon-guidance-text');
+      if (guidanceEl) guidanceEl.innerText = data.guidance;
+
+      const plantEl = document.getElementById('guide-planting-text');
+      if (plantEl) plantEl.innerText = data.planting;
+
+      const herbsEl = document.getElementById('guide-herbs-text');
+      if (herbsEl) herbsEl.innerText = data.herbs;
+
+      const pruneEl = document.getElementById('guide-pruning-text');
+      if (pruneEl) pruneEl.innerText = data.pruning;
+
+      const sapEl = document.getElementById('guide-sap-text');
+      if (sapEl) sapEl.innerText = data.sap;
+    }
+
+    function stepCelestialDay(days) {
+      celestialCurrentDate = new Date(celestialCurrentDate.getTime() + days * 86400000);
+      updateCelestialDisplay();
+      showToast(`📅 Data ajustada: ${celestialCurrentDate.toLocaleDateString('pt-BR')}`);
+    }
+
+    function resetCelestialToday() {
+      celestialCurrentDate = new Date();
+      updateCelestialDisplay();
+      showToast('🌕 Ciclo sincronizado com o momento presente!');
+    }
+
+    function setCelestialPhasePreset(phase) {
+      const offsets = {
+        'nova': 0,
+        'crescente': 7,
+        'cheia': 15,
+        'minguante': 22
+      };
+      const days = offsets[phase] || 0;
+      const ref = new Date();
+      celestialCurrentDate = new Date(ref.getTime() + (days - (calculateMoonPhase(ref).ratio * 29.5)) * 86400000);
+      updateCelestialDisplay();
+      showToast(`Simulando fase: ${phase.toUpperCase()}`);
+    }
+
+    function toggleCelestialAnimation() {
+      celestialAnimRunning = !celestialAnimRunning;
+      const btnText = document.getElementById('btn-toggle-orbit-anim-text');
+      if (btnText) btnText.innerText = celestialAnimRunning ? 'Pausar' : 'Girar';
+    }
+
+    // Renderizador do Canvas Orbital dos Planetas
+    function initCelestialWidget() {
+      updateCelestialDisplay();
+      const canvas = document.getElementById('celestial-orbit-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Ajusta tamanho real do Canvas com base no CSS
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = (rect.width || 380) * dpr;
+      canvas.height = (rect.height || 280) * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width || 380;
+      const h = rect.height || 280;
+      const cx = w / 2;
+      const cy = h / 2;
+
+      // Planetas com distâncias orbitais e velocidades
+      const planets = [
+        { name: 'Mercúrio', r: 35, size: 2.5, color: '#94a3b8', speed: 2.2 },
+        { name: 'Vênus', r: 52, size: 3.5, color: '#fde047', speed: 1.6 },
+        { name: 'Terra', r: 76, size: 4.5, color: '#38bdf8', speed: 1.0, hasMoon: true },
+        { name: 'Marte', r: 102, size: 3.0, color: '#f87171', speed: 0.8 },
+        { name: 'Júpiter', r: 128, size: 6.0, color: '#fbbf24', speed: 0.4 }
+      ];
+
+      // Posição de estrelas fixas
+      const stars = [];
+      for (let i = 0; i < 40; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          alpha: 0.2 + Math.random() * 0.7,
+          radius: 0.4 + Math.random() * 0.8
+        });
+      }
+
+      function renderFrame() {
+        if (!document.getElementById('subtab-astros') || document.getElementById('subtab-astros').classList.contains('hidden')) {
+          if (celestialAnimId) cancelAnimationFrame(celestialAnimId);
+          return;
+        }
+
+        ctx.clearRect(0, 0, w, h);
+
+        // 1. Estrelas de fundo
+        stars.forEach(st => {
+          ctx.beginPath();
+          ctx.arc(st.x, st.y, st.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${st.alpha * (0.6 + 0.4 * Math.sin(Date.now() * 0.002 + st.x))})`;
+          ctx.fill();
+        });
+
+        // 2. Órbitas concêntricas
+        planets.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(cx, cy, p.r, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(0, 245, 180, 0.12)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([2, 4]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        });
+
+        // 3. Sol central radiante
+        const sunGlow = ctx.createRadialGradient(cx, cy, 2, cx, cy, 22);
+        sunGlow.addColorStop(0, '#fef08a');
+        sunGlow.addColorStop(0.3, '#f59e0b');
+        sunGlow.addColorStop(0.7, 'rgba(245, 158, 11, 0.3)');
+        sunGlow.addColorStop(1, 'transparent');
+        ctx.fillStyle = sunGlow;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 22, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, 7, 0, Math.PI * 2);
+        ctx.fillStyle = '#fde047';
+        ctx.shadowColor = '#f59e0b';
+        ctx.shadowBlur = 12;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // 4. Desenha planetas
+        if (celestialAnimRunning) {
+          celestialOrbitAngle += 0.008;
+        }
+
+        planets.forEach(p => {
+          const angle = celestialOrbitAngle * p.speed;
+          const px = cx + Math.cos(angle) * p.r;
+          const py = cy + Math.sin(angle) * p.r;
+
+          // Planeta
+          ctx.beginPath();
+          ctx.arc(px, py, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = 4;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+
+          // Se for a Terra, desenha a Lua orbitando ao redor
+          if (p.hasMoon) {
+            const moonDist = 12;
+            const moonAngle = celestialOrbitAngle * 6; // Lua orbita mais rápido
+            const mx = px + Math.cos(moonAngle) * moonDist;
+            const my = py + Math.sin(moonAngle) * moonDist;
+
+            // Órbita da Lua sutil
+            ctx.beginPath();
+            ctx.arc(px, py, moonDist, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+
+            // Lua
+            ctx.beginPath();
+            ctx.arc(mx, my, 1.8, 0, Math.PI * 2);
+            ctx.fillStyle = '#f1f5f9';
+            ctx.fill();
+          }
+        });
+
+        celestialAnimId = requestAnimationFrame(renderFrame);
+      }
+
+      if (celestialAnimId) cancelAnimationFrame(celestialAnimId);
+      celestialAnimId = requestAnimationFrame(renderFrame);
+    }
+
+    // =========================================================================
+    // FILTRO DE NOTÍCIAS COMUNITÁRIAS
+    // =========================================================================
+    function filterNoticiasCategory(cat) {
+      const cards = document.querySelectorAll('.noticia-card');
+      const btns = document.querySelectorAll('.btn-noticia-filter');
+
+      btns.forEach(b => {
+        b.className = 'btn-noticia-filter px-3 py-1.5 rounded-xl bg-[#05241d] border border-emerald-500/30 text-white/80 hover:text-white shrink-0 transition active:scale-95';
+      });
+
+      const activeBtn = event ? event.target.closest('button') : null;
+      if (activeBtn) {
+        activeBtn.className = 'btn-noticia-filter active px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-emerald-950 shadow-xs shrink-0 transition active:scale-95';
+      }
+
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (cat === 'todas' || cardCat === cat) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      showToast(`Categoria: ${cat.toUpperCase()}`);
+    }
+
+
     // =========================================================================
     // REGISTRO DO SERVICE WORKER (PWA OFFLINE-READY)
     // =========================================================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=30', { updateViaCache: 'none' })
+        navigator.serviceWorker.register('./sw.js?v=31', { updateViaCache: 'none' })
           .then((registration) => {
             registration.update();
             console.log('[PWA YBYgram] Service Worker registrado com sucesso:', registration.scope);
