@@ -428,9 +428,12 @@
         <!-- ==================== HERO PORTAL DA FLORESTA SAGRADA & ARARA ANCESTRAL (ESTILO DOLA AI) ==================== -->
         <div class="relative w-full overflow-hidden text-center bg-[#021411]">
           <!-- Vídeo em Loop no Banner com a Arara Ancestral e Floresta Sagrada -->
-          <div class="relative w-full aspect-[387/137] overflow-hidden">
-            <video src="assets/banner-arara.mp4?v=3" autoplay loop muted playsinline preload="auto"
-              class="hero-banner-img w-full h-full object-cover object-[50%_54%] pointer-events-none select-none"></video>
+          <div class="relative w-full aspect-[387/137] overflow-hidden bg-[#021411]">
+            <video id="hero-banner-video" poster="assets/arara-original.jpg" autoplay loop muted playsinline webkit-playsinline x5-playsinline preload="auto"
+              class="hero-banner-img w-full h-full object-cover object-[50%_54%] pointer-events-none select-none">
+              <source src="assets/banner-arara.mp4" type="video/mp4">
+              <img src="assets/arara-original.jpg" alt="Arara Ancestral e Floresta Sagrada" class="w-full h-full object-cover object-[50%_54%] pointer-events-none select-none">
+            </video>
             <!-- Degradê sutil no topo -->
             <div class="absolute inset-x-0 top-0 h-5 bg-gradient-to-b from-[#021411]/80 to-transparent pointer-events-none"></div>
             <!-- Degradê sutil na base fundindo com o fundo obsidian -->
@@ -6465,6 +6468,7 @@
       }
 
       setTimeout(syncAppHeaderHeight, 100);
+      setTimeout(initHeroBannerVideo, 120);
       showToast(`🌿 Bem-vinda(o) à Rede Soberana YBYgram, ${activeUser}!`);
     }
 
@@ -6606,12 +6610,34 @@
       }
     }
 
+    // Inicialização robusta do vídeo do banner (compatível com modo economia de energia e mobile)
+    function initHeroBannerVideo() {
+      const v = document.getElementById('hero-banner-video') || document.querySelector('.hero-banner-img');
+      if (v && v.play) {
+        v.muted = true;
+        v.defaultMuted = true;
+        v.playsInline = true;
+        const playPromise = v.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Se o navegador bloquear autoplay sem interação, o poster cobre perfeitamente
+          });
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', initHeroBannerVideo);
+    window.addEventListener('load', initHeroBannerVideo);
+    document.addEventListener('touchstart', function onFirstTouch() {
+      initHeroBannerVideo();
+      document.removeEventListener('touchstart', onFirstTouch);
+    }, { passive: true, once: true });
+
     // =========================================================================
     // REGISTRO DO SERVICE WORKER (PWA OFFLINE-READY)
     // =========================================================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=29', { updateViaCache: 'none' })
+        navigator.serviceWorker.register('./sw.js?v=30', { updateViaCache: 'none' })
           .then((registration) => {
             registration.update();
             console.log('[PWA YBYgram] Service Worker registrado com sucesso:', registration.scope);
